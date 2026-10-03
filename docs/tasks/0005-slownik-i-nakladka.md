@@ -1,7 +1,7 @@
 # 0005. Słownik i nakładka innowacji
 
 - Status: todo
-- Osoba: do ustalenia
+- Osoba: Bartłomiej (backend)
 
 ## Cel
 

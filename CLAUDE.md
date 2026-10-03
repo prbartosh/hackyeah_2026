@@ -15,8 +15,8 @@
 | Bartłomiej | backend |
 | Daniel | frontend |
 | Kacper | frontend |
-| Nikodem | do ustalenia |
-| Wiktor | do ustalenia |
+| Nikodem | produkt i demo (razem z Wiktorem) |
+| Wiktor | produkt i demo (razem z Nikodemem) |
 
 Każde zadanie w `docs/tasks/` ma w polu „Osoba” imię osoby, która się nim zajmuje.
 
