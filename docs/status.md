@@ -11,6 +11,8 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0009](tasks/0009-ewaluacja-dopasowania.md) Ewaluacja dopasowania (Bartosz, Nikodem, Wiktor): skrypt jest, pierwszy pomiar do zrobienia na DeepSeek
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
 
+- [0018](tasks/0018-kreator-pomyslow.md) Kreator pomysłów, moduł III (Kacper): fiszka, nabory i generator wniosków, canvy, asystent gotowe, zostaje test z czytnikiem ekranu, DeepSeek i Postgres ([jak uruchomić](kreator-pomyslow.md))
+
 ## Do zrobienia
 
 - [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy każdej odpowiedzi z wynikami (Bartłomiej)

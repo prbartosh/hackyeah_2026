@@ -10,12 +10,22 @@ Użytkownik opisuje pomysł, AI wypełnia fiszkę, użytkownik poprawia i wysył
 
 ## Kroki
 
-- [ ] Schemat, migracja `0003`, backend fiszki
-- [ ] UI fiszki (krokowy formularz, autozapis, wysyłka do skrzynki)
-- [ ] Nabory, generator wniosków, eksport, ekran admina
-- [ ] „Znajdź finansowanie” (karta innowacji i fiszka)
-- [ ] Canvy
-- [ ] Asystent
-- [ ] Seed, testy, dostępność, dokumentacja
+- [x] Rozpoznanie repo, plan, ADR 0008
+- [x] Schemat, migracja `0003`, backend fiszki, naborów, wniosków, canv i asystenta
+- [x] UI fiszki (krokowy formularz, autozapis, dyktowanie, wysyłka do skrzynki panelu)
+- [x] Nabory, generator wniosków, eksport DOCX/tekst, ekran naborów w panelu
+- [x] „Znajdź finansowanie” (karta innowacji i fiszka)
+- [x] Canvy (druk, DOCX)
+- [x] Asystent (braki, pytania od AI, kolejne kroki)
+- [x] Seed demo, testy backendu i helperów frontendu
+- [ ] Test z czytnikiem ekranu (NVDA) i axe
+- [ ] Przejście z prawdziwym `LLM_API_KEY` (DeepSeek)
+- [ ] Migracja `0003` na prawdziwym PostgreSQL
+- [ ] Sprawdzenie szablonu canvy z oryginalnym PDF
+- [ ] Rate limit publicznych endpointów `/kreator/*` (nginx)
+- [ ] Wizualizacja pomysłu: poza zakresem, brak dostawcy obrazów
 
 ## Notatki
+
+- Uruchomienie i demo: [kreator-pomyslow.md](../kreator-pomyslow.md).
+- Wysłana fiszka i wniosek to zwykłe zgłoszenie w skrzynce panelu (bez zmian modelu `Ticket`).
