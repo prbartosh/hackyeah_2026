@@ -68,22 +68,21 @@ def fake_llm():
 @pytest.fixture
 def ai_enabled(monkeypatch, fake_llm):
     """Gateway z fałszywym LLM i „kluczem”; bez tego panel działa w trybie lokalnym."""
-    monkeypatch.setattr(settings, "openai_api_key", "test-key")
-    monkeypatch.setattr(settings, "embedding_model", "fake-embedding")
+    monkeypatch.setattr(settings, "llm_api_key", "test-key")
     return fake_llm
 
 
 @pytest.fixture
 async def admin_client(session_factory, fake_llm, monkeypatch):
     monkeypatch.setattr(settings, "admin_token", ADMIN_TOKEN)
-    monkeypatch.setattr(settings, "openai_api_key", None)
+    monkeypatch.setattr(settings, "llm_api_key", None)
 
     async def override_session():
         async with session_factory() as session:
             yield session
 
     def override_gateway(session: Annotated[AsyncSession, Depends(get_session)]) -> AIGateway:
-        return AIGateway(session, settings, fake_llm if settings.openai_api_key else None)
+        return AIGateway(session, settings, fake_llm if settings.llm_api_key else None)
 
     app.dependency_overrides[get_session] = override_session
     app.dependency_overrides[get_ai_gateway] = override_gateway

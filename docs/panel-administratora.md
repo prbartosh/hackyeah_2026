@@ -4,9 +4,9 @@ Decyzje: [ADR 0006](adr/0006-panel-administratora.md), zadanie: [0015](tasks/001
 
 ## Uruchomienie
 
-1. W `.env` ustaw `ADMIN_TOKEN` (dowolny długi sekret) i, jeśli jest klucz, `OPENAI_API_KEY`. Bez tokenu panel jest wyłączony (503), bez klucza działa tryb uproszczony (patrz niżej).
+1. W `.env` ustaw `ADMIN_TOKEN` (dowolny długi sekret) i, jeśli jest klucz, `LLM_API_KEY` (DeepSeek). Bez tokenu panel jest wyłączony (503), bez klucza działa tryb uproszczony (patrz niżej).
 2. `docker compose up --build`. Przy starcie migracja `0002` tworzy tabele, a backend jednorazowo importuje 115 kart z `assets/innowacje-spoleczne/` do bazy jako opublikowane.
-3. Dane demo (16 syntetycznych zgłoszeń, oznaczonych „Dane demo”): `docker compose exec backend python scripts/seed_demo.py`. Skrypt jest idempotentny. Przy `OPENAI_API_KEY` triaż i embeddingi idą przez OpenAI.
+3. Dane demo (16 syntetycznych zgłoszeń, oznaczonych „Dane demo”): `docker compose exec backend python scripts/seed_demo.py`. Skrypt jest idempotentny. Przy `LLM_API_KEY` triaż idzie przez DeepSeek. Embeddingi są zawsze lokalne.
 4. Dokumenty do uploadu: `assets/demo/*.docx` (syntetyczne; odtworzenie: `python backend/scripts/make_demo_documents.py`).
 5. Aplikacja: <http://localhost:8080>. Panel: `/admin` (logowanie tokenem). Formularz zgłoszenia: `/zglos` (link w stopce).
 
@@ -25,8 +25,8 @@ Wszystko pod `/api/v1/admin/*` wymaga `Authorization: Bearer <ADMIN_TOKEN>`: `zg
 
 ## AI, koszty i awarie
 
-- Dzienny limit wywołań AI: `AI_DAILY_CALL_LIMIT` (tabela `uzycie_ai`). Embedding i JSON liczą się po jednym.
-- Bez klucza, po przekroczeniu limitu i przy awarii: embeddingi lokalne (`local-trigram-v1`, słabsze od OpenAI, progi podobieństwa dobrane osobno), triaż regułowy, import dokumentu z pustymi polami do ręcznego uzupełnienia. UI pokazuje komunikat po polsku.
+- Dzienny limit wywołań AI: `AI_DAILY_CALL_LIMIT` (tabela `uzycie_ai`). Liczy się każde wywołanie modelu (JSON).
+- Embeddingi zawsze lokalne (`local-trigram-v1`): DeepSeek nie ma API embeddingów ([ADR 0007](adr/0007-deepseek.md)). Bez klucza, po przekroczeniu limitu i przy awarii: triaż regułowy, import dokumentu z pustymi polami do ręcznego uzupełnienia. UI pokazuje komunikat po polsku.
 - Po zmianie modelu embeddingów: `POST /api/v1/admin/reindeksuj`.
 - Szkic odpowiedzi cytuje tylko karty z listy kandydatów, wskazanych wyszukiwaniem po embeddingach. Pole z dokumentu bez dosłownego cytatu w tekście jest zerowane.
 

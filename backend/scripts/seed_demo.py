@@ -53,7 +53,7 @@ DEMO_TICKETS: list[tuple[int, str]] = [
 
 
 async def main() -> None:
-    llm = get_llm_service() if settings.openai_api_key else None
+    llm = get_llm_service() if settings.llm_api_key else None
     async with SessionLocal() as session:
         existing = await session.scalar(select(Ticket.id).where(Ticket.syntetyczne.is_(True)))
         if existing:

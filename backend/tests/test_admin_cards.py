@@ -37,7 +37,7 @@ async def test_nowa_karta_dostaje_embedding_i_slug(admin_client):
     assert body["slug"] == "zolta-lodz"
     assert body["status"] == "szkic"
     assert body["ma_embedding"] is True
-    assert body["ostrzezenie"]
+    assert body["ostrzezenie"] is None  # wektory lokalne to tryb normalny, nie awaria
 
 
 async def test_publikacja_wymaga_problemu(admin_client):

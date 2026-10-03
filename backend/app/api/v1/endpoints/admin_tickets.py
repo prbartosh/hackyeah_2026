@@ -168,7 +168,7 @@ async def _settings_read(service: TicketService, ai: AIGateway) -> SettingsRead:
     return SettingsRead(
         **panel.as_dict(),
         model_embeddingow=ai.embedding_model,
-        ai_dostepne=bool(settings.openai_api_key),
+        ai_dostepne=bool(settings.llm_api_key),
     )
 
 

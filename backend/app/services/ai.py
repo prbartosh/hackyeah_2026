@@ -28,11 +28,11 @@ class AIGateway:
 
     @property
     def embedding_model(self) -> str:
-        return self.settings.embedding_model if self._configured else LOCAL_MODEL
+        return LOCAL_MODEL
 
     @property
     def _configured(self) -> bool:
-        return bool(self.settings.openai_api_key) and self.llm is not None
+        return bool(self.settings.llm_api_key) and self.llm is not None
 
     async def _spend(self) -> None:
         """Zlicza wywołanie w dziennym limicie; po przekroczeniu AI jest wyłączone do jutra."""
@@ -49,17 +49,7 @@ class AIGateway:
         await self.session.flush()
 
     async def embed(self, texts: list[str]) -> tuple[list[list[float]], str]:
-        """Wektory i nazwa modelu. Bez klucza, limitu lub przy awarii: model lokalny."""
-        if self._configured and self.llm is not None:
-            try:
-                await self._spend()
-                vectors = await self.llm.embed(texts, timeout=self.settings.ai_timeout_seconds)
-                return vectors, self.settings.embedding_model
-            except (AIUnavailableError, LLMError) as e:
-                logger.warning("Embeddingi: tryb lokalny (%s)", e)
-                self.degraded = f"{str(e).rstrip('.')}. Użyto uproszczonego dopasowania."
-        elif not self.settings.openai_api_key:
-            self.degraded = "Brak klucza API modelu. Użyto uproszczonego dopasowania."
+        """Wektory i nazwa modelu. Zawsze lokalnie: DeepSeek nie ma API embeddingów (ADR 0007)."""
         return [local_embed(t) for t in texts], LOCAL_MODEL
 
     async def json(self, system: str, user: str) -> dict[str, Any]:

@@ -77,7 +77,7 @@ def require_admin(authorization: Annotated[str | None, Header()] = None) -> None
 
 
 def get_ai_gateway(session: SessionDep) -> AIGateway:
-    llm = get_llm_service() if settings.openai_api_key else None
+    llm = get_llm_service() if settings.llm_api_key else None
     return AIGateway(session, settings, llm)
 
 
