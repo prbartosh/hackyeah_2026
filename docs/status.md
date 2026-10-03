@@ -11,14 +11,15 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0015](tasks/0015-panel-administratora.md) Panel administratora, moduł VI (Kacper, do potwierdzenia): backend, UI, seed i testy gotowe, zostaje test z czytnikiem ekranu, prawdziwy Postgres i klucz OpenAI ([jak uruchomić](panel-administratora.md))
 - [0010](tasks/0010-dostepnosc-mobile-i-glos.md) Pasek dostępności na mobile i wejście głosowe (Daniel): pasek zwijany, dyktowanie ukryte bez API, axe na mobile 0 naruszeń; brakuje testu dyktowania w Chrome, Safari i Firefoksie
 - [0009](tasks/0009-ewaluacja-dopasowania.md) Ewaluacja dopasowania (Bartosz, Nikodem, Wiktor): skrypt jest, pełny pomiar do puszczenia (`--pause` przez limit TPM)
+- [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
 
 ## Do zrobienia
 
 - [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy każdej odpowiedzi z wynikami (Bartłomiej)
 - [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo: błąd przy braku klucza, pole `organizacja` (Bartłomiej)
-- [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor)
 - [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper)
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz)
+- [0014](tasks/0014-licencje-danych-rops.md) Licencje danych ROPS: raporty, publikacje, Mapa Wyzwań, Obserwator (Wiktor)
 
 ## Do zaprojektowania
 

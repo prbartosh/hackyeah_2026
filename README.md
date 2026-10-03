@@ -2,6 +2,8 @@
 
 Monorepo: `backend/` (FastAPI + PostgreSQL) i `frontend/` (React + Vite + TypeScript).
 
+Jury: zobacz [docs/jury/README.md](docs/jury/README.md).
+
 ## Struktura
 
 ```
