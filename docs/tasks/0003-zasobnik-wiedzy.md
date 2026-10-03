@@ -2,7 +2,7 @@
 
 - Status: review
 - Osoba: Bartłomiej (backend), Daniel, Kacper (frontend)
-- PR: #9, #35, #42
+- PR: #9, #35, #42, #46
 
 ## Cel
 
