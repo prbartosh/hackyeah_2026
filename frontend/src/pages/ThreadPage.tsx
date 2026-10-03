@@ -1,12 +1,13 @@
 import { Link, useParams } from 'react-router-dom'
 import { api } from '@/admin/api'
-import { ErrorBox, Loading, formatDate, useLoad, useTitle } from '@/admin/ui'
+import { ErrorBox, Loading, formatDate, useLoad } from '@/admin/ui'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import '@/styles/admin.css'
 
 /** Publiczny widok rozmowy: autor zgłoszenia widzi swoje zgłoszenie i odpowiedź ROPS. */
 export default function ThreadPage() {
   const { token = '' } = useParams()
-  useTitle('Twoje zgłoszenie')
+  useDocumentTitle('Twoje zgłoszenie · Splot')
   const { data, error, loading, reload } = useLoad(() => api.publicThread(token), [token])
 
   return (
