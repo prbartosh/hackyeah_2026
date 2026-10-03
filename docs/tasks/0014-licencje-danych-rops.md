@@ -2,6 +2,7 @@
 
 - Status: todo
 - Osoba: Wiktor (autor scraperów)
+- PR:
 
 ## Cel
 

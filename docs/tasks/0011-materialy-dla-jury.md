@@ -1,7 +1,8 @@
 # 0011. Materiały dla jury
 
-- Status: w toku (szkice w `docs/jury/`)
+- Status: w toku
 - Osoba: Nikodem, Wiktor (produkt i demo)
+- PR: #18
 
 ## Cel
 

@@ -2,6 +2,7 @@
 
 - Status: w toku
 - Osoba: Bartosz (integracja)
+- PR:
 
 ## Cel
 

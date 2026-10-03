@@ -8,15 +8,15 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): innowacje (backend i frontend) w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), dokumenty nie zaczęte, brakuje testu z czytnikiem ekranu
 - [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz): stack, strony i axe sprawdzone, czat czeka na klucz i test z prawdziwym modelem
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
-- [0006](tasks/0006-limity-czatu.md) Limity i kontrola kosztu czatu (Bartłomiej, Bartosz, Nikodem: panel OpenAI): nginx, backend i frontend gotowe, brakuje limitu w panelu OpenAI, testu 429 na stacku i ustawienia `LLM_DAILY_TOKEN_LIMIT`
+- [0015](tasks/0015-panel-administratora.md) Panel administratora, moduł VI (Kacper, do potwierdzenia): backend, UI, seed i testy gotowe, zostaje test z czytnikiem ekranu, prawdziwy Postgres i klucz OpenAI ([jak uruchomić](panel-administratora.md))
+- [0010](tasks/0010-dostepnosc-mobile-i-glos.md) Pasek dostępności na mobile i wejście głosowe (Daniel): pasek zwijany, dyktowanie ukryte bez API, axe na mobile 0 naruszeń; brakuje testu dyktowania w Chrome, Safari i Firefoksie
+- [0009](tasks/0009-ewaluacja-dopasowania.md) Ewaluacja dopasowania (Bartosz, Nikodem, Wiktor): skrypt jest, pełny pomiar do puszczenia (`--pause` przez limit TPM)
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
 
 ## Do zrobienia
 
 - [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy każdej odpowiedzi z wynikami (Bartłomiej)
 - [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo: błąd przy braku klucza, pole `organizacja` (Bartłomiej)
-- [0009](tasks/0009-ewaluacja-dopasowania.md) Ewaluacja dopasowania na zestawie testowym (Bartosz, Nikodem, Wiktor)
-- [0010](tasks/0010-dostepnosc-mobile-i-glos.md) Pasek dostępności na mobile i wejście głosowe (Daniel)
 - [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper)
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz)
 - [0014](tasks/0014-licencje-danych-rops.md) Licencje danych ROPS: raporty, publikacje, Mapa Wyzwań, Obserwator (Wiktor)
@@ -37,3 +37,4 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - 2026-10-03: Kryteria oceny ([kryteria-oceny.md](kryteria-oceny.md)), [GLOSSARY.md](../GLOSSARY.md)
 - 2026-10-03: Czat we froncie podłączony do `POST /api/v1/chat` (SSE) zgodnie z kontraktem z ADR 0005, nowy układ, obsługa błędów, tryb demo usunięty
 - 2026-10-03: Czat przez Responses API: narzędzia razem z `reasoning_effort` (błąd 400 w Chat Completions), sprawdzone na prawdziwym modelu
+- 2026-10-03: Limity i kontrola kosztu czatu ([0006](tasks/0006-limity-czatu.md)): nginx, backend, frontend, limit u dostawcy

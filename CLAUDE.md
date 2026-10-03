@@ -20,6 +20,21 @@
 
 Każde zadanie w `docs/tasks/` ma w polu „Osoba” imię osoby, która się nim zajmuje.
 
+## Zadania
+
+Nagłówek zadania w `docs/tasks/` to jedyne źródło prawdy o jego stanie. Stałe pola, stałe wartości:
+
+```
+- Status: todo | w toku | review | zablokowane | zrobione
+- Osoba: Bartłomiej
+- PR: #15
+- Blokada: brak OPENAI_API_KEY
+```
+
+- `Status`: tylko jedna z wartości powyżej, bez dopisków. Postęp opisują checkboxy w „Kroki”, komentarze idą do „Notatki”.
+- `PR`: numery PR-ów zadania, po przecinku. Puste, dopóki nie ma PR.
+- `Blokada`: tylko przy `zablokowane`, krótko na co czekamy.
+
 ## Zasady
 
 - Pisz prosty, czytelny i bezpieczny kod. Bez przerostu formy.
@@ -31,4 +46,6 @@ Każde zadanie w `docs/tasks/` ma w polu „Osoba” imię osoby, która się ni
 ## Pull requesty
 
 - Tytuł i opis PR piszemy po polsku.
+- Branch zaczyna się od numeru zadania: `0012-middleman`. Tytuł PR też: `[0012] Middleman innowacji`. PR do kilku zadań: `[0003, 0005] ...`. PR bez zadania (np. drobne porządki): bez prefiksu.
+- Po otwarciu PR wpisz jego numer w pole `PR` zadania i ustaw `Status: review`.
 - Przed każdym PR aktualizujemy stan zadań: status i checkboxy w `docs/tasks/`, listy w `docs/status.md`. Aktualizacja wchodzi do tego samego PR.
