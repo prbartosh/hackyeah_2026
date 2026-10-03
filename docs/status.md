@@ -12,6 +12,8 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
 - [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper): ADR 0009 i backend `POST /api/v1/innovations/{slug}/service-card` gotowe, front (Kacper) do zrobienia
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz): backend z narzędziem `gmina_stats` i blok „Dane gminy” w panelu gotowe, zostaje test na prawdziwym modelu
+- [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper): ADR 0009, backend i front (`/innowacja/:slug/wdrozenie`, druk, „Chcę to wdrożyć” do skrzynki panelu) gotowe, zostaje przejście z prawdziwym kluczem DeepSeek
+- [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz): backend z narzędziem `gmina_stats` i zdarzeniem SSE gotowy, front (Daniel, Kacper) do zrobienia, test na prawdziwym modelu
 - [0018](tasks/0018-kreator-pomyslow.md) Kreator pomysłów, moduł III (Kacper): fiszka, nabory i generator wniosków, canvy, asystent gotowe, zostaje test z czytnikiem ekranu, DeepSeek i Postgres ([jak uruchomić](kreator-pomyslow.md))
 
 ## Do zrobienia

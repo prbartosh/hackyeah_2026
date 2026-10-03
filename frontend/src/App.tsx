@@ -20,6 +20,7 @@ import HomePage from '@/pages/HomePage'
 import InnovationPage from '@/pages/InnovationPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import ReportPage from '@/pages/ReportPage'
+import ServiceCardPage from '@/pages/ServiceCardPage'
 import ThreadPage from '@/pages/ThreadPage'
 import ZasobnikPage from '@/pages/ZasobnikPage'
 
@@ -30,6 +31,7 @@ export default function App() {
         <Route index element={<HomePage />} />
         <Route path="zasobnik" element={<ZasobnikPage />} />
         <Route path="innowacja/:slug" element={<InnovationPage />} />
+        <Route path="innowacja/:slug/wdrozenie" element={<ServiceCardPage />} />
         <Route path="zglos" element={<ReportPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
         <Route path="kreator" element={<KreatorHome />} />

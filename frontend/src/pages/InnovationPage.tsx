@@ -140,7 +140,10 @@ export default function InnovationPage() {
                 <a href="mailto:iws@rops.krakow.pl">iws@rops.krakow.pl</a>
               </dd>
             </dl>
-            <Link to={`/kreator/finansowanie?karta=${rec.slug}`} className="btn btn-primary btn-block">
+            <Link to={`/innowacja/${rec.slug}/wdrozenie`} className="btn btn-primary btn-block">
+              Dostosuj do mojej instytucji
+            </Link>
+            <Link to={`/kreator/finansowanie?karta=${rec.slug}`} className="btn btn-secondary btn-block">
               Znajdź finansowanie
             </Link>
             <a href={rec.url_zrodlowy} className="btn btn-secondary btn-block" target="_blank" rel="noreferrer">
