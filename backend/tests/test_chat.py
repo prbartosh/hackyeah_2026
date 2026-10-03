@@ -8,7 +8,7 @@ from app.api.deps import get_llm_service, get_session_factory, get_token_budget
 from app.core.config import settings
 from app.main import app
 from app.models import Potrzeba
-from app.services.chat import LLM_UNAVAILABLE
+from app.services.chat import LLM_UNAVAILABLE, NoteFilter
 from app.services.llm import LLMError, TextDelta, ToolCall, TurnEnd
 from app.services.token_budget import TokenBudget
 
@@ -519,3 +519,46 @@ async def test_question_does_not_save_need(client, fake_llm, sessions):
 
     async with sessions() as session:
         assert (await session.scalars(select(Potrzeba))).all() == []
+
+
+def filtered(*chunks: str) -> str:
+    notes = NoteFilter()
+    return "".join(notes.feed(c) for c in chunks) + notes.flush()
+
+
+@pytest.mark.parametrize(
+    "chunks, expected",
+    [
+        (["Rozumiem."], "Rozumiem."),
+        (["Rozumiem.\n[Pytanie: Gdzie? | Opcje: a; b]"], "Rozumiem.\n"),
+        # notatka pocięta na kawałki strumienia
+        (["Dobrze.\n[Py", "tanie: Gdzie?", " | Opcje: a]\nDalej."], "Dobrze.\nDalej."),
+        (["[Rola: mieszkaniec]\n[Panel: problemy: x]\nJasne."], "Jasne."),
+        (["[Wyniki: a, b]"], ""),
+        # zwykły nawias zostaje
+        (["[uwaga] to nie notatka"], "[uwaga] to nie notatka"),
+        (["[P", "rzykład]"], "[Przykład]"),
+        (["Linia 1\n", "Linia 2"], "Linia 1\nLinia 2"),
+    ],
+)
+def test_note_filter(chunks, expected):
+    assert filtered(*chunks) == expected
+
+
+async def test_model_notes_are_not_shown(client, fake_llm):
+    fake_llm(
+        [
+            [
+                TextDelta("Rozumiem.\n[Pyt"),
+                TextDelta("anie: Gdzie? | Opcje: a; b]"),
+                tool("ask_question", text="Gdzie mieszka mama?", options=["sama", "ze mną", "DPS"]),
+            ]
+        ]
+    )
+    events = await post(client, first_message())
+
+    shown = "".join(e["text"] for n, e in events if n == "text")
+    assert shown == "Rozumiem.\n"
+    done = events[-1][1]["assistant_message"]
+    # w historii zostaje tylko zapis tury z backendu, bez kopii z tekstu modelu
+    assert done.count("[Pytanie:") == 1

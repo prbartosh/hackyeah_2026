@@ -46,6 +46,18 @@ ACTION_MESSAGES = {
     "confirm_summary": "[Użytkownik potwierdził podsumowanie]",
 }
 
+# Początki linii zapisu tury (`_Turn.transcript`, ACTION_MESSAGES). Model widzi je w historii
+# i potrafi je naśladować w tekście - takie linie nie trafiają do użytkownika.
+NOTE_PREFIXES = (
+    "[Rola:",
+    "[Panel:",
+    "[Pytanie:",
+    "[Podsumowanie",
+    "[Wyniki:",
+    "[Użytkownik",
+    "[brak odpowiedzi]",
+)
+
 NUDGE = (
     "Nie wywołano narzędzia kończącego turę. Wywołaj teraz `ask_question`, "
     "`propose_summary` albo `show_results`."
@@ -73,6 +85,49 @@ class ToolOutcome:
     terminal: bool = False
     events: list[ServerEvent] = field(default_factory=list)
     need: Potrzeba | None = None
+
+
+def _is_note(line: str) -> bool:
+    return line.strip().startswith(NOTE_PREFIXES)
+
+
+def _may_be_note(start: str) -> bool:
+    """Początek linii, który może jeszcze okazać się notatką."""
+    start = start.lstrip()
+    return any(start.startswith(p) or p.startswith(start) for p in NOTE_PREFIXES)
+
+
+class NoteFilter:
+    """Usuwa z tekstu modelu linie zapisu tury. Tekst przychodzi kawałkami, więc linię
+    zaczynającą się jak notatka wstrzymujemy do końca linii; zwykły tekst idzie od razu.
+    """
+
+    def __init__(self) -> None:
+        self._held = ""
+        self._passing = False
+
+    def feed(self, text: str) -> str:
+        out: list[str] = []
+        for part in text.splitlines(keepends=True):
+            complete = part.endswith("\n")
+            if self._passing:
+                out.append(part)
+                self._passing = not complete
+                continue
+            self._held += part
+            if self._held.strip() and not _may_be_note(self._held):
+                out.append(self._held)
+                self._held = ""
+                self._passing = not complete
+            elif complete:
+                if not _is_note(self._held):
+                    out.append(self._held)
+                self._held = ""
+        return "".join(out)
+
+    def flush(self) -> str:
+        held, self._held, self._passing = self._held, "", False
+        return "" if _is_note(held) else held
 
 
 @dataclass
@@ -129,6 +184,7 @@ class ChatService:
         turn = _Turn(state=request.state.model_copy(deep=True))
         messages = self._build_messages(request)
         nudged = False
+        notes = NoteFilter()
 
         try:
             for _ in range(MAX_LLM_CALLS):
@@ -140,9 +196,15 @@ class ChatService:
                     system=self.system_prompt, tools=prompts.TOOLS, messages=messages
                 ):
                     if isinstance(event, TextDelta):
-                        turn.text.append(event.text)
-                        yield ServerEvent("text", TextEvent(text=event.text))
-                    elif isinstance(event, ToolCall):
+                        text = notes.feed(event.text)
+                    else:
+                        # Wstrzymana linia idzie przed zdarzeniami narzędzi i końcem tury.
+                        text = notes.flush()
+                    if text:
+                        turn.text.append(text)
+                        yield ServerEvent("text", TextEvent(text=text))
+
+                    if isinstance(event, ToolCall):
                         outcome = self._run_tool(turn, request, event)
                         if outcome.need is not None:
                             await self._save_need(outcome.need)
