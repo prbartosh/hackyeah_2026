@@ -28,7 +28,7 @@ Nagłówek zadania w `docs/tasks/` to jedyne źródło prawdy o jego stanie. Sta
 - Status: todo | w toku | review | zablokowane | zrobione
 - Osoba: Bartłomiej
 - PR: #15
-- Blokada: brak OPENAI_API_KEY
+- Blokada: brak LLM_API_KEY
 ```
 
 - `Status`: tylko jedna z wartości powyżej, bez dopisków. Postęp opisują checkboxy w „Kroki”, komentarze idą do „Notatki”.
