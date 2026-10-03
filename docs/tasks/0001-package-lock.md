@@ -4,11 +4,7 @@
 - Osoba: Daniel, Kacper (frontend)
 - PR: #6, #25
 
-## Cel
+## Jak działa
 
-Powtarzalne buildy frontu.
-
-## Kroki
-
-- [x] `npm install` lokalnie, zacommitować `frontend/package-lock.json`
-- [x] W `frontend/Dockerfile` zamienić `npm install` na `npm ci`
+- `frontend/package-lock.json` jest w repo.
+- `frontend/Dockerfile` instaluje zależności przez `npm ci`, więc build jest powtarzalny.
