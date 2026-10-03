@@ -30,6 +30,7 @@ from app.services.llm import (
     TurnEnd,
     tool_result_message,
 )
+from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +49,10 @@ NUDGE = (
 
 
 class InvalidConversationError(Exception):
+    pass
+
+
+class ChatUnavailableError(Exception):
     pass
 
 
@@ -76,10 +81,26 @@ class _Turn:
 
 
 class ChatService:
-    def __init__(self, llm: LLMService, innovations: InnovationRepository) -> None:
+    def __init__(
+        self,
+        llm: LLMService,
+        innovations: InnovationRepository,
+        budget: TokenBudget,
+        enabled: bool = True,
+    ) -> None:
         self.llm = llm
         self.innovations = innovations
+        self.budget = budget
+        self.enabled = enabled
         self.system_prompt = prompts.build_system_prompt(innovations)
+
+    def ensure_available(self) -> None:
+        """Wyłącznik i budżet dzienny - sprawdzane przed otwarciem strumienia (503)."""
+        if not self.enabled:
+            raise ChatUnavailableError("Czat jest chwilowo wyłączony. Spróbuj później.")
+        if self.budget.exhausted():
+            logger.warning("Chat: wyczerpany dzienny limit tokenów (%s)", self.budget.daily_limit)
+            raise ChatUnavailableError("Usługa chwilowo niedostępna, spróbuj jutro.")
 
     def validate(self, request: ChatRequest) -> None:
         """Wywoływane przed otwarciem strumienia, żeby zła historia dała 422."""
@@ -101,7 +122,7 @@ class ChatService:
             for _ in range(MAX_LLM_CALLS):
                 tool_results: list[dict[str, Any]] = []
                 terminal = False
-                assistant: dict[str, Any] | None = None
+                assistant: list[dict[str, Any]] | None = None
 
                 async for event in self.llm.stream(
                     system=self.system_prompt, tools=prompts.TOOLS, messages=messages
@@ -118,11 +139,11 @@ class ChatService:
                             tool_result_message(event.id, outcome.result, outcome.is_error)
                         )
                     elif isinstance(event, TurnEnd):
-                        assistant = event.message
+                        assistant = event.items
 
                 if terminal or assistant is None:
                     break
-                messages.append(assistant)
+                messages.extend(assistant)
                 if tool_results:
                     messages.extend(tool_results)
                 elif not nudged:
@@ -150,9 +171,9 @@ class ChatService:
             messages.append({"role": "user", "content": ACTION_MESSAGES[request.action]})
         last = messages[-1]
         last["content"] = [
-            {"type": "text", "text": last["content"]},
+            {"type": "input_text", "text": last["content"]},
             {
-                "type": "text",
+                "type": "input_text",
                 "text": prompts.build_turn_context(request.state, request.action, request.summary),
             },
         ]
@@ -194,8 +215,10 @@ class ChatService:
             if tekst:
                 pole.tekst = tekst
                 changed.append(f"{name}: {tekst}")
-            # Slugi tylko ze słownika (ADR 0004 §5) - do czasu slownik.json zostają puste.
-            pole.slugi = []
+            # Slugi tylko ze słownika (ADR 0004 §5) - wymyślone przez model odpadają.
+            allowed = self.innovations.vocabulary_slugs(prompts.PROBLEM_SECTIONS[name])
+            slugi = update.get("slugi") or []
+            pole.slugi = [s for s in dict.fromkeys(slugi) if s in allowed][: prompts.MAX_SLUGS]
             if name == "zasoby" and update.get("poziom_kosztu"):
                 pole.poziom_kosztu = update["poziom_kosztu"]
         if changed:

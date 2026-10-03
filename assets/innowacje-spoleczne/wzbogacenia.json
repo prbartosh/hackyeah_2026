@@ -1,0 +1,2822 @@
+[
+  {
+    "slug": "agencja-pracy-incydentalnej",
+    "grupy_docelowe": [
+      "osoby-w-kryzysie-bezdomnosci",
+      "bezrobotni",
+      "osoby-w-kryzysie-psychicznym"
+    ],
+    "problemy": [
+      "brak-pracy"
+    ],
+    "miejsca": [],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "autyzm-i-ja",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem",
+      "dzieci"
+    ],
+    "problemy": [
+      "trudnosci-w-relacjach",
+      "trudnosci-w-nauce"
+    ],
+    "miejsca": [
+      "szkola"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "bajkala",
+    "grupy_docelowe": [
+      "cudzoziemcy",
+      "dzieci"
+    ],
+    "problemy": [
+      "trudnosci-w-integracji"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "bawita",
+    "grupy_docelowe": [
+      "osoby-z-demencja",
+      "seniorzy"
+    ],
+    "problemy": [
+      "zaburzenia-pamieci",
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "placowka",
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "pomoce-terapeutyczne"
+    ],
+    "role": [
+      "cus-ops",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "bez-presji-z-depresji",
+    "grupy_docelowe": [
+      "dzieci",
+      "mlodziez",
+      "osoby-w-kryzysie-psychicznym"
+    ],
+    "problemy": [
+      "zdrowie-psychiczne",
+      "trudnosci-w-nauce"
+    ],
+    "miejsca": [
+      "szkola"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "bez-stresu-do-sukcesu-terapia-neurologiczna-przyjazna-dziecku",
+    "grupy_docelowe": [
+      "dzieci",
+      "osoby-z-niepelnosprawnoscia"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "biustspinka",
+    "grupy_docelowe": [
+      "kobiety",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "niesamodzielnosc",
+      "brak-dostosowanego-sprzetu"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "blue-sea-eye",
+    "grupy_docelowe": [
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji",
+      "brak-dostosowanego-sprzetu"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie",
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "brzuszkole-brzuszek-zostaje-w-przedszkolu",
+    "grupy_docelowe": [
+      "dzieci"
+    ],
+    "problemy": [
+      "niezdrowy-styl-zycia"
+    ],
+    "miejsca": [
+      "placowka-medyczna",
+      "szkola"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "centrum-antydepresyjne",
+    "grupy_docelowe": [
+      "seniorzy",
+      "opiekunowie"
+    ],
+    "problemy": [
+      "zdrowie-psychiczne",
+      "samotnosc"
+    ],
+    "miejsca": [
+      "dom",
+      "wies"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "chlap-pro",
+    "grupy_docelowe": [
+      "osoby-po-amputacji"
+    ],
+    "problemy": [
+      "brak-dostosowanego-sprzetu"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "cloudleg",
+    "grupy_docelowe": [
+      "osoby-po-amputacji"
+    ],
+    "problemy": [
+      "brak-dostosowanego-sprzetu"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "cold-box",
+    "grupy_docelowe": [
+      "osoby-chore-przewlekle"
+    ],
+    "problemy": [
+      "brak-dostosowanego-sprzetu"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "czas-na-aktywnosc",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "wykluczenie-spoleczne",
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "czytamoda",
+    "grupy_docelowe": [
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "niesamodzielnosc"
+    ],
+    "miejsca": [
+      "sklep"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "dialog-ponad-kulturami",
+    "grupy_docelowe": [
+      "dzieci",
+      "cudzoziemcy",
+      "rodziny"
+    ],
+    "problemy": [
+      "kryzys-w-rodzinie"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "dialog-ponad-kulturami-1",
+    "grupy_docelowe": [
+      "cudzoziemcy"
+    ],
+    "problemy": [
+      "bariery-komunikacyjne",
+      "trudnosci-w-integracji"
+    ],
+    "miejsca": [
+      "urzad",
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "dostepna-polska",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie",
+      "rodziny"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji",
+      "brak-dostepu-do-informacji"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "dostepna-szermierka",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostosowanego-sprzetu",
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "dostepny-stol-targowy",
+    "grupy_docelowe": [
+      "seniorzy",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "niesamodzielnosc",
+      "bariery-architektoniczne"
+    ],
+    "miejsca": [
+      "sklep"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "dostepny-transport-publiczny",
+    "grupy_docelowe": [
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "trudnosci-w-poruszaniu-sie",
+      "brak-dostepu-do-informacji"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "dostepny-wniosek-dla-ggluchych",
+    "grupy_docelowe": [
+      "osoby-gluche"
+    ],
+    "problemy": [
+      "sprawy-urzedowe",
+      "bariery-komunikacyjne"
+    ],
+    "miejsca": [
+      "urzad"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "wzor-dokumentu"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "drogowskazy-ajkum",
+    "grupy_docelowe": [
+      "osoby-chore-przewlekle"
+    ],
+    "problemy": [
+      "trudnosci-w-poruszaniu-sie"
+    ],
+    "miejsca": [
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "e-rzecznik-konsumenta-seniora",
+    "grupy_docelowe": [
+      "seniorzy"
+    ],
+    "problemy": [
+      "sprawy-urzedowe"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "edki-kredki-terapeutyczne",
+    "grupy_docelowe": [
+      "dzieci",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "dom",
+      "szkola"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "pomoce-terapeutyczne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "edu-gra-hahaha",
+    "grupy_docelowe": [
+      "seniorzy",
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "zdrowie-psychiczne",
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "ev-modul-do-wozkow-inwalidzkich",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "trudnosci-w-poruszaniu-sie",
+      "brak-dostosowanego-sprzetu"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "glucha-ankieta",
+    "grupy_docelowe": [
+      "osoby-gluche"
+    ],
+    "problemy": [
+      "bariery-komunikacyjne",
+      "wykluczenie-spoleczne"
+    ],
+    "miejsca": [],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "gluchy-czytelnik-w-bibliotece",
+    "grupy_docelowe": [
+      "osoby-gluche",
+      "rodziny"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji",
+      "bariery-komunikacyjne"
+    ],
+    "miejsca": [
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "go-ahead-mow-smialo",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie",
+      "mlodziez"
+    ],
+    "problemy": [
+      "bariery-komunikacyjne",
+      "trudnosci-w-relacjach"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "gra-o-zdrowie",
+    "grupy_docelowe": [
+      "osoby-w-kryzysie-psychicznym"
+    ],
+    "problemy": [
+      "brak-pracy",
+      "zdrowie-psychiczne"
+    ],
+    "miejsca": [
+      "placowka-medyczna",
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "health-guide-pl",
+    "grupy_docelowe": [
+      "cudzoziemcy"
+    ],
+    "problemy": [
+      "brak-dostepu-do-opieki-zdrowotnej",
+      "brak-dostepu-do-informacji"
+    ],
+    "miejsca": [
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "hear-it",
+    "grupy_docelowe": [
+      "osoby-gluche"
+    ],
+    "problemy": [
+      "trudnosci-w-nauce",
+      "brak-pracy"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "himalaje-autyzmu",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem"
+    ],
+    "problemy": [
+      "brak-dostepu-do-opieki-zdrowotnej"
+    ],
+    "miejsca": [
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "hop-hop-mobilny-plac-zabaw",
+    "grupy_docelowe": [
+      "dzieci",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "pomoce-terapeutyczne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "innotextil",
+    "grupy_docelowe": [
+      "seniorzy",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "odziez",
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "inteligentny-organizer-do-lekow",
+    "grupy_docelowe": [
+      "seniorzy",
+      "opiekunowie"
+    ],
+    "problemy": [
+      "obciazenie-opiekunow",
+      "niesamodzielnosc"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "jezykolamacz",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem",
+      "dzieci"
+    ],
+    "problemy": [
+      "bariery-komunikacyjne"
+    ],
+    "miejsca": [
+      "dom",
+      "szkola"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "kaski-binauralne",
+    "grupy_docelowe": [
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "kody-qr-na-pomoc-seniorom",
+    "grupy_docelowe": [
+      "seniorzy",
+      "osoby-z-demencja"
+    ],
+    "problemy": [
+      "zagrozenie-bezpieczenstwa",
+      "zaburzenia-pamieci"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "cus-ops",
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "komix-zyciowy",
+    "grupy_docelowe": [
+      "wychowankowie-placowek",
+      "mlodziez"
+    ],
+    "problemy": [
+      "zdrowie-psychiczne"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "kompleksowa-pomoc-dla-osob-po-amputacji-konczyny-dolnej",
+    "grupy_docelowe": [
+      "osoby-po-amputacji"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji",
+      "niesamodzielnosc"
+    ],
+    "miejsca": [
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "placowka",
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "konsultant-etr",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "brak-pracy",
+      "brak-dostepu-do-informacji"
+    ],
+    "miejsca": [
+      "urzad"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "korytarz-wspomnien",
+    "grupy_docelowe": [
+      "osoby-z-demencja",
+      "seniorzy"
+    ],
+    "problemy": [
+      "zaburzenia-pamieci"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "adaptacja-przestrzeni"
+    ],
+    "role": [
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "lekki-wozek-aktywny",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostosowanego-sprzetu",
+      "trudnosci-w-poruszaniu-sie"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "marimbaza",
+    "grupy_docelowe": [
+      "mlodziez",
+      "wychowankowie-placowek"
+    ],
+    "problemy": [
+      "wykluczenie-spoleczne",
+      "trudnosci-w-relacjach"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza",
+      "szkola"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "marina-pai",
+    "grupy_docelowe": [
+      "seniorzy",
+      "niepelnosprawni-ruchowo",
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "bariery-architektoniczne",
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "merkury",
+    "grupy_docelowe": [
+      "seniorzy"
+    ],
+    "problemy": [
+      "wykluczenie-cyfrowe"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "mix-ar-i-vr-dla-koordynacji-ruchowej",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem",
+      "dzieci"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "dom",
+      "szkola"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "mobilna-gielda-pracy",
+    "grupy_docelowe": [
+      "kobiety",
+      "bezrobotni"
+    ],
+    "problemy": [
+      "brak-pracy"
+    ],
+    "miejsca": [
+      "wies"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "mobilna-pomoc-terapeutyczna",
+    "grupy_docelowe": [
+      "osoby-doswiadczajace-przemocy",
+      "rodziny"
+    ],
+    "problemy": [
+      "przemoc",
+      "kryzys-w-rodzinie"
+    ],
+    "miejsca": [
+      "wies",
+      "dom"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "usluga"
+    ],
+    "role": [
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "mobilne-centrum-pomocy-dla-osob-starszych",
+    "grupy_docelowe": [
+      "seniorzy"
+    ],
+    "problemy": [
+      "samotnosc",
+      "sprawy-urzedowe"
+    ],
+    "miejsca": [
+      "wies"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "usluga"
+    ],
+    "role": [
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "mobilny-pomocnik-dydaktyczno-sensoryczny-dla-uczniowstudentow-ze-spektrum-autyzmu",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem",
+      "dzieci",
+      "mlodziez"
+    ],
+    "problemy": [
+      "trudnosci-w-nauce"
+    ],
+    "miejsca": [
+      "szkola",
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "pomoce-terapeutyczne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "moduly-niezaleznosci",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo",
+      "seniorzy"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji",
+      "trudnosci-w-poruszaniu-sie"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "moj-pomocny-virtual-world",
+    "grupy_docelowe": [
+      "cudzoziemcy",
+      "dzieci"
+    ],
+    "problemy": [
+      "trudnosci-w-integracji",
+      "trudnosci-w-nauce"
+    ],
+    "miejsca": [
+      "szkola"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "mpatyk",
+    "grupy_docelowe": [
+      "dzieci",
+      "mlodziez"
+    ],
+    "problemy": [
+      "wykluczenie-spoleczne"
+    ],
+    "miejsca": [
+      "szkola"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "my-way-to-culture",
+    "grupy_docelowe": [
+      "osoby-niewidome",
+      "osoby-gluche",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "nakreceni-na-aktywnosc",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo",
+      "osoby-z-niepelnosprawnoscia"
+    ],
+    "problemy": [
+      "bariery-architektoniczne",
+      "wykluczenie-spoleczne"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "nasz-wspolny-rodzinny-swiat-poznaje-ucze-reaguje",
+    "grupy_docelowe": [
+      "rodziny",
+      "dzieci"
+    ],
+    "problemy": [
+      "kryzys-w-rodzinie"
+    ],
+    "miejsca": [],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "cus-ops",
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "ngoz-nawigacja-glosowa-osob-zaleznych",
+    "grupy_docelowe": [
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "trudnosci-w-poruszaniu-sie",
+      "bariery-architektoniczne"
+    ],
+    "miejsca": [
+      "urzad",
+      "instytucja-kultury",
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie",
+      "mlodziez"
+    ],
+    "problemy": [
+      "brak-pracy",
+      "wykluczenie-spoleczne"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "niewypaleni",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "brak-pracy"
+    ],
+    "miejsca": [],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "obu-obuwie-po-domu",
+    "grupy_docelowe": [
+      "seniorzy"
+    ],
+    "problemy": [
+      "zagrozenie-bezpieczenstwa"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "odziez"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "oddawacze",
+    "grupy_docelowe": [
+      "osoby-ubogie"
+    ],
+    "problemy": [
+      "ubostwo"
+    ],
+    "miejsca": [],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "oncotriada",
+    "grupy_docelowe": [
+      "osoby-chore-przewlekle"
+    ],
+    "problemy": [
+      "zdrowie-psychiczne",
+      "brak-dostepu-do-opieki-zdrowotnej"
+    ],
+    "miejsca": [
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "organizator-kompleksowej-opieki-w-miejscu-zamieszkania",
+    "grupy_docelowe": [
+      "seniorzy",
+      "opiekunowie"
+    ],
+    "problemy": [
+      "obciazenie-opiekunow",
+      "niesamodzielnosc"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "usluga"
+    ],
+    "role": [
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "osa-i-eco-puzzle",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem",
+      "rodziny"
+    ],
+    "problemy": [
+      "wykluczenie-spoleczne",
+      "brak-pracy"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "osoby-niewidome-i-niedowidzace-jako-nauczyciele-jezyka-polskiego",
+    "grupy_docelowe": [
+      "osoby-niewidome",
+      "cudzoziemcy"
+    ],
+    "problemy": [
+      "brak-pracy",
+      "bariery-komunikacyjne"
+    ],
+    "miejsca": [],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "pacjent-pro",
+    "grupy_docelowe": [
+      "osoby-w-kryzysie-psychicznym"
+    ],
+    "problemy": [
+      "zdrowie-psychiczne",
+      "brak-dostepu-do-informacji"
+    ],
+    "miejsca": [
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "paszport-pacjenta-z-choroba-rzadka",
+    "grupy_docelowe": [
+      "osoby-chore-przewlekle"
+    ],
+    "problemy": [
+      "brak-dostepu-do-opieki-zdrowotnej"
+    ],
+    "miejsca": [
+      "placowka-medyczna"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "patryk-i-kropka",
+    "grupy_docelowe": [
+      "mlodziez",
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "szkola",
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "pelna-wokanda",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "sprawy-urzedowe"
+    ],
+    "miejsca": [],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "pelnia-zdrowia",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "brak-dostepu-do-opieki-zdrowotnej",
+      "brak-dostepu-do-informacji"
+    ],
+    "miejsca": [],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner",
+      "cus-ops",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "piosenki-uczestniczace",
+    "grupy_docelowe": [
+      "dzieci"
+    ],
+    "problemy": [
+      "bariery-komunikacyjne"
+    ],
+    "miejsca": [
+      "dom",
+      "szkola"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "podroz-poza-domem-w-wirtualnej-rzeczywistosci",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie",
+      "dzieci"
+    ],
+    "problemy": [
+      "zdrowie-psychiczne"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "przenosne-modularne-lazienki",
+    "grupy_docelowe": [
+      "osoby-ubogie"
+    ],
+    "problemy": [
+      "ubostwo"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "adaptacja-przestrzeni"
+    ],
+    "role": [
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "przewodnik-dla-osob-z-asd-moje-potrzeby-gdzie-i-jak-je-realizowac",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem",
+      "mlodziez"
+    ],
+    "problemy": [
+      "trudnosci-w-relacjach",
+      "niesamodzielnosc"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "puzzle-3d",
+    "grupy_docelowe": [
+      "osoby-niewidome",
+      "dzieci"
+    ],
+    "problemy": [
+      "trudnosci-w-nauce"
+    ],
+    "miejsca": [
+      "szkola",
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "pomoce-terapeutyczne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "puzzles-ramp",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo",
+      "seniorzy"
+    ],
+    "problemy": [
+      "bariery-architektoniczne"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "rodzina-adopcyjna-dorasta",
+    "grupy_docelowe": [
+      "rodziny",
+      "mlodziez"
+    ],
+    "problemy": [
+      "kryzys-w-rodzinie"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "rodzinny-system-wzajemnej-pomocy",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem",
+      "opiekunowie"
+    ],
+    "problemy": [
+      "obciazenie-opiekunow",
+      "wykluczenie-spoleczne"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "spolecznosc-lokalna"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "sciezka-motosensoryczna",
+    "grupy_docelowe": [
+      "seniorzy",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "adaptacja-przestrzeni"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "sciezka-treningu-umyslu",
+    "grupy_docelowe": [
+      "seniorzy",
+      "osoby-z-demencja",
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "zaburzenia-pamieci",
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "adaptacja-przestrzeni"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "senior-cuder",
+    "grupy_docelowe": [
+      "seniorzy"
+    ],
+    "problemy": [
+      "samotnosc",
+      "zdrowie-psychiczne"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner",
+      "cus-ops",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "spotkania-kulturlove",
+    "grupy_docelowe": [
+      "osoby-z-niepelnosprawnoscia"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "stop-otylosci-innowacyjna-metoda-pracy-z-osobami-niepelnosprawnymi-intelektualnie",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "niezdrowy-styl-zycia"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "straznik",
+    "grupy_docelowe": [
+      "osoby-gluche"
+    ],
+    "problemy": [
+      "zagrozenie-bezpieczenstwa"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "stworzenie-narzedzia-ulatwiajacego-seniorom-prawidlowe-regulowanie-spraw-spadkowych",
+    "grupy_docelowe": [
+      "seniorzy",
+      "osoby-chore-przewlekle"
+    ],
+    "problemy": [
+      "sprawy-urzedowe"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "szablony-piekna",
+    "grupy_docelowe": [
+      "kobiety",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostosowanego-sprzetu"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "odziez"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "szlakiem-ludzi-bezdomnych",
+    "grupy_docelowe": [
+      "osoby-w-kryzysie-bezdomnosci"
+    ],
+    "problemy": [
+      "bezdomnosc"
+    ],
+    "miejsca": [
+      "przestrzen-publiczna"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "usluga"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "ta-sciezka-terapeutyczna-sciezka-kulturowa-dla-dzieci-i-doroslych-z-autyzmem",
+    "grupy_docelowe": [
+      "osoby-z-autyzmem",
+      "dzieci",
+      "mlodziez"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji",
+      "trudnosci-w-poruszaniu-sie"
+    ],
+    "miejsca": [
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "talerze-zdrowia",
+    "grupy_docelowe": [
+      "seniorzy",
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "niezdrowy-styl-zycia"
+    ],
+    "miejsca": [
+      "dom",
+      "placowka-opiekuncza"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "teleasystent",
+    "grupy_docelowe": [
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "niesamodzielnosc"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "usluga"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "telerehabilitacja-oddechowa",
+    "grupy_docelowe": [
+      "osoby-chore-przewlekle",
+      "seniorzy"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "dom",
+      "wies"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "usluga"
+    ],
+    "role": [
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "terapeuta-przestrzeni",
+    "grupy_docelowe": [
+      "seniorzy"
+    ],
+    "problemy": [
+      "niesamodzielnosc"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "usluga"
+    ],
+    "role": [
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "therapy-set",
+    "grupy_docelowe": [
+      "seniorzy",
+      "opiekunowie"
+    ],
+    "problemy": [
+      "brak-dostepu-do-rehabilitacji"
+    ],
+    "miejsca": [
+      "placowka-opiekuncza",
+      "dom"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "pomoce-terapeutyczne"
+    ],
+    "role": [
+      "cus-ops",
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "to-nie-koniec-swiata-to-poczatek-swiata",
+    "grupy_docelowe": [
+      "rodziny"
+    ],
+    "problemy": [
+      "kryzys-w-rodzinie"
+    ],
+    "miejsca": [
+      "dom"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "turystyka-gorskawspinaczka-dostepna-dla-wszystkich",
+    "grupy_docelowe": [
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "uniodziez",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostosowanego-sprzetu"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "odziez"
+    ],
+    "role": [
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "urzedowy-ambaras",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "sprawy-urzedowe"
+    ],
+    "miejsca": [
+      "urzad"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "uwaznione-rodzienstwo",
+    "grupy_docelowe": [
+      "rodziny",
+      "dzieci"
+    ],
+    "problemy": [
+      "kryzys-w-rodzinie"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "wibraap",
+    "grupy_docelowe": [
+      "osoby-gluche"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie",
+      "aplikacja"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "wiejski-program-pomocy-osobom-w-kryzysie-bezdomnosci-sciezka-feniksa",
+    "grupy_docelowe": [
+      "osoby-w-kryzysie-bezdomnosci"
+    ],
+    "problemy": [
+      "bezdomnosc"
+    ],
+    "miejsca": [
+      "wies"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "cus-ops",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "wielodziedzinowy-slownik-terminow-specjalistycznych-pl-pjm",
+    "grupy_docelowe": [
+      "osoby-gluche"
+    ],
+    "problemy": [
+      "bariery-komunikacyjne"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "wirtualne-izby-pamieci",
+    "grupy_docelowe": [
+      "seniorzy"
+    ],
+    "problemy": [
+      "wykluczenie-cyfrowe",
+      "samotnosc"
+    ],
+    "miejsca": [
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "wortal-informacyjny",
+    "grupy_docelowe": [
+      "cudzoziemcy"
+    ],
+    "problemy": [
+      "trudnosci-w-integracji",
+      "brak-dostepu-do-informacji"
+    ],
+    "miejsca": [],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "aplikacja"
+    ],
+    "role": [
+      "mieszkaniec",
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "wozek-szermierczy",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostosowanego-sprzetu",
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "wsparcie-imprez-masowych-dla-osob-z-niepelnosprawnoscia-wzroku",
+    "grupy_docelowe": [
+      "osoby-niewidome",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji",
+      "trudnosci-w-poruszaniu-sie"
+    ],
+    "miejsca": [
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "zakupy-bez-barier",
+    "grupy_docelowe": [
+      "osoby-z-niepelnosprawnoscia",
+      "seniorzy"
+    ],
+    "problemy": [
+      "niesamodzielnosc"
+    ],
+    "miejsca": [
+      "sklep"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "usluga"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+    "grupy_docelowe": [
+      "opiekunowie",
+      "dzieci",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "obciazenie-opiekunow"
+    ],
+    "miejsca": [
+      "sklep"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "urzadzenie"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "zalatw-to-sam",
+    "grupy_docelowe": [
+      "niepelnosprawni-intelektualnie"
+    ],
+    "problemy": [
+      "sprawy-urzedowe",
+      "niesamodzielnosc"
+    ],
+    "miejsca": [
+      "urzad"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "zdobadz-swoje-szczyty",
+    "grupy_docelowe": [
+      "niepelnosprawni-ruchowo",
+      "osoby-niewidome",
+      "osoby-gluche"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "gmina"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "zeglowanie-w-wyobrazni-czyli-sposob-na-strachy-na-wodzie",
+    "grupy_docelowe": [
+      "seniorzy",
+      "niepelnosprawni-ruchowo"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "sport-i-turystyka"
+    ],
+    "skale": [
+      "osoba"
+    ],
+    "typy_rozwiazan": [
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "cus-ops"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "zmysly-w-ruchu-model-choreografii-dla-osob-niewidomych",
+    "grupy_docelowe": [
+      "osoby-niewidome"
+    ],
+    "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+    ],
+    "miejsca": [
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "materialy-edukacyjne",
+      "model-pracy"
+    ],
+    "role": [
+      "partner",
+      "mieszkaniec"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  },
+  {
+    "slug": "zrozum-moja-kulture-zrozum-mnie",
+    "grupy_docelowe": [
+      "cudzoziemcy"
+    ],
+    "problemy": [
+      "trudnosci-w-integracji",
+      "wykluczenie-spoleczne"
+    ],
+    "miejsca": [
+      "szkola",
+      "instytucja-kultury"
+    ],
+    "skale": [
+      "placowka"
+    ],
+    "typy_rozwiazan": [
+      "gra"
+    ],
+    "role": [
+      "partner"
+    ],
+    "wdrozenie": null,
+    "zatwierdzone": true
+  }
+]
