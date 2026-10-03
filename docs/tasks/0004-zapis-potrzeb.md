@@ -1,6 +1,6 @@
 # 0004. Zapis potrzeb
 
-- Status: review
+- Status: zrobione
 - Osoba: Bartłomiej (backend)
 - PR: #35
 

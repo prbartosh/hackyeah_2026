@@ -1,47 +1,40 @@
 # Stan prac
 
-Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/).
+Przegląd w jednej linii na zadanie. Szczegóły i kroki w [tasks/](tasks/), decyzje w [adr/](adr/).
 
 ## W toku
 
-- [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): innowacje (backend i frontend) w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), backend dokumentów (`/api/v1/documents`) w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35), front dokumentów (działy, filtry, strona dokumentu z wersją tekstową) gotowy, brakuje testu z czytnikiem ekranu
-- [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy każdej odpowiedzi z wynikami (Bartłomiej): review w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35)
-- [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo (Bartłomiej): 503 przy braku klucza, ogólny komunikat błędu, `llm` w health, `organizacja` bez nazwisk, status etapu w czacie, review w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35)
-- [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
-- [0015](tasks/0015-panel-administratora.md) Panel administratora, moduł VI (Kacper, do potwierdzenia): backend, UI, seed i testy gotowe, zostaje test z czytnikiem ekranu i klucz DeepSeek (Postgres sprawdzony) ([jak uruchomić](panel-administratora.md))
-- [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
-- [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper): ADR 0009 i backend `POST /api/v1/innovations/{slug}/service-card` gotowe, front (Kacper) do zrobienia
-- [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz): backend z narzędziem `gmina_stats` i blok „Dane gminy” w panelu gotowe, zostaje test na prawdziwym modelu
-- [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper): ADR 0009, backend i front (`/innowacja/:slug/wdrozenie`, druk, „Chcę to wdrożyć” do skrzynki panelu) gotowe, zostaje przejście z prawdziwym kluczem DeepSeek
-- [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz): backend z narzędziem `gmina_stats` i zdarzeniem SSE gotowy, front (Daniel, Kacper) do zrobienia, test na prawdziwym modelu
-- [0018](tasks/0018-kreator-pomyslow.md) Kreator pomysłów, moduł III (Kacper): fiszka, nabory i generator wniosków, canvy, asystent gotowe, zostaje test z czytnikiem ekranu i DeepSeek (Postgres sprawdzony) ([jak uruchomić](kreator-pomyslow.md))
-- [0019](tasks/0019-tester-innowacji.md) Tester innowacji, moduł IV (Kacper): oceny, zgłoszenia do testów, poziom dowodu i moderacja w panelu gotowe ([ADR 0011](adr/0011-tester-innowacji.md), proponowany), zostaje NVDA i limit w nginx (osobny PR)
+- [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy (moduł II): zostaje ręczny test klawiaturą i czytnikiem ekranu
+- [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji: zostaje przegląd słownika i wyrywkowy przegląd nakładki
+- [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury: szkice w [jury/](jury/), reszta po działającym demo
+- [0012](tasks/0012-middleman-innowacji.md) Middleman innowacji (moduł VII): zostaje przejście z prawdziwym kluczem DeepSeek
+- [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy w czacie: zostaje test na prawdziwym modelu
+- [0015](tasks/0015-panel-administratora.md) Panel administratora (moduł VI, [jak uruchomić](panel-administratora.md)): zostaje NVDA i przejście z kluczem DeepSeek
+- [0018](tasks/0018-kreator-pomyslow.md) Kreator pomysłów (moduł III, [jak uruchomić](kreator-pomyslow.md)): zostaje NVDA, klucz DeepSeek i sprawdzenie szablonu canvy
+- [0019](tasks/0019-tester-innowacji.md) Tester innowacji (moduł IV): zostaje NVDA
 
 ## Do zrobienia
 
-- [0016](tasks/0016-adaptery-llm.md) Port LLM i adaptery dostawców: logika czatu i panelu niezależna od dostawcy, wybór przez `LLM_PROVIDER` (Bartłomiej)
+- [0016](tasks/0016-adaptery-llm.md) Port LLM i adaptery dostawców (Bartłomiej)
 - [0017](tasks/0017-dopasowanie-deterministyczne-panel.md) Deterministyczne dopasowanie w panelu zamiast embeddingów, czeka na 5 decyzji (Kacper)
 
 ## Do zaprojektowania
 
-- „Podobne przypadki” w matchmakingu (moduł I): osobny ADR, korzysta z zapisu potrzeb
+- „Podobne przypadki” w matchmakingu (moduł I): osobny ADR, korzysta z zapisu potrzeb ([0004](tasks/0004-zapis-potrzeb.md))
 
 ## Zrobione
 
-- 2026-10-03: Pierwsze uruchomienie stacku ([0002](tasks/0002-smoke-test.md)): stack, strony, axe, pytest, czat przez proxy na DeepSeek; pełna rozmowa to 6 wywołań modelu i ok. 297 tys. tokenów, więc limit 300 tys. to 1 rozmowa dziennie
-- 2026-10-03: Ewaluacja dopasowania ([0009](tasks/0009-ewaluacja-dopasowania.md)): skrypt `backend/scripts/eval_matchmaking.py`, pełny pomiar niepotrzebny (decyzja Bartosza)
-- 2026-10-03: Frontend buduje się z `npm ci` na podstawie `package-lock.json` ([zadanie 0001](tasks/0001-package-lock.md))
-- 2026-10-03: Pasek dostępności zwijany na mobile, axe na mobile 0 naruszeń ([zadanie 0010](tasks/0010-dostepnosc-mobile-i-glos.md))
-- 2026-10-03: Licencje danych ROPS ([0014](tasks/0014-licencje-danych-rops.md)): CC BY 4.0 przy 5 z 51 raportów, reszta bez licencji na stronie, GUS z podaniem źródła; w Zasobniku licencja tylko tam, gdzie jest
-- 2026-10-03: Struktura repo, Docker Compose, frontend statycznie na nginx
-- 2026-10-03: Scraper Biblioteki Innowacji, 115 innowacji w `assets/innowacje-spoleczne/` ([baza-innowacji.md](baza-innowacji.md))
-- 2026-10-03: Scrapery raportów, publikacji, Mapy Wyzwań i Obserwatora Statystyk w `assets/`
-- 2026-10-03: Obiekt innowacji, nakładka i słownik ([ADR 0004](adr/0004-obiekt-innowacji.md))
-- 2026-10-03: Backend rozmowy matchmakingu: `POST /api/v1/chat` (SSE), `GET /api/v1/innovations/{slug}` ([ADR 0005](adr/0005-matchmaking-chat-llm.md))
-- 2026-10-03: Mockup frontendu, strona innowacji `/innowacja/:slug`
-- 2026-10-03: Ustalenia otwarte ([0007](tasks/0007-ustalenia-otwarte.md)): obszary zespołu, zakres demo, limity, retencja, [zestaw testowy](zestaw-testowy.md)
-- 2026-10-03: Kryteria oceny ([kryteria-oceny.md](kryteria-oceny.md)), [GLOSSARY.md](../GLOSSARY.md)
-- 2026-10-03: Czat we froncie podłączony do `POST /api/v1/chat` (SSE) zgodnie z kontraktem z ADR 0005, nowy układ, obsługa błędów, tryb demo usunięty
-- 2026-10-03: Czat przez Responses API: narzędzia razem z `reasoning_effort` (błąd 400 w Chat Completions), sprawdzone na prawdziwym modelu
-- 2026-10-03: Limity i kontrola kosztu czatu ([0006](tasks/0006-limity-czatu.md)): nginx, backend, frontend, limit u dostawcy
-- 2026-10-03: Czat i tagowanie innowacji na DeepSeek (`deepseek-flash`, Responses API) ([ADR 0007](adr/0007-deepseek.md)), do sprawdzenia na prawdziwym kluczu
+- [0001](tasks/0001-package-lock.md) Frontend buduje się z `npm ci`
+- [0002](tasks/0002-smoke-test.md) Smoke test stacku: czat przez proxy na DeepSeek, pytest, axe
+- [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy wynikach czatu
+- [0006](tasks/0006-limity-czatu.md) Limity czatu (bez budżetu tokenów)
+- [0007](tasks/0007-ustalenia-otwarte.md) Ustalenia otwarte, [zestaw testowy](zestaw-testowy.md)
+- [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo (503 bez klucza, błędy w strumieniu, `organizacja`)
+- [0009](tasks/0009-ewaluacja-dopasowania.md) Skrypt ewaluacji dopasowania `eval_matchmaking.py`
+- [0010](tasks/0010-dostepnosc-mobile-i-glos.md) Pasek dostępności na mobile, wejście głosowe
+- [0014](tasks/0014-licencje-danych-rops.md) Licencje danych ROPS
+- Struktura repo, Docker Compose, frontend na nginx ([ADR 0001–0003](adr/))
+- Scrapery: 115 innowacji, raporty, publikacje, Mapa Wyzwań, Obserwator ([baza-innowacji.md](baza-innowacji.md))
+- Obiekt innowacji, nakładka i słownik ([ADR 0004](adr/0004-obiekt-innowacji.md))
+- Czat matchmakingu: backend SSE i front ([ADR 0005](adr/0005-matchmaking-chat-llm.md)), DeepSeek ([ADR 0007](adr/0007-deepseek.md))
+- [Kryteria oceny](kryteria-oceny.md), [GLOSSARY.md](../GLOSSARY.md), [pomysły na przewagę](pomysly-na-przewage.md)

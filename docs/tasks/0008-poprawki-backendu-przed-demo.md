@@ -1,6 +1,6 @@
 # 0008. Poprawki backendu przed demo
 
-- Status: review
+- Status: zrobione
 - Osoba: Bartłomiej (backend)
 - PR: #35
 

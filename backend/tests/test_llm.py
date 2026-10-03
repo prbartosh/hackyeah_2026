@@ -5,7 +5,6 @@ import pytest
 
 from app.core.config import Settings
 from app.services.llm import LLMError, LLMService, TextDelta, ToolCall, TurnEnd
-from app.services.token_budget import TokenBudget
 
 
 class Item(NS):
@@ -122,18 +121,3 @@ async def test_invalid_tool_json_gives_empty_args():
     llm, _ = service([call, done([call.item])])
     events = await collect(llm)
     assert events[0] == ToolCall("a", "set_role", {})
-
-
-async def test_usage_is_added_to_budget():
-    end = done([])
-    end.response.usage = NS(
-        input_tokens=70, output_tokens=30, total_tokens=100, input_tokens_details=None
-    )
-    llm, responses = service([end])
-    llm.budget = TokenBudget(daily_limit=150)
-    await collect(llm)
-    await collect(llm)
-
-    assert responses.kwargs["max_output_tokens"] == 8000
-    assert llm.budget.used == 200
-    assert llm.budget.exhausted()

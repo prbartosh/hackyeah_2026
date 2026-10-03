@@ -25,7 +25,6 @@ from app.services.nabory import NaborService
 from app.services.opinions import OpinionService
 from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
-from app.services.token_budget import TokenBudget
 from app.services.wnioski import WniosekService
 
 
@@ -50,13 +49,8 @@ def get_obserwator_repository() -> ObserwatorRepository:
 
 
 @lru_cache
-def get_token_budget() -> TokenBudget:
-    return TokenBudget(settings.llm_daily_token_limit)
-
-
-@lru_cache
 def _llm_service() -> LLMService:
-    return LLMService(settings, get_token_budget())
+    return LLMService(settings)
 
 
 def get_llm_service() -> LLMService | None:
@@ -67,14 +61,12 @@ def get_llm_service() -> LLMService | None:
 def get_chat_service(
     llm: Annotated[LLMService | None, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
-    budget: Annotated[TokenBudget, Depends(get_token_budget)],
     sessions: Annotated[async_sessionmaker[AsyncSession], Depends(get_session_factory)],
     obserwator: Annotated[ObserwatorRepository, Depends(get_obserwator_repository)],
 ) -> ChatService:
     return ChatService(
         llm,
         innovations,
-        budget,
         enabled=settings.chat_enabled,
         sessions=sessions,
         obserwator=obserwator,
@@ -84,9 +76,8 @@ def get_chat_service(
 def get_service_card_service(
     llm: Annotated[LLMService | None, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
-    budget: Annotated[TokenBudget, Depends(get_token_budget)],
 ) -> ServiceCardService:
-    return ServiceCardService(llm, innovations, budget, enabled=settings.chat_enabled)
+    return ServiceCardService(llm, innovations, enabled=settings.chat_enabled)
 
 
 def get_innovation_service(
