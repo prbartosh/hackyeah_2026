@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ExternalLink, FileText } from 'lucide-react'
 import { getDocument, splitPages, TYP_NAZWA, type DokumentSzczegoly } from '@/api/documents'
+import { DetailSkeleton } from '@/components/Skeleton'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { plural } from '@/lib/plural'
 import '@/styles/zasobnik.css'
@@ -27,7 +28,7 @@ export default function DocumentPage() {
   const dzial = doc?.typ === 'wskaznik' ? 'wskazniki' : 'wyzwania'
   const back = <Link to={`/zasobnik?dzial=${dzial}`}>← Wróć do zasobnika wiedzy</Link>
 
-  if (!state || state.id !== id) return <div className="container page"><p role="status">Wczytywanie dokumentu…</p></div>
+  if (!state || state.id !== id) return <DetailSkeleton label="Wczytywanie dokumentu…" />
   if (state.failed) {
     return (
       <div className="container page">

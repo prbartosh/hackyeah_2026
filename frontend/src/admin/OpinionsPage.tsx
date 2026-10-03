@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { FlaskConical } from 'lucide-react'
 import { opinions, type StatusOpinii } from '@/api/opinions'
-import { Empty, ErrorBox, Loading, Pagination, SyntheticTag, errorText, formatDate, useLoad, useTitle } from '@/admin/ui'
+import { Empty, ErrorBox, Pagination, SyntheticTag, errorText, formatDate, useLoad, useTitle } from '@/admin/ui'
+import { ListSkeleton } from '@/components/Skeleton'
 
 const LIMIT = 25
 
@@ -20,6 +20,7 @@ export default function OpinionsPage() {
   const { data, error, loading, reload } = useLoad(() => opinions.adminList(status, offset), [status, offset])
   const [failure, setFailure] = useState('')
   const [done, setDone] = useState('')
+  const statusRef = useRef<HTMLParagraphElement>(null)
 
   async function change(id: number, next: StatusOpinii) {
     setFailure('')
@@ -27,6 +28,8 @@ export default function OpinionsPage() {
     try {
       const r = await opinions.setStatus(id, next)
       setDone(`${next === 'opublikowana' ? 'Opublikowano' : 'Ukryto'} opinię o „${r.nazwa ?? r.slug}”.`)
+      // Pozycja znika z listy razem z przyciskiem: fokus na komunikacie o wyniku.
+      statusRef.current?.focus()
       reload()
     } catch (e) {
       setFailure(errorText(e))
@@ -37,8 +40,8 @@ export default function OpinionsPage() {
     <>
       <h1>Oceny i testy</h1>
       <p className="lead">
-        Oceny innowacji i zgłoszenia do testów od instytucji. Po publikacji są widoczne na karcie rozwiązania
-        i podnoszą jego poziom dowodu. Zgłoszenia do testów mają też wątek w skrzynce.
+        Oceny innowacji i zgłoszenia do testów od instytucji. Opublikowane są widoczne na karcie rozwiązania
+        i podnoszą jego poziom dowodu. Zgłoszenie do testów ma też wątek w skrzynce.
       </p>
       <div className="filters">
         <div className="field">
@@ -52,18 +55,18 @@ export default function OpinionsPage() {
           </select>
         </div>
       </div>
-      <p role="status" className="hint">{done}</p>
+      <p ref={statusRef} tabIndex={-1} role="status" className="status-line status-ok">{done}</p>
       {error && <ErrorBox message={error} onRetry={reload} />}
       {failure && <ErrorBox message={failure} />}
-      {loading && !data && <Loading />}
+      {loading && !data && <ListSkeleton label="Wczytywanie opinii…" count={3} />}
       {data && data.items.length === 0 && <Empty>Brak opinii w tym widoku.</Empty>}
       {data && data.items.length > 0 && (
         <ul className="plain-list">
           {data.items.map((o) => (
-            <li key={o.id} className="panel">
+            <li key={o.id} className="panel admin-item">
               <p className="meta-line">
                 {o.rodzaj === 'test'
-                  ? <span className="tag"><FlaskConical size={14} aria-hidden="true" /> Zgłoszenie do testów</span>
+                  ? <span className="tag">Zgłoszenie do testów</span>
                   : <span className="tag">Ocena: {o.ocena} z 5</span>}
                 <span className={`tag${o.status === 'nowa' ? ' tag-new' : ''}`}>{STATUS_LABELS[o.status]}</span>
                 {o.syntetyczna && <SyntheticTag />}
