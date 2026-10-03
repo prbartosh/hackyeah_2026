@@ -15,6 +15,7 @@ from app.services.chat import ChatService
 from app.services.email import get_email_sender
 from app.services.innovation import InnovationService
 from app.services.llm import LLMService
+from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
 from app.services.token_budget import TokenBudget
 
@@ -56,6 +57,14 @@ def get_chat_service(
     )
 
 
+def get_service_card_service(
+    llm: Annotated[LLMService, Depends(get_llm_service)],
+    innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
+    budget: Annotated[TokenBudget, Depends(get_token_budget)],
+) -> ServiceCardService:
+    return ServiceCardService(llm, innovations, budget, enabled=settings.chat_enabled)
+
+
 def get_innovation_service(
     repo: Annotated[InnovationRepository, Depends(get_innovation_repository)],
 ) -> InnovationService:
@@ -65,6 +74,7 @@ def get_innovation_service(
 InnovationRepositoryDep = Annotated[InnovationRepository, Depends(get_innovation_repository)]
 InnovationServiceDep = Annotated[InnovationService, Depends(get_innovation_service)]
 ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
+ServiceCardServiceDep = Annotated[ServiceCardService, Depends(get_service_card_service)]
 
 
 def require_admin(authorization: Annotated[str | None, Header()] = None) -> None:

@@ -11,7 +11,7 @@ Logika czatu i panelu nie zależy od dostawcy modelu. Serwisy rozmawiają z jedn
 ## Kroki
 
 Etap 1: port i adapter dla obecnego zachowania (bez zmian funkcjonalnych)
-- [ ] ADR 0008: port LLM, neutralny format historii, wybór adaptera, co należy do adaptera (flagi i quirki dostawcy), alternatywa z gotową biblioteką (np. LiteLLM) i dlaczego tak albo nie
+- [ ] ADR 0010: port LLM, neutralny format historii, wybór adaptera, co należy do adaptera (flagi i quirki dostawcy), alternatywa z gotową biblioteką (np. LiteLLM) i dlaczego tak albo nie
 - [ ] Neutralne typy: wiadomość (rola, tekst), definicja narzędzia, wywołanie narzędzia, wynik narzędzia, tura asystenta z nieprzezroczystym stanem dostawcy (np. rozumowanie, które trzeba odesłać w historii), zdarzenia strumienia (tekst, wywołanie narzędzia, koniec tury), zużycie tokenów, `LLMError`
 - [ ] Port `LLMProvider` (Protocol): `stream(system, tools, history)` i `complete_json(system, user)`
 - [ ] Adapter Responses API (SDK `openai`) z profilem dostawcy. Profil `deepseek`: bez `strict`, `store`, `include`, w Chat Completions `max_tokens`. Profil `openai`: `strict`, `store=False`, zaszyfrowane rozumowanie. Wybór przez `LLM_PROVIDER` (domyślnie `deepseek`)
