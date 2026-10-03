@@ -254,6 +254,7 @@ export default function ChatPanel() {
   const [showError, setShowError] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const endRef = useRef<HTMLDivElement>(null)
+  const logRef = useRef<HTMLOListElement>(null)
   const dockRef = useRef<HTMLFormElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const chipsRef = useRef<HTMLUListElement>(null)
@@ -324,6 +325,18 @@ export default function ChatPanel() {
     target?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'end' })
   }, [display])
 
+  // Po zakończeniu odpowiedzi: pytanie z opcjami dostaje focus; w innym razie wracamy do pola pisania,
+  // jeśli focus zgubił się razem z klikniętym przyciskiem (opcja, podpowiedź, „Potwierdzam”)
+  const wasStreaming = useRef(false)
+  useEffect(() => {
+    const justFinished = wasStreaming.current && !streaming
+    wasStreaming.current = streaming
+    if (!justFinished) return
+    const option = logRef.current?.querySelector<HTMLElement>('.question .btn-option:not(:disabled)')
+    if (option) option.focus({ preventScroll: true })
+    else if (!document.activeElement || document.activeElement === document.body) textareaRef.current?.focus({ preventScroll: true })
+  }, [streaming])
+
   const submit = () => {
     if (streaming) return
     if (!draft.trim()) {
@@ -360,7 +373,7 @@ export default function ChatPanel() {
       )}
 
       <ErrorBoundary label="rozmowa">
-        <ol className="chat-log" aria-live="polite" aria-relevant="additions text" aria-busy={streaming}>
+        <ol ref={logRef} className="chat-log" aria-live="polite" aria-relevant="additions text" aria-busy={streaming}>
           {display.map((m, i) => (
             <MessageItem key={m.id} message={m} isLast={i === display.length - 1} lastSummaryId={lastSummaryId} />
           ))}
