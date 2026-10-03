@@ -1,0 +1,78 @@
+import { useState, type FormEvent } from 'react'
+import { Link } from 'react-router-dom'
+import { api } from '@/admin/api'
+import { errorText, useTitle } from '@/admin/ui'
+import '@/styles/admin.css'
+
+/** Publiczny formularz: zgłoszenie potrzeby do zespołu ROPS (bez konta). */
+export default function ReportPage() {
+  useTitle('Zgłoś potrzebę')
+  const [text, setText] = useState('')
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [token, setToken] = useState<string | null>(null)
+
+  async function submit(e: FormEvent) {
+    e.preventDefault()
+    if (text.trim().length < 10) {
+      setError('Opisz sprawę w kilku zdaniach (co najmniej 10 znaków).')
+      return
+    }
+    setBusy(true)
+    setError('')
+    try {
+      const r = await api.createTicket({
+        tresc: text.trim(),
+        autor_nazwa: name.trim() || undefined,
+        autor_email: email.trim() || undefined,
+      })
+      setToken(r.token_watku)
+    } catch (err) {
+      setError(errorText(err))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  if (token) {
+    const link = `/watek/${token}`
+    return (
+      <div className="container page">
+        <h1>Dziękujemy, zgłoszenie dotarło do zespołu ROPS</h1>
+        <p role="status">Odpowiedź pojawi się pod tym adresem. Zapisz go lub dodaj do zakładek:</p>
+        <p><Link to={link}>{window.location.origin}{link}</Link></p>
+        <p className="hint">Jeśli podałeś e-mail, dostaniesz też wiadomość z odpowiedzią.</p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="container page report">
+      <h1>Nie znalazłeś rozwiązania? Zgłoś potrzebę</h1>
+      <p>Opisz swoją sprawę. Pracownik ROPS przeczyta zgłoszenie i odpowie, wskazując rozwiązania z bazy innowacji.</p>
+      <form onSubmit={submit} className="stack" noValidate>
+        <div className="field">
+          <label htmlFor="r-text">Opis sprawy</label>
+          <textarea id="r-text" className="textarea" rows={7} value={text} onChange={(e) => setText(e.target.value)}
+            maxLength={4000} required aria-invalid={error ? true : undefined} aria-describedby="r-hint r-error" />
+          <p id="r-hint" className="hint">Nie wpisuj numerów dokumentów ani danych wrażliwych.</p>
+        </div>
+        <div className="field">
+          <label htmlFor="r-name">Imię (nieobowiązkowo)</label>
+          <input id="r-name" className="input" value={name} onChange={(e) => setName(e.target.value)} maxLength={200} autoComplete="given-name" />
+        </div>
+        <div className="field">
+          <label htmlFor="r-email">E-mail (nieobowiązkowo)</label>
+          <input id="r-email" className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" aria-describedby="r-email-hint" />
+          <p id="r-email-hint" className="hint">Podaj, jeśli chcesz dostać odpowiedź e-mailem. Bez e-maila odpowiedź zobaczysz pod linkiem po wysłaniu.</p>
+        </div>
+        <p id="r-error" className="field-error" role="alert">{error}</p>
+        <div className="btn-row">
+          <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij zgłoszenie'}</button>
+        </div>
+      </form>
+    </div>
+  )
+}
