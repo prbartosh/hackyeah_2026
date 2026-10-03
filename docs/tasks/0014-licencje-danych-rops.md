@@ -2,7 +2,7 @@
 
 - Status: review
 - Osoba: Wiktor (autor scraperów)
-- PR:
+- PR: #27
 
 ## Cel
 
