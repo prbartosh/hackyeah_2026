@@ -23,5 +23,5 @@ Demo ([DEMO.md](../DEMO.md)) wymaga rozmowy, w której AI ustala rolę, dopytuje
 
 - Brak bazy rozmów: prosto i bez danych wrażliwych, ale klient może zmienić historię lub stan (np. licznik rund). Na demo akceptowalne.
 - Gdy czas odpowiedzi lub koszt katalogu w prompcie okażą się za duże, przechodzimy na wariant zapasowy z ADR 0004 §8 (prefiltr po listach nakładki, rerank LLM na 15–20 kandydatach). Kontrakt z frontem się nie zmienia.
-- Zapis potrzeb przy braku dopasowania (ADR 0004 §8, tabela `potrzeby`) nie wchodzi w ten zakres: [task 0004](../tasks/0004-zapis-potrzeb.md). Dopóki stan nie ma slugów ze słownika, zapis miałby tylko rolę i datę.
+- Zapis potrzeb przy każdej odpowiedzi z wynikami (ADR 0004 §8, tabela `potrzeby`) nie wchodzi w ten zakres: [task 0004](../tasks/0004-zapis-potrzeb.md). Dopóki stan nie ma slugów ze słownika, zapis ma tylko rolę, pokazane innowacje, flagę braku dopasowania i datę.
 - Statystyki (anonimowe podsumowania): później, osobno.
