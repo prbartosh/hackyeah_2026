@@ -14,14 +14,14 @@ Mapowanie na kryteria oceny: [mapowanie-na-kryteria.md](mapowanie-na-kryteria.md
 ## Jak uruchomić
 
 ```bash
-cp .env.example .env     # ustaw POSTGRES_PASSWORD i OPENAI_API_KEY
+cp .env.example .env     # ustaw POSTGRES_PASSWORD i LLM_API_KEY (DeepSeek)
 docker compose up --build
 ```
 
 - Aplikacja: http://localhost:8080
 - API: http://localhost:8000/docs
 
-Czat potrzebuje klucza `OPENAI_API_KEY` w `.env`. Bez niego nie odpowie.
+Czat potrzebuje klucza DeepSeek `LLM_API_KEY` w `.env`. Bez niego nie odpowie.
 
 ## Zrzuty ekranu
 

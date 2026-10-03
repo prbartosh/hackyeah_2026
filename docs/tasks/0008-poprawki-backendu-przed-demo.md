@@ -11,7 +11,7 @@ Czat nie zwraca 500 z tracebackiem, gdy model jest niedostępny, a pole `organiz
 ## Kroki
 
 Brak klucza i awaria modelu
-- [ ] Dziś przy pustym `OPENAI_API_KEY` `get_llm_service` (`api/deps.py`) rzuca `OpenAIError` i request kończy się 500. Zamiast tego: ostrzeżenie w logu przy starcie i odpowiedź 503 z komunikatem dla użytkownika („Asystent jest chwilowo niedostępny”)
+- [ ] Dziś przy pustym `LLM_API_KEY` `get_llm_service` (`api/deps.py`) rzuca `OpenAIError` i request kończy się 500. Zamiast tego: ostrzeżenie w logu przy starcie i odpowiedź 503 z komunikatem dla użytkownika („Asystent jest chwilowo niedostępny”)
 - [ ] Błędy API modelu w trakcie strumienia kończą się zdarzeniem `error` z tym samym komunikatem, bez szczegółów technicznych
 - [ ] `/api/v1/health` zwraca też, czy model jest skonfigurowany (np. `{"status": "ok", "llm": false}`), bez ujawniania klucza
 - [ ] Testy: brak klucza, błąd API

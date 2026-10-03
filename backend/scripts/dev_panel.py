@@ -2,7 +2,7 @@
 
 Uruchomienie z katalogu backend:  python scripts/dev_panel.py
 Token panelu: demo-token. Baza jest tworzona od nowa przy każdym starcie.
-Opcjonalnie ustaw OPENAI_API_KEY, żeby przetestować AI.
+Opcjonalnie ustaw LLM_API_KEY (DeepSeek), żeby przetestować AI.
 """
 
 import asyncio

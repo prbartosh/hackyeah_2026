@@ -1,6 +1,6 @@
 """Proponuje typowane listy nakładki dla innowacji (ADR 0004 §6, zadanie 0005).
 
-Użycie (z katalogu backend/, wymaga OPENAI_API_KEY):
+Użycie (z katalogu backend/, wymaga LLM_API_KEY):
     python scripts/tag_innovations.py              # innowacje bez rekordu w wzbogacenia.json
     python scripts/tag_innovations.py --slug bawita --slug merkury
     python scripts/tag_innovations.py --all        # wszystkie (np. po zmianie słownika)
@@ -112,10 +112,11 @@ def _dump(path: Path, data) -> None:
 
 
 def propose(slugs: list[str] | None, all_: bool) -> None:
-    api_key = os.environ.get("OPENAI_API_KEY")
+    api_key = os.environ.get("LLM_API_KEY")
     if not api_key:
-        sys.exit("Brak OPENAI_API_KEY")
-    model = os.environ.get("LLM_MODEL", "gpt-5.6-sol")
+        sys.exit("Brak LLM_API_KEY")
+    model = os.environ.get("LLM_MODEL", "deepseek-flash")
+    base_url = os.environ.get("LLM_BASE_URL", "https://api.deepseek.com")
 
     innovations = {i["slug"]: i for i in _load(INNOVATIONS)}
     vocabulary = vocabulary_labels(_load(VOCABULARY))
@@ -137,24 +138,20 @@ def propose(slugs: list[str] | None, all_: bool) -> None:
     )
     system = SYSTEM.format(vocabulary=vocabulary_text)
     schema = _schema(vocabulary)
-    client = openai.OpenAI(api_key=api_key)
+    client = openai.OpenAI(api_key=api_key, base_url=base_url)
 
     proposals = _load(PROPOSALS) if PROPOSALS.exists() else []
     proposals = [p for p in proposals if p["slug"] not in todo]
     for n, slug in enumerate(todo, 1):
         record = {k: innovations[slug].get(k) for k in SOURCE_FIELDS}
-        response = client.chat.completions.create(
+        # Responses API: DeepSeek obsługuje json_schema tylko tu (Chat Completions ma json_object).
+        response = client.responses.create(
             model=model,
-            messages=[
-                {"role": "system", "content": system},
-                {"role": "user", "content": json.dumps(record, ensure_ascii=False)},
-            ],
-            response_format={
-                "type": "json_schema",
-                "json_schema": {"name": "nakladka", "schema": schema, "strict": True},
-            },
+            instructions=system,
+            input=json.dumps(record, ensure_ascii=False),
+            text={"format": {"type": "json_schema", "name": "nakladka", "schema": schema}},
         )
-        proposal = {"slug": slug, **json.loads(response.choices[0].message.content)}
+        proposal = {"slug": slug, **json.loads(response.output_text)}
         problems = overlay_problems(proposal, vocabulary)
         if problems:
             proposal["uwagi"] = problems

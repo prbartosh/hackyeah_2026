@@ -17,9 +17,11 @@ class Settings(BaseSettings):
     database_url: str
     cors_origins: list[str] = []
 
-    openai_api_key: str | None = None
-    llm_model: str = "gpt-5.6-sol"
-    # Tylko dla modeli rozumujących (np. gpt-5.x); pusty = parametr nie jest wysyłany.
+    llm_api_key: str | None = None
+    # DeepSeek przez SDK openai (Responses API).
+    llm_base_url: str = "https://api.deepseek.com"
+    llm_model: str = "deepseek-flash"
+    # low / high / max; pusty = domyślny wysiłek modelu (high).
     llm_reasoning_effort: str | None = "low"
     # Obejmuje też tokeny rozumowania - za mało = ucięta odpowiedź (finish=length).
     llm_max_completion_tokens: int = 8000
@@ -31,7 +33,6 @@ class Settings(BaseSettings):
 
     # Panel administratora (ADR 0006). Pusty token = panel wyłączony.
     admin_token: str | None = None
-    embedding_model: str = "text-embedding-3-small"
     sla_hours: int = 48
     ai_daily_call_limit: int = 200
     ai_timeout_seconds: float = 45.0

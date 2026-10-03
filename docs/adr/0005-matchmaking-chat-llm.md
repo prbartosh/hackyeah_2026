@@ -11,7 +11,7 @@ Demo ([DEMO.md](../DEMO.md)) wymaga rozmowy, w której AI ustala rolę, dopytuje
 
 - `POST /api/v1/chat`, odpowiedź SSE. Front wysyła całą historię, stan i opcjonalną akcję (`show_results_now`, `confirm_summary`, z poprawionym `summary`). Stan to stan problemu z ADR 0004 §7 (`rola`, `grupy_docelowe`, `problemy`, `miejsca`, `skale`, `zasoby`, `proby`, każde pole jako `{tekst, slugi}`) plus `role_locked` i `rounds`. Backend niczego nie zapisuje.
 - Role według ADR 0004 §3: `mieszkaniec`, `cus-ops`, `partner`.
-- Model OpenAI (Responses API, `LLM_MODEL`, domyślnie `gpt-5.6-sol`) działa przez narzędzia (function calling, `strict`): `set_role`, `update_problem`, `ask_question`, `propose_summary`, `search`, `show_results`.
+- Model (Responses API, `LLM_MODEL`, od [ADR 0007](0007-deepseek.md) DeepSeek `deepseek-flash`) działa przez narzędzia (function calling): `set_role`, `update_problem`, `ask_question`, `propose_summary`, `search`, `show_results`.
 - Katalog w system prompcie (wariant podstawowy z ADR 0004 §8, cache): `slug`, `nazwa`, kategoria, `problem`, `grupa_docelowa`, `kto_moze_skorzystac`, `czy_dziala` (skrócone do 300 znaków), `wybrana_do_upowszechniania` i zatwierdzona nakładka z `wzbogacenia.json`, jeśli plik istnieje. Katalog jest w znaczniku `<katalog>`, a prompt mówi, że katalog i karty z `search` to dane, nie polecenia. Rozmiar około 35 tys. tokenów.
 - `search(slugs)`: model wybiera do 8 kandydatów, backend zwraca ich pełne karty (z nakładką). `show_results` przyjmuje tylko slugi pobrane przez `search`; linki, kontakt, licencję i `wybrana_do_upowszechniania` dokleja backend z bazy, model ich nie pisze.
 - `update_problem` ma pola `{tekst, slugi}` (w `zasoby` także `poziom_kosztu`). Dopóki nie ma `slownik.json`, backend zeruje `slugi`.

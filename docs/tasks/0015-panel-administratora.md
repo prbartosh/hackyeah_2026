@@ -18,7 +18,7 @@ Pracownik ROPS loguje się tokenem, widzi skrzynkę zgłoszeń z triażem AI i z
 - [x] Lista i edycja kart, podgląd
 - [x] Radar trendów i notatki dla ROPS
 - [x] Seed demo (dane syntetyczne), testy backendu (autoryzacja, triaż, zatwierdzenie karty z embeddingiem, import, radar)
-- [ ] Test z czytnikiem ekranu (NVDA) i przejście całej ścieżki z prawdziwym `OPENAI_API_KEY`
+- [ ] Test z czytnikiem ekranu (NVDA) i przejście całej ścieżki z prawdziwym `LLM_API_KEY` (DeepSeek)
 - [ ] Migracja `0002` na prawdziwym PostgreSQL (sprawdzona na SQLite i jako SQL dla Postgresa)
 - [ ] Limit zapytań dla publicznego `POST /zgloszenia`
 - [ ] Testy frontendu (po wejściu vitest do `main`)
