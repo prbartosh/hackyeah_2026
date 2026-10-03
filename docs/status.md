@@ -13,7 +13,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy każdej odpowiedzi z wynikami (Bartłomiej)
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (do ustalenia)
 - [0006](tasks/0006-limity-czatu.md) Limity i kontrola kosztu czatu (Bartłomiej, Bartosz), wartości do zatwierdzenia
-- [0007](tasks/0007-ustalenia-otwarte.md) Ustalenia otwarte: obszary, zakres demo, zasobnik, limity, retencja, zestaw testowy (Nikodem, Wiktor)
+- [0007](tasks/0007-ustalenia-otwarte.md) Ustalenia otwarte: obszary, zakres demo, limity, retencja, zestaw testowy (Nikodem, Wiktor)
 
 ## Do zaprojektowania
 

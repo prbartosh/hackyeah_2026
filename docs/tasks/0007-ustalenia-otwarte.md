@@ -19,12 +19,6 @@ Zakres demo
 - [ ] Obserwator Statystyk w czacie: czy demo pokazuje dane gminy z pola „Gdzie” (np. „w Twojej gminie...”), czy zostaje poza zakresem, jak w [DEMO.md](../DEMO.md)
 - [ ] Dostępność poza WCAG: wejście głosowe (🎤 w makiecie DEMO.md) robimy czy usuwamy z makiety. Czy PJM i audio wchodzą do demo
 
-Zasobnik wiedzy ([PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), Kacper, Bartosz)
-- [ ] Osobna aplikacja `zasobnik/` czy część `frontend/`. Jeśli część, to kiedy integracja
-- [ ] Jedna trasa strony innowacji: `/innowacja/:slug` (frontend, czat) czy `/innowacje/:slug` (PR #9)
-- [ ] Endpoint danych: istniejący `/api/v1/innovations` ([zadanie 0003](0003-zasobnik-wiedzy.md)), a PR #9 zakłada `/api/v1/innowacje`
-- [ ] Wspólne tokeny kolorów i font (PR #9 wprowadza Inter i nowe tokeny)
-
 Limity i koszty ([zadanie 0006](0006-limity-czatu.md), Bartłomiej)
 - [ ] Zatwierdzić albo zmienić wartości z tabel w 0006
 - [ ] Kto ma dostęp do panelu OpenAI i ustawia limit budżetu oraz alert
@@ -35,8 +29,9 @@ Potrzeby ([zadanie 0004](0004-zapis-potrzeb.md), Bartłomiej)
 
 Jakość dopasowania
 - [ ] Zestaw testowy: 20–30 zgłoszeń napisanych jak przez użytkownika, każde z rolą i oczekiwanym `slug` wyniku głównego. Plik `docs/zestaw-testowy.md`. Wzór: [user_scenario.md](../../user_scenario.md) i scenariusze z DEMO.md (wójt, mieszkaniec, NGO)
-- [ ] Dokończyć ręczne sprawdzenie pola `organizacja` w 115 rekordach pod kątem nazwisk. PR #9 poprawił `sciezka-motosensoryczna`. Poprawki po slugu w osobnym pliku, nie w `innowacje.json`
+- [ ] Dokończyć ręczne sprawdzenie pola `organizacja` w 115 rekordach pod kątem nazwisk (`sciezka-motosensoryczna` już znalezione w PR #9). Listę slugów z nazwiskami przekazać Bartłomiejowi: poprawki robi backend (`InnovationRepository`), nie frontend i nie `innowacje.json` (ustalenie z [komentarza w PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9))
 
 ## Poza zakresem
 
-„Podobne przypadki” (moduł I) projektujemy osobno.
+- „Podobne przypadki” (moduł I) projektujemy osobno.
+- Zasobnik wiedzy (osobna aplikacja czy `frontend/`, trasa strony innowacji, endpoint, tokeny): ustalone w [komentarzu do PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), czekamy na poprawki.
