@@ -32,6 +32,7 @@ Vocabulary = dict[str, dict[str, str]]
 # publiczne (docs/baza-innowacji.md: nazwisk osób nie zapisujemy).
 CORRECTIONS: dict[str, dict[str, Any]] = {
     "sciezka-motosensoryczna": {"organizacja": "Politechnika Krakowska"},
+    "bez-presji-z-depresji": {"organizacja": "Instytut HR"},
 }
 
 

@@ -42,6 +42,8 @@ interface ChatData {
   summaryConfirmed: boolean
   results: Results | null
   streaming: boolean
+  /** Etap tury od backendu (zdarzenie `status`), pokazywany przy wskaźniku pisania */
+  status: string | null
   error: string | null
 }
 
@@ -54,6 +56,7 @@ const initialData = (): ChatData => ({
   summaryConfirmed: false,
   results: null,
   streaming: false,
+  status: null,
   error: null,
 })
 
@@ -125,6 +128,7 @@ function reducer(data: ChatData, action: Action): ChatData {
         recentlyUpdated: [],
         summaryConfirmed: data.summaryConfirmed || !!action.confirmSummary,
         streaming: true,
+        status: null,
         error: null,
       }
 
@@ -135,7 +139,7 @@ function reducer(data: ChatData, action: Action): ChatData {
       // Odrzuć niedokończoną odpowiedź z nieudanej tury — zdarzenia przyjdą od nowa
       let display = data.display
       while (display.length && display[display.length - 1].from === 'assistant') display = display.slice(0, -1)
-      return { ...data, display, awaiting: null, recentlyUpdated: [], streaming: true, error: null }
+      return { ...data, display, awaiting: null, recentlyUpdated: [], streaming: true, status: null, error: null }
     }
 
     case 'set_role':
@@ -149,6 +153,9 @@ function reducer(data: ChatData, action: Action): ChatData {
       switch (e.name) {
         case 'text':
           return { ...data, display: withAssistant(data.display, (m) => ({ ...m, text: m.text + e.data.text })) }
+
+        case 'status':
+          return { ...data, status: e.data.text }
 
         case 'role':
           return { ...data, state: { ...data.state, rola: e.data.rola } }

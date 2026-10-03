@@ -5,10 +5,11 @@ from functools import lru_cache
 from typing import Annotated
 
 from fastapi import Depends, Header, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.core.config import settings
 from app.db.session import SessionLocal
+from app.repositories.document import DocumentRepository
 from app.repositories.innovation import InnovationRepository
 from app.repositories.obserwator import ObserwatorRepository
 from app.services.ai import AIGateway
@@ -18,12 +19,17 @@ from app.services.chat import ChatService
 from app.services.email import get_email_sender
 from app.services.fiszki import FiszkaService
 from app.services.innovation import InnovationService
+from app.services.knowledge import KnowledgeService
 from app.services.llm import LLMService
 from app.services.nabory import NaborService
 from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
 from app.services.token_budget import TokenBudget
 from app.services.wnioski import WniosekService
+
+
+def get_session_factory() -> async_sessionmaker[AsyncSession]:
+    return SessionLocal
 
 
 async def get_session() -> AsyncIterator[AsyncSession]:
@@ -48,23 +54,34 @@ def get_token_budget() -> TokenBudget:
 
 
 @lru_cache
-def get_llm_service() -> LLMService:
+def _llm_service() -> LLMService:
     return LLMService(settings, get_token_budget())
 
 
+def get_llm_service() -> LLMService | None:
+    """None bez klucza - SDK rzuca wtedy OpenAIError już przy tworzeniu klienta."""
+    return _llm_service() if settings.llm_api_key else None
+
+
 def get_chat_service(
-    llm: Annotated[LLMService, Depends(get_llm_service)],
+    llm: Annotated[LLMService | None, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
     budget: Annotated[TokenBudget, Depends(get_token_budget)],
+    sessions: Annotated[async_sessionmaker[AsyncSession], Depends(get_session_factory)],
     obserwator: Annotated[ObserwatorRepository, Depends(get_obserwator_repository)],
 ) -> ChatService:
     return ChatService(
-        llm, innovations, budget, enabled=settings.chat_enabled, obserwator=obserwator
+        llm,
+        innovations,
+        budget,
+        enabled=settings.chat_enabled,
+        sessions=sessions,
+        obserwator=obserwator,
     )
 
 
 def get_service_card_service(
-    llm: Annotated[LLMService, Depends(get_llm_service)],
+    llm: Annotated[LLMService | None, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
     budget: Annotated[TokenBudget, Depends(get_token_budget)],
 ) -> ServiceCardService:
@@ -77,9 +94,20 @@ def get_innovation_service(
     return InnovationService(repo)
 
 
+def get_document_repository() -> DocumentRepository:
+    return DocumentRepository(settings.assets_path)
+
+
+def get_knowledge_service(
+    repo: Annotated[DocumentRepository, Depends(get_document_repository)],
+) -> KnowledgeService:
+    return KnowledgeService(repo)
+
+
 InnovationRepositoryDep = Annotated[InnovationRepository, Depends(get_innovation_repository)]
 InnovationServiceDep = Annotated[InnovationService, Depends(get_innovation_service)]
 ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
+KnowledgeServiceDep = Annotated[KnowledgeService, Depends(get_knowledge_service)]
 ServiceCardServiceDep = Annotated[ServiceCardService, Depends(get_service_card_service)]
 
 
@@ -101,8 +129,7 @@ def require_admin(authorization: Annotated[str | None, Header()] = None) -> None
 
 
 def get_ai_gateway(session: SessionDep) -> AIGateway:
-    llm = get_llm_service() if settings.llm_api_key else None
-    return AIGateway(session, settings, llm)
+    return AIGateway(session, settings, get_llm_service())
 
 
 AIGatewayDep = Annotated[AIGateway, Depends(get_ai_gateway)]

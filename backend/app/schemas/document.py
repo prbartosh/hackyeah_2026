@@ -1,0 +1,31 @@
+from typing import Literal
+
+from pydantic import BaseModel
+
+DocumentType = Literal["raport", "publikacja", "mapa-wyzwan", "wskaznik"]
+
+
+class Document(BaseModel):
+    """Dokument ROPS w Zasobniku (ADR 0004 §9). Pola zależne od typu mogą być null."""
+
+    id: str
+    typ: DocumentType
+    tytul: str
+    opis: str | None
+    rok: int | None
+    # Strona albo PDF na rops.krakow.pl - same PDF-y nie są w repo.
+    url_zrodlowy: str
+    # Tylko gdy ROPS ją podaje (zadanie 0014), inaczej null.
+    licencja: str | None
+    strony: int | None
+    # Rozmiar pliku podany przez ROPS, np. „15.41 MB” (do etykiety linku do PDF).
+    rozmiar: str | None
+    # Wskaźniki Obserwatora: kategoria i pierwotne źródło danych (np. GUS).
+    kategoria: str | None
+    zrodlo_danych: str | None
+
+
+class DocumentDetail(Document):
+    # Tekst wyciągnięty z PDF (Markdown, strony rozdziela `<!-- page N -->`); przy wskaźniku
+    # opis i tabela powiatów. Dostępna alternatywa dla PDF.
+    tresc: str | None

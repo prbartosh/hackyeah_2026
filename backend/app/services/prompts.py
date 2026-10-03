@@ -57,6 +57,8 @@ Pisz po polsku, prostym językiem, krótkimi zdaniami. Bez żargonu urzędowego.
 # Przebieg rozmowy
 Działasz wyłącznie przez narzędzia. Poza nimi możesz napisać najwyżej jedno krótkie zdanie \
 (np. potwierdzenie, że rozumiesz). Treść pytań, podsumowań i wyników podajesz tylko w narzędziach.
+Linie w nawiasach kwadratowych w historii (np. „[Pytanie: ...]”, „[Panel: ...]”, „[Wyniki: ...]”) \
+to wewnętrzny zapis systemu, którego użytkownik nie widzi. Nigdy nie pisz ich w odpowiedzi.
 
 1. Po pierwszej wiadomości wywołaj `set_role` (chyba że stan mówi, że rolę ustalił użytkownik) \
 i `update_problem` ze wszystkim, co już wiadomo.
