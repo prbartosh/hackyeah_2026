@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { Download, ExternalLink, FileText } from 'lucide-react'
 import { getInnovation } from '@/api/innovations'
+import TesterSection from '@/components/TesterSection'
 import VideoEmbed from '@/components/VideoEmbed'
 import { useChat } from '@/context/ChatContext'
 import { kategoriaNazwa, type Innowacja } from '@/types/innowacja'
@@ -105,6 +106,8 @@ export default function InnovationPage() {
             <h2>Koszt i czas wdrożenia</h2>
             <p><span className="empty">Brak danych.</span> Biblioteka ROPS nie podaje kosztu ani czasu wdrożenia. Mogą być opisane w materiałach do pobrania.</p>
           </section>
+
+          <TesterSection slug={rec.slug} />
         </article>
 
         <aside className="detail-side" aria-label="Materiały i kontakt">
