@@ -11,6 +11,7 @@ from app.repositories.innovation import InnovationRepository
 from app.services.chat import ChatService
 from app.services.innovation import InnovationService
 from app.services.llm import LLMService
+from app.services.token_budget import TokenBudget
 
 
 async def get_session() -> AsyncIterator[AsyncSession]:
@@ -26,15 +27,21 @@ def get_innovation_repository() -> InnovationRepository:
 
 
 @lru_cache
+def get_token_budget() -> TokenBudget:
+    return TokenBudget(settings.llm_daily_token_limit)
+
+
+@lru_cache
 def get_llm_service() -> LLMService:
-    return LLMService(settings)
+    return LLMService(settings, get_token_budget())
 
 
 def get_chat_service(
     llm: Annotated[LLMService, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
+    budget: Annotated[TokenBudget, Depends(get_token_budget)],
 ) -> ChatService:
-    return ChatService(llm, innovations)
+    return ChatService(llm, innovations, budget, enabled=settings.chat_enabled)
 
 
 def get_innovation_service(

@@ -1,0 +1,896 @@
+{
+  "grupy_docelowe": [
+    {
+      "slug": "seniorzy",
+      "etykieta": "Seniorzy",
+      "aliasy": [
+        "osoby starsze",
+        "starsi",
+        "emeryci",
+        "60+",
+        "65+",
+        "podeszły wiek"
+      ]
+    },
+    {
+      "slug": "osoby-z-demencja",
+      "etykieta": "Osoby z demencją",
+      "aliasy": [
+        "otępienie",
+        "alzheimer",
+        "choroby otępienne",
+        "zaburzenia pamięci"
+      ]
+    },
+    {
+      "slug": "opiekunowie",
+      "etykieta": "Opiekunowie",
+      "aliasy": [
+        "opiekunowie rodzinni",
+        "opiekunowie nieformalni",
+        "bliscy",
+        "córka",
+        "syn"
+      ]
+    },
+    {
+      "slug": "dzieci",
+      "etykieta": "Dzieci",
+      "aliasy": [
+        "przedszkolaki",
+        "uczniowie",
+        "niemowlęta",
+        "maluchy"
+      ]
+    },
+    {
+      "slug": "mlodziez",
+      "etykieta": "Młodzież",
+      "aliasy": [
+        "nastolatki",
+        "nastoletni",
+        "uczniowie szkół średnich"
+      ]
+    },
+    {
+      "slug": "rodziny",
+      "etykieta": "Rodziny",
+      "aliasy": [
+        "rodzice",
+        "rodzeństwo",
+        "rodziny adopcyjne",
+        "rodzina"
+      ]
+    },
+    {
+      "slug": "kobiety",
+      "etykieta": "Kobiety",
+      "aliasy": [
+        "matki",
+        "mieszkanki"
+      ]
+    },
+    {
+      "slug": "osoby-z-niepelnosprawnoscia",
+      "etykieta": "Osoby z niepełnosprawnością",
+      "aliasy": [
+        "niepełnosprawni",
+        "orzeczenie o niepełnosprawności",
+        "osoby zależne"
+      ]
+    },
+    {
+      "slug": "niepelnosprawni-ruchowo",
+      "etykieta": "Osoby z niepełnosprawnością ruchową",
+      "aliasy": [
+        "wózek inwalidzki",
+        "na wózku",
+        "ograniczona mobilność",
+        "niepełnosprawność ruchowa",
+        "trudności w poruszaniu się"
+      ]
+    },
+    {
+      "slug": "osoby-po-amputacji",
+      "etykieta": "Osoby po amputacji",
+      "aliasy": [
+        "amputacja",
+        "proteza",
+        "brak kończyny"
+      ]
+    },
+    {
+      "slug": "osoby-niewidome",
+      "etykieta": "Osoby niewidome i słabowidzące",
+      "aliasy": [
+        "niewidomi",
+        "niedowidzący",
+        "słabowidzący",
+        "dysfunkcja wzroku",
+        "niepełnosprawność wzroku"
+      ]
+    },
+    {
+      "slug": "osoby-gluche",
+      "etykieta": "Osoby głuche i niedosłyszące",
+      "aliasy": [
+        "głusi",
+        "Głusi",
+        "niedosłyszący",
+        "słabosłyszący",
+        "PJM",
+        "język migowy"
+      ]
+    },
+    {
+      "slug": "niepelnosprawni-intelektualnie",
+      "etykieta": "Osoby z niepełnosprawnością intelektualną",
+      "aliasy": [
+        "niepełnosprawność intelektualna",
+        "zespół Downa",
+        "upośledzenie umysłowe"
+      ]
+    },
+    {
+      "slug": "osoby-z-autyzmem",
+      "etykieta": "Osoby w spektrum autyzmu",
+      "aliasy": [
+        "autyzm",
+        "ASD",
+        "zespół Aspergera",
+        "neuroatypowe",
+        "spektrum autyzmu"
+      ]
+    },
+    {
+      "slug": "osoby-w-kryzysie-psychicznym",
+      "etykieta": "Osoby w kryzysie psychicznym",
+      "aliasy": [
+        "depresja",
+        "zaburzenia psychiczne",
+        "psychoza",
+        "pacjenci psychiatryczni",
+        "zaburzenia lękowe"
+      ]
+    },
+    {
+      "slug": "osoby-chore-przewlekle",
+      "etykieta": "Osoby chore przewlekle",
+      "aliasy": [
+        "pacjenci",
+        "chorzy",
+        "cukrzyca",
+        "choroba rzadka",
+        "onkologia",
+        "nowotwór",
+        "choroba terminalna"
+      ]
+    },
+    {
+      "slug": "osoby-w-kryzysie-bezdomnosci",
+      "etykieta": "Osoby w kryzysie bezdomności",
+      "aliasy": [
+        "bezdomni",
+        "bezdomność"
+      ]
+    },
+    {
+      "slug": "osoby-ubogie",
+      "etykieta": "Osoby ubogie",
+      "aliasy": [
+        "bieda",
+        "ubóstwo",
+        "niski dochód",
+        "trudna sytuacja materialna"
+      ]
+    },
+    {
+      "slug": "bezrobotni",
+      "etykieta": "Osoby bezrobotne",
+      "aliasy": [
+        "bez pracy",
+        "nieaktywni zawodowo",
+        "długotrwale bezrobotni"
+      ]
+    },
+    {
+      "slug": "cudzoziemcy",
+      "etykieta": "Cudzoziemcy",
+      "aliasy": [
+        "migranci",
+        "uchodźcy",
+        "imigranci",
+        "obcokrajowcy",
+        "Ukraińcy"
+      ]
+    },
+    {
+      "slug": "osoby-doswiadczajace-przemocy",
+      "etykieta": "Osoby doświadczające przemocy",
+      "aliasy": [
+        "ofiary przemocy",
+        "przemoc domowa"
+      ]
+    },
+    {
+      "slug": "wychowankowie-placowek",
+      "etykieta": "Wychowankowie placówek",
+      "aliasy": [
+        "dom dziecka",
+        "placówka opiekuńczo-wychowawcza",
+        "piecza zastępcza",
+        "ośrodek wychowawczy",
+        "MOS"
+      ]
+    }
+  ],
+  "problemy": [
+    {
+      "slug": "samotnosc",
+      "etykieta": "Samotność",
+      "aliasy": [
+        "izolacja",
+        "izolacja społeczna",
+        "osamotnienie",
+        "brak kontaktów"
+      ]
+    },
+    {
+      "slug": "wykluczenie-spoleczne",
+      "etykieta": "Wykluczenie społeczne",
+      "aliasy": [
+        "marginalizacja",
+        "bierność społeczna",
+        "brak zrozumienia",
+        "stygmatyzacja"
+      ]
+    },
+    {
+      "slug": "zaburzenia-pamieci",
+      "etykieta": "Zaburzenia pamięci",
+      "aliasy": [
+        "zapominanie",
+        "problemy z pamięcią",
+        "funkcje poznawcze",
+        "dezorientacja"
+      ]
+    },
+    {
+      "slug": "zagrozenie-bezpieczenstwa",
+      "etykieta": "Zagrożenie bezpieczeństwa",
+      "aliasy": [
+        "upadki",
+        "zgubienie się",
+        "wypadek",
+        "alarm",
+        "niebezpieczeństwo"
+      ]
+    },
+    {
+      "slug": "niesamodzielnosc",
+      "etykieta": "Niesamodzielność",
+      "aliasy": [
+        "samodzielność",
+        "codzienne czynności",
+        "zakupy",
+        "potrzeba asysty",
+        "pomoc w codziennym życiu"
+      ]
+    },
+    {
+      "slug": "trudnosci-w-poruszaniu-sie",
+      "etykieta": "Trudności w poruszaniu się",
+      "aliasy": [
+        "orientacja w przestrzeni",
+        "nawigacja",
+        "dojazd",
+        "komunikacja miejska",
+        "przemieszczanie się"
+      ]
+    },
+    {
+      "slug": "bariery-architektoniczne",
+      "etykieta": "Bariery architektoniczne",
+      "aliasy": [
+        "schody",
+        "brak podjazdu",
+        "dostępność budynków",
+        "niedostosowana infrastruktura"
+      ]
+    },
+    {
+      "slug": "bariery-komunikacyjne",
+      "etykieta": "Trudności w komunikacji",
+      "aliasy": [
+        "porozumiewanie się",
+        "mowa",
+        "brak tłumacza",
+        "bariera językowa"
+      ]
+    },
+    {
+      "slug": "trudnosci-w-relacjach",
+      "etykieta": "Trudności w relacjach",
+      "aliasy": [
+        "kompetencje społeczne",
+        "nawiązywanie kontaktów",
+        "zachowania społeczne"
+      ]
+    },
+    {
+      "slug": "trudnosci-w-integracji",
+      "etykieta": "Trudności w integracji",
+      "aliasy": [
+        "adaptacja",
+        "bariera kulturowa",
+        "różnice kulturowe",
+        "integracja migrantów"
+      ]
+    },
+    {
+      "slug": "brak-dostepu-do-informacji",
+      "etykieta": "Brak dostępu do informacji",
+      "aliasy": [
+        "niezrozumiałe teksty",
+        "brak wiedzy",
+        "łatwy tekst",
+        "ETR"
+      ]
+    },
+    {
+      "slug": "sprawy-urzedowe",
+      "etykieta": "Sprawy urzędowe i prawne",
+      "aliasy": [
+        "urząd",
+        "dokumenty",
+        "wnioski",
+        "porada prawna",
+        "testament",
+        "spadek",
+        "sąd",
+        "prawa konsumenta"
+      ]
+    },
+    {
+      "slug": "brak-dostepu-do-kultury-i-rekreacji",
+      "etykieta": "Brak dostępu do kultury i rekreacji",
+      "aliasy": [
+        "kultura",
+        "turystyka",
+        "sport",
+        "wypoczynek",
+        "muzeum",
+        "koncert",
+        "czas wolny"
+      ]
+    },
+    {
+      "slug": "brak-pracy",
+      "etykieta": "Brak pracy",
+      "aliasy": [
+        "bezrobocie",
+        "aktywizacja zawodowa",
+        "rynek pracy",
+        "utrzymanie pracy",
+        "wypalenie zawodowe"
+      ]
+    },
+    {
+      "slug": "trudnosci-w-nauce",
+      "etykieta": "Trudności w nauce",
+      "aliasy": [
+        "edukacja",
+        "szkoła",
+        "oceny",
+        "powrót do szkoły"
+      ]
+    },
+    {
+      "slug": "zdrowie-psychiczne",
+      "etykieta": "Zdrowie psychiczne",
+      "aliasy": [
+        "depresja",
+        "lęk",
+        "stres",
+        "emocje",
+        "kryzys psychiczny",
+        "apatia"
+      ]
+    },
+    {
+      "slug": "brak-dostepu-do-rehabilitacji",
+      "etykieta": "Brak dostępu do rehabilitacji i terapii",
+      "aliasy": [
+        "rehabilitacja",
+        "terapia",
+        "fizjoterapia",
+        "ćwiczenia",
+        "usprawnianie"
+      ]
+    },
+    {
+      "slug": "brak-dostepu-do-opieki-zdrowotnej",
+      "etykieta": "Brak dostępu do opieki zdrowotnej",
+      "aliasy": [
+        "lekarz",
+        "leczenie",
+        "szpital",
+        "przychodnia",
+        "wizyta lekarska"
+      ]
+    },
+    {
+      "slug": "obciazenie-opiekunow",
+      "etykieta": "Obciążenie opiekunów",
+      "aliasy": [
+        "wypalenie opiekuna",
+        "organizacja opieki",
+        "opieka wytchnieniowa",
+        "brak czasu opiekuna"
+      ]
+    },
+    {
+      "slug": "kryzys-w-rodzinie",
+      "etykieta": "Kryzys w rodzinie",
+      "aliasy": [
+        "trudności wychowawcze",
+        "konflikt rodzinny",
+        "relacje rodzinne",
+        "konflikt rodziców"
+      ]
+    },
+    {
+      "slug": "przemoc",
+      "etykieta": "Przemoc",
+      "aliasy": [
+        "przemoc domowa",
+        "krzywdzenie"
+      ]
+    },
+    {
+      "slug": "ubostwo",
+      "etykieta": "Ubóstwo",
+      "aliasy": [
+        "bieda",
+        "brak środków",
+        "brak łazienki",
+        "higiena"
+      ]
+    },
+    {
+      "slug": "bezdomnosc",
+      "etykieta": "Bezdomność",
+      "aliasy": [
+        "brak mieszkania",
+        "kryzys bezdomności"
+      ]
+    },
+    {
+      "slug": "wykluczenie-cyfrowe",
+      "etykieta": "Wykluczenie cyfrowe",
+      "aliasy": [
+        "kompetencje cyfrowe",
+        "obsługa smartfona",
+        "nowe technologie",
+        "bankomat",
+        "paczkomat"
+      ]
+    },
+    {
+      "slug": "niezdrowy-styl-zycia",
+      "etykieta": "Niezdrowy styl życia",
+      "aliasy": [
+        "otyłość",
+        "nadwaga",
+        "dieta",
+        "odżywianie"
+      ]
+    },
+    {
+      "slug": "brak-dostosowanego-sprzetu",
+      "etykieta": "Brak dostosowanego sprzętu",
+      "aliasy": [
+        "sprzęt",
+        "ubrania",
+        "odzież",
+        "wózek",
+        "pomoce",
+        "produkty dla niepełnosprawnych"
+      ]
+    }
+  ],
+  "miejsca": [
+    {
+      "slug": "dom",
+      "etykieta": "Dom",
+      "aliasy": [
+        "mieszkanie",
+        "miejsce zamieszkania",
+        "w domu"
+      ]
+    },
+    {
+      "slug": "wies",
+      "etykieta": "Wieś",
+      "aliasy": [
+        "gmina wiejska",
+        "tereny wiejskie",
+        "mała miejscowość",
+        "sołectwo"
+      ]
+    },
+    {
+      "slug": "przestrzen-publiczna",
+      "etykieta": "Przestrzeń publiczna",
+      "aliasy": [
+        "ulica",
+        "park",
+        "miasto",
+        "komunikacja miejska",
+        "budynki użyteczności publicznej"
+      ]
+    },
+    {
+      "slug": "sklep",
+      "etykieta": "Sklep",
+      "aliasy": [
+        "zakupy",
+        "targowisko",
+        "centrum handlowe",
+        "market"
+      ]
+    },
+    {
+      "slug": "urzad",
+      "etykieta": "Urząd",
+      "aliasy": [
+        "instytucja publiczna",
+        "gmina",
+        "urząd gminy",
+        "urząd pracy"
+      ]
+    },
+    {
+      "slug": "szkola",
+      "etykieta": "Szkoła",
+      "aliasy": [
+        "przedszkole",
+        "żłobek",
+        "uczelnia",
+        "placówka oświatowa"
+      ]
+    },
+    {
+      "slug": "placowka-medyczna",
+      "etykieta": "Placówka medyczna",
+      "aliasy": [
+        "szpital",
+        "przychodnia",
+        "apteka",
+        "oddział"
+      ]
+    },
+    {
+      "slug": "placowka-opiekuncza",
+      "etykieta": "Placówka opiekuńcza",
+      "aliasy": [
+        "DPS",
+        "dom pomocy społecznej",
+        "dzienny dom pomocy",
+        "WTZ",
+        "ŚDS",
+        "ZOL",
+        "klub seniora"
+      ]
+    },
+    {
+      "slug": "instytucja-kultury",
+      "etykieta": "Instytucja kultury",
+      "aliasy": [
+        "muzeum",
+        "teatr",
+        "biblioteka",
+        "dom kultury",
+        "koncert",
+        "wydarzenie"
+      ]
+    },
+    {
+      "slug": "sport-i-turystyka",
+      "etykieta": "Miejsce sportu i turystyki",
+      "aliasy": [
+        "góry",
+        "szlak",
+        "żeglarstwo",
+        "marina",
+        "klub sportowy",
+        "wycieczka"
+      ]
+    }
+  ],
+  "skale": [
+    {
+      "slug": "osoba",
+      "etykieta": "Osoba lub rodzina",
+      "aliasy": [
+        "rodzina",
+        "jedna osoba",
+        "indywidualnie"
+      ]
+    },
+    {
+      "slug": "placowka",
+      "etykieta": "Placówka",
+      "aliasy": [
+        "ośrodek",
+        "szkoła",
+        "DPS",
+        "instytucja"
+      ]
+    },
+    {
+      "slug": "spolecznosc-lokalna",
+      "etykieta": "Sołectwo lub osiedle",
+      "aliasy": [
+        "sołectwo",
+        "osiedle",
+        "sąsiedztwo",
+        "wieś"
+      ]
+    },
+    {
+      "slug": "gmina",
+      "etykieta": "Gmina",
+      "aliasy": [
+        "miasto",
+        "cała gmina",
+        "samorząd"
+      ]
+    },
+    {
+      "slug": "powiat",
+      "etykieta": "Powiat",
+      "aliasy": [
+        "starostwo"
+      ]
+    },
+    {
+      "slug": "region",
+      "etykieta": "Region",
+      "aliasy": [
+        "województwo",
+        "Małopolska",
+        "cały kraj"
+      ]
+    }
+  ],
+  "typy_rozwiazan": [
+    {
+      "slug": "aplikacja",
+      "etykieta": "Aplikacja lub platforma internetowa",
+      "aliasy": [
+        "aplikacja mobilna",
+        "strona internetowa",
+        "platforma",
+        "wortal",
+        "program komputerowy"
+      ]
+    },
+    {
+      "slug": "urzadzenie",
+      "etykieta": "Urządzenie lub sprzęt",
+      "aliasy": [
+        "sprzęt",
+        "produkt",
+        "prototyp",
+        "wózek"
+      ]
+    },
+    {
+      "slug": "odziez",
+      "etykieta": "Odzież",
+      "aliasy": [
+        "ubrania",
+        "bielizna",
+        "obuwie"
+      ]
+    },
+    {
+      "slug": "gra",
+      "etykieta": "Gra",
+      "aliasy": [
+        "gra planszowa",
+        "gra karciana",
+        "gra miejska"
+      ]
+    },
+    {
+      "slug": "materialy-edukacyjne",
+      "etykieta": "Materiały edukacyjne",
+      "aliasy": [
+        "przewodnik",
+        "poradnik",
+        "publikacja",
+        "karty pracy",
+        "książka",
+        "ETR"
+      ]
+    },
+    {
+      "slug": "pomoce-terapeutyczne",
+      "etykieta": "Pomoce terapeutyczne",
+      "aliasy": [
+        "zestaw terapeutyczny",
+        "pomoce dydaktyczne",
+        "zabawki"
+      ]
+    },
+    {
+      "slug": "usluga",
+      "etykieta": "Usługa",
+      "aliasy": [
+        "asystencja",
+        "wsparcie w domu",
+        "punkt",
+        "dowóz"
+      ]
+    },
+    {
+      "slug": "model-pracy",
+      "etykieta": "Model lub metoda pracy",
+      "aliasy": [
+        "metoda",
+        "program",
+        "model wsparcia",
+        "warsztaty",
+        "zajęcia",
+        "spotkania"
+      ]
+    },
+    {
+      "slug": "wzor-dokumentu",
+      "etykieta": "Wzór dokumentu",
+      "aliasy": [
+        "wzór wniosku",
+        "formularz",
+        "szablon"
+      ]
+    },
+    {
+      "slug": "adaptacja-przestrzeni",
+      "etykieta": "Adaptacja przestrzeni",
+      "aliasy": [
+        "infrastruktura",
+        "ścieżka",
+        "przebudowa",
+        "aranżacja"
+      ]
+    }
+  ],
+  "role": [
+    {
+      "slug": "mieszkaniec",
+      "etykieta": "Mieszkaniec",
+      "aliasy": [
+        "osoba prywatna",
+        "rodzic",
+        "opiekun"
+      ]
+    },
+    {
+      "slug": "cus-ops",
+      "etykieta": "Pracownik CUS/OPS",
+      "aliasy": [
+        "OPS",
+        "GOPS",
+        "MOPS",
+        "CUS",
+        "pomoc społeczna",
+        "DPS"
+      ]
+    },
+    {
+      "slug": "partner",
+      "etykieta": "JST, NGO lub ekspert",
+      "aliasy": [
+        "gmina",
+        "samorząd",
+        "wójt",
+        "fundacja",
+        "stowarzyszenie",
+        "firma",
+        "szkoła"
+      ]
+    }
+  ],
+  "wymagane_zasoby": [
+    {
+      "slug": "wolontariusze",
+      "etykieta": "Wolontariusze",
+      "aliasy": [
+        "wolontariat",
+        "KGW",
+        "koło gospodyń",
+        "sąsiedzi"
+      ]
+    },
+    {
+      "slug": "kadra-specjalistyczna",
+      "etykieta": "Kadra specjalistyczna",
+      "aliasy": [
+        "terapeuta",
+        "psycholog",
+        "fizjoterapeuta",
+        "pracownik socjalny",
+        "asystent"
+      ]
+    },
+    {
+      "slug": "lokal",
+      "etykieta": "Lokal",
+      "aliasy": [
+        "sala",
+        "świetlica",
+        "pomieszczenie",
+        "budynek"
+      ]
+    },
+    {
+      "slug": "teren",
+      "etykieta": "Teren",
+      "aliasy": [
+        "park",
+        "przestrzeń zewnętrzna",
+        "działka"
+      ]
+    },
+    {
+      "slug": "budzet",
+      "etykieta": "Budżet",
+      "aliasy": [
+        "pieniądze",
+        "dotacja",
+        "grant",
+        "środki finansowe"
+      ]
+    },
+    {
+      "slug": "sprzet-it",
+      "etykieta": "Sprzęt IT",
+      "aliasy": [
+        "komputer",
+        "smartfon",
+        "tablet",
+        "internet"
+      ]
+    },
+    {
+      "slug": "transport",
+      "etykieta": "Transport",
+      "aliasy": [
+        "samochód",
+        "bus",
+        "dowóz"
+      ]
+    },
+    {
+      "slug": "partnerzy-lokalni",
+      "etykieta": "Partnerzy lokalni",
+      "aliasy": [
+        "NGO",
+        "firmy",
+        "szkoła",
+        "parafia",
+        "biblioteka"
+      ]
+    },
+    {
+      "slug": "szkolenie",
+      "etykieta": "Szkolenie",
+      "aliasy": [
+        "przeszkolenie kadry",
+        "kurs"
+      ]
+    }
+  ]
+}

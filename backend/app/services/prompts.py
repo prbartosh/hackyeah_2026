@@ -9,6 +9,7 @@ from app.schemas.chat import ChatAction, ChatState
 MAX_ROUNDS = 4
 MAX_RESULTS = 5
 MAX_SEARCH = 8
+MAX_SLUGS = 3
 
 # Pola panelu „Twój problem” (ADR 0004 §7).
 PROBLEM_FIELDS = {
@@ -18,6 +19,16 @@ PROBLEM_FIELDS = {
     "skale": "Skala: osoba lub rodzina, placówka, sołectwo lub osiedle, gmina, powiat, region.",
     "zasoby": "Dostępne zasoby: ludzie, lokale, organizacje, budżet.",
     "proby": "Co już próbowano i dlaczego nie zadziałało.",
+}
+
+# Pole panelu -> sekcja słownika, z której pochodzą jego slugi (ADR 0004 §5, §7).
+PROBLEM_SECTIONS = {
+    "grupy_docelowe": "grupy_docelowe",
+    "problemy": "problemy",
+    "miejsca": "miejsca",
+    "skale": "skale",
+    "zasoby": "wymagane_zasoby",
+    "proby": "typy_rozwiazan",
 }
 
 ROLES = {
@@ -74,8 +85,16 @@ interfejs pokazuje sam z bazy.
 - Gdy nic nie pasuje dobrze, powiedz to wprost: `no_good_match: true`, w `note` napisz, czym \
 najbliższe wyniki różnią się od problemu, i i tak pokaż najbliższe.
 
-Pola panelu wypełniaj tekstem (`tekst`). Listę `slugi` zostawiaj pustą - słownik wartości \
-jeszcze nie istnieje. W `zasoby` ustaw `poziom_kosztu` tylko, gdy użytkownik jasno określił budżet.
+Pola panelu wypełniaj tekstem (`tekst`) słowami użytkownika i listą `slugi` ze słownika niżej \
+(sekcja podana przy polu). Wybieraj najbardziej konkretne wartości, najwyżej 3, od najważniejszej. \
+Aliasy pomagają rozpoznać słowa użytkownika, ale do `slugi` wpisujesz sam slug. Jeśli żadna \
+wartość nie pasuje, zostaw `slugi` puste - nie wymyślaj nowych. W `zasoby` ustaw \
+`poziom_kosztu` tylko, gdy użytkownik jasno określił budżet.
+
+# Słownik wartości
+Format: slug: etykieta (aliasy). Pola panelu -> sekcje: {sections}
+
+{vocabulary}
 
 Stan rozmowy (rola, panel problemu, liczba rund) dostajesz w każdej wiadomości użytkownika \
 w znaczniku <stan_rozmowy>. Instrukcje dla bieżącej tury są w <instrukcja_tury> i mają \
@@ -116,6 +135,18 @@ def _overlay_text(overlay: dict[str, Any] | None) -> list[str]:
     return ["; ".join(parts)]
 
 
+def _vocabulary_text(repo: InnovationRepository) -> str:
+    blocks = []
+    for section, values in repo.vocabulary().items():
+        lines = [
+            f"- {v['slug']}: {v['etykieta']}"
+            + (f" ({', '.join(v['aliasy'])})" if v.get("aliasy") else "")
+            for v in values
+        ]
+        blocks.append(f"## {section}\n" + "\n".join(lines))
+    return "\n\n".join(blocks) or "(brak słownika - zostaw `slugi` puste)"
+
+
 def build_system_prompt(repo: InnovationRepository) -> str:
     catalog = "\n".join(
         " | ".join(
@@ -136,6 +167,8 @@ def build_system_prompt(repo: InnovationRepository) -> str:
     roles = "\n".join(f"- `{k}`: {v}" for k, v in ROLES.items())
     return SYSTEM_PROMPT.format(
         roles=roles,
+        sections=", ".join(f"{k} -> {v}" for k, v in PROBLEM_SECTIONS.items()),
+        vocabulary=_vocabulary_text(repo),
         catalog=catalog,
         max_rounds=MAX_ROUNDS,
         max_results=MAX_RESULTS,
@@ -188,7 +221,13 @@ def _nullable_str(description: str) -> dict[str, Any]:
 def _problem_field(name: str, description: str) -> dict[str, Any]:
     properties: dict[str, Any] = {
         "tekst": _nullable_str("Krótkie sformułowanie (kilka słów do zdania)."),
-        "slugi": {"type": "array", "items": {"type": "string"}, "description": "Na razie pusta."},
+        "slugi": {
+            "type": "array",
+            "items": {"type": "string"},
+            "description": (
+                f"Slugi z sekcji słownika `{PROBLEM_SECTIONS[name]}`, najwyżej {MAX_SLUGS}."
+            ),
+        },
     }
     if name == "zasoby":
         properties["poziom_kosztu"] = {

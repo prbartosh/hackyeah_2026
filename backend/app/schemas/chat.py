@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 # Role i stan problemu zgodne z ADR 0004 (§3, §7).
 Role = Literal["mieszkaniec", "cus-ops", "partner"]
@@ -8,8 +8,11 @@ PoziomKosztu = Literal["niski", "sredni", "wysoki"]
 ChatAction = Literal["show_results_now", "confirm_summary"]
 MatchKind = Literal["main", "complementary"]
 
-MAX_MESSAGES = 40
+# Limity kosztu czatu (zadanie 0006). Wiadomość asystenta zawiera zapis tury, więc jest dłuższa.
+MAX_MESSAGES = 30
+MAX_USER_MESSAGE_CHARS = 1500
 MAX_MESSAGE_CHARS = 4000
+MAX_HISTORY_CHARS = 20_000
 
 
 class PoleProblemu(BaseModel):
@@ -48,6 +51,14 @@ class ChatMessage(BaseModel):
     role: Literal["user", "assistant"]
     content: str = Field(min_length=1, max_length=MAX_MESSAGE_CHARS)
 
+    @model_validator(mode="after")
+    def _user_limit(self) -> "ChatMessage":
+        if self.role == "user" and len(self.content) > MAX_USER_MESSAGE_CHARS:
+            raise ValueError(
+                f"Wiadomość użytkownika może mieć najwyżej {MAX_USER_MESSAGE_CHARS} znaków"
+            )
+        return self
+
 
 class ChatRequest(BaseModel):
     messages: list[ChatMessage] = Field(min_length=1, max_length=MAX_MESSAGES)
@@ -55,6 +66,12 @@ class ChatRequest(BaseModel):
     action: ChatAction | None = None
     # Podsumowanie poprawione przez użytkownika, wysyłane z action = "confirm_summary".
     summary: str | None = Field(default=None, max_length=MAX_MESSAGE_CHARS)
+
+    @model_validator(mode="after")
+    def _history_limit(self) -> "ChatRequest":
+        if sum(len(m.content) for m in self.messages) > MAX_HISTORY_CHARS:
+            raise ValueError(f"Historia rozmowy może mieć najwyżej {MAX_HISTORY_CHARS} znaków")
+        return self
 
 
 # --- Dane zdarzeń SSE ---
