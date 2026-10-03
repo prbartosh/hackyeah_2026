@@ -11,7 +11,9 @@ from app.db.session import SessionLocal
 from app.repositories.innovation import InnovationRepository
 from app.services.ai import AIGateway
 from app.services.chat import ChatService
+from app.services.email import get_email_sender
 from app.services.llm import LLMService
+from app.services.tickets import TicketService
 
 
 async def get_session() -> AsyncIterator[AsyncSession]:
@@ -65,3 +67,10 @@ def get_ai_gateway(session: SessionDep) -> AIGateway:
 
 
 AIGatewayDep = Annotated[AIGateway, Depends(get_ai_gateway)]
+
+
+def get_ticket_service(session: SessionDep, ai: AIGatewayDep) -> TicketService:
+    return TicketService(session, ai, settings, get_email_sender(settings))
+
+
+TicketServiceDep = Annotated[TicketService, Depends(get_ticket_service)]

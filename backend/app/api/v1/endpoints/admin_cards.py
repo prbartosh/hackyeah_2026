@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, Query, status
 
-from app.api.deps import AIGatewayDep, SessionDep
+from app.api.deps import AIGatewayDep, SessionDep, TicketServiceDep
 from app.models import InnovationCard
 from app.repositories.card import CardRepository
 from app.schemas.admin_card import (
@@ -92,9 +92,16 @@ async def preview_card(slug: str, session: SessionDep):
     return to_innovation(card)
 
 
-@router.post("/reindeksuj", summary="Przelicz embeddingi wszystkich kart")
-async def reindex(session: SessionDep, ai: AIGatewayDep) -> dict[str, int | str | None]:
-    service = CardService(session, ai)
-    count = await service.reindex()
+@router.post("/reindeksuj", summary="Przelicz embeddingi kart i zgłoszeń")
+async def reindex(
+    session: SessionDep, ai: AIGatewayDep, tickets: TicketServiceDep
+) -> dict[str, int | str | None]:
+    cards = await CardService(session, ai).reindex()
+    requests = await tickets.reindex()
     await session.commit()
-    return {"karty": count, "model": ai.embedding_model, "ostrzezenie": ai.degraded}
+    return {
+        "karty": cards,
+        "zgloszenia": requests,
+        "model": ai.embedding_model,
+        "ostrzezenie": ai.degraded,
+    }

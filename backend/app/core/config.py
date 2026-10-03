@@ -32,6 +32,8 @@ class Settings(BaseSettings):
     max_upload_mb: int = 10
     email_backend: str = "log"
     email_from: str = "panel@splot.local"
+    admin_notify_email: str | None = None
+    public_base_url: str = "http://localhost:8080"
 
 
 @lru_cache

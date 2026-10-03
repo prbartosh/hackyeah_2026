@@ -95,10 +95,7 @@ class CardService:
     async def refresh_snapshot(self) -> None:
         cards = await self.repo.all()
         set_db_snapshot(
-            {
-                c.slug: (c.status == "opublikowana", to_innovation(c), overlay_of(c))
-                for c in cards
-            }
+            {c.slug: (c.status == "opublikowana", to_innovation(c), overlay_of(c)) for c in cards}
         )
 
     # --- import z JSON ---
