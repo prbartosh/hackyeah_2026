@@ -1,7 +1,7 @@
 # 0009. Middleman innowacji: karta usługi
 
 - Data: 2026-10-03
-- Status: proponowana
+- Status: przyjęta
 
 ## Kontekst
 

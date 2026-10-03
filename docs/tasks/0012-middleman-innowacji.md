@@ -22,6 +22,7 @@ Na stronie innowacji pracownik CUS/OPS albo partner (JST, NGO, ekspert) dostaje 
 ## Notatki
 
 - Korzysta z tego samego modelu i danych co czat, więc koszt utrzymania jest niski.
-- 2026-10-03: decyzje w [ADR 0009](../adr/0009-middleman-karta-uslugi.md) (proponowana, do akceptacji). Backend używa `LLMService.complete_json`, bo portu z [0016](0016-adaptery-llm.md) jeszcze nie ma. Po 0016 trzeba przepiąć serwis, kontrakt się nie zmienia.
+- 2026-10-03: decyzje w [ADR 0009](../adr/0009-middleman-karta-uslugi.md), przyjęty przez Bartosza 2026-10-03, razem ze wspólnym dziennym budżetem tokenów dla czatu, karty i panelu. Backend używa `LLMService.complete_json`, bo portu z [0016](0016-adaptery-llm.md) jeszcze nie ma. Po 0016 trzeba przepiąć serwis, kontrakt się nie zmienia.
 - Kontrakt dla frontu (Kacper): `POST /api/v1/innovations/{slug}/service-card`, body `{"rola": "cus-ops" | "partner", "problem": <stan problemu z czatu> | null}`, odpowiedź `{slug, nazwa, rola, karta: {cel, odbiorcy, kroki, zasoby, ryzyka, wskazniki_sukcesu}}`. Kody błędów: 404 (brak innowacji), 422 (zła rola), 429 (nginx), 502 (model), 503 (wyłącznik albo budżet). Komunikat jest w `detail`.
 - Nie sprawdzone na prawdziwym modelu.
+- Dane gminy z [0013](0013-dane-gminy-w-czacie.md) w karcie: później, po scaleniu obu PR (decyzja Bartosza).
