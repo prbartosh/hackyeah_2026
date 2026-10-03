@@ -1,6 +1,6 @@
 # 0004. Zapis potrzeb
 
-- Status: todo
+- Status: w toku
 - Osoba: Bartłomiej (backend)
 - PR:
 
@@ -10,11 +10,11 @@ Przy każdej odpowiedzi z wynikami (`show_results`) backend zapisuje potrzebę w
 
 ## Kroki
 
-- [ ] Model `Potrzeba`: `id`, `rola`, slugi per pole stanu (`grupy_docelowe`, `problemy`, `miejsca`, `skale`, `zasoby`, `proby`) jako `text[]`, `innowacje` (slugi pokazanych wyników, `text[]`), `brak_dopasowania` (bool), `created_at`; migracja Alembic
-- [ ] `PotrzebaRepository.add()`
-- [ ] W `ChatService._tool_show_results`: zapis przez repozytorium przy każdym wywołaniu (sesja DB wstrzyknięta jak w `items`)
-- [ ] Błąd zapisu nie może przerwać strumienia: logujemy i idziemy dalej
-- [ ] Testy
+- [x] Model `Potrzeba`: `id`, `rola`, slugi per pole stanu (`grupy_docelowe`, `problemy`, `miejsca`, `skale`, `zasoby`, `proby`) jako `text[]`, `innowacje` (slugi pokazanych wyników, `text[]`), `brak_dopasowania` (bool), `created_at`; migracja Alembic
+- [x] `PotrzebaRepository.add()`
+- [x] W `ChatService._tool_show_results`: zapis przez repozytorium przy każdym wywołaniu (sesja DB wstrzyknięta jak w `items`)
+- [x] Błąd zapisu nie może przerwać strumienia: logujemy i idziemy dalej
+- [x] Testy
 
 ## Notatki
 
@@ -22,3 +22,6 @@ Przy każdej odpowiedzi z wynikami (`show_results`) backend zapisuje potrzebę w
 - Trendy (panel admina) są poza demo. Później widok dla roli ROPS z logowaniem.
 - Backend jest bezstanowy i nie zna identyfikatora rozmowy. Jeśli użytkownik poprosi o wyniki drugi raz w tej samej rozmowie, powstaną dwa rekordy. Na demo akceptowalne, przy trendach liczymy to jako szum.
 - Slugi w stanie pojawią się po [zadaniu 0005](0005-slownik-i-nakladka.md). Wcześniej zapis ma rolę, pokazane innowacje, flagę i datę.
+- `ChatService` dostaje fabrykę sesji (`get_session_factory`), nie sesję z zależności jak w `items`: zapis dzieje się w trakcie strumienia SSE, a sesja z zależności nie musi wtedy jeszcze żyć. Każdy zapis to osobna krótka sesja.
+- Slugi ze stanu przychodzą z frontu, więc do zapisu trafiają tylko te ze słownika. `zasoby` liczą się wg sekcji `wymagane_zasoby`, `proby` wg `typy_rozwiazan` (jak w `prompts.PROBLEM_SECTIONS`).
+- Migracja `0003_potrzeby`: listy jako `text[]` w PostgreSQL (w testach na SQLite jako JSON). Działający kontener trzeba zrestartować, żeby `alembic upgrade head` założył tabelę.

@@ -31,9 +31,9 @@ Frontend: innowacje
 - [x] Link do zasobnika w `Layout`
 
 Backend: dokumenty
-- [ ] `DocumentRepository`: odczyt `metadata.json` z `assets/raporty/`, `assets/publikacje/`, `assets/mapa-wyzwan/` oraz `indicators.json` z `assets/obserwator/`
-- [ ] `GET /api/v1/documents` (filtry: `typ`, `rok`, `q` po tytule i opisie), `GET /api/v1/documents/{id}`
-- [ ] Testy endpointów
+- [x] `DocumentRepository`: odczyt `metadata.json` z `assets/raporty/`, `assets/publikacje/`, `assets/mapa-wyzwan/` oraz `indicators.json` z `assets/obserwator/`
+- [x] `GET /api/v1/documents` (filtry: `typ`, `rok`, `q` po tytule i opisie), `GET /api/v1/documents/{id}`
+- [x] Testy endpointów
 
 Frontend: dokumenty
 - [ ] Sekcja „Wyzwania Małopolski” w `/zasobnik`: lista raportów i publikacji z filtrem po roku, Mapa Wyzwań, link do PDF i źródła ROPS. Licencja tylko tam, gdzie jest (CC BY 4.0, pole `licencja` w `assets/raporty/metadata.json`), w pozostałych samo źródło i link, bez słowa „licencja” ([0014](0014-licencje-danych-rops.md))
@@ -52,3 +52,5 @@ Później (osobne zadania)
 - Pole `organizacja` w `sciezka-motosensoryczna` zawierało nazwiska autorów. Poprawka po slugu jest w `InnovationRepository` (`CORRECTIONS`), więc działa w czacie, szczegółach i liście. Test pilnuje też, że żadna organizacja w bazie nie ma tytułów osobistych (prof., dr, mgr, inż.). Po odświeżeniu danych scraperem warto sprawdzić pozostałe rekordy.
 - Pole `organizacja` może zawierać nazwisko. Tytuły osobiste wyłapuje test, ale samo nazwisko bez tytułu nie. Przed demem sprawdzić ręcznie.
 - PDF-y nie są w repo (`.gitignore`: `assets/**/files/*.pdf`). Linkujemy do `url` na stronie ROPS.
+- API dokumentów dla frontu: `GET /api/v1/documents?typ=raport|publikacja|mapa-wyzwan|wskaznik&rok=2024&q=...` zwraca listę bez treści, `GET /api/v1/documents/{id}` dokument z polem `tresc`. Pola: `id`, `typ`, `tytul`, `opis`, `rok`, `url_zrodlowy` (strona lub PDF na rops.krakow.pl, PDF-ów nie ma w repo), `licencja` (tylko 5 raportów CC BY 4.0), `strony`, `rozmiar` (np. „15.41 MB”, tylko raporty), `kategoria` i `zrodlo_danych` (wskaźniki). Brak wartości = `null`.
+- `tresc` to tekst wyciągnięty z PDF (Markdown, strony rozdzielone `<!-- page N -->`), przy wskaźniku opis i tabela powiat × rok. Front może go pokazać jako dostępną wersję tekstową obok linku do PDF, bo PDF-y ROPS prawdopodobnie nie są dostępne dla czytników ekranu.
