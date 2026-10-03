@@ -25,7 +25,7 @@ Backend: innowacje
 
 Frontend: innowacje
 - [ ] `/zasobnik`: kafle kategorii z liczbą innowacji, wyszukiwarka tekstowa, filtr „wybrane do upowszechniania”
-- [ ] Karta innowacji: obraz, nazwa, kategoria, skrót problemu
+- [ ] Karta innowacji: nazwa, kategoria, skrót problemu. Bez obrazu: `obraz_url` w sprawdzonych rekordach to kod QR do strony ROPS (ustalenie z PR #9)
 - [ ] Uzupełnić `/innowacja/:slug` o brakujące pola: opis, problem, grupa docelowa, kto może skorzystać, czy działa, osadzony film, PDF, ZIP, licencja i link do źródła ROPS. Puste pola zgodnie z baza-innowacji.md
 - [ ] Link do zasobnika w `Layout`
 
