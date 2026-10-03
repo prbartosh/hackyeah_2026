@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import ErrorBoundary from '@/components/ErrorBoundary'
 import Header from '@/components/Header'
@@ -16,7 +16,9 @@ export default function Layout() {
       <Header />
       <main id="main-content" tabIndex={-1}>
         <ErrorBoundary resetKey={pathname} label="ta strona">
-          <Outlet />
+          <Suspense fallback={<p className="route-loading" role="status">Ładowanie strony…</p>}>
+            <Outlet />
+          </Suspense>
         </ErrorBoundary>
       </main>
       <footer className="site-footer">

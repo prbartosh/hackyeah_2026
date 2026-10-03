@@ -228,6 +228,7 @@ main { flex: 1; display: flex; flex-direction: column; }
   border-radius: 20px; margin-bottom: 0.75rem;
 }
 .alert-note { margin-top: 0.5rem; }
+.route-loading { min-height: 60vh; padding: 2rem 1rem; text-align: center; color: var(--text-muted, var(--text)); }
 .error-boundary:focus { outline: none; }
 .error-boundary-page { max-width: 36rem; margin: 4rem auto; padding: 0 1rem; }
 .error-boundary-page h1 { margin-bottom: 0.75rem; }
