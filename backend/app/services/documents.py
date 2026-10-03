@@ -172,7 +172,7 @@ class DocumentService:
             if len(text) > MAX_TEXT_FOR_AI:
                 record.komunikat = "Dokument jest długi, AI przeczytało tylko jego początek."
         except AIUnavailableError as e:
-            record.komunikat = str(e)
+            record.komunikat = f"{e} Uzupełnij pola ręcznie."
         self.session.add(record)
         await self.session.commit()
         return record

@@ -43,8 +43,7 @@ class AIGateway:
             self.session.add(usage)
         if usage.wywolania >= self.settings.ai_daily_call_limit:
             raise AIUnavailableError(
-                "Dzienny limit wywołań AI został wykorzystany. "
-                "Uzupełnij pola ręcznie lub spróbuj jutro."
+                "Dzienny limit wywołań AI został wykorzystany. Spróbuj ponownie jutro."
             )
         usage.wywolania += 1
         await self.session.flush()
@@ -58,22 +57,18 @@ class AIGateway:
                 return vectors, self.settings.embedding_model
             except (AIUnavailableError, LLMError) as e:
                 logger.warning("Embeddingi: tryb lokalny (%s)", e)
-                self.degraded = f"{e}. Użyto uproszczonego dopasowania."
+                self.degraded = f"{str(e).rstrip('.')}. Użyto uproszczonego dopasowania."
         elif not self.settings.openai_api_key:
             self.degraded = "Brak klucza API modelu. Użyto uproszczonego dopasowania."
         return [local_embed(t) for t in texts], LOCAL_MODEL
 
     async def json(self, system: str, user: str) -> dict[str, Any]:
         if not self._configured or self.llm is None:
-            raise AIUnavailableError(
-                "Podpowiedzi AI są wyłączone (brak klucza API modelu). Wypełnij pola ręcznie."
-            )
+            raise AIUnavailableError("Podpowiedzi AI są wyłączone (brak klucza API modelu).")
         await self._spend()
         try:
             return await self.llm.complete_json(
                 system=system, user=user, timeout=self.settings.ai_timeout_seconds
             )
         except LLMError as e:
-            raise AIUnavailableError(
-                f"Podpowiedź AI nie powiodła się ({e}). Możesz uzupełnić pola ręcznie."
-            ) from e
+            raise AIUnavailableError(f"Podpowiedź AI nie powiodła się ({e}).") from e
