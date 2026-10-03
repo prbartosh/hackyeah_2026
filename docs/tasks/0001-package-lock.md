@@ -2,6 +2,7 @@
 
 - Status: zrobione
 - Osoba: Daniel, Kacper (frontend)
+- PR: #6, #25
 
 ## Cel
 

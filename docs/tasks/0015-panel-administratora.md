@@ -2,6 +2,7 @@
 
 - Status: w toku
 - Osoba: Kacper (do potwierdzenia)
+- PR: #19
 
 ## Cel
 
