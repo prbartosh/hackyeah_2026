@@ -30,7 +30,7 @@ export default function VoiceButton({ onText }: { onText: (text: string) => void
     }
     const Ctor = getRecognition()
     if (!Ctor) {
-      setStatus('Ta przeglądarka nie obsługuje dyktowania. Spróbuj w Chrome lub Edge.')
+      setStatus('Dyktowanie działa w Chrome i Edge.')
       return
     }
     const rec = new Ctor()
@@ -42,23 +42,23 @@ export default function VoiceButton({ onText }: { onText: (text: string) => void
     }
     rec.onend = () => {
       setListening(false)
-      setStatus('Dyktowanie zakończone. Sprawdź tekst i wyślij.')
+      setStatus('Gotowe. Sprawdź tekst i wyślij.')
     }
     rec.onerror = () => {
       setListening(false)
-      setStatus('Nie udało się rozpoznać mowy. Sprawdź, czy przeglądarka ma dostęp do mikrofonu.')
+      setStatus('Nie udało się. Sprawdź dostęp do mikrofonu.')
     }
     recRef.current = rec
     rec.start()
     setListening(true)
-    setStatus('Słucham… Mów teraz. Naciśnij ponownie, aby zakończyć.')
+    setStatus('Słucham… Mów teraz.')
   }
 
   return (
     <>
-      <button type="button" className="btn btn-secondary" onClick={toggle} aria-pressed={listening}>
-        {listening ? <MicOff size={22} aria-hidden="true" /> : <Mic size={22} aria-hidden="true" />}
-        {listening ? 'Zakończ dyktowanie' : 'Podyktuj'}
+      <button type="button" className="btn btn-ghost" onClick={toggle} aria-pressed={listening}>
+        {listening ? <MicOff size={18} aria-hidden="true" /> : <Mic size={18} aria-hidden="true" />}
+        {listening ? 'Zakończ' : 'Podyktuj'}
       </button>
       <p className="voice-status" role="status">{status}</p>
     </>

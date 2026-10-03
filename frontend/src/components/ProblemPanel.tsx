@@ -1,38 +1,40 @@
 import { useChat } from '@/context/ChatContext'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
-import { PROBLEM_FIELDS, ROLE_LABELS } from '@/types/chat'
+import { PROBLEM_FIELDS } from '@/types/chat'
 
 function PanelBody() {
-  const { problem, role, recentlyUpdated } = useChat()
+  const { state, recentlyUpdated } = useChat()
   return (
-    <>
-      <p className="panel-intro">
-        Uzupełnia się w trakcie rozmowy. Na tej podstawie dobieramy rozwiązania.
-      </p>
-      <dl className="problem-list">
-        <div className="problem-row">
-          <dt>Piszesz jako</dt>
-          <dd>{role ? ROLE_LABELS[role] : <span className="empty">jeszcze nie ustalono</span>}</dd>
-        </div>
-        {PROBLEM_FIELDS.map(({ key, label }) => (
-          <div key={key} className={`problem-row${recentlyUpdated.includes(key) ? ' is-new' : ''}`}>
+    <dl className="problem-list">
+      {PROBLEM_FIELDS.map(({ key, label }) => {
+        const value = state[key].tekst
+        const isNew = recentlyUpdated.includes(key)
+        return (
+          <div key={key} className={`problem-row${isNew ? ' is-new' : ''}`}>
             <dt>
               {label}
-              {recentlyUpdated.includes(key) && <span className="new-tag">nowe</span>}
+              {isNew && <span className="new-tag">nowe</span>}
             </dt>
-            <dd>{problem[key] ?? <span className="empty">jeszcze nie ustalono</span>}</dd>
+            <dd>
+              {value ?? (
+                <span className="empty">
+                  <span aria-hidden="true">—</span>
+                  <span className="visually-hidden">jeszcze nie ustalono</span>
+                </span>
+              )}
+            </dd>
           </div>
-        ))}
-      </dl>
-    </>
+        )
+      })}
+    </dl>
   )
 }
 
-/** Panel „Twój problem”: obok czatu na szerokim ekranie, zwijany nad czatem na wąskim. */
+/** Panel „Twój problem”: pojawia się po rozpoczęciu rozmowy; obok czatu na szerokim ekranie, zwijany nad czatem na wąskim. */
 export default function ProblemPanel() {
-  const { problem } = useChat()
-  const wide = useMediaQuery('(min-width: 62rem)')
-  const filled = PROBLEM_FIELDS.filter((f) => problem[f.key]).length
+  const { state } = useChat()
+  const wide = useMediaQuery('(min-width: 75rem)')
+  const filled = PROBLEM_FIELDS.filter((f) => state[f.key].tekst).length
 
   if (wide) {
     return (
@@ -47,7 +49,7 @@ export default function ProblemPanel() {
       <summary>
         <h2 className="panel-title">Twój problem</h2>
         <span className="panel-count">
-          uzupełniono {filled} z {PROBLEM_FIELDS.length} — pokaż
+          {filled}/{PROBLEM_FIELDS.length} — pokaż
         </span>
       </summary>
       <PanelBody />

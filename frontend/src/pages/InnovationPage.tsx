@@ -21,12 +21,14 @@ function NewTab() {
 export default function InnovationPage() {
   const { slug = '' } = useParams()
   const { results } = useChat()
-  const [state, setState] = useState<{ slug: string; data: Innowacja | null } | null>(null)
+  const [state, setState] = useState<{ slug: string; data: Innowacja | null; failed?: boolean } | null>(null)
 
   useEffect(() => {
-    let active = true
-    void getInnovation(slug).then((data) => active && setState({ slug, data }))
-    return () => { active = false }
+    const controller = new AbortController()
+    getInnovation(slug, controller.signal)
+      .then((data) => setState({ slug, data }))
+      .catch((e) => { if (!controller.signal.aborted) setState({ slug, data: null, failed: e instanceof Error }) })
+    return () => controller.abort()
   }, [slug])
 
   const backLink = results ? (
@@ -39,6 +41,15 @@ export default function InnovationPage() {
     return <div className="container page"><p role="status">Wczytywanie opisu rozwiązania…</p></div>
   }
   const rec = state.data
+  if (state.failed) {
+    return (
+      <div className="container page">
+        <h1>Nie udało się wczytać rozwiązania</h1>
+        <p role="alert">Brak połączenia z serwerem. Odśwież stronę albo spróbuj za chwilę.</p>
+        <p>{backLink}</p>
+      </div>
+    )
+  }
   if (!rec) {
     return (
       <div className="container page">
@@ -82,11 +93,13 @@ export default function InnovationPage() {
           <section className="side-box">
             <h2>Materiały do pobrania</h2>
             <ul className="link-list">
-              <li>
-                <a href={rec.materialy_url}>
-                  <Download size={20} aria-hidden="true" /> Pakiet materiałów (ZIP)
-                </a>
-              </li>
+              {rec.materialy_url && (
+                <li>
+                  <a href={rec.materialy_url}>
+                    <Download size={20} aria-hidden="true" /> Pakiet materiałów (ZIP)
+                  </a>
+                </li>
+              )}
               {rec.pdf_url && (
                 <li>
                   <a href={rec.pdf_url} target="_blank" rel="noreferrer">
@@ -130,7 +143,7 @@ export default function InnovationPage() {
                 'Zasady wykorzystania innowacji MIIS — szczegóły na stronie źródłowej.'
               )}
             </p>
-            <p className="hint">Dane pobrano: {rec.pobrano_dnia}</p>
+            {rec.pobrano_dnia && <p className="hint">Dane pobrano: {rec.pobrano_dnia}</p>}
           </section>
         </aside>
       </div>

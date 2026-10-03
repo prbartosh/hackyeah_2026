@@ -1,71 +1,133 @@
-// Kontrakt czatu zgodny z docs/DEMO.md (sekcje „API” i „Narzędzia modelu”)
+// Kontrakt czatu = backend/app/schemas/chat.py (main, ADR 0004 §3 i §7, ADR 0005).
+// Przy zmianach schematu po stronie backendu poprawiaj ten plik.
 
-export type Role = 'mieszkaniec' | 'jst' | 'ngo' | 'ops' | 'ekspert'
+/** Role z ADR 0004 §3. `partner` to JST, NGO albo ekspert. */
+export type Role = 'mieszkaniec' | 'cus-ops' | 'partner'
 
 export const ROLE_LABELS: Record<Role, string> = {
   mieszkaniec: 'Mieszkaniec lub opiekun',
-  jst: 'Samorząd (JST)',
-  ngo: 'Organizacja pozarządowa (NGO)',
-  ops: 'Pracownik CUS / OPS',
-  ekspert: 'Ekspert',
+  'cus-ops': 'Pracownik CUS / OPS',
+  partner: 'Samorząd, NGO lub ekspert',
 }
 
-export type ProblemField = 'opis' | 'kogo' | 'gdzie' | 'skala' | 'przyczyna' | 'proby' | 'zasoby'
+export type PoziomKosztu = 'niski' | 'sredni' | 'wysoki'
 
-export const PROBLEM_FIELDS: { key: ProblemField; label: string }[] = [
-  { key: 'opis', label: 'Problem' },
-  { key: 'kogo', label: 'Kogo dotyczy' },
-  { key: 'gdzie', label: 'Gdzie (gmina)' },
-  { key: 'skala', label: 'Skala' },
-  { key: 'przyczyna', label: 'Przyczyna' },
+/** Pole panelu: tekst do wyświetlenia i slugi ze słownika do wyszukiwania. */
+export interface PoleProblemu {
+  tekst: string | null
+  slugi: string[]
+}
+
+export interface PoleZasoby extends PoleProblemu {
+  poziom_kosztu: PoziomKosztu | null
+}
+
+/** Panel „Twój problem” (ADR 0004 §7). W panelu pokazujemy tylko `tekst`. */
+export interface ProblemState {
+  grupy_docelowe: PoleProblemu
+  problemy: PoleProblemu
+  miejsca: PoleProblemu
+  skale: PoleProblemu
+  zasoby: PoleZasoby
+  proby: PoleProblemu
+}
+
+export type ProblemKey = keyof ProblemState
+
+/** Kolejność i nazwy pól panelu (DEMO.md, ADR 0004 §3). */
+export const PROBLEM_FIELDS: { key: ProblemKey; label: string }[] = [
+  { key: 'grupy_docelowe', label: 'Kogo dotyczy' },
+  { key: 'miejsca', label: 'Gdzie' },
+  { key: 'skale', label: 'Skala' },
+  { key: 'problemy', label: 'Przyczyna' },
   { key: 'proby', label: 'Co próbowano' },
   { key: 'zasoby', label: 'Zasoby' },
 ]
 
-export type ProblemState = Partial<Record<ProblemField, string>>
+export const emptyProblem = (): ProblemState => ({
+  grupy_docelowe: { tekst: null, slugi: [] },
+  problemy: { tekst: null, slugi: [] },
+  miejsca: { tekst: null, slugi: [] },
+  skale: { tekst: null, slugi: [] },
+  zasoby: { tekst: null, slugi: [], poziom_kosztu: null },
+  proby: { tekst: null, slugi: [] },
+})
+
+/** Stan rozmowy: płaski — pola panelu plus rola, blokada roli i licznik rund. */
+export interface ChatState extends ProblemState {
+  rola: Role | null
+  /** true, gdy użytkownik sam zmienił rolę przyciskiem „Zmień” — model jej nie nadpisuje */
+  role_locked: boolean
+  rounds: number
+}
+
+export const initialState = (): ChatState => ({ ...emptyProblem(), rola: null, role_locked: false, rounds: 0 })
+
+export type ChatAction = 'show_results_now' | 'confirm_summary'
+
+/**
+ * Tekst wiadomości użytkownika w historii dla akcji z przycisków. Backend zna te same napisy
+ * (ACTION_MESSAGES w services/chat.py). Front dopisuje je do historii sam, żeby wiadomości
+ * user/assistant szły na zmianę — inaczej kolejne zapytanie dostanie 422.
+ */
+export const ACTION_HISTORY_TEXT: Record<ChatAction, string> = {
+  show_results_now: '[Użytkownik kliknął „Pokaż wyniki teraz”]',
+  confirm_summary: '[Użytkownik potwierdził podsumowanie]',
+}
+
+export interface ApiMessage {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+/** Limity z backendu (schemas/chat.py) */
+export const MAX_MESSAGES = 40
+export const MAX_MESSAGE_CHARS = 4000
+
+export interface ChatRequest {
+  messages: ApiMessage[]
+  state: ChatState
+  action?: ChatAction
+  /** Podsumowanie poprawione przez użytkownika, razem z action = 'confirm_summary' */
+  summary?: string
+}
 
 export interface Question {
-  id: string
-  /** Pole problemu, które uzupełnia odpowiedź */
-  field?: ProblemField
   text: string
   options: string[]
 }
 
+export type MatchKind = 'main' | 'complementary'
+
 export interface ResultItem {
   slug: string
   nazwa: string
-  kategoria: string | null
-  organizacja: string | null
-  url_zrodlowy: string
-  wybrana_do_upowszechniania: boolean
-  /** Uzasadnienie oparte wyłącznie na danych z karty pozycji */
+  match: MatchKind
   why_relevant: string
-  /** Wypełnione, gdy brak dobrego dopasowania: czym pozycja różni się od potrzeby */
-  difference?: string
+  kategorie: string[]
+  wybrana_do_upowszechniania: boolean
+  url_zrodlowy: string
+  materialy_url: string | null
+  pdf_url: string | null
+  youtube_url: string | null
+  obraz_url: string | null
+  organizacja: string | null
+  licencja: string | null
 }
 
-export type ChatEvent =
-  | { type: 'text'; delta: string }
-  | { type: 'role'; role: Role }
-  | { type: 'question'; question: Question }
-  | { type: 'problem_update'; fields: ProblemState }
-  | { type: 'summary'; text: string }
-  | { type: 'results'; items: ResultItem[]; no_match: boolean }
-  | { type: 'demo_mode' }
-  | { type: 'error'; message: string }
-
-export type ChatAction = 'message' | 'answer' | 'confirm_summary' | 'show_results_now' | 'change_role'
-
-export interface ChatRequest {
-  messages: { role: 'user' | 'assistant'; content: string }[]
-  problem: ProblemState
-  role: Role | null
-  action: ChatAction
-  /** Liczba zadanych dotąd pytań doprecyzowujących (limit 3–4 rund) */
-  rounds: number
-  /** Id pytania, na które odpowiada wiadomość (action = 'answer') */
-  question_id?: string
-  /** Podsumowanie zatwierdzone lub poprawione przez użytkownika */
-  summary?: string
+export interface Results {
+  no_good_match: boolean
+  note: string | null
+  items: ResultItem[]
 }
+
+/** Zdarzenia SSE z POST /api/v1/chat */
+export type ServerEvent =
+  | { name: 'text'; data: { text: string } }
+  | { name: 'role'; data: { rola: Role } }
+  | { name: 'problem_update'; data: { problem: ProblemState } }
+  | { name: 'question'; data: Question }
+  | { name: 'summary'; data: { summary: string; problem: ProblemState } }
+  | { name: 'results'; data: Results }
+  | { name: 'done'; data: { assistant_message: string; state: ChatState } }
+  | { name: 'error'; data: { message: string } }

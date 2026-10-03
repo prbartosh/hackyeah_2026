@@ -29,3 +29,4 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - 2026-10-03: Backend rozmowy matchmakingu: `POST /api/v1/chat` (SSE), `GET /api/v1/innovations/{slug}` ([ADR 0005](adr/0005-matchmaking-chat-llm.md))
 - 2026-10-03: Mockup frontendu, strona innowacji `/innowacja/:slug`
 - 2026-10-03: Kryteria oceny ([kryteria-oceny.md](kryteria-oceny.md)), [GLOSSARY.md](../GLOSSARY.md)
+- 2026-10-03: Czat we froncie podłączony do `POST /api/v1/chat` (SSE) zgodnie z kontraktem z ADR 0005, nowy układ, obsługa błędów, tryb demo usunięty
