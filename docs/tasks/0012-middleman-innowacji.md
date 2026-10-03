@@ -2,7 +2,7 @@
 
 - Status: w toku
 - Osoba: Bartosz (ADR, backend), Kacper (frontend)
-- PR: #32
+- PR: #32, #37
 
 ## Cel
 
