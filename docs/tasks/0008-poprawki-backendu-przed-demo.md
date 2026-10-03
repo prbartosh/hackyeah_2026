@@ -25,3 +25,4 @@ Pole `organizacja`
 
 - Front ma już ogólny komunikat i „Spróbuj ponownie”, więc wystarczy, że dostanie 503 lub zdarzenie `error`.
 - Obsługę błędów modelu (brak klucza, błąd w strumieniu, rate limit) najprościej zrobić raz, w porcie LLM z [0016](0016-adaptery-llm.md). Jeśli 0016 nie zdąży przed demo, poprawka idzie do obecnego `LLMService`.
+- 2026-10-03 (Bartosz, z [0009](0009-ewaluacja-dopasowania.md)): `openai.APIError` rzucony w trakcie strumienia (np. rate limit u dostawcy) nie jest łapany w `LLMService.stream` (łapane są tylko `APIConnectionError` i `APIStatusError`). Wyjątek przechodzi do ASGI, strumień urywa się bez zdarzenia `error`. Poprawka tutaj, nie w 0016 (decyzja Bartosza).
