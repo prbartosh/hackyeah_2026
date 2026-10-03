@@ -36,7 +36,7 @@ Backend: dokumenty
 - [ ] Testy endpointów
 
 Frontend: dokumenty
-- [ ] Sekcja „Wyzwania Małopolski” w `/zasobnik`: lista raportów i publikacji z filtrem po roku, Mapa Wyzwań, link do PDF i źródła ROPS
+- [ ] Sekcja „Wyzwania Małopolski” w `/zasobnik`: lista raportów i publikacji z filtrem po roku, Mapa Wyzwań, link do PDF i źródła ROPS. Licencja tylko tam, gdzie jest (CC BY 4.0, pole `licencja` w `assets/raporty/metadata.json`), w pozostałych samo źródło i link, bez słowa „licencja” ([0014](0014-licencje-danych-rops.md))
 - [ ] Wskaźniki Obserwatora: lista po kategoriach, strona wskaźnika z opisem i źródłem (bez wykresów w pierwszej wersji)
 
 Dostępność (całość)
