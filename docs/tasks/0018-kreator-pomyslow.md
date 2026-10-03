@@ -1,10 +1,8 @@
 # 0018. Kreator pomysłów (moduł III)
 
-- Status: review
+- Status: w toku
 - Osoba: Kacper
-- PR: #34, #43
-- PR: #34, #40
-- PR: #34, #39
+- PR: #34, #39, #40, #43
 
 ## Cel
 
@@ -20,15 +18,16 @@ Użytkownik opisuje pomysł, AI wypełnia fiszkę, użytkownik poprawia i wysył
 - [x] Canvy (druk, DOCX)
 - [x] Asystent (braki, pytania od AI, kolejne kroki)
 - [x] Seed demo, testy backendu i helperów frontendu
-- [ ] Test z czytnikiem ekranu (NVDA) i axe
+- [x] axe w trzech motywach na stronach Kreatora, 0 naruszeń
+- [ ] Test z czytnikiem ekranu (NVDA)
 - [ ] Przejście z prawdziwym `LLM_API_KEY` (DeepSeek)
 - [x] Migracja `0003` na prawdziwym PostgreSQL
 - [ ] Sprawdzenie szablonu canvy z oryginalnym PDF
 - [x] Rate limit publicznych endpointów `/kreator/*` (nginx, tylko POST, strefa `form_req`)
-- [ ] Wizualizacja pomysłu: poza zakresem, brak dostawcy obrazów
 
 ## Notatki
 
+- Wizualizacja pomysłu poza zakresem: brak dostawcy obrazów.
 - Uruchomienie i demo: [kreator-pomyslow.md](../kreator-pomyslow.md).
 - Wysłana fiszka i wniosek to zwykłe zgłoszenie w skrzynce panelu (bez zmian modelu `Ticket`).
 - 2026-10-03: „Znajdź finansowanie” z karty nie tworzy już kolejnej fiszki po odświeżeniu albo powrocie z wniosku: token nowej fiszki trafia do adresu (`?fiszka=`) i do „Twoje szkice”. axe w trzech motywach na `/kreator`, `/kreator/fiszka`, `/kreator/canva` i canvie demo: 0 naruszeń (bez NVDA).

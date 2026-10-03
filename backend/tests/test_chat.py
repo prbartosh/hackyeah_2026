@@ -4,13 +4,12 @@ from typing import Any
 import pytest
 from sqlalchemy import select
 
-from app.api.deps import get_llm_service, get_session_factory, get_token_budget
+from app.api.deps import get_llm_service, get_session_factory
 from app.core.config import settings
 from app.main import app
 from app.models import Potrzeba
 from app.services.chat import LLM_UNAVAILABLE, NoteFilter
 from app.services.llm import LLMError, TextDelta, ToolCall, TurnEnd
-from app.services.token_budget import TokenBudget
 
 MAIN = "kody-qr-na-pomoc-seniorom"
 OTHER = "bawita"
@@ -395,24 +394,6 @@ async def test_long_assistant_message_is_allowed(client, fake_llm):
     ]
     events = await post(client, {"messages": messages})
     assert events[-1][0] == "done"
-
-
-async def test_exhausted_budget_returns_503_without_model(client, fake_llm):
-    llm = fake_llm([])
-    budget = TokenBudget(daily_limit=100)
-    budget.add(100)
-    app.dependency_overrides[get_token_budget] = lambda: budget
-    try:
-        response = await client.post("/api/v1/chat", json=first_message())
-    finally:
-        app.dependency_overrides.pop(get_token_budget, None)
-
-    assert response.status_code == 503
-    assert response.json()["detail"] == (
-        "Asystent AI wykorzystał już dzienny limit rozmów. "
-        "Wróć jutro albo przejrzyj Bibliotekę Innowacji Społecznych ROPS Kraków."
-    )
-    assert llm.calls == []
 
 
 async def test_disabled_chat_returns_503(client, fake_llm, monkeypatch):

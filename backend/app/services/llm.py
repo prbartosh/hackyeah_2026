@@ -7,7 +7,6 @@ from typing import Any
 import openai
 
 from app.core.config import Settings
-from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
 
@@ -50,9 +49,8 @@ class LLMService:
     i scala go z wiadomością asystenta, gdy odsyłamy go w historii.
     """
 
-    def __init__(self, settings: Settings, budget: TokenBudget | None = None) -> None:
+    def __init__(self, settings: Settings) -> None:
         self.settings = settings
-        self.budget = budget
         self.client = openai.AsyncOpenAI(
             api_key=settings.llm_api_key, base_url=settings.llm_base_url
         )
@@ -79,8 +77,6 @@ class LLMService:
             logger.error("LLM API error %s: %s", e.status_code, e.message)
             raise LLMError(f"Błąd API modelu ({e.status_code})") from e
         if response.usage:
-            if self.budget is not None:
-                self.budget.add(response.usage.total_tokens)
             logger.info(
                 "LLM json: in=%s out=%s",
                 response.usage.prompt_tokens,
@@ -110,7 +106,6 @@ class LLMService:
         try:
             stream = await self.client.responses.create(
                 model=self.settings.llm_model,
-                max_output_tokens=self.settings.llm_max_completion_tokens,
                 # System prompt z katalogiem jest stały i pierwszy - DeepSeek cache'uje prefiks sam.
                 instructions=system,
                 input=messages,
@@ -146,8 +141,6 @@ class LLMService:
             raise LLMError("Brak odpowiedzi modelu")
         usage = response.usage
         if usage:
-            if self.budget is not None:
-                self.budget.add(usage.total_tokens)
             cached = usage.input_tokens_details.cached_tokens if usage.input_tokens_details else 0
             logger.info(
                 "LLM turn: status=%s in=%s cached=%s out=%s",

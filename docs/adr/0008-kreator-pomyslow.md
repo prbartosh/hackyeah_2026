@@ -25,3 +25,5 @@ Użytkownicy zgłaszają pomysły oddolnie, a część z nich szuka finansowania
 - Treść zgłoszenia ze wniosku nie przechodzi walidacji długości formularza `/zglos` (wniosek bywa dłuższy).
 - Dopasowanie naborów to proste porównanie tekstu: przewidywalne, ale zależne od słów kluczowych wpisanych w naborze.
 - Szablon canvy odtworzony z PDF (tekst z PDF ma zepsute polskie znaki), do sprawdzenia z oryginałem.
+
+2026-10-04: dzienny limit wywołań AI usunięty (decyzja Nikodema).

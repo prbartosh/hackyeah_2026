@@ -4,7 +4,15 @@ const BASE_URL = import.meta.env.VITE_API_URL ?? '/api/v1'
 
 const EVENT_NAMES = new Set(['text', 'status', 'role', 'problem_update', 'question', 'summary', 'results', 'gmina_stats', 'done', 'error'])
 
-export class ChatError extends Error {}
+export class ChatError extends Error {
+  constructor(
+    message: string,
+    /** Czat wyłączony albo wyczerpany limit dzienny: ponowna próba nic nie zmieni */
+    public unavailable = false,
+  ) {
+    super(message)
+  }
+}
 
 /** fetch + ReadableStream, bo EventSource obsługuje tylko GET. */
 export async function* streamChat(req: ChatRequest, signal?: AbortSignal): AsyncGenerator<ServerEvent> {
@@ -21,7 +29,7 @@ export async function* streamChat(req: ChatRequest, signal?: AbortSignal): Async
     throw new ChatError('Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.')
   }
 
-  if (!res.ok) throw new ChatError(await describeHttpError(res))
+  if (!res.ok) throw await describeHttpError(res)
   if (!res.body) throw new ChatError('Serwer nie zwrócił odpowiedzi.')
 
   const reader = res.body.pipeThrough(new TextDecoderStream()).getReader()
@@ -64,28 +72,28 @@ function parseBlock(block: string): ServerEvent | null {
   }
 }
 
-async function describeHttpError(res: Response): Promise<string> {
+async function describeHttpError(res: Response): Promise<ChatError> {
   if (res.status === 422) {
     try {
       const body = (await res.json()) as { detail?: unknown }
-      if (typeof body.detail === 'string') return `Nie można kontynuować tej rozmowy: ${body.detail}. Zacznij od nowa.`
+      if (typeof body.detail === 'string') return new ChatError(`Nie można kontynuować tej rozmowy: ${body.detail}. Zacznij od nowa.`)
     } catch {
       /* brak szczegółów */
     }
-    return 'Nie można kontynuować tej rozmowy. Zacznij od nowa.'
+    return new ChatError('Nie można kontynuować tej rozmowy. Zacznij od nowa.')
   }
-  if (res.status === 429) return 'Za dużo zapytań naraz. Odczekaj minutę i spróbuj ponownie.'
+  if (res.status === 429) return new ChatError('Za dużo zapytań naraz. Odczekaj minutę i spróbuj ponownie.')
   if (res.status === 503) {
-    // Wyłączony czat albo wyczerpany budżet dzienny: backend podaje komunikat w detail.
+    // Wyłączony czat: backend podaje komunikat w detail.
     try {
       const body = (await res.json()) as { detail?: unknown }
-      if (typeof body.detail === 'string') return body.detail
+      if (typeof body.detail === 'string') return new ChatError(body.detail, true)
     } catch {
       /* 503 bez JSON (np. z nginx) */
     }
   }
   if (res.status === 404 || res.status === 502 || res.status === 503 || res.status === 504) {
-    return 'Serwer jest chwilowo niedostępny. Spróbuj ponownie za chwilę.'
+    return new ChatError('Serwer jest chwilowo niedostępny. Spróbuj ponownie za chwilę.')
   }
-  return 'Coś poszło nie tak po stronie serwera. Spróbuj ponownie.'
+  return new ChatError('Coś poszło nie tak po stronie serwera. Spróbuj ponownie.')
 }

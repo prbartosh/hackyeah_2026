@@ -1,3 +1,4 @@
+import ErrorBoundary from '@/components/ErrorBoundary'
 import { useChat } from '@/context/ChatContext'
 import { useAccessibility } from '@/context/AccessibilityContext'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
@@ -69,7 +70,11 @@ function PanelBody() {
                   <span className="visually-hidden">jeszcze nie ustalono</span>
                 </span>
               )}
-              {key === 'miejsca' && gmina && <GminaBlock gmina={gmina} />}
+              {key === 'miejsca' && gmina && (
+                <ErrorBoundary label="dane gminy">
+                  <GminaBlock gmina={gmina} />
+                </ErrorBoundary>
+              )}
             </dd>
           </div>
         )

@@ -23,7 +23,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
         logger.warning("Brak LLM_API_KEY - czat odpowiada 503, panel działa bez AI")
     try:
         async with SessionLocal() as session:
-            service = CardService(session, get_ai_gateway(session))
+            service = CardService(session, get_ai_gateway())
             await service.import_from_files(settings.innovations_path)
             await service.refresh_snapshot()
     except Exception:

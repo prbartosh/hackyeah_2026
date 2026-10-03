@@ -11,9 +11,9 @@ Materiały do kryterium „jakość materiałów i MVP” (10%, [kryteria oceny]
 ## Kroki
 
 - [ ] Scenariusz pokazu (szkielet w [docs/jury/scenariusz-pokazu.md](../jury/scenariusz-pokazu.md), czasy i wybór zgłoszeń po 0009): 3 role (mieszkaniec, CUS/OPS, partner), co klikamy, co mówimy, ile trwa. Zgłoszenia z [zestawu testowego](../zestaw-testowy.md), które dobrze działają (po [0009](0009-ewaluacja-dopasowania.md))
-- [x] Mapowanie pokazu na kryteria ([docs/jury/mapowanie-na-kryteria.md](../jury/mapowanie-na-kryteria.md), liczby kosztu i ewaluacji uzupełnić po pomiarach): które moduły (I, II, VII), dostępność, potencjał wdrożeniowy (koszt, utrzymanie)
+- [x] Mapowanie pokazu na kryteria ([docs/jury/mapowanie-na-kryteria.md](../jury/mapowanie-na-kryteria.md), liczby kosztu i ewaluacji uzupełnić po pomiarach): które moduły (I–VII), dostępność, potencjał wdrożeniowy (koszt, utrzymanie)
 - [ ] Nagranie zapasowe całego pokazu na działającym demo, na wypadek braku sieci lub awarii modelu
-- [ ] README dla jury ([docs/jury/README.md](../jury/README.md), link w głównym README): brakuje zrzutów ekranu i licencji raportów, publikacji, Mapy Wyzwań i Obserwatora
+- [ ] README dla jury ([docs/jury/README.md](../jury/README.md), link w głównym README): brakuje zrzutów ekranu
 - [ ] Prezentacja (wymagana przez organizatorów). Zakładamy 10 minut, limitu nie znamy, do potwierdzenia
 
 ## Notatki

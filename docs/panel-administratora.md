@@ -26,8 +26,7 @@ Wszystko pod `/api/v1/admin/*` wymaga `Authorization: Bearer <ADMIN_TOKEN>`: `zg
 
 ## AI, koszty i awarie
 
-- Dzienny limit wywołań AI: `AI_DAILY_CALL_LIMIT` (tabela `uzycie_ai`). Liczy się każde wywołanie modelu (JSON).
-- Embeddingi zawsze lokalne (`local-trigram-v1`): DeepSeek nie ma API embeddingów ([ADR 0007](adr/0007-deepseek.md)). Bez klucza, po przekroczeniu limitu i przy awarii: triaż regułowy, import dokumentu z pustymi polami do ręcznego uzupełnienia. UI pokazuje komunikat po polsku.
+- Embeddingi zawsze lokalne (`local-trigram-v1`): DeepSeek nie ma API embeddingów ([ADR 0007](adr/0007-deepseek.md)). Bez klucza i przy awarii: triaż regułowy, import dokumentu z pustymi polami do ręcznego uzupełnienia. UI pokazuje komunikat po polsku.
 - Po zmianie modelu embeddingów: `POST /api/v1/admin/reindeksuj`.
 - Szkic odpowiedzi cytuje tylko karty z listy kandydatów, wskazanych wyszukiwaniem po embeddingach. Pole z dokumentu bez dosłownego cytatu w tekście jest zerowane.
 

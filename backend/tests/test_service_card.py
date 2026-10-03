@@ -1,10 +1,9 @@
 import pytest
 
-from app.api.deps import get_llm_service, get_token_budget
+from app.api.deps import get_llm_service
 from app.core.config import settings
 from app.main import app
 from app.services.llm import LLMError
-from app.services.token_budget import TokenBudget
 
 SLUG = "kody-qr-na-pomoc-seniorom"
 URL = f"/api/v1/innovations/{SLUG}/service-card"
@@ -42,7 +41,6 @@ def llm():
 
     yield use
     app.dependency_overrides.pop(get_llm_service, None)
-    app.dependency_overrides.pop(get_token_budget, None)
 
 
 async def test_card_for_partner_with_problem(client, llm):
@@ -99,15 +97,8 @@ async def test_model_error(client, llm):
     assert response.status_code == 502
 
 
-async def test_limits_from_chat(client, llm, monkeypatch):
+async def test_disabled_chat_returns_503_without_model(client, llm, monkeypatch):
     fake = llm(CARD)
-    budget = TokenBudget(daily_limit=10)
-    budget.add(10)
-    app.dependency_overrides[get_token_budget] = lambda: budget
-    response = await client.post(URL, json={"rola": "partner"})
-    assert response.status_code == 503
-
-    app.dependency_overrides.pop(get_token_budget)
     monkeypatch.setattr(settings, "chat_enabled", False)
     response = await client.post(URL, json={"rola": "partner"})
     assert response.status_code == 503

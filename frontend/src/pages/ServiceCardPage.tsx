@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { ExternalLink, Printer, Send, Sparkles, TriangleAlert } from 'lucide-react'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import { ExternalLink, Printer, Send, TriangleAlert } from 'lucide-react'
 import { api } from '@/admin/api'
 import { errorText } from '@/admin/ui'
 import { getInnovation } from '@/api/innovations'
+import { DetailSkeleton, ListSkeleton } from '@/components/Skeleton'
 import {
   createServiceCard, implementationRequestText, isTodo, problemOrNull,
   type ServiceCardResponse, type ServiceCardRole,
@@ -95,7 +96,10 @@ function ImplementForm({ card }: { card: ServiceCardResponse }) {
 
 export default function ServiceCardPage() {
   const { slug = '' } = useParams()
-  const { state: chat } = useChat()
+  // Stan z opisu innowacji (wejście z zasobnika): ta sama ścieżka nawigacji i powrót z filtrami
+  const navState = useLocation().state as { zasobnik?: string } | null
+  const zasobnik = navState?.zasobnik
+  const { state: chat, results } = useChat()
   const chatRole = chat.rola === 'cus-ops' || chat.rola === 'partner' ? chat.rola : null
   const problem = problemOrNull(chat)
 
@@ -140,10 +144,10 @@ export default function ServiceCardPage() {
     }
   }
 
-  const back = <Link to={`/innowacja/${slug}`}>← Wróć do opisu rozwiązania</Link>
+  const back = <Link to={`/innowacja/${slug}`} state={navState}>← Wróć do opisu rozwiązania</Link>
 
   if (rec === undefined) {
-    return <div className="container page"><p role="status">Wczytywanie…</p></div>
+    return <DetailSkeleton label="Wczytywanie…" />
   }
   if (rec === null) {
     return (
@@ -159,16 +163,23 @@ export default function ServiceCardPage() {
     <div className="container page service-card">
       <nav aria-label="Ścieżka nawigacji" className="breadcrumbs no-print">
         <ol>
-          <li><Link to="/">Strona główna</Link></li>
-          <li><Link to={`/innowacja/${slug}`}>{rec.nazwa}</Link></li>
+          {zasobnik !== undefined ? (
+            <li><Link to={`/zasobnik${zasobnik}`}>Zasobnik wiedzy</Link></li>
+          ) : (
+            <>
+              <li><Link to="/">Wyszukiwarka</Link></li>
+              {results && <li><Link to="/#wyniki">Wyniki</Link></li>}
+            </>
+          )}
+          <li><Link to={`/innowacja/${slug}`} state={navState}>{rec.nazwa}</Link></li>
           <li aria-current="page">Jak wdrożyć u siebie</li>
         </ol>
       </nav>
 
       <h1>Jak wdrożyć u siebie: {rec.nazwa}</h1>
       <p className="lead">
-        Asystent przepisze to rozwiązanie na plan dla Twojej instytucji: cel, kroki, potrzebne zasoby, ryzyka
-        i jak sprawdzić, że działa. Korzysta tylko z opisu w Bibliotece Innowacji ROPS.
+        Przygotujemy plan wdrożenia dla Twojej instytucji: cel, kroki, potrzebne zasoby, ryzyka i sposób
+        sprawdzenia efektów. Plan powstaje automatycznie, tylko na podstawie opisu z Biblioteki Innowacji ROPS.
       </p>
 
       <form onSubmit={generate} className="sc-setup no-print" noValidate>
@@ -194,13 +205,14 @@ export default function ServiceCardPage() {
         )}
         <div className="btn-row">
           <button type="submit" className="btn btn-primary" disabled={busy}>
-            <Sparkles size={18} aria-hidden="true" />
             {busy ? 'Przygotowuję kartę…' : card ? 'Przygotuj ponownie' : 'Przygotuj kartę wdrożenia'}
           </button>
         </div>
         <p role="status" className="hint">{busy ? 'To potrwa kilka sekund.' : ''}</p>
         {error && <p className="alert alert-error" role="alert">{error}</p>}
       </form>
+
+      {busy && !card && <ListSkeleton count={3} />}
 
       {card && (
         <div className="detail-layout sc-result">
@@ -209,7 +221,7 @@ export default function ServiceCardPage() {
               Karta wdrożenia dla roli: {ROLE_LABELS[card.rola]}
             </h2>
             <p className="sc-ai">
-              <Sparkles size={16} aria-hidden="true" /> Przygotowane przez AI na podstawie opisu innowacji.
+              Przygotowane automatycznie (AI) na podstawie opisu innowacji.
               Sprawdź przed użyciem. Punkty „do uzupełnienia” wymagają Twoich danych.
             </p>
             <section className="sc-section">

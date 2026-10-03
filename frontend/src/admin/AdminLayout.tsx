@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
-import { NavLink, Outlet } from 'react-router-dom'
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { api, getToken, setToken } from '@/admin/api'
 import { errorText, useTitle } from '@/admin/ui'
 import '@/styles/admin.css'
@@ -14,6 +14,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
 
   async function submit(e: FormEvent) {
     e.preventDefault()
+    if (busy) return
     setBusy(true)
     setError('')
     setToken(value.trim())
@@ -31,7 +32,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
   return (
     <div className="container page admin-login">
       <h1>Panel pracownika ROPS</h1>
-      <p>Ten panel jest tylko dla pracowników ROPS. Wpisz token dostępu otrzymany od administratora systemu.</p>
+      <p>Panel jest tylko dla pracowników ROPS. Wpisz token dostępu od administratora systemu.</p>
       <form onSubmit={submit} className="stack" noValidate>
         <div className="field">
           <label htmlFor="admin-token">Token dostępu</label>
@@ -43,7 +44,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
         </div>
         {error && <p id="login-error" className="field-error" role="alert">{error}</p>}
         <div className="btn-row">
-          <button className="btn btn-primary" type="submit" disabled={busy || !value.trim()}>
+          <button className="btn btn-primary" type="submit" disabled={!value.trim()} aria-disabled={busy || undefined}>
             {busy ? 'Sprawdzanie…' : 'Zaloguj'}
           </button>
         </div>
@@ -56,6 +57,8 @@ function Login({ onLogin }: { onLogin: () => void }) {
 export default function AdminLayout() {
   const [loggedIn, setLoggedIn] = useState(() => getToken() !== null)
   const [unread, setUnread] = useState<number | null>(null)
+  const { pathname } = useLocation()
+  const inInbox = pathname === '/admin' || pathname === '/admin/' || pathname.startsWith('/admin/zgloszenia/')
 
   const refreshUnread = useCallback(() => {
     api.notifications(true)
@@ -84,25 +87,27 @@ export default function AdminLayout() {
   return (
     <div className="container page admin">
       <div className="admin-bar">
-        <nav aria-label="Panel pracownika" className="admin-nav">
-          <NavLink to="/admin" end>Skrzynka zgłoszeń</NavLink>
-          <NavLink to="/admin/powiadomienia">
-            Powiadomienia
-            {unread ? <span className="count" aria-label={`, nieprzeczytane: ${unread}`}>{unread}</span> : null}
-          </NavLink>
-          <NavLink to="/admin/importy">Wgraj dokument</NavLink>
-          <NavLink to="/admin/karty">Karty innowacji</NavLink>
-          <NavLink to="/admin/radar">Radar trendów</NavLink>
-          <NavLink to="/admin/nabory">Nabory grantowe</NavLink>
-          <NavLink to="/admin/opinie">Oceny i testy</NavLink>
-        </nav>
+        <p className="admin-title">Panel pracownika ROPS</p>
         <button
-          type="button" className="btn btn-ghost"
+          type="button" className="btn btn-link"
           onClick={() => { setToken(null); setLoggedIn(false) }}
         >
           Wyloguj
         </button>
       </div>
+      <nav aria-label="Panel pracownika" className="admin-nav">
+        {/* Zgłoszenie jest częścią skrzynki: zakładka zostaje zaznaczona także na stronie zgłoszenia. */}
+        <Link to="/admin" aria-current={inInbox ? 'page' : undefined}>Skrzynka zgłoszeń</Link>
+        <NavLink to="/admin/powiadomienia">
+          Powiadomienia
+          {unread ? <span className="count" aria-label={`, nieprzeczytane: ${unread}`}>{unread}</span> : null}
+        </NavLink>
+        <NavLink to="/admin/importy">Wgraj dokument</NavLink>
+        <NavLink to="/admin/karty">Karty innowacji</NavLink>
+        <NavLink to="/admin/radar">Radar trendów</NavLink>
+        <NavLink to="/admin/nabory">Nabory grantowe</NavLink>
+        <NavLink to="/admin/opinie">Oceny i testy</NavLink>
+      </nav>
       <Outlet />
     </div>
   )

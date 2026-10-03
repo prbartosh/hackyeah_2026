@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-import { ErrorBox, Loading, SyntheticTag, errorText, useLoad, useTitle } from '@/admin/ui'
+import { ErrorBox, FormSkeleton, StatusLine, SyntheticTag, TableSkeleton, errorText, useLoad, useTitle } from '@/admin/ui'
 import { kreator } from '@/kreator/api'
 import { formatDay, keyFromLabel } from '@/kreator/helpers'
 import type { Kryterium, NaborInput, NaborPole, PoleFiszki } from '@/kreator/types'
@@ -22,13 +22,13 @@ export function NaboryPage() {
   return (
     <>
       <h1>Nabory grantowe</h1>
-      <p className="lead">Generator wniosków jest widoczny dla użytkowników tylko w czasie trwania naboru (według dat poniżej).</p>
+      <p className="lead">Generator wniosków jest dostępny dla użytkowników tylko w terminie naboru.</p>
       <div className="btn-row"><Link className="btn btn-primary" to="/admin/nabory/nowy">Dodaj nabór</Link></div>
-      {loading && !data && <Loading />}
+      {loading && !data && <TableSkeleton label="Wczytywanie naborów…" rows={3} />}
       {error && <ErrorBox message={error} onRetry={reload} />}
       {data && data.items.length === 0 && <p className="empty-state">Nie ma jeszcze żadnego naboru.</p>}
       {data && data.items.length > 0 && (
-        <div className="table-wrap">
+        <div className="table-wrap" tabIndex={0} role="region" aria-label="Tabela naborów">
           <table className="admin-table">
             <caption className="visually-hidden">Lista naborów</caption>
             <thead><tr><th scope="col">Nabór</th><th scope="col">Termin</th><th scope="col">Stan</th><th scope="col">Pola wniosku</th></tr></thead>
@@ -37,7 +37,7 @@ export function NaboryPage() {
                 <tr key={n.slug}>
                   <th scope="row" className="cell-main"><Link to={`/admin/nabory/${n.slug}`}>{n.nazwa}</Link> {n.syntetyczny && <SyntheticTag />}</th>
                   <td>{formatDay(n.termin_od)} – {formatDay(n.termin_do)}</td>
-                  <td><span className={n.status === 'aktywny' ? 'tag tag-ontime' : 'tag'}>{STATUS_LABELS[n.status]}</span></td>
+                  <td><span className={n.status === 'aktywny' ? 'tag tag-new' : 'tag'}>{STATUS_LABELS[n.status]}</span></td>
                   <td>{n.pola.length}</td>
                 </tr>
               ))}
@@ -72,7 +72,7 @@ export function NaborEditPage() {
   }, [slug, isNew])
 
   if (loadError) return <ErrorBox message={loadError} />
-  if (!form) return <Loading />
+  if (!form) return <FormSkeleton label="Wczytywanie naboru…" />
 
   const set = <K extends keyof NaborInput>(key: K, value: NaborInput[K]) => {
     setForm({ ...form, [key]: value })
@@ -85,7 +85,7 @@ export function NaborEditPage() {
 
   async function submit(e: FormEvent) {
     e.preventDefault()
-    if (!form) return
+    if (!form || busy) return
     setBusy(true)
     setError('')
     // Klucze pól powstają z etykiet (stałe po zapisie, żeby nie psuć istniejących wniosków)
@@ -114,7 +114,7 @@ export function NaborEditPage() {
 
   return (
     <>
-      <p><Link to="/admin/nabory">← Wszystkie nabory</Link></p>
+      <p><Link to="/admin/nabory">Wszystkie nabory</Link></p>
       <h1>{isNew ? 'Nowy nabór' : 'Edycja naboru'}</h1>
       <form onSubmit={submit} className="stack" noValidate>
         <div className="grid-fields">
@@ -149,7 +149,7 @@ export function NaborEditPage() {
           <p className="hint">Służą do dopasowania naboru do pomysłu w „Znajdź finansowanie”.</p>
           <div className="grid-fields">
             {Object.entries(KATEGORIE).map(([k, label]) => (
-              <label key={k} className="check">
+              <label key={k} className="admin-check">
                 <input type="checkbox" checked={form.obszary.includes(k)}
                   onChange={(e) => set('obszary', e.target.checked ? [...form.obszary, k] : form.obszary.filter((x) => x !== k))} />
                 {label}
@@ -187,7 +187,7 @@ export function NaborEditPage() {
               <p className="hint">Bez zaznaczenia pole zawsze zostaje „do uzupełnienia” (np. budżet i wskaźniki).</p>
               <div className="grid-fields">
                 {FISZKA_FIELDS.map((f) => (
-                  <label key={f.value} className="check">
+                  <label key={f.value} className="admin-check">
                     <input type="checkbox" checked={p.zrodla.includes(f.value)}
                       onChange={(e) => setField(i, { zrodla: e.target.checked ? [...p.zrodla, f.value] : p.zrodla.filter((x) => x !== f.value) })} />
                     {f.label}
@@ -226,11 +226,10 @@ export function NaborEditPage() {
           <button type="button" className="btn btn-secondary" onClick={() => set('kryteria', [...form.kryteria, { nazwa: '', opis: '' }])}>Dodaj kryterium</button>
         </div>
 
-        {error && <ErrorBox message={error} />}
-        {saved && <p role="status" className="alert alert-note">Nabór zapisany.</p>}
         <div className="btn-row">
-          <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Zapisywanie…' : 'Zapisz nabór'}</button>
+          <button type="submit" className="btn btn-primary" aria-disabled={busy || undefined}>{busy ? 'Zapisywanie…' : 'Zapisz nabór'}</button>
         </div>
+        <StatusLine message={saved ? 'Nabór zapisany.' : ''} error={error} />
       </form>
     </>
   )
