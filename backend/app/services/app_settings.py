@@ -12,7 +12,7 @@ from app.services.embeddings import LOCAL_MODEL
 # Skala podobieństwa zależy od modelu embeddingów.
 _DEFAULTS = {
     "openai": {"prog_duplikatow": 0.80, "prog_dopasowania": 0.35, "prog_klastra": 0.50},
-    "local": {"prog_duplikatow": 0.55, "prog_dopasowania": 0.15, "prog_klastra": 0.30},
+    "local": {"prog_duplikatow": 0.55, "prog_dopasowania": 0.30, "prog_klastra": 0.30},
 }
 KEYS = ("prog_duplikatow", "prog_dopasowania", "prog_klastra", "sla_godziny")
 

@@ -1,7 +1,7 @@
 """Lokalny zamiennik embeddingów (bez klucza API) i podobieństwo kosinusowe.
 
-Haszowany worek słów z grubym stemmingiem (pierwsze 5 liter) wystarcza do wykrywania
-duplikatów i grupowania zgłoszeń w demo offline. Z modelem OpenAI nie jest porównywalny,
+Haszowane trigramy znaków wystarczają do wykrywania duplikatów i grupowania zgłoszeń
+w demo offline. Z modelem OpenAI nie jest porównywalny,
 dlatego każdy wektor ma zapisaną nazwę modelu.
 """
 
@@ -9,9 +9,10 @@ import hashlib
 import math
 import re
 
-LOCAL_MODEL = "local-hash-v1"
-DIMENSIONS = 512
-STEM_LEN = 5
+LOCAL_MODEL = "local-trigram-v1"
+DIMENSIONS = 1024
+NGRAM = 3
+STEM_LEN = 5  # tylko do nazw grup w radarze
 
 STOPWORDS = frozenset(
     "oraz jest nie sie dla ktore ktora ktory przez jako albo tylko moze bardzo jestem sa ale "
@@ -26,11 +27,15 @@ def tokenize(text: str) -> list[str]:
 
 
 def local_embed(text: str) -> list[float]:
+    """Trigramy znaków w obrębie słów: odporne na polską fleksję (demencji, demencję)."""
     vec = [0.0] * DIMENSIONS
-    for token in tokenize(text):
-        digest = hashlib.md5(token.encode("utf-8")).digest()
-        index = int.from_bytes(digest[:4], "big") % DIMENSIONS
-        vec[index] += 1.0 if digest[4] % 2 == 0 else -1.0
+    for word in _WORD.findall(text.lower()):
+        if word in STOPWORDS:
+            continue
+        padded = f"^{word}$"
+        for i in range(max(1, len(padded) - NGRAM + 1)):
+            digest = hashlib.md5(padded[i : i + NGRAM].encode("utf-8")).digest()
+            vec[int.from_bytes(digest[:4], "big") % DIMENSIONS] += 1.0
     norm = math.sqrt(sum(v * v for v in vec))
     return [v / norm for v in vec] if norm else vec
 
