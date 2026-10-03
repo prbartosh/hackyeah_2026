@@ -3,9 +3,8 @@ from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-DEFAULT_INNOVATIONS_PATH = (
-    Path(__file__).resolve().parents[3] / "assets" / "innowacje-spoleczne" / "innowacje.json"
-)
+DEFAULT_ASSETS_PATH = Path(__file__).resolve().parents[3] / "assets"
+DEFAULT_INNOVATIONS_PATH = DEFAULT_ASSETS_PATH / "innowacje-spoleczne" / "innowacje.json"
 
 
 class Settings(BaseSettings):
@@ -27,6 +26,8 @@ class Settings(BaseSettings):
     # false = czat odpowiada 503 bez wołania modelu.
     chat_enabled: bool = True
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH
+    # Raporty, publikacje, Mapa Wyzwań i Obserwator (Zasobnik wiedzy, zadanie 0003).
+    assets_path: Path = DEFAULT_ASSETS_PATH
 
     # Panel administratora (ADR 0006). Pusty token = panel wyłączony.
     admin_token: str | None = None

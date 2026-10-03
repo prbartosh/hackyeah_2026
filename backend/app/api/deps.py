@@ -8,11 +8,13 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.core.config import settings
 from app.db.session import SessionLocal
+from app.repositories.document import DocumentRepository
 from app.repositories.innovation import InnovationRepository
 from app.services.ai import AIGateway
 from app.services.chat import ChatService
 from app.services.email import get_email_sender
 from app.services.innovation import InnovationService
+from app.services.knowledge import KnowledgeService
 from app.services.llm import LLMService
 from app.services.tickets import TicketService
 from app.services.token_budget import TokenBudget
@@ -64,9 +66,20 @@ def get_innovation_service(
     return InnovationService(repo)
 
 
+def get_document_repository() -> DocumentRepository:
+    return DocumentRepository(settings.assets_path)
+
+
+def get_knowledge_service(
+    repo: Annotated[DocumentRepository, Depends(get_document_repository)],
+) -> KnowledgeService:
+    return KnowledgeService(repo)
+
+
 InnovationRepositoryDep = Annotated[InnovationRepository, Depends(get_innovation_repository)]
 InnovationServiceDep = Annotated[InnovationService, Depends(get_innovation_service)]
 ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
+KnowledgeServiceDep = Annotated[KnowledgeService, Depends(get_knowledge_service)]
 
 
 def require_admin(authorization: Annotated[str | None, Header()] = None) -> None:
