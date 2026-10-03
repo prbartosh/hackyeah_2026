@@ -2,6 +2,7 @@
 
 - Status: zrobione
 - Osoba: Bartłomiej (backend), Bartosz (nginx, konfiguracja), Nikodem (panel OpenAI)
+- PR: #16, #22
 
 ## Cel
 
@@ -58,6 +59,7 @@ Najgorszy przypadek dziś: 40 × 4000 znaków historii (ok. 50 tys. tokenów) + 
 
 ## Notatki
 
+- Wartości limitów zatwierdzone w [0007](0007-ustalenia-otwarte.md).
 - `max_completion_tokens` podniesione z 4000 do 8000, bo obejmuje tokeny rozumowania; przy 4000 odpowiedź może być ucięta (`finish=length`). Można zejść niżej po pomiarze, bez zmiany kodu.
 - Odmowa z budżetu lub wyłącznika to 503 przed otwarciem strumienia, a nie zdarzenie `error`: sprawdzane tak jak walidacja (422), frontend pokazuje `detail`.
 - Limit 1500 znaków dotyczy wiadomości użytkownika. Wiadomości asystenta (z zapisem tury) i `summary` mają 4000, całość ogranicza 20 000.

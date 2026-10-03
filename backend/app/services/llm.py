@@ -55,6 +55,50 @@ class LLMService:
         self.budget = budget
         self.client = openai.AsyncOpenAI(api_key=settings.openai_api_key)
 
+    async def complete_json(self, *, system: str, user: str, timeout: float) -> dict[str, Any]:
+        """Jedno wywołanie bez strumienia, odpowiedź jako obiekt JSON (panel administratora)."""
+        extra: dict[str, Any] = {}
+        if self.settings.llm_reasoning_effort:
+            extra["reasoning_effort"] = self.settings.llm_reasoning_effort
+        try:
+            response = await self.client.chat.completions.create(
+                model=self.settings.llm_model,
+                max_completion_tokens=8000,
+                messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
+                response_format={"type": "json_object"},
+                timeout=timeout,
+                **extra,
+            )
+        except openai.APITimeoutError as e:
+            raise LLMError("Model nie odpowiedział na czas") from e
+        except openai.APIConnectionError as e:
+            raise LLMError("Brak połączenia z API modelu") from e
+        except openai.APIStatusError as e:
+            logger.error("LLM API error %s: %s", e.status_code, e.message)
+            raise LLMError(f"Błąd API modelu ({e.status_code})") from e
+        content = response.choices[0].message.content or ""
+        try:
+            data = json.loads(content)
+        except json.JSONDecodeError as e:
+            raise LLMError("Model zwrócił niepoprawną odpowiedź") from e
+        if not isinstance(data, dict):
+            raise LLMError("Model zwrócił niepoprawną odpowiedź")
+        return data
+
+    async def embed(self, texts: list[str], *, timeout: float) -> list[list[float]]:
+        try:
+            response = await self.client.embeddings.create(
+                model=self.settings.embedding_model, input=texts, timeout=timeout
+            )
+        except openai.APITimeoutError as e:
+            raise LLMError("Model nie odpowiedział na czas") from e
+        except openai.APIConnectionError as e:
+            raise LLMError("Brak połączenia z API modelu") from e
+        except openai.APIStatusError as e:
+            logger.error("Embeddings API error %s: %s", e.status_code, e.message)
+            raise LLMError(f"Błąd API modelu ({e.status_code})") from e
+        return [item.embedding for item in sorted(response.data, key=lambda d: d.index)]
+
     async def stream(
         self,
         *,

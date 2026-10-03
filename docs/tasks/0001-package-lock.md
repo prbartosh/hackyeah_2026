@@ -2,6 +2,7 @@
 
 - Status: w toku
 - Osoba: Daniel, Kacper (frontend)
+- PR: #6
 
 ## Cel
 
