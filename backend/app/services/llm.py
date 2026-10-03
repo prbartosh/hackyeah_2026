@@ -62,6 +62,8 @@ class LLMService:
         try:
             response = await self.client.chat.completions.create(
                 model=self.settings.llm_model,
+                # DeepSeek zna tylko max_tokens (bez max_completion_tokens).
+                max_tokens=8000,
                 messages=[{"role": "system", "content": system}, {"role": "user", "content": user}],
                 response_format={"type": "json_object"},
                 timeout=timeout,

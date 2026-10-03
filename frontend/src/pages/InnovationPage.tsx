@@ -6,6 +6,7 @@ import { DetailSkeleton } from '@/components/Skeleton'
 import TesterSection from '@/components/TesterSection'
 import VideoEmbed from '@/components/VideoEmbed'
 import { useChat } from '@/context/ChatContext'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { kategoriaNazwa, type Innowacja } from '@/types/innowacja'
 
 function Section({ title, text }: { title: string; text: string | null }) {
@@ -45,6 +46,9 @@ export default function InnovationPage() {
   ) : (
     <Link to="/">← Wróć do wyszukiwarki</Link>
   )
+
+  const loaded = state?.slug === slug ? state.data : null
+  useDocumentTitle(loaded ? `${loaded.nazwa} · Splot` : 'Rozwiązanie · Splot')
 
   if (!state || state.slug !== slug) {
     return <DetailSkeleton label="Wczytywanie opisu rozwiązania…" />

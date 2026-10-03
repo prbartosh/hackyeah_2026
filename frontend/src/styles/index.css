@@ -272,7 +272,12 @@ main { flex: 1; display: flex; flex-direction: column; }
   background: var(--surface); border: 2px solid var(--error); border-left-width: 5px; color: var(--error); font-weight: 600;
   margin-bottom: var(--space-3);
 }
-.alert-note { margin-top: var(--space-2); }
+.alert-note { margin-top: 0.5rem; }
+.route-loading { min-height: 60vh; padding: 2rem 1rem; text-align: center; color: var(--text-muted, var(--text)); }
+.error-boundary:focus { outline: none; }
+.error-boundary-page { max-width: 36rem; margin: 4rem auto; padding: 0 1rem; }
+.error-boundary-page h1 { margin-bottom: 0.75rem; }
+.error-boundary-page p { margin-bottom: 1.25rem; }
 
 .badge {
   display: inline-flex; align-items: center; gap: 0.3rem; padding: 0.1rem 0.6rem;
