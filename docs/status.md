@@ -36,3 +36,4 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - 2026-10-03: Kryteria oceny ([kryteria-oceny.md](kryteria-oceny.md)), [GLOSSARY.md](../GLOSSARY.md)
 - 2026-10-03: Czat we froncie podłączony do `POST /api/v1/chat` (SSE) zgodnie z kontraktem z ADR 0005, nowy układ, obsługa błędów, tryb demo usunięty
 - 2026-10-03: Czat przez Responses API: narzędzia razem z `reasoning_effort` (błąd 400 w Chat Completions), sprawdzone na prawdziwym modelu
+- 2026-10-03: Czat przez Responses API: narzędzia razem z `reasoning_effort` (błąd 400 w Chat Completions), sprawdzone na prawdziwym modelu
