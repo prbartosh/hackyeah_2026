@@ -1,5 +1,6 @@
-import { useMemo, useState } from 'react'
-import { Download, Minus, TrendingDown, TrendingUp } from 'lucide-react'
+import { useEffect, useMemo, useState } from 'react'
+import { Download, Minus, Pause, Play, TrendingDown, TrendingUp } from 'lucide-react'
+import IndicatorMap from '@/components/IndicatorMap'
 import { formatValue, meanSeries, shortPowiat, summarize, type IndicatorTable } from '@/lib/indicator'
 
 const COLORS = ['var(--zs-s1)', 'var(--zs-s2)', 'var(--zs-s3)', 'var(--zs-s4)', 'var(--zs-s5)']
@@ -87,12 +88,52 @@ function LineChart({ table, selected, name }: { table: IndicatorTable; selected:
   )
 }
 
+function PowiatCard({ table, yearIdx, powiat }: { table: IndicatorTable; yearIdx: number; powiat: string | null }) {
+  const row = table.rows.find((r) => r.powiat === powiat)
+  if (!row) {
+    return <p className="hint">Najedź na powiat na mapie albo wybierz go z rankingu, żeby zobaczyć szczegóły.</p>
+  }
+  const v = row.values[yearIdx]
+  const ranked = table.rows.filter((r) => r.values[yearIdx] !== null).sort((a, b) => (b.values[yearIdx] ?? 0) - (a.values[yearIdx] ?? 0))
+  const rank = ranked.findIndex((r) => r.powiat === powiat) + 1
+  const sum = summarize(table, yearIdx)
+  const firstIdx = row.values.findIndex((x) => x !== null)
+  const first = firstIdx >= 0 ? row.values[firstIdx] : null
+  const diffMean = v !== null && sum ? v - sum.mean : null
+  const diffFirst = v !== null && first !== null && firstIdx < yearIdx ? v - first : null
+  const nums = row.values.filter((x): x is number => x !== null)
+  const lo = Math.min(...nums), hi = Math.max(...nums)
+  const pts = row.values
+    .map((x, i) => (x === null ? null : `${(i / Math.max(table.years.length - 1, 1)) * 200},${hi === lo ? 20 : 36 - ((x - lo) / (hi - lo)) * 32}`))
+    .filter(Boolean)
+    .join(' ')
+  const sign = (d: number) => `${d > 0 ? '+' : ''}${formatValue(d, table.unit)}`
+  return (
+    <div className="zs-pcard">
+      <h4 className="zs-pcard-name">{powiat === null ? '' : shortPowiat(powiat)}</h4>
+      <p className="zs-pcard-value">{formatValue(v, table.unit)}</p>
+      <dl className="zs-pcard-facts">
+        {rank > 0 && (<div><dt>Miejsce w rankingu</dt><dd>{rank}. z {ranked.length}</dd></div>)}
+        {diffMean !== null && (<div><dt>Względem średniej</dt><dd>{sign(diffMean)}</dd></div>)}
+        {diffFirst !== null && (<div><dt>Od {table.years[firstIdx]} roku</dt><dd>{sign(diffFirst)}</dd></div>)}
+      </dl>
+      {pts && (
+        <svg viewBox="0 0 200 40" className="zs-spark" role="img" aria-label={`Przebieg ${table.years[0]}–${table.years[table.years.length - 1]}`}>
+          <polyline points={pts} fill="none" style={{ stroke: 'var(--zs-s1)' }} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </div>
+  )
+}
+
 export default function IndicatorExplorer({ table, name }: Props) {
   const [yearIdx, setYearIdx] = useState(() => lastYearWithData(table))
   const [selected, setSelected] = useState<string[]>(() => {
     const s = summarize(table, lastYearWithData(table))
     return s ? [s.max.powiat, s.min.powiat] : []
   })
+  const [active, setActive] = useState<string | null>(null)
+  const [playing, setPlaying] = useState(false)
   const year = table.years[yearIdx]
   const sum = summarize(table, yearIdx)
   const prevIdx = (() => {
@@ -108,6 +149,30 @@ export default function IndicatorExplorer({ table, name }: Props) {
       .sort((a, b) => b.v - a.v),
     [table, yearIdx],
   )
+  const shown = active ?? selected[selected.length - 1] ?? null
+
+  // Animacja lat: co chwilę następny rok z danymi, zatrzymuje się na ostatnim
+  useEffect(() => {
+    if (!playing) return
+    const id = setInterval(() => {
+      setYearIdx((cur) => {
+        for (let i = cur + 1; i < table.years.length; i++) if (summarize(table, i)) return i
+        setPlaying(false)
+        return cur
+      })
+    }, 900)
+    return () => clearInterval(id)
+  }, [playing, table])
+
+  function togglePlay() {
+    if (!playing) {
+      // od początku, jeśli jesteśmy na końcu
+      const atEnd = !table.years.some((_, i) => i > yearIdx && summarize(table, i))
+      if (atEnd) setYearIdx(table.years.findIndex((_, i) => summarize(table, i)))
+    }
+    setPlaying((p) => !p)
+  }
+
   const maxAbs = Math.max(...ranking.map((r) => Math.abs(r.v)), 1e-9)
 
   function toggle(p: string) {
@@ -131,10 +196,14 @@ export default function IndicatorExplorer({ table, name }: Props) {
       <div className="zs-explorer-bar">
         <div className="zs-filter">
           <label htmlFor="zs-year">Rok</label>
-          <select id="zs-year" className="select" value={yearIdx} onChange={(e) => setYearIdx(Number(e.target.value))}>
+          <select id="zs-year" className="select" value={yearIdx} onChange={(e) => { setPlaying(false); setYearIdx(Number(e.target.value)) }}>
             {table.years.map((y, i) => <option key={y} value={i} disabled={!summarize(table, i)}>{y}</option>)}
           </select>
         </div>
+        <button type="button" className="btn btn-ghost" onClick={togglePlay} aria-pressed={playing}>
+          {playing ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}
+          {playing ? 'Zatrzymaj' : 'Odtwórz lata'}
+        </button>
         <button type="button" className="btn btn-ghost" onClick={downloadCsv}>
           <Download size={18} aria-hidden="true" /> Pobierz dane (CSV)
         </button>
@@ -157,6 +226,15 @@ export default function IndicatorExplorer({ table, name }: Props) {
       ) : <p className="empty">Brak danych za ten rok.</p>}
 
       <div className="zs-explorer-grid">
+        <section aria-labelledby="zs-map-h" className="zs-panel">
+          <h3 id="zs-map-h" className="zs-panel-h">Mapa powiatów, {year}</h3>
+          <p className="hint">Ciemniejszy kolor oznacza wyższe miejsce w rankingu. Kliknij powiat, żeby dodać go do wykresu.</p>
+          <div className="zs-map-layout">
+            <IndicatorMap table={table} yearIdx={yearIdx} selected={selected} active={active} onActivate={setActive} onToggle={toggle} name={name} />
+            <div className="zs-map-side" aria-live="polite"><PowiatCard table={table} yearIdx={yearIdx} powiat={shown} /></div>
+          </div>
+        </section>
+
         <section aria-labelledby="zs-trend-h" className="zs-panel">
           <h3 id="zs-trend-h" className="zs-panel-h">Zmiana w czasie</h3>
           <LineChart table={table} selected={selected} name={name} />

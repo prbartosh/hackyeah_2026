@@ -201,15 +201,15 @@
 .zs-root, .zs-doc {
   --surface-sunk: var(--surface-alt);
   --zs-s1: #0b57d0; --zs-s2: #c2410c; --zs-s3: #15803d; --zs-s4: #7e22ce; --zs-s5: #be123c;
-  --zs-bar: #9db4e6;
+  --zs-bar: #9db4e6; --zs-map-lo: #e9f0fd; --zs-map-hi: #0a3a8f; --zs-map-line: #ffffff;
 }
 :root[data-theme="dark"] .zs-root, :root[data-theme="dark"] .zs-doc {
   --zs-s1: #8ab8ff; --zs-s2: #ffb066; --zs-s3: #7fd18f; --zs-s4: #d5a8ff; --zs-s5: #ff9aae;
-  --zs-bar: #3b4f7a;
+  --zs-bar: #3b4f7a; --zs-map-lo: #1d2b47; --zs-map-hi: #9cc4ff; --zs-map-line: #121212;
 }
 :root[data-theme="high-contrast"] .zs-root, :root[data-theme="high-contrast"] .zs-doc {
   --zs-s1: #ffff00; --zs-s2: #00ffff; --zs-s3: #ffffff; --zs-s4: #ff9bff; --zs-s5: #7dff7d;
-  --zs-bar: #ffffff;
+  --zs-bar: #ffffff; --zs-map-lo: #000000; --zs-map-hi: #ffff00; --zs-map-line: #ffff00;
 }
 
 .zs-eyebrow { margin-bottom: 0.5rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--primary); }
@@ -435,3 +435,25 @@
   .zs-bar { grid-template-columns: 1fr auto; }
   .zs-bar-track { grid-column: 1 / -1; grid-row: 2; }
 }
+
+/* Mapa powiatów i karta powiatu */
+.zs-map-layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+.zs-map { margin: 0; display: grid; gap: 0.6rem; }
+.zs-map-svg { width: 100%; height: auto; max-height: 30rem; }
+.zs-map-area { stroke: var(--zs-map-line); stroke-width: 1; stroke-linejoin: round; cursor: pointer; transition: filter 0.12s ease; }
+.zs-map-area:hover, .zs-map-area.is-active { filter: brightness(1.12) saturate(1.2); stroke: var(--text); stroke-width: 2; }
+.zs-map-area.is-selected { stroke: var(--focus); stroke-width: 3.2; paint-order: stroke; }
+.zs-map-area.is-empty { fill: var(--surface-sunk); }
+.zs-map-area:focus-visible { outline: none; stroke: var(--focus); stroke-width: 4; }
+:root[data-theme="high-contrast"] .zs-map-area.is-selected { stroke-dasharray: 6 3; }
+.zs-map-legend { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+.zs-map-ramp { flex: 1; height: 0.6rem; border-radius: 999px; border: 1px solid var(--line-strong); background: linear-gradient(to right, var(--zs-map-lo), var(--zs-map-hi)); }
+.zs-pcard { display: grid; gap: 0.5rem; padding: 1rem 1.1rem; background: var(--surface-sunk); border-radius: var(--radius-md); }
+.zs-pcard-name { font-size: 1.1rem; text-transform: capitalize; }
+.zs-pcard-value { font-size: 2.2rem; font-weight: 750; letter-spacing: -0.02em; line-height: 1.1; color: var(--primary); }
+.zs-pcard-facts { margin: 0; display: grid; gap: 0.35rem; font-size: 0.92rem; }
+.zs-pcard-facts > div { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px dashed var(--line-strong); padding-bottom: 0.25rem; }
+.zs-pcard-facts dt { color: var(--text-muted); }
+.zs-pcard-facts dd { margin: 0; font-weight: 650; font-variant-numeric: tabular-nums; }
+.zs-spark { width: 100%; height: 2.5rem; }
+@media (max-width: 56rem) { .zs-map-layout { grid-template-columns: minmax(0, 1fr); } }

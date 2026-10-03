@@ -41,7 +41,7 @@ export function formatValue(v: number | null, unit: '%' | ''): string {
   if (v === null) return 'brak danych'
   const abs = Math.abs(v)
   const digits = abs >= 1000 || Number.isInteger(v) ? 0 : abs >= 100 ? 1 : 2
-  return `${v.toLocaleString('pl-PL', { maximumFractionDigits: digits })}${unit === '%' ? '%' : ''}`
+  return `${v.toLocaleString('pl-PL', ({ maximumFractionDigits: digits, useGrouping: 'always' } as unknown as Intl.NumberFormatOptions))}${unit === '%' ? '%' : ''}`
 }
 
 export interface Summary {
