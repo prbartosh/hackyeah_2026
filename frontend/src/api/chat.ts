@@ -9,7 +9,8 @@ export class ChatError extends Error {}
 
 /**
  * POST /chat → strumień SSE. fetch + ReadableStream, bo EventSource obsługuje tylko GET.
- * Generator kończy się po zdarzeniu `done` lub `error`; zerwane połączenie rzuca ChatError.
+ * Generator kończy się po zdarzeniu `done` lub `error`. Błędy sieci i serwera rzucają ChatError
+ * z komunikatem po polsku, który interfejs pokazuje użytkownikowi razem z przyciskiem „Spróbuj ponownie”.
  */
 export async function* streamChat(req: ChatRequest, signal?: AbortSignal): AsyncGenerator<ServerEvent> {
   let res: Response
@@ -22,7 +23,7 @@ export async function* streamChat(req: ChatRequest, signal?: AbortSignal): Async
     })
   } catch (e) {
     if (signal?.aborted) throw e
-    throw new ChatError('Nie udało się połączyć z serwerem. Sprawdź połączenie z internetem i spróbuj ponownie.')
+    throw new ChatError('Brak połączenia z serwerem. Sprawdź internet i spróbuj ponownie.')
   }
 
   if (!res.ok) throw new ChatError(await describeHttpError(res))
@@ -78,8 +79,8 @@ async function describeHttpError(res: Response): Promise<string> {
     }
     return 'Nie można kontynuować tej rozmowy. Zacznij od nowa.'
   }
-  if (res.status === 502 || res.status === 503 || res.status === 504) {
+  if (res.status === 404 || res.status === 502 || res.status === 503 || res.status === 504) {
     return 'Serwer jest chwilowo niedostępny. Spróbuj ponownie za chwilę.'
   }
-  return `Serwer zwrócił błąd (${res.status}). Spróbuj ponownie.`
+  return 'Coś poszło nie tak po stronie serwera. Spróbuj ponownie.'
 }

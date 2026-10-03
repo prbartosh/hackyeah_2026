@@ -1,4 +1,4 @@
-// Rekord z assets/innowacje-spoleczne/innowacje.json (opis pól: docs/baza-innowacji.md)
+// Rekord z assets/innowacje-spoleczne/innowacje.json (opis pól: docs/baza-innowacji.md); pola treści mogą być null (ADR 0004 §2)
 export interface Innowacja {
   slug: string
   url_zrodlowy: string
@@ -6,17 +6,17 @@ export interface Innowacja {
   kategorie: string[]
   wybrana_do_upowszechniania: boolean
   opis: string | null
-  problem: string
+  problem: string | null
   grupa_docelowa: string | null
-  kto_moze_skorzystac: string
+  kto_moze_skorzystac: string | null
   czy_dziala: string | null
   organizacja: string | null
   pdf_url: string | null
   youtube_url: string | null
-  materialy_url: string
-  obraz_url: string
+  materialy_url: string | null
+  obraz_url: string | null
   licencja: string | null
-  pobrano_dnia: string
+  pobrano_dnia: string | null
 }
 
 export const KATEGORIE: Record<string, string> = {

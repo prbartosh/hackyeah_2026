@@ -1,53 +1,67 @@
-// Kontrakt czatu = backend/app/schemas/chat.py (gałąź ai-flow, ADR 0004).
+// Kontrakt czatu = backend/app/schemas/chat.py (main, ADR 0004 §3 i §7, ADR 0005).
 // Przy zmianach schematu po stronie backendu poprawiaj ten plik.
 
-export type Role = 'mieszkaniec' | 'ngo' | 'jst' | 'cus_ops' | 'ekspert'
+/** Role z ADR 0004 §3. `partner` to JST, NGO albo ekspert. */
+export type Role = 'mieszkaniec' | 'cus-ops' | 'partner'
 
 export const ROLE_LABELS: Record<Role, string> = {
   mieszkaniec: 'Mieszkaniec lub opiekun',
-  ngo: 'Organizacja pozarządowa (NGO)',
-  jst: 'Samorząd (JST)',
-  cus_ops: 'Pracownik CUS / OPS',
-  ekspert: 'Ekspert',
+  'cus-ops': 'Pracownik CUS / OPS',
+  partner: 'Samorząd, NGO lub ekspert',
 }
 
-export type ProblemKey = 'kogo_dotyczy' | 'gdzie' | 'skala' | 'przyczyna' | 'co_probowano' | 'zasoby'
+export type PoziomKosztu = 'niski' | 'sredni' | 'wysoki'
 
-/** Panel „Twój problem”. null = jeszcze nieustalone. */
-export type ProblemFields = Record<ProblemKey, string | null>
+/** Pole panelu: tekst do wyświetlenia i slugi ze słownika do wyszukiwania. */
+export interface PoleProblemu {
+  tekst: string | null
+  slugi: string[]
+}
 
+export interface PoleZasoby extends PoleProblemu {
+  poziom_kosztu: PoziomKosztu | null
+}
+
+/** Panel „Twój problem” (ADR 0004 §7). W panelu pokazujemy tylko `tekst`. */
+export interface ProblemState {
+  grupy_docelowe: PoleProblemu
+  problemy: PoleProblemu
+  miejsca: PoleProblemu
+  skale: PoleProblemu
+  zasoby: PoleZasoby
+  proby: PoleProblemu
+}
+
+export type ProblemKey = keyof ProblemState
+
+/** Kolejność i nazwy pól panelu (DEMO.md, ADR 0004 §3). */
 export const PROBLEM_FIELDS: { key: ProblemKey; label: string }[] = [
-  { key: 'kogo_dotyczy', label: 'Kogo dotyczy' },
-  { key: 'gdzie', label: 'Gdzie (gmina)' },
-  { key: 'skala', label: 'Skala' },
-  { key: 'przyczyna', label: 'Przyczyna' },
-  { key: 'co_probowano', label: 'Co próbowano' },
+  { key: 'grupy_docelowe', label: 'Kogo dotyczy' },
+  { key: 'miejsca', label: 'Gdzie' },
+  { key: 'skale', label: 'Skala' },
+  { key: 'problemy', label: 'Przyczyna' },
+  { key: 'proby', label: 'Co próbowano' },
   { key: 'zasoby', label: 'Zasoby' },
 ]
 
-export const EMPTY_PROBLEM: ProblemFields = {
-  kogo_dotyczy: null,
-  gdzie: null,
-  skala: null,
-  przyczyna: null,
-  co_probowano: null,
-  zasoby: null,
-}
+export const emptyProblem = (): ProblemState => ({
+  grupy_docelowe: { tekst: null, slugi: [] },
+  problemy: { tekst: null, slugi: [] },
+  miejsca: { tekst: null, slugi: [] },
+  skale: { tekst: null, slugi: [] },
+  zasoby: { tekst: null, slugi: [], poziom_kosztu: null },
+  proby: { tekst: null, slugi: [] },
+})
 
-export interface ChatState {
-  role: Role | null
+/** Stan rozmowy: płaski — pola panelu plus rola, blokada roli i licznik rund. */
+export interface ChatState extends ProblemState {
+  rola: Role | null
   /** true, gdy użytkownik sam zmienił rolę przyciskiem „Zmień” — model jej nie nadpisuje */
   role_locked: boolean
-  problem: ProblemFields
   rounds: number
 }
 
-export const INITIAL_STATE: ChatState = {
-  role: null,
-  role_locked: false,
-  problem: EMPTY_PROBLEM,
-  rounds: 0,
-}
+export const initialState = (): ChatState => ({ ...emptyProblem(), rola: null, role_locked: false, rounds: 0 })
 
 export type ChatAction = 'show_results_now' | 'confirm_summary'
 
@@ -74,6 +88,8 @@ export interface ChatRequest {
   messages: ApiMessage[]
   state: ChatState
   action?: ChatAction
+  /** Podsumowanie poprawione przez użytkownika, razem z action = 'confirm_summary' */
+  summary?: string
 }
 
 export interface Question {
@@ -89,11 +105,12 @@ export interface ResultItem {
   match: MatchKind
   why_relevant: string
   kategorie: string[]
+  wybrana_do_upowszechniania: boolean
   url_zrodlowy: string
-  materialy_url: string
+  materialy_url: string | null
   pdf_url: string | null
   youtube_url: string | null
-  obraz_url: string
+  obraz_url: string | null
   organizacja: string | null
   licencja: string | null
 }
@@ -107,10 +124,10 @@ export interface Results {
 /** Zdarzenia SSE z POST /api/v1/chat */
 export type ServerEvent =
   | { name: 'text'; data: { text: string } }
-  | { name: 'role'; data: { role: Role } }
-  | { name: 'problem_update'; data: { problem: ProblemFields } }
+  | { name: 'role'; data: { rola: Role } }
+  | { name: 'problem_update'; data: { problem: ProblemState } }
   | { name: 'question'; data: Question }
-  | { name: 'summary'; data: { summary: string; problem: ProblemFields } }
+  | { name: 'summary'; data: { summary: string; problem: ProblemState } }
   | { name: 'results'; data: Results }
   | { name: 'done'; data: { assistant_message: string; state: ChatState } }
   | { name: 'error'; data: { message: string } }

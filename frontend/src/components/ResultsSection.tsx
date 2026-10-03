@@ -14,9 +14,17 @@ function ResultCard({ item }: { item: ResultItem }) {
   const detailsPath = `/innowacja/${item.slug}`
   const kategoria = kategoriaNazwa(item.kategorie)
   const isMain = item.match === 'main'
+  const links = [
+    item.materialy_url && { label: 'Materiały (ZIP)', href: item.materialy_url, external: false },
+    item.pdf_url && { label: 'Folder (PDF)', href: item.pdf_url, external: true },
+    item.youtube_url && { label: 'Film', href: item.youtube_url, external: true },
+  ].filter((l): l is { label: string; href: string; external: boolean } => !!l)
   return (
     <li className={`result-card${isMain ? ' is-main' : ''}`}>
-      <p className="result-kind">{isMain ? 'Najlepsze dopasowanie' : 'Uzupełniające'}</p>
+      <p className="result-kinds">
+        <span className="result-kind">{isMain ? 'Najlepsze dopasowanie' : 'Uzupełniające'}</span>
+        {item.wybrana_do_upowszechniania && <span className="result-kind result-kind-rops">Polecana przez ROPS</span>}
+      </p>
       <h3>
         <Link to={detailsPath}>{item.nazwa}</Link>
       </h3>
@@ -26,11 +34,19 @@ function ResultCard({ item }: { item: ResultItem }) {
         <span>{licenseLabel(item.licencja)}</span>
       </p>
       <p>{item.why_relevant}</p>
-      <p className="result-files">
-        <a href={item.materialy_url}>Materiały (ZIP)</a>
-        {item.pdf_url && <> · <a href={item.pdf_url} target="_blank" rel="noreferrer">Folder (PDF)<span className="visually-hidden"> (nowa karta)</span></a></>}
-        {item.youtube_url && <> · <a href={item.youtube_url} target="_blank" rel="noreferrer">Film<span className="visually-hidden"> (nowa karta)</span></a></>}
-      </p>
+      {links.length > 0 && (
+        <p className="result-files">
+          {links.map((l, i) => (
+            <span key={l.label}>
+              {i > 0 && ' · '}
+              <a href={l.href} {...(l.external ? { target: '_blank', rel: 'noreferrer' } : {})}>
+                {l.label}
+                {l.external && <span className="visually-hidden"> (nowa karta)</span>}
+              </a>
+            </span>
+          ))}
+        </p>
+      )}
       <div className="btn-row">
         <Link to={detailsPath} className="btn btn-primary">
           Szczegóły i kontakt<span className="visually-hidden">: {item.nazwa}</span>

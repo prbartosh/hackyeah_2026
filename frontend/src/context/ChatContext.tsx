@@ -2,22 +2,22 @@ import { createContext, useCallback, useContext, useMemo, useReducer, useRef, ty
 import { ChatError, streamChat } from '@/api/chat'
 import {
   ACTION_HISTORY_TEXT,
-  INITIAL_STATE,
   MAX_MESSAGES,
   MAX_MESSAGE_CHARS,
   PROBLEM_FIELDS,
+  initialState,
   type ApiMessage,
   type ChatAction,
   type ChatState,
-  type ProblemFields,
   type ProblemKey,
+  type ProblemState,
   type Question,
   type Results,
   type Role,
   type ServerEvent,
 } from '@/types/chat'
 
-// Cała rozmowa i stan problemu żyją tylko w przeglądarce (backend jest bezstanowy, ADR 0004).
+// Cała rozmowa i stan problemu żyją tylko w przeglądarce (backend jest bezstanowy, ADR 0005).
 // `history` i `state` to dokładnie to, co wysyłamy do POST /chat. Historia rośnie o wiadomość
 // asystenta dopiero po zdarzeniu `done` (jej treść to `assistant_message`, odsyłany dosłownie),
 // a `state` jest podmieniany na `done.state`.
@@ -45,17 +45,17 @@ interface ChatData {
   error: string | null
 }
 
-const initialData: ChatData = {
+const initialData = (): ChatData => ({
   display: [],
   history: [],
-  state: INITIAL_STATE,
+  state: initialState(),
   recentlyUpdated: [],
   awaiting: null,
   summaryConfirmed: false,
   results: null,
   streaming: false,
   error: null,
-}
+})
 
 type Action =
   | { type: 'send'; display: string; content: string; confirmSummary?: boolean }
@@ -91,8 +91,14 @@ function withAssistant(display: DisplayMessage[], update: (m: DisplayMessage) =>
   return [...display, update({ id: nextId(display), from: 'assistant', text: '' })]
 }
 
-function changedKeys(prev: ProblemFields, next: ProblemFields): ProblemKey[] {
-  return PROBLEM_FIELDS.map((f) => f.key).filter((k) => (next[k] ?? null) !== (prev[k] ?? null))
+/** Pola panelu, których tekst się zmienił (do oznaczenia „nowe”). */
+function changedKeys(prev: ProblemState, next: ProblemState): ProblemKey[] {
+  return PROBLEM_FIELDS.map((f) => f.key).filter((k) => (next[k]?.tekst ?? null) !== (prev[k]?.tekst ?? null))
+}
+
+/** Panel z backendu podmienia pola problemu w płaskim stanie (rola, blokada i licznik rund zostają). */
+function withProblem(state: ChatState, problem: ProblemState): ChatState {
+  return { ...state, ...problem }
 }
 
 function resultsLine(results: Results): string {
@@ -133,10 +139,10 @@ function reducer(data: ChatData, action: Action): ChatData {
     }
 
     case 'set_role':
-      return { ...data, state: { ...data.state, role: action.role, role_locked: true } }
+      return { ...data, state: { ...data.state, rola: action.role, role_locked: true } }
 
     case 'reset':
-      return initialData
+      return initialData()
 
     case 'event': {
       const e = action.event
@@ -145,13 +151,13 @@ function reducer(data: ChatData, action: Action): ChatData {
           return { ...data, display: withAssistant(data.display, (m) => ({ ...m, text: m.text + e.data.text })) }
 
         case 'role':
-          return { ...data, state: { ...data.state, role: e.data.role } }
+          return { ...data, state: { ...data.state, rola: e.data.rola } }
 
         case 'problem_update': {
-          const changed = changedKeys(data.state.problem, e.data.problem)
+          const changed = changedKeys(data.state, e.data.problem)
           return {
             ...data,
-            state: { ...data.state, problem: e.data.problem },
+            state: withProblem(data.state, e.data.problem),
             recentlyUpdated: [...new Set([...data.recentlyUpdated, ...changed])],
           }
         }
@@ -164,11 +170,11 @@ function reducer(data: ChatData, action: Action): ChatData {
           }
 
         case 'summary': {
-          const changed = changedKeys(data.state.problem, e.data.problem)
+          const changed = changedKeys(data.state, e.data.problem)
           return {
             ...data,
             awaiting: 'summary',
-            state: { ...data.state, problem: e.data.problem },
+            state: withProblem(data.state, e.data.problem),
             recentlyUpdated: [...new Set([...data.recentlyUpdated, ...changed])],
             display: withAssistant(data.display, (m) => ({ ...m, summary: e.data.summary })),
           }
@@ -194,7 +200,14 @@ function reducer(data: ChatData, action: Action): ChatData {
           }
 
         case 'error':
-          return { ...data, display: dropEmptyAssistant(data.display), streaming: false, error: e.data.message }
+          // Zdarzenie error to zawsze problem po stronie asystenta AI (np. API modelu) — bez technicznych szczegółów
+          return {
+            ...data,
+            display: dropEmptyAssistant(data.display),
+            streaming: false,
+            error: 'Asystent AI nie mógł teraz odpowiedzieć. Spróbuj ponownie.',
+          }
+
       }
     }
   }
@@ -203,9 +216,8 @@ function reducer(data: ChatData, action: Action): ChatData {
 interface ChatContextValue extends ChatData {
   /** Zwykła wiadomość użytkownika: wpisany tekst albo kliknięta opcja pytania */
   sendMessage: (text: string) => void
-  confirmSummary: () => void
-  /** Poprawka podsumowania: wysyłana jako zwykła wiadomość */
-  correctSummary: (text: string) => void
+  /** Zatwierdzenie podsumowania; z argumentem — wersja poprawiona przez użytkownika (pole `summary`) */
+  confirmSummary: (correctedSummary?: string) => void
   showResultsNow: () => void
   changeRole: (role: Role) => void
   retry: () => void
@@ -215,11 +227,11 @@ interface ChatContextValue extends ChatData {
 const ChatContext = createContext<ChatContextValue | null>(null)
 
 export function ChatProvider({ children }: { children: ReactNode }) {
-  const [data, rawDispatch] = useReducer(reducer, initialData)
+  const [data, rawDispatch] = useReducer(reducer, undefined, initialData)
   // Ref zawsze zawiera najnowszy stan (reducer jest czysty), także między renderami
   const dataRef = useRef(data)
   const abortRef = useRef<AbortController | null>(null)
-  const lastActionRef = useRef<ChatAction | undefined>(undefined)
+  const lastRequestRef = useRef<{ action?: ChatAction; summary?: string }>({})
 
   const dispatch = useCallback((action: Action) => {
     dataRef.current = reducer(dataRef.current, action)
@@ -227,13 +239,13 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const stream = useCallback(
-    async (action: ChatAction | undefined) => {
-      lastActionRef.current = action
+    async (action?: ChatAction, summary?: string) => {
+      lastRequestRef.current = { action, summary }
       const controller = new AbortController()
       abortRef.current = controller
       const { history, state } = dataRef.current
       try {
-        for await (const event of streamChat({ messages: history, state, action }, controller.signal)) {
+        for await (const event of streamChat({ messages: history, state, action, summary }, controller.signal)) {
           if (controller.signal.aborted) return
           dispatch({ type: 'event', event })
         }
@@ -249,10 +261,10 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   )
 
   const send = useCallback(
-    (display: string, content: string, action?: ChatAction) => {
+    (display: string, content: string, action?: ChatAction, summary?: string) => {
       if (dataRef.current.streaming) return
       dispatch({ type: 'send', display, content, confirmSummary: action === 'confirm_summary' })
-      void stream(action)
+      void stream(action, summary)
     },
     [dispatch, stream],
   )
@@ -261,8 +273,13 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     () => ({
       ...data,
       sendMessage: (text) => send(text, text),
-      confirmSummary: () => send('Potwierdzam podsumowanie.', ACTION_HISTORY_TEXT.confirm_summary, 'confirm_summary'),
-      correctSummary: (text) => send(text, `Poprawiam podsumowanie: ${text}`),
+      confirmSummary: (correctedSummary) =>
+        send(
+          correctedSummary ? `Zatwierdzam poprawione podsumowanie:\n${correctedSummary}` : 'Potwierdzam podsumowanie.',
+          ACTION_HISTORY_TEXT.confirm_summary,
+          'confirm_summary',
+          correctedSummary,
+        ),
       showResultsNow: () => send('Pokaż wyniki teraz.', ACTION_HISTORY_TEXT.show_results_now, 'show_results_now'),
       changeRole: (role) => {
         if (dataRef.current.streaming) return
@@ -275,7 +292,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       retry: () => {
         if (dataRef.current.streaming || !dataRef.current.error) return
         dispatch({ type: 'retry' })
-        void stream(lastActionRef.current)
+        const { action, summary } = lastRequestRef.current
+        void stream(action, summary)
       },
       reset: () => {
         abortRef.current?.abort()

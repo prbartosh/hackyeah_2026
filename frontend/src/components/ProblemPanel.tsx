@@ -7,7 +7,7 @@ function PanelBody() {
   return (
     <dl className="problem-list">
       {PROBLEM_FIELDS.map(({ key, label }) => {
-        const value = state.problem[key]
+        const value = state[key].tekst
         const isNew = recentlyUpdated.includes(key)
         return (
           <div key={key} className={`problem-row${isNew ? ' is-new' : ''}`}>
@@ -33,8 +33,8 @@ function PanelBody() {
 /** Panel „Twój problem”: pojawia się po rozpoczęciu rozmowy; obok czatu na szerokim ekranie, zwijany nad czatem na wąskim. */
 export default function ProblemPanel() {
   const { state } = useChat()
-  const wide = useMediaQuery('(min-width: 62rem)')
-  const filled = PROBLEM_FIELDS.filter((f) => state.problem[f.key]).length
+  const wide = useMediaQuery('(min-width: 75rem)')
+  const filled = PROBLEM_FIELDS.filter((f) => state[f.key].tekst).length
 
   if (wide) {
     return (

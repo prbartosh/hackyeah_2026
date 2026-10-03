@@ -93,11 +93,13 @@ export default function InnovationPage() {
           <section className="side-box">
             <h2>Materiały do pobrania</h2>
             <ul className="link-list">
-              <li>
-                <a href={rec.materialy_url}>
-                  <Download size={20} aria-hidden="true" /> Pakiet materiałów (ZIP)
-                </a>
-              </li>
+              {rec.materialy_url && (
+                <li>
+                  <a href={rec.materialy_url}>
+                    <Download size={20} aria-hidden="true" /> Pakiet materiałów (ZIP)
+                  </a>
+                </li>
+              )}
               {rec.pdf_url && (
                 <li>
                   <a href={rec.pdf_url} target="_blank" rel="noreferrer">
@@ -141,7 +143,7 @@ export default function InnovationPage() {
                 'Zasady wykorzystania innowacji MIIS — szczegóły na stronie źródłowej.'
               )}
             </p>
-            <p className="hint">Dane pobrano: {rec.pobrano_dnia}</p>
+            {rec.pobrano_dnia && <p className="hint">Dane pobrano: {rec.pobrano_dnia}</p>}
           </section>
         </aside>
       </div>

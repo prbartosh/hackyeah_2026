@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
+import { useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { ArrowUp, Pencil, RotateCcw } from 'lucide-react'
 import { useChat, type DisplayMessage } from '@/context/ChatContext'
 import { MAX_MESSAGE_CHARS, ROLE_LABELS, type Question, type Role } from '@/types/chat'
@@ -27,7 +27,7 @@ const EXAMPLES = [
 function RoleBar() {
   const { state, changeRole, streaming } = useChat()
   const [editing, setEditing] = useState(false)
-  const role = state.role
+  const role = state.rola
   if (!role) return <div />
 
   return (
@@ -113,7 +113,7 @@ function QuestionOptions({ question }: { question: Question }) {
 }
 
 function SummaryBlock({ text, pending, confirmed }: { text: string; pending: boolean; confirmed: boolean }) {
-  const { confirmSummary, correctSummary, streaming } = useChat()
+  const { confirmSummary, streaming } = useChat()
   const [editing, setEditing] = useState(false)
   const [draft, setDraft] = useState(text)
   const id = useId()
@@ -145,9 +145,9 @@ function SummaryBlock({ text, pending, confirmed }: { text: string; pending: boo
                 type="button"
                 className="btn btn-primary"
                 disabled={streaming || !draft.trim()}
-                onClick={() => correctSummary(draft.trim())}
+                onClick={() => confirmSummary(draft.trim())}
               >
-                Wyślij poprawkę
+                Zatwierdź poprawione
               </button>
               <button type="button" className="btn btn-ghost" onClick={() => setEditing(false)}>
                 Anuluj
@@ -155,7 +155,7 @@ function SummaryBlock({ text, pending, confirmed }: { text: string; pending: boo
             </>
           ) : (
             <>
-              <button type="button" className="btn btn-primary" disabled={streaming} onClick={confirmSummary}>
+              <button type="button" className="btn btn-primary" disabled={streaming} onClick={() => confirmSummary()}>
                 Potwierdzam
               </button>
               <button type="button" className="btn btn-ghost" onClick={() => setEditing(true)}>
@@ -222,6 +222,28 @@ function MessageItem({ message, isLast, lastSummaryId }: { message: DisplayMessa
   )
 }
 
+const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Element znika łagodnie: jego kopia blaknie w tym samym miejscu, a prawdziwy może od razu zniknąć z układu. */
+function fadeOutGhost(el: HTMLElement | null) {
+  if (!el || prefersReducedMotion()) return
+  const r = el.getBoundingClientRect()
+  const ghost = el.cloneNode(true) as HTMLElement
+  ghost.removeAttribute('id')
+  ghost.setAttribute('aria-hidden', 'true')
+  ghost.inert = true
+  Object.assign(ghost.style, {
+    position: 'fixed', top: `${r.top}px`, left: `${r.left}px`, width: `${r.width}px`,
+    margin: '0', pointerEvents: 'none', zIndex: '50', animation: 'none',
+  })
+  document.body.appendChild(ghost)
+  const anim = ghost.animate(
+    [{ opacity: 1, transform: 'translateY(0)' }, { opacity: 0, transform: 'translateY(-14px)' }],
+    { duration: 150, easing: 'ease-out', fill: 'forwards' },
+  )
+  anim.finished.then(() => ghost.remove(), () => ghost.remove())
+}
+
 export default function ChatPanel() {
   const { display, streaming, sendMessage, showResultsNow, error, retry, results, reset } = useChat()
   const [draft, setDraft] = useState('')
@@ -229,8 +251,46 @@ export default function ChatPanel() {
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const endRef = useRef<HTMLDivElement>(null)
   const dockRef = useRef<HTMLFormElement>(null)
+  const titleRef = useRef<HTMLHeadingElement>(null)
+  const chipsRef = useRef<HTMLUListElement>(null)
+  const flipFrom = useRef<DOMRect | null>(null)
   const started = display.length > 0
   const lastSummaryId = [...display].reverse().find((m) => m.summary)?.id ?? null
+
+  // Przejście ekran startowy ↔ rozmowa (jak w Gemini): pole pisania płynnie zjeżdża na dół (FLIP: zapamiętujemy
+  // pozycję przed zmianą, a po zmianie animujemy różnicę); powitanie i podpowiedzi blakną.
+  const rememberComposer = () => {
+    const box = dockRef.current?.querySelector('.composer-box')
+    flipFrom.current = box ? box.getBoundingClientRect() : null
+  }
+  useLayoutEffect(() => {
+    const from = flipFrom.current
+    flipFrom.current = null
+    const box = dockRef.current?.querySelector('.composer-box')
+    if (!from || !box || prefersReducedMotion()) return
+    const to = box.getBoundingClientRect()
+    const dx = from.left - to.left
+    const dy = from.top - to.top
+    if (!dx && !dy) return
+    box.animate(
+      [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
+      { duration: 520, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+    )
+  }, [started])
+
+  const send = (text: string) => {
+    if (!started) {
+      rememberComposer()
+      fadeOutGhost(titleRef.current)
+      fadeOutGhost(chipsRef.current)
+    }
+    sendMessage(text)
+  }
+  const startOver = () => {
+    rememberComposer()
+    reset()
+    setDraft('')
+  }
 
   // Pole rośnie razem z tekstem (do limitu), a po wysłaniu wraca do małego
   useEffect(() => {
@@ -270,7 +330,7 @@ export default function ChatPanel() {
       return
     }
     setShowError(false)
-    sendMessage(draft.trim())
+    send(draft.trim())
     setDraft('')
   }
 
@@ -283,14 +343,14 @@ export default function ChatPanel() {
 
   return (
     <section className={`chat${started ? '' : ' is-empty'}`} aria-labelledby="chat-title">
-      <h1 id="chat-title" className={started ? 'visually-hidden' : 'chat-title'}>
+      <h1 ref={titleRef} id="chat-title" className={started ? 'visually-hidden' : 'chat-title'}>
         Opisz problem, znajdź rozwiązanie
       </h1>
 
       {started && (
         <div className="chat-toolbar">
           <RoleBar />
-          <button type="button" className="btn btn-link" onClick={() => { reset(); setDraft('') }}>
+          <button type="button" className="btn btn-link" onClick={startOver}>
             <RotateCcw size={16} aria-hidden="true" />
             Nowa rozmowa
           </button>
@@ -365,10 +425,10 @@ export default function ChatPanel() {
       </form>
 
       {!started && (
-        <ul className="chips" aria-label="Przykłady do wypróbowania">
+        <ul ref={chipsRef} className="chips" aria-label="Przykłady do wypróbowania">
           {EXAMPLES.map((ex) => (
             <li key={ex.label}>
-              <button type="button" className="chip" onClick={() => sendMessage(ex.text)}>
+              <button type="button" className="chip" onClick={() => send(ex.text)}>
                 {ex.label}
               </button>
             </li>
