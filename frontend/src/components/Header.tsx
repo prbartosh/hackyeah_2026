@@ -21,6 +21,7 @@ export default function Header() {
         <nav aria-label="Główna" className="site-nav">
           <NavLink to="/" end>Wyszukiwarka</NavLink>
           <NavLink to="/zasobnik">Zasobnik wiedzy</NavLink>
+          <NavLink to="/kreator">Kreator pomysłów</NavLink>
         </nav>
         <AccessibilityBar />
       </div>
