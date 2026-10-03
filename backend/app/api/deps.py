@@ -1,13 +1,15 @@
+import secrets
 from collections.abc import AsyncIterator
 from functools import lru_cache
 from typing import Annotated
 
-from fastapi import Depends
+from fastapi import Depends, Header, HTTPException, status
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.db.session import SessionLocal
 from app.repositories.innovation import InnovationRepository
+from app.services.ai import AIGateway
 from app.services.chat import ChatService
 from app.services.llm import LLMService
 
@@ -38,3 +40,28 @@ def get_chat_service(
 
 InnovationRepositoryDep = Annotated[InnovationRepository, Depends(get_innovation_repository)]
 ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
+
+
+def require_admin(authorization: Annotated[str | None, Header()] = None) -> None:
+    """Dostęp do /admin/*: nagłówek `Authorization: Bearer <ADMIN_TOKEN>` (ADR 0006)."""
+    expected = settings.admin_token
+    if not expected:
+        raise HTTPException(
+            status.HTTP_503_SERVICE_UNAVAILABLE, "Panel administratora jest wyłączony"
+        )
+    scheme, _, token = (authorization or "").partition(" ")
+    valid = secrets.compare_digest(token.encode(), expected.encode())
+    if scheme.lower() != "bearer" or not valid:
+        raise HTTPException(
+            status.HTTP_401_UNAUTHORIZED,
+            "Nieprawidłowy token administratora",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+
+
+def get_ai_gateway(session: SessionDep) -> AIGateway:
+    llm = get_llm_service() if settings.openai_api_key else None
+    return AIGateway(session, settings, llm)
+
+
+AIGatewayDep = Annotated[AIGateway, Depends(get_ai_gateway)]

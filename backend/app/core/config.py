@@ -23,6 +23,16 @@ class Settings(BaseSettings):
     llm_reasoning_effort: str | None = "low"
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH
 
+    # Panel administratora (ADR 0006). Pusty token = panel wyłączony.
+    admin_token: str | None = None
+    embedding_model: str = "text-embedding-3-small"
+    sla_hours: int = 48
+    ai_daily_call_limit: int = 200
+    ai_timeout_seconds: float = 45.0
+    max_upload_mb: int = 10
+    email_backend: str = "log"
+    email_from: str = "panel@splot.local"
+
 
 @lru_cache
 def get_settings() -> Settings:

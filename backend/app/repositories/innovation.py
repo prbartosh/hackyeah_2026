@@ -36,12 +36,30 @@ def _load_overlay(path: Path, known: frozenset[str]) -> dict[str, dict[str, Any]
     return overlay
 
 
+# Migawka kart z bazy (panel administratora, ADR 0006): slug -> (opublikowana, karta, nakładka).
+# Karty z bazy przesłaniają te z plików; nieopublikowane znikają z katalogu.
+_db_snapshot: dict[str, tuple[bool, Innovation, dict[str, Any] | None]] = {}
+
+
+def set_db_snapshot(cards: dict[str, tuple[bool, Innovation, dict[str, Any] | None]]) -> None:
+    global _db_snapshot
+    _db_snapshot = cards
+
+
 class InnovationRepository:
-    """Baza innowacji ROPS z plików JSON (tylko odczyt, wczytywana raz na proces)."""
+    """Baza innowacji ROPS: pliki JSON plus migawka kart z bazy (tylko odczyt)."""
 
     def __init__(self, path: Path) -> None:
-        self._by_slug = _load(path)
-        self._overlay = _load_overlay(path.parent / OVERLAY_FILE, frozenset(self._by_slug))
+        self._by_slug = dict(_load(path))
+        self._overlay = dict(_load_overlay(path.parent / OVERLAY_FILE, frozenset(self._by_slug)))
+        for slug, (published, card, overlay) in _db_snapshot.items():
+            self._overlay.pop(slug, None)
+            if not published:
+                self._by_slug.pop(slug, None)
+                continue
+            self._by_slug[slug] = card
+            if overlay:
+                self._overlay[slug] = overlay
 
     def get(self, slug: str) -> Innovation | None:
         return self._by_slug.get(slug)
