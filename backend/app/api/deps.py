@@ -4,7 +4,7 @@ from functools import lru_cache
 from typing import Annotated
 
 from fastapi import Depends, Header, HTTPException, status
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.core.config import settings
 from app.db.session import SessionLocal
@@ -16,6 +16,10 @@ from app.services.innovation import InnovationService
 from app.services.llm import LLMService
 from app.services.tickets import TicketService
 from app.services.token_budget import TokenBudget
+
+
+def get_session_factory() -> async_sessionmaker[AsyncSession]:
+    return SessionLocal
 
 
 async def get_session() -> AsyncIterator[AsyncSession]:
@@ -49,8 +53,9 @@ def get_chat_service(
     llm: Annotated[LLMService | None, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
     budget: Annotated[TokenBudget, Depends(get_token_budget)],
+    sessions: Annotated[async_sessionmaker[AsyncSession], Depends(get_session_factory)],
 ) -> ChatService:
-    return ChatService(llm, innovations, budget, enabled=settings.chat_enabled)
+    return ChatService(llm, innovations, budget, enabled=settings.chat_enabled, sessions=sessions)
 
 
 def get_innovation_service(

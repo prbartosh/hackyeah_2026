@@ -5,8 +5,11 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from pydantic import BaseModel
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from app.models import Potrzeba
 from app.repositories.innovation import InnovationRepository
+from app.repositories.need import PotrzebaRepository
 from app.schemas.chat import (
     ChatRequest,
     ChatState,
@@ -69,6 +72,7 @@ class ToolOutcome:
     is_error: bool = False
     terminal: bool = False
     events: list[ServerEvent] = field(default_factory=list)
+    need: Potrzeba | None = None
 
 
 @dataclass
@@ -86,11 +90,14 @@ class ChatService:
         innovations: InnovationRepository,
         budget: TokenBudget,
         enabled: bool = True,
+        sessions: async_sessionmaker[AsyncSession] | None = None,
     ) -> None:
         self.llm = llm
         self.innovations = innovations
         self.budget = budget
         self.enabled = enabled
+        # Fabryka, nie sesja z zależności - zapis jest w trakcie strumienia.
+        self.sessions = sessions
         self.system_prompt = prompts.build_system_prompt(innovations)
 
     def ensure_available(self) -> None:
@@ -137,6 +144,8 @@ class ChatService:
                         yield ServerEvent("text", TextEvent(text=event.text))
                     elif isinstance(event, ToolCall):
                         outcome = self._run_tool(turn, request, event)
+                        if outcome.need is not None:
+                            await self._save_need(outcome.need)
                         for server_event in outcome.events:
                             yield server_event
                         terminal = terminal or outcome.terminal
@@ -167,6 +176,17 @@ class ChatService:
         yield ServerEvent(
             "done", DoneEvent(assistant_message=self._assistant_message(turn), state=turn.state)
         )
+
+    async def _save_need(self, need: Potrzeba) -> None:
+        """Błąd zapisu nie przerywa rozmowy - tylko log."""
+        if self.sessions is None:
+            return
+        try:
+            async with self.sessions() as session:
+                await PotrzebaRepository(session).add(need)
+                await session.commit()
+        except Exception:
+            logger.exception("Chat: nie udało się zapisać potrzeby")
 
     def _build_messages(self, request: ChatRequest) -> list[dict[str, Any]]:
         messages: list[dict[str, Any]] = [
@@ -331,4 +351,19 @@ class ChatService:
             items=items,
         )
         turn.transcript.append("[Wyniki: " + (", ".join(i.slug for i in items) or "brak") + "]")
-        return ToolOutcome("ok", terminal=True, events=[ServerEvent("results", results)])
+        # Stan przychodzi z frontu - do zapisu tylko slugi ze słownika.
+        slugs = {
+            name: [
+                s
+                for s in getattr(turn.state, name).slugi
+                if s in self.innovations.vocabulary_slugs(section)
+            ]
+            for name, section in prompts.PROBLEM_SECTIONS.items()
+        }
+        need = Potrzeba(
+            rola=turn.state.rola,
+            **slugs,
+            innowacje=[i.slug for i in items],
+            brak_dopasowania=results.no_good_match,
+        )
+        return ToolOutcome("ok", terminal=True, events=[ServerEvent("results", results)], need=need)

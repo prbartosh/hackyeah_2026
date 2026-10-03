@@ -2,10 +2,12 @@ import json
 from typing import Any
 
 import pytest
+from sqlalchemy import select
 
-from app.api.deps import get_llm_service, get_token_budget
+from app.api.deps import get_llm_service, get_session_factory, get_token_budget
 from app.core.config import settings
 from app.main import app
+from app.models import Potrzeba
 from app.services.chat import LLM_UNAVAILABLE
 from app.services.llm import LLMError, TextDelta, ToolCall, TurnEnd
 from app.services.token_budget import TokenBudget
@@ -60,6 +62,13 @@ def fake_llm():
 
     yield use
     app.dependency_overrides.pop(get_llm_service, None)
+
+
+@pytest.fixture(autouse=True)
+def sessions(session_factory):
+    app.dependency_overrides[get_session_factory] = lambda: session_factory
+    yield session_factory
+    app.dependency_overrides.pop(get_session_factory, None)
 
 
 def parse_sse(body: str) -> list[tuple[str, dict]]:
@@ -445,3 +454,68 @@ async def test_confirmed_summary_goes_to_model(client, fake_llm):
     context = llm.calls[0][-1]["content"][1]["text"]
     assert "Poprawione: 50 seniorów w gminie wiejskiej." in context
     assert dict(events)["problem_update"]["problem"]["problemy"]["tekst"] == "samotność"
+
+
+def results_turns(*slugs: str, no_good_match: bool = False) -> list:
+    return [
+        [tool("search", slugs=list(slugs))],
+        [
+            tool(
+                "show_results",
+                items=[{"slug": s, "match": "main", "why_relevant": "x"} for s in slugs],
+                no_good_match=no_good_match,
+            )
+        ],
+    ]
+
+
+async def test_show_results_saves_need(client, fake_llm, sessions):
+    fake_llm(results_turns(MAIN, OTHER))
+    state = {
+        "rola": "mieszkaniec",
+        "grupy_docelowe": {"tekst": "mama", "slugi": ["seniorzy", "zmyslony-slug"]},
+        "problemy": {"tekst": "samotność", "slugi": ["samotnosc"]},
+    }
+    events = await post(client, first_message() | {"action": "show_results_now", "state": state})
+    assert events[-1][0] == "done"
+
+    async with sessions() as session:
+        needs = (await session.scalars(select(Potrzeba))).all()
+    assert len(needs) == 1
+    need = needs[0]
+    assert need.rola == "mieszkaniec"
+    assert need.grupy_docelowe == ["seniorzy"]
+    assert need.problemy == ["samotnosc"]
+    assert need.miejsca == []
+    assert need.innowacje == [MAIN, OTHER]
+    assert need.brak_dopasowania is False
+    assert need.created_at is not None
+
+
+async def test_need_without_results_is_saved_as_no_match(client, fake_llm, sessions):
+    fake_llm([[tool("show_results", items=[], no_good_match=False)]])
+    await post(client, first_message() | {"action": "show_results_now"})
+
+    async with sessions() as session:
+        need = (await session.scalars(select(Potrzeba))).one()
+    assert need.innowacje == []
+    assert need.brak_dopasowania is True
+
+
+async def test_need_save_error_does_not_break_stream(client, fake_llm):
+    def broken():
+        raise RuntimeError("baza leży")
+
+    app.dependency_overrides[get_session_factory] = lambda: broken
+    fake_llm(results_turns(MAIN))
+    events = await post(client, first_message() | {"action": "show_results_now"})
+
+    assert [n for n, _ in events] == ["results", "done"]
+
+
+async def test_question_does_not_save_need(client, fake_llm, sessions):
+    fake_llm([[tool("ask_question", text="Gdzie?", options=["a", "b", "c"])]])
+    await post(client, first_message())
+
+    async with sessions() as session:
+        assert (await session.scalars(select(Potrzeba))).all() == []
