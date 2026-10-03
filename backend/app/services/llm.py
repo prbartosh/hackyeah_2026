@@ -7,6 +7,7 @@ from typing import Any
 import openai
 
 from app.core.config import Settings
+from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
 
@@ -45,8 +46,9 @@ def tool_result_message(tool_call_id: str, content: str, is_error: bool) -> dict
 class LLMService:
     """Tylko komunikacja z API modelu (OpenAI): jedno wywołanie = jeden strumień zdarzeń."""
 
-    def __init__(self, settings: Settings) -> None:
+    def __init__(self, settings: Settings, budget: TokenBudget | None = None) -> None:
         self.settings = settings
+        self.budget = budget
         self.client = openai.AsyncOpenAI(api_key=settings.openai_api_key)
 
     async def stream(
@@ -70,7 +72,7 @@ class LLMService:
         try:
             stream = await self.client.chat.completions.create(
                 model=self.settings.llm_model,
-                max_completion_tokens=16000,
+                max_completion_tokens=self.settings.llm_max_completion_tokens,
                 # System prompt z katalogiem jest stały i pierwszy - OpenAI cache'uje prefiks sam.
                 messages=[{"role": "system", "content": system}, *messages],
                 tools=[_to_openai_tool(t) for t in tools],
@@ -110,6 +112,8 @@ class LLMService:
             raise LLMError(f"Błąd API modelu ({e.status_code})") from e
 
         if usage:
+            if self.budget is not None:
+                self.budget.add(usage.total_tokens)
             cached = usage.prompt_tokens_details.cached_tokens if usage.prompt_tokens_details else 0
             logger.info(
                 "LLM turn: finish=%s in=%s cached=%s out=%s",

@@ -5,6 +5,7 @@ from openai.types.chat import ChatCompletionChunk
 
 from app.core.config import Settings
 from app.services.llm import LLMError, LLMService, TextDelta, ToolCall, TurnEnd
+from app.services.token_budget import TokenBudget
 
 
 def chunk(delta: dict, finish_reason: str | None = None) -> ChatCompletionChunk:
@@ -106,3 +107,24 @@ async def test_invalid_tool_json_gives_empty_args():
     )
     events = await collect(llm)
     assert events[0] == ToolCall("a", "set_role", {})
+
+
+async def test_usage_is_added_to_budget():
+    usage_chunk = ChatCompletionChunk.model_validate(
+        {
+            "id": "c",
+            "object": "chat.completion.chunk",
+            "created": 0,
+            "model": "m",
+            "choices": [],
+            "usage": {"prompt_tokens": 70, "completion_tokens": 30, "total_tokens": 100},
+        }
+    )
+    llm, completions = service([chunk({}, finish_reason="stop"), usage_chunk])
+    llm.budget = TokenBudget(daily_limit=150)
+    await collect(llm)
+    await collect(llm)
+
+    assert completions.kwargs["max_completion_tokens"] == 8000
+    assert llm.budget.used == 200
+    assert llm.budget.exhausted()

@@ -21,6 +21,12 @@ class Settings(BaseSettings):
     llm_model: str = "gpt-5.6-sol"
     # Tylko dla modeli rozumujących (np. gpt-5.x); pusty = parametr nie jest wysyłany.
     llm_reasoning_effort: str | None = "low"
+    # Obejmuje też tokeny rozumowania - za mało = ucięta odpowiedź (finish=length).
+    llm_max_completion_tokens: int = 8000
+    # Suma tokenów (wejście + wyjście) na dzień; pusty = bez limitu.
+    llm_daily_token_limit: int | None = None
+    # false = czat odpowiada 503 bez wołania modelu.
+    chat_enabled: bool = True
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH
 
 
