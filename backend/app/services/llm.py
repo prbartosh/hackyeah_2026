@@ -30,8 +30,9 @@ class ToolCall:
 
 @dataclass
 class TurnEnd:
-    # Wiadomość asystenta w formacie API - dopisywana do historii w pętli narzędzi.
-    message: dict[str, Any]
+    # Elementy odpowiedzi w formacie Responses API (rozumowanie, tekst, wywołania narzędzi)
+    # - dopisywane do historii w pętli narzędzi.
+    items: list[dict[str, Any]]
 
 
 LLMEvent = TextDelta | ToolCall | TurnEnd
@@ -40,11 +41,14 @@ LLMEvent = TextDelta | ToolCall | TurnEnd
 def tool_result_message(tool_call_id: str, content: str, is_error: bool) -> dict[str, Any]:
     if is_error:
         content = f"BŁĄD: {content}"
-    return {"role": "tool", "tool_call_id": tool_call_id, "content": content}
+    return {"type": "function_call_output", "call_id": tool_call_id, "output": content}
 
 
 class LLMService:
-    """Tylko komunikacja z API modelu (OpenAI): jedno wywołanie = jeden strumień zdarzeń."""
+    """Tylko komunikacja z API modelu (OpenAI Responses): jedno wywołanie = jeden strumień zdarzeń.
+
+    Responses API, bo Chat Completions nie pozwala łączyć narzędzi z reasoning_effort.
+    """
 
     def __init__(self, settings: Settings, budget: TokenBudget | None = None) -> None:
         self.settings = settings
@@ -60,108 +64,83 @@ class LLMService:
     ) -> AsyncIterator[LLMEvent]:
         extra: dict[str, Any] = {}
         if self.settings.llm_reasoning_effort:
-            extra["reasoning_effort"] = self.settings.llm_reasoning_effort
+            extra["reasoning"] = {"effort": self.settings.llm_reasoning_effort}
+            # store=False: rozumowanie wraca zaszyfrowane i odsyłamy je w historii.
+            extra["include"] = ["reasoning.encrypted_content"]
 
-        text: list[str] = []
-        # Wywołania narzędzi przychodzą we fragmentach, indeksowane pozycją w odpowiedzi.
-        calls: dict[int, dict[str, str]] = {}
-        emitted: set[int] = set()
-        finish_reason: str | None = None
-        usage = None
-
+        response = None
         try:
-            stream = await self.client.chat.completions.create(
+            stream = await self.client.responses.create(
                 model=self.settings.llm_model,
-                max_completion_tokens=self.settings.llm_max_completion_tokens,
+                max_output_tokens=self.settings.llm_max_completion_tokens,
                 # System prompt z katalogiem jest stały i pierwszy - OpenAI cache'uje prefiks sam.
-                messages=[{"role": "system", "content": system}, *messages],
+                instructions=system,
+                input=messages,
                 tools=[_to_openai_tool(t) for t in tools],
+                store=False,
                 stream=True,
-                stream_options={"include_usage": True},
                 **extra,
             )
-            async for chunk in stream:
-                if chunk.usage:
-                    usage = chunk.usage
-                if not chunk.choices:
-                    continue
-                choice = chunk.choices[0]
-                delta = choice.delta
-                if delta.content:
-                    text.append(delta.content)
-                    yield TextDelta(delta.content)
-                for part in delta.tool_calls or []:
-                    # Nowy indeks = poprzednie wywołania są kompletne.
-                    for index in sorted(calls):
-                        if index < part.index and index not in emitted:
-                            emitted.add(index)
-                            yield _tool_call(calls[index])
-                    call = calls.setdefault(part.index, {"id": "", "name": "", "arguments": ""})
-                    if part.id:
-                        call["id"] = part.id
-                    if part.function and part.function.name:
-                        call["name"] += part.function.name
-                    if part.function and part.function.arguments:
-                        call["arguments"] += part.function.arguments
-                if choice.finish_reason:
-                    finish_reason = choice.finish_reason
+            async for event in stream:
+                if event.type == "response.output_text.delta":
+                    yield TextDelta(event.delta)
+                elif event.type == "response.output_item.done":
+                    if event.item.type == "function_call":
+                        yield _tool_call(event.item.call_id, event.item.name, event.item.arguments)
+                elif event.type in ("response.completed", "response.incomplete"):
+                    response = event.response
+                elif event.type == "response.failed":
+                    error = event.response.error
+                    logger.error("LLM response failed: %s", error)
+                    raise LLMError("Błąd API modelu")
+                elif event.type == "error":
+                    logger.error("LLM stream error %s: %s", event.code, event.message)
+                    raise LLMError("Błąd API modelu")
         except openai.APIConnectionError as e:
             raise LLMError("Brak połączenia z API modelu") from e
         except openai.APIStatusError as e:
             logger.error("LLM API error %s: %s", e.status_code, e.message)
             raise LLMError(f"Błąd API modelu ({e.status_code})") from e
 
+        if response is None:
+            raise LLMError("Brak odpowiedzi modelu")
+        usage = response.usage
         if usage:
             if self.budget is not None:
                 self.budget.add(usage.total_tokens)
-            cached = usage.prompt_tokens_details.cached_tokens if usage.prompt_tokens_details else 0
+            cached = usage.input_tokens_details.cached_tokens if usage.input_tokens_details else 0
             logger.info(
-                "LLM turn: finish=%s in=%s cached=%s out=%s",
-                finish_reason,
-                usage.prompt_tokens,
+                "LLM turn: status=%s in=%s cached=%s out=%s",
+                response.status,
+                usage.input_tokens,
                 cached,
-                usage.completion_tokens,
+                usage.output_tokens,
             )
-        if finish_reason == "length":
+        if response.status == "incomplete":
+            reason = response.incomplete_details.reason if response.incomplete_details else None
+            if reason == "content_filter":
+                raise LLMError("Model odmówił odpowiedzi")
             raise LLMError("Odpowiedź modelu została ucięta")
-        if finish_reason == "content_filter":
-            raise LLMError("Model odmówił odpowiedzi")
 
-        for index in sorted(calls):
-            if index not in emitted:
-                yield _tool_call(calls[index])
-
-        message: dict[str, Any] = {"role": "assistant", "content": "".join(text) or None}
-        if calls:
-            message["tool_calls"] = [
-                {
-                    "id": c["id"],
-                    "type": "function",
-                    "function": {"name": c["name"], "arguments": c["arguments"]},
-                }
-                for _, c in sorted(calls.items())
-            ]
-        yield TurnEnd(message=message)
+        yield TurnEnd(items=[item.model_dump(exclude_none=True) for item in response.output])
 
 
 def _to_openai_tool(tool: dict[str, Any]) -> dict[str, Any]:
     return {
         "type": "function",
-        "function": {
-            "name": tool["name"],
-            "description": tool["description"],
-            "parameters": tool["parameters"],
-            "strict": True,
-        },
+        "name": tool["name"],
+        "description": tool["description"],
+        "parameters": tool["parameters"],
+        "strict": True,
     }
 
 
-def _tool_call(call: dict[str, str]) -> ToolCall:
+def _tool_call(call_id: str, name: str, arguments: str) -> ToolCall:
     try:
-        args = json.loads(call["arguments"] or "{}")
+        args = json.loads(arguments or "{}")
     except json.JSONDecodeError:
-        logger.warning("LLM: niepoprawny JSON argumentów %s", call["name"])
+        logger.warning("LLM: niepoprawny JSON argumentów %s", name)
         args = {}
     if not isinstance(args, dict):
         args = {}
-    return ToolCall(call["id"], call["name"], args)
+    return ToolCall(call_id, name, args)

@@ -122,7 +122,7 @@ class ChatService:
             for _ in range(MAX_LLM_CALLS):
                 tool_results: list[dict[str, Any]] = []
                 terminal = False
-                assistant: dict[str, Any] | None = None
+                assistant: list[dict[str, Any]] | None = None
 
                 async for event in self.llm.stream(
                     system=self.system_prompt, tools=prompts.TOOLS, messages=messages
@@ -139,11 +139,11 @@ class ChatService:
                             tool_result_message(event.id, outcome.result, outcome.is_error)
                         )
                     elif isinstance(event, TurnEnd):
-                        assistant = event.message
+                        assistant = event.items
 
                 if terminal or assistant is None:
                     break
-                messages.append(assistant)
+                messages.extend(assistant)
                 if tool_results:
                     messages.extend(tool_results)
                 elif not nudged:
@@ -171,9 +171,9 @@ class ChatService:
             messages.append({"role": "user", "content": ACTION_MESSAGES[request.action]})
         last = messages[-1]
         last["content"] = [
-            {"type": "text", "text": last["content"]},
+            {"type": "input_text", "text": last["content"]},
             {
-                "type": "text",
+                "type": "input_text",
                 "text": prompts.build_turn_context(request.state, request.action, request.summary),
             },
         ]
