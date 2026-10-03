@@ -22,6 +22,7 @@ export default function Header() {
           <NavLink to="/" end>Wyszukiwarka</NavLink>
           <NavLink to="/zasobnik">Zasobnik wiedzy</NavLink>
           <NavLink to="/kreator">Kreator pomysłów</NavLink>
+          <NavLink to="/zglos">Zgłoś potrzebę</NavLink>
         </nav>
         <AccessibilityBar />
       </div>

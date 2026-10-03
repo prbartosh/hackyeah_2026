@@ -1,13 +1,16 @@
 import { useState, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { api } from '@/admin/api'
-import { errorText, useTitle } from '@/admin/ui'
+import { errorText } from '@/admin/ui'
+import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import '@/styles/admin.css'
 
 /** Publiczny formularz: zgłoszenie potrzeby do zespołu ROPS (bez konta). */
 export default function ReportPage() {
-  useTitle('Zgłoś potrzebę')
-  const [text, setText] = useState('')
+  useDocumentTitle('Zgłoś potrzebę · Splot')
+  // Z wyników czatu przychodzi gotowy opis problemu, żeby nie pisać go drugi raz
+  const prefill = (useLocation().state as { tresc?: string } | null)?.tresc ?? ''
+  const [text, setText] = useState(prefill)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [error, setError] = useState('')
@@ -52,6 +55,7 @@ export default function ReportPage() {
     <div className="container page report">
       <h1>Nie znalazłeś rozwiązania? Zgłoś potrzebę</h1>
       <p>Opisz swoją sprawę. Pracownik ROPS przeczyta zgłoszenie i odpowie, wskazując rozwiązania z bazy innowacji.</p>
+      {prefill && <p className="hint">Wpisaliśmy opis z rozmowy. Możesz go zmienić albo uzupełnić.</p>}
       <form onSubmit={submit} className="stack" noValidate>
         <div className="field">
           <label htmlFor="r-text">Opis sprawy</label>
