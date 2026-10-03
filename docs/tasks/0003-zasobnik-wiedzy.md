@@ -45,7 +45,6 @@ Dostępność (całość)
 Później (osobne zadania)
 - [ ] Powiązania dokument ↔ innowacja na stronie innowacji (ADR 0004 §9, zależy od zatwierdzonych powiązań)
 - [ ] Wyszukiwanie po treści dokumentów
-- [ ] Trendy potrzeb dla administratora (zależy od [zadania 0004](0004-zapis-potrzeb.md) i panelu admina)
 
 ## Notatki
 

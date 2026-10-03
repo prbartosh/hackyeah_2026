@@ -27,4 +27,5 @@ Pracownik ROPS loguje się tokenem, widzi skrzynkę zgłoszeń z triażem AI i z
 ## Notatki
 
 - `potrzeby` ([0004](0004-zapis-potrzeb.md)) nie istnieje, radar opiera się na zgłoszeniach z panelu.
-- Zmiany we wspólnym kodzie: `InnovationRepository` (migawka kart z bazy), `LLMService` (`embed`, `complete_json`), `main.py` (lifespan), `deps.py`, `router.py`, `Layout.tsx` (linki w stopce), `App.tsx` (trasy).
+- Zmiany we wspólnym kodzie: `InnovationRepository` (migawka kart z bazy), `LLMService` (`complete_json`; `embed` usunięte po przejściu na DeepSeek), `main.py` (lifespan), `deps.py`, `router.py`, `Layout.tsx` (linki w stopce), `App.tsx` (trasy).
+- Po przejściu na DeepSeek ([ADR 0007](../adr/0007-deepseek.md)) embeddingi są zawsze lokalne (`local-trigram-v1`). Zamiennik dopasowania kart i radaru: [0017](0017-dopasowanie-deterministyczne-panel.md).
