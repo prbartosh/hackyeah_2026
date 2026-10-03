@@ -86,4 +86,10 @@ Na wąskim ekranie panel „Twój problem” zwija się nad czatem.
 
 ## Poza zakresem pierwszego demo
 
-Logowanie, zapis rozmów na backendzie, panel ROPS, kreator pomysłów, tester, komunikacja, dopasowanie do gminy. Karty wyników projektujemy tak, aby te moduły można było później podpiąć jako akcje.
+Logowanie, zapis rozmów na backendzie, panel ROPS, kreator pomysłów, tester, komunikacja, PJM i audio. Karty wyników projektujemy tak, aby te moduły można było później podpiąć jako akcje.
+
+## Ustalenia o zakresie
+
+- Dodatkowy moduł (+5%): VII Middleman innowacji, karta usługi dla CUS/OPS i partnera na stronie innowacji.
+- Dane gminy z pola „Gdzie” z Obserwatora Statystyk są w demo (np. „w Twojej gminie…”).
+- Wejście głosowe (🎤) jest w demo.

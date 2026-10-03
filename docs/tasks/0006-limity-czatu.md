@@ -1,7 +1,7 @@
 # 0006. Limity i kontrola kosztu czatu
 
-- Status: todo (wartości do zatwierdzenia)
-- Osoba: Bartłomiej (backend), Bartosz (nginx, konfiguracja)
+- Status: todo (wartości zatwierdzone)
+- Osoba: Bartłomiej (backend), Bartosz (nginx, konfiguracja), Nikodem (panel OpenAI)
 
 ## Cel
 
@@ -48,12 +48,12 @@ Najgorszy przypadek dziś: 40 × 4000 znaków historii (ok. 50 tys. tokenów) + 
 
 ## Kroki
 
-- [ ] Zatwierdzić wartości (tabela wyżej)
+- [x] Zatwierdzić wartości (tabela wyżej): zatwierdzone bez zmian, `LLM_DAILY_TOKEN_LIMIT` po pomiarze
 - [ ] nginx: `limit_req_zone`, `limit_conn_zone` i osobny `location = /api/v1/chat`
 - [ ] Backend: nowe limity w `schemas/chat.py`, limit całej historii, niższy `max_completion_tokens`
 - [ ] Backend: licznik dzienny, `LLM_DAILY_TOKEN_LIMIT`, `CHAT_ENABLED` w `core/config.py` i `.env.example`
 - [ ] Frontend: komunikat dla 429 i dla zdarzenia `error` z budżetu, blokada wysyłki w trakcie strumienia
-- [ ] Limit budżetu i alert u dostawcy
+- [ ] Limit budżetu i alert u dostawcy (Nikodem ma dostęp do panelu OpenAI)
 - [ ] Testy: 429 z nginx, odrzucenie za długiej historii, zablokowany czat po przekroczeniu budżetu
 
 ## Notatki
