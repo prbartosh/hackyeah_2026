@@ -8,7 +8,7 @@ Social and demographic statistics for the Małopolska voivodeship (Poland) by **
 
 ## Licence
 
-Unknown. The site (home page, contact, footer) states no licence or terms of reuse (checked 2026-10-03). The data comes from GUS and other institutions whose own terms were **not** checked; show the indicator's source from `indicators.json` (`description.Źródło`) next to every value.
+Unknown. The site (home page, contact, footer) states no licence or terms of reuse (checked 2026-10-03). About 100 of 184 indicators come (also) from GUS. The GUS page <https://stat.gov.pl/copyright> says GUS has no reservations about copying files and pages and about own studies based on GUS data, on condition that the source is given (checked 2026-10-03). Other sources (ministry reports MRiPS/MPiPS/OZPS, OKE/CKE, MEN/SIO, Małopolski Urząd Wojewódzki) were **not** checked. Show the indicator's source from `indicators.json` (`description.Źródło`) next to every value.
 
 ## Files
 
