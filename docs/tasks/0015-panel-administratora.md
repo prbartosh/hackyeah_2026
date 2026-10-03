@@ -20,7 +20,7 @@ Pracownik ROPS loguje się tokenem, widzi skrzynkę zgłoszeń z triażem AI i z
 - [x] Seed demo (dane syntetyczne), testy backendu (autoryzacja, triaż, zatwierdzenie karty z embeddingiem, import, radar)
 - [ ] Test z czytnikiem ekranu (NVDA) i przejście całej ścieżki z prawdziwym `LLM_API_KEY` (DeepSeek)
 - [ ] Migracja `0002` na prawdziwym PostgreSQL (sprawdzona na SQLite i jako SQL dla Postgresa)
-- [ ] Limit zapytań dla publicznego `POST /zgloszenia`
+- [x] Limit zapytań dla publicznego `POST /zgloszenia` (nginx, strefa `form_req`)
 - [ ] Testy frontendu (po wejściu vitest do `main`)
 - [ ] Link „Zgłoś potrzebę” w nawigacji i na ekranie wyników czatu (dziś tylko stopka, żeby nie ruszać Header i ResultsSection)
 
