@@ -17,20 +17,21 @@ Przejrzyj plik roboczy przed --apply: usuń z niego rekordy, których nie akcept
 from __future__ import annotations
 
 import argparse
+import asyncio
 import json
 import os
 import sys
 from pathlib import Path
 
-import openai
-
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
+from app.core.config import Settings  # noqa: E402
 from app.repositories.innovation import (  # noqa: E402
     OVERLAY_LIMITS,
     overlay_problems,
     vocabulary_labels,
 )
+from app.services.llm import LLMError, create_provider  # noqa: E402
 
 DATA_DIR = Path(__file__).resolve().parents[2] / "assets" / "innowacje-spoleczne"
 INNOVATIONS = DATA_DIR / "innowacje.json"
@@ -112,11 +113,11 @@ def _dump(path: Path, data) -> None:
 
 
 def propose(slugs: list[str] | None, all_: bool) -> None:
-    api_key = os.environ.get("LLM_API_KEY")
-    if not api_key:
+    # Ten sam adapter co czat (LLM_PROVIDER, LLM_MODEL, LLM_BASE_URL); baza nie jest tu potrzebna.
+    settings = Settings(database_url=os.environ.get("DATABASE_URL", "unused"))
+    if not settings.llm_api_key:
         sys.exit("Brak LLM_API_KEY")
-    model = os.environ.get("LLM_MODEL", "deepseek-flash")
-    base_url = os.environ.get("LLM_BASE_URL", "https://api.deepseek.com")
+    llm = create_provider(settings)
 
     innovations = {i["slug"]: i for i in _load(INNOVATIONS)}
     vocabulary = vocabulary_labels(_load(VOCABULARY))
@@ -138,20 +139,24 @@ def propose(slugs: list[str] | None, all_: bool) -> None:
     )
     system = SYSTEM.format(vocabulary=vocabulary_text)
     schema = _schema(vocabulary)
-    client = openai.OpenAI(api_key=api_key, base_url=base_url)
 
     proposals = _load(PROPOSALS) if PROPOSALS.exists() else []
     proposals = [p for p in proposals if p["slug"] not in todo]
     for n, slug in enumerate(todo, 1):
         record = {k: innovations[slug].get(k) for k in SOURCE_FIELDS}
-        # Responses API: DeepSeek obsługuje json_schema tylko tu (Chat Completions ma json_object).
-        response = client.responses.create(
-            model=model,
-            instructions=system,
-            input=json.dumps(record, ensure_ascii=False),
-            text={"format": {"type": "json_schema", "name": "nakladka", "schema": schema}},
-        )
-        proposal = {"slug": slug, **json.loads(response.output_text)}
+        try:
+            data = asyncio.run(
+                llm.complete_json(
+                    system=system,
+                    user=json.dumps(record, ensure_ascii=False),
+                    timeout=120,
+                    schema=schema,
+                )
+            )
+        except LLMError as e:
+            print(f"[{n}/{len(todo)}] {slug}  BŁĄD: {e}")
+            continue
+        proposal = {"slug": slug, **data}
         problems = overlay_problems(proposal, vocabulary)
         if problems:
             proposal["uwagi"] = problems

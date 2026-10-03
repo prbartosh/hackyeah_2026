@@ -2,7 +2,7 @@ import type { ChatRequest, ServerEvent } from '@/types/chat'
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? '/api/v1'
 
-const EVENT_NAMES = new Set(['text', 'status', 'role', 'problem_update', 'question', 'summary', 'results', 'gmina_stats', 'done', 'error'])
+const EVENT_NAMES = new Set(['text', 'status', 'role', 'problem_update', 'question', 'summary', 'results', 'similar_cases', 'gmina_stats', 'done', 'error'])
 
 export class ChatError extends Error {}
 

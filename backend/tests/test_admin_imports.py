@@ -63,7 +63,7 @@ async def test_ai_wypelnia_tylko_pola_z_cytatem_w_dokumencie(admin_client, ai_en
     assert "Sąsiedzka Świetlica" in body["tekst"]
 
 
-async def test_zatwierdzenie_tworzy_karte_z_embeddingiem_widoczna_w_matchmakingu(
+async def test_zatwierdzenie_tworzy_karte_widoczna_w_matchmakingu(
     admin_client, ai_enabled
 ):
     ai_enabled.json_response = {
@@ -81,7 +81,6 @@ async def test_zatwierdzenie_tworzy_karte_z_embeddingiem_widoczna_w_matchmakingu
     card = (await admin_client.get(f"{API}/karty/{slug}")).json()
     assert card["status"] == "opublikowana"
     assert card["zrodlo"] == "dokument"
-    assert card["ma_embedding"] is True
     assert card["poziom_dowodu"] == "pilotaz"
     assert card["wdrozenie"]["wymagane_zasoby"] == ["koordynator"]
     assert card["wdrozenie"]["poziom_kosztu"] is None  # nie ma w dokumencie, puste

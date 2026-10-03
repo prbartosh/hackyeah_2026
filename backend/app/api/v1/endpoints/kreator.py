@@ -76,7 +76,7 @@ async def update_fiszka(token: str, data: FiszkaFields, service: FiszkaServiceDe
 @router.get(
     "/fiszki/{token}/podobne",
     response_model=PodobneRead,
-    summary="Podobne innowacje z bazy ROPS (embeddingi, ze źródłem)",
+    summary="Podobne innowacje z bazy ROPS (dopasowanie po tagach, ze źródłem)",
 )
 async def similar(token: str, service: FiszkaServiceDep) -> PodobneRead:
     return PodobneRead(items=await service.similar(await service.get(token)))

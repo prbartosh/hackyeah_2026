@@ -15,7 +15,14 @@ from app.services.ai import AIGateway, AIUnavailableError
 from app.services.app_settings import PanelSettings, load_settings
 from app.services.cards import CardService, category_names
 from app.services.email import EmailSender
-from app.services.embeddings import cosine
+from app.services.matching import (
+    CardMatch,
+    labels,
+    load_vocabulary,
+    similar_text,
+    tag_text,
+    valid_tags,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -26,6 +33,8 @@ URGENT_WORDS = (
 PILNOSCI = ("niska", "srednia", "wysoka")
 MAX_DUPLICATES = 5
 MAX_CANDIDATES = 5
+# Duplikaty szukamy wśród najnowszych zgłoszeń: trigramy liczymy w locie.
+DUPLICATE_WINDOW = 500
 
 TRIAGE_SYSTEM = """\
 Jesteś asystentem pracownika ROPS Kraków. Dostajesz zgłoszenie od użytkownika platformy \
@@ -38,6 +47,9 @@ Zwróć wyłącznie obiekt JSON z polami:
 utraty mieszkania lub środków do życia),
 - "pilnosc_uzasadnienie": jedno zdanie po polsku,
 - "uzyte_karty": slugi kandydatów, które realnie pomagają (może być pusta lista),
+- "tagi": obiekt z kluczami "problemy", "grupy_docelowe", "miejsca", "typy_rozwiazan"; każdy to \
+lista najwyżej 3 slugów ze SŁOWNIKA (tylko te, które wyraźnie wynikają ze zgłoszenia; lista może \
+być pusta, nie wymyślaj nowych slugów),
 - "szkic_odpowiedzi": szkic odpowiedzi po polsku, prostym językiem, do edycji przez pracownika.
 
 Zasady szkicu: odwołuj się tylko do kart z listy KANDYDATÓW (po nazwie), niczego nie wymyślaj: \
@@ -77,10 +89,10 @@ class TicketService:
         self.ai = ai
         self.settings = settings
         self.email = email
-        self.cards = CardService(session, ai)
+        self.cards = CardService(session)
 
     async def panel_settings(self) -> PanelSettings:
-        return await load_settings(self.session, self.settings, self.ai.embedding_model)
+        return await load_settings(self.session, self.settings)
 
     async def create(self, data: TicketCreate, *, synthetic: bool = False) -> Ticket:
         ticket = Ticket(
@@ -173,25 +185,28 @@ class TicketService:
         return list(rows)
 
     async def triage(self, ticket: Ticket) -> Ticket:
-        vectors, model = await self.ai.embed([ticket.tresc])
-        ticket.embedding, ticket.embedding_model = vectors[0], model
-        panel = await load_settings(self.session, self.settings, model)
-
-        similar = await self.cards.similar(ticket.embedding, model, MAX_CANDIDATES)
-        ticket.najlepsze_dopasowanie = round(similar[0][1], 4) if similar else None
+        panel = await load_settings(self.session, self.settings)
+        vocabulary = load_vocabulary(self.settings.innovations_path.parent / "slownik.json")
+        label_map = labels(vocabulary)
+        # Tagi ze słownika po frazach (deterministycznie); AI może je potem doprecyzować.
+        tags = tag_text(ticket.tresc, vocabulary)
+        ranked = await self.cards.rank(ticket.tresc, tags, label_map, MAX_CANDIDATES)
+        ticket.tagi = tags
+        ticket.najlepsze_dopasowanie = round(ranked[0][1].score, 4) if ranked else None
         ticket.duplikaty = await self._duplicates(ticket, panel)
         suggestions = [
             {
                 "slug": c.slug,
                 "nazwa": c.nazwa,
-                "score": round(score, 4),
+                "score": round(match.score, 4),
+                "powody": match.powody,
                 "url": c.url_zrodlowy or f"/innowacja/{c.slug}",
                 "uzyta": False,
             }
-            for c, score in similar
+            for c, match in ranked
         ]
         categories = category_names(self.settings.innovations_path)
-        fallback_category = self._category_from_cards(similar)
+        fallback_category = self._category_from_cards([(c, m.score) for c, m in ranked])
         ticket.kategoria = fallback_category
         ticket.pilnosc = (
             "wysoka" if any(w in ticket.tresc.lower() for w in URGENT_WORDS) else "srednia"
@@ -206,9 +221,12 @@ class TicketService:
 
         try:
             result = await self.ai.json(
-                TRIAGE_SYSTEM, self._triage_prompt(ticket, similar, categories)
+                TRIAGE_SYSTEM, self._triage_prompt(ticket, ranked, categories, vocabulary)
             )
             self._apply_ai_result(ticket, suggestions, result, categories)
+            ai_tags = valid_tags(result.get("tagi"), vocabulary)
+            if ai_tags:
+                ticket.tagi = ai_tags
         except AIUnavailableError as e:
             ticket.triaz_komunikat = f"{e} Pokazano propozycje oparte na regułach."
             logger.info("Triaż zgłoszenia %s bez AI: %s", ticket.id, e)
@@ -220,8 +238,9 @@ class TicketService:
     def _triage_prompt(
         self,
         ticket: Ticket,
-        similar: list[tuple[InnovationCard, float]],
+        ranked: list[tuple[InnovationCard, CardMatch]],
         categories: dict[str, str],
+        vocabulary: dict[str, list[dict[str, Any]]],
     ) -> str:
         candidates = [
             {
@@ -231,10 +250,15 @@ class TicketService:
                 "grupa_docelowa": c.grupa_docelowa,
                 "czy_dziala": (c.czy_dziala or "")[:300],
             }
-            for c, _ in similar
+            for c, _ in ranked
         ]
+        tag_vocabulary = {
+            section: {v["slug"]: v["etykieta"] for v in vocabulary.get(section, [])}
+            for section in ("problemy", "grupy_docelowe", "miejsca", "typy_rozwiazan")
+        }
         return (
             f"<KATEGORIE>\n{json.dumps(categories, ensure_ascii=False)}\n</KATEGORIE>\n"
+            f"<SLOWNIK>\n{json.dumps(tag_vocabulary, ensure_ascii=False)}\n</SLOWNIK>\n"
             f"<KANDYDACI>\n{json.dumps(candidates, ensure_ascii=False)}\n</KANDYDACI>\n"
             f"<ZGLOSZENIE>\n{ticket.tresc}\n</ZGLOSZENIE>"
         )
@@ -296,15 +320,12 @@ class TicketService:
 
     async def _duplicates(self, ticket: Ticket, panel: PanelSettings) -> list[dict[str, Any]]:
         rows = await self.session.scalars(
-            select(Ticket).where(
-                Ticket.id != ticket.id,
-                Ticket.embedding_model == ticket.embedding_model,
-                Ticket.embedding.is_not(None),
-            )
+            select(Ticket)
+            .where(Ticket.id != ticket.id)
+            .order_by(Ticket.id.desc())
+            .limit(DUPLICATE_WINDOW)
         )
-        scored = [
-            (t, cosine(ticket.embedding or [], t.embedding or [])) for t in rows if t.embedding
-        ]
+        scored = [(t, similar_text(ticket.tresc, t.tresc)) for t in rows]
         close = sorted(
             ((t, s) for t, s in scored if s >= panel.prog_duplikatow),
             key=lambda x: x[1],
@@ -379,13 +400,3 @@ class TicketService:
             n.przeczytane = True
         await self.session.commit()
         return len(rows)
-
-    async def reindex(self) -> int:
-        """Przelicza embeddingi wszystkich zgłoszeń (po zmianie modelu)."""
-        tickets = list((await self.session.scalars(select(Ticket))).all())
-        if not tickets:
-            return 0
-        vectors, model = await self.ai.embed([t.tresc for t in tickets])
-        for t, v in zip(tickets, vectors, strict=True):
-            t.embedding, t.embedding_model = v, model
-        return len(tickets)

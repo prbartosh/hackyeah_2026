@@ -77,6 +77,12 @@ function Triage({ ticket }: { ticket: Ticket }) {
           {ticket.proponowane_karty.map((c) => (
             <li key={c.slug}>
               <Link to={`/innowacja/${c.slug}`}>{c.nazwa}</Link> — dopasowanie {Math.round(c.score * 100)}%
+              {c.powody.length > 0
+                ? <> · pasuje, bo: {c.powody.join(', ')}</>
+                : <> · podobny tekst (bez wspólnych tagów)</>}
+              {c.powody.length > 0
+                ? <> · pasuje, bo: {c.powody.join(', ')}</>
+                : <> · podobny tekst (karta bez pasujących tagów)</>}
               {c.uzyta && <> <span className="tag tag-ontime">użyta w szkicu</span></>}
             </li>
           ))}

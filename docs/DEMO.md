@@ -59,6 +59,8 @@ Na wąskim ekranie panel „Twój problem” zwija się nad czatem.
 | `ask_question(text, options)` | `question` | gdy brakuje informacji z listy pól |
 | `propose_summary()` | `summary` | gdy pola są wypełnione albo minął limit rund |
 | `search(problem)` | `results` | po potwierdzeniu podsumowania lub po `show_results_now` |
+| `gmina_stats(gmina)` | `gmina_stats` | gdy użytkownik poda gminę w Małopolsce ([ADR 0005](adr/0005-matchmaking-chat-llm.md)) |
+| (backend, po `show_results`) | `similar_cases` | gdy jest co najmniej 5 podobnych zapisanych potrzeb ([ADR 0012](adr/0012-podobne-przypadki.md)) |
 
 **Reguły dla modelu:**
 - Pyta tylko o brakujące pola, maksymalnie 3–4 rundy.

@@ -88,9 +88,9 @@ Do importu JSON-a w Vite wystarczy `"resolveJsonModule": true` w `tsconfig`. Pli
 
 ## Dopasowanie problemu do innowacji (wskazówki)
 
-Decyzja o sposobie dopasowania, nakładce z typowanymi listami (`wzbogacenia.json`) i zapisie potrzeb jest w [ADR 0004](adr/0004-obiekt-innowacji.md). Na demo cały katalog trafia do promptu, embeddingi są odłożone. Wskazówki poniżej zostają jako tło.
+Decyzja o sposobie dopasowania, nakładce z typowanymi listami (`wzbogacenia.json`) i zapisie potrzeb jest w [ADR 0004](adr/0004-obiekt-innowacji.md). Czat dostaje cały katalog w prompcie, a panel administratora dopasowuje zgłoszenia do kart deterministycznie po tagach ze słownika i trigramach, bez embeddingów ([ADR 0006](adr/0006-panel-administratora.md)). Wskazówki poniżej zostają jako tło.
 
-- **Tekst do embeddingów.** Dla każdej innowacji sklej `nazwa`, `problem`, `grupa_docelowa`, `kto_moze_skorzystac` i `opis`. Pole `problem` ma największą wagę, bo użytkownik opisuje właśnie problem. Pomiń `null`.
+- **Tekst do dopasowania.** Dla każdej innowacji sklej `nazwa`, `problem`, `grupa_docelowa`, `kto_moze_skorzystac` i `opis`. Pole `problem` ma największą wagę, bo użytkownik opisuje właśnie problem. Pomiń `null`.
 - **Kategoria jako filtr pomocniczy.** Może zawęzić wyniki (np. seniorzy), ale nie rób z niej warunku koniecznego. Zgłoszenia bywają potoczne i niejednoznaczne.
 - **Źródło przy każdym wyniku.** Pokazuj `nazwa`, `url_zrodlowy` i fragment, na którym oparto uzasadnienie. Uzasadnienie generowane przez AI może się opierać tylko na polach rekordu.
 - **Brak trafienia.** Gdy nic nie pasuje, zapisz potrzebę zamiast pokazywać „brak wyników" (zasada z briefu).

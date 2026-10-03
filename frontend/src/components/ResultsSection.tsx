@@ -82,7 +82,7 @@ function ReportBox({ noMatch }: { noMatch: boolean }) {
 }
 
 export default function ResultsSection() {
-  const { results } = useChat()
+  const { results, podobne } = useChat()
   const headingRef = useRef<HTMLHeadingElement>(null)
   const firstRun = useRef(true)
 
@@ -122,6 +122,28 @@ export default function ResultsSection() {
             <ResultCard key={item.slug} item={item} />
           ))}
         </ol>
+      )}
+
+      {podobne && (
+        <aside className="similar-cases" aria-labelledby="similar-cases-title">
+          <h3 id="similar-cases-title">Podobne przypadki</h3>
+          <p>
+            Podobną potrzebę (problem: {podobne.problem}) zgłoszono już {podobne.liczba} razy. Pokazujemy
+            tylko liczby, bez treści rozmów.
+          </p>
+          {podobne.innowacje.length > 0 && (
+            <>
+              <p>Najczęściej polecane w takich przypadkach:</p>
+              <ul>
+                {podobne.innowacje.map((i) => (
+                  <li key={i.slug}>
+                    <Link to={`/innowacja/${i.slug}`}>{i.nazwa}</Link> ({i.liczba} {i.liczba === 1 ? 'raz' : 'razy'})
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
+        </aside>
       )}
 
       <ReportBox noMatch={no_good_match || items.length === 0} />

@@ -1,10 +1,14 @@
-"""Radar trendów: klastry zgłoszeń bez dobrego dopasowania w bazie (ADR 0006)."""
+"""Radar trendów: grupy zgłoszeń bez dobrego dopasowania w bazie (ADR 0006).
+
+Grupujemy po wspólnym tagu `problemy` ze słownika, a zgłoszenia bez tagu trigramami tekstu.
+"""
 
 import hashlib
 import json
 import logging
 import re
 from collections import Counter
+from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import select
@@ -15,7 +19,8 @@ from app.models import ClusterName, Ticket, TrendNote
 from app.schemas.radar import ClusterExample, ClusterRead, RadarRead, WeekCount
 from app.services.ai import AIGateway, AIUnavailableError
 from app.services.app_settings import load_settings
-from app.services.embeddings import cosine, tokenize
+from app.services.embeddings import cosine, local_embed, tokenize
+from app.services.matching import labels, load_vocabulary
 from app.services.tickets import aware
 
 logger = logging.getLogger(__name__)
@@ -59,6 +64,34 @@ def group_by_similarity(items: list[tuple[int, list[float]]], threshold: float) 
     return [ids for _, ids, _ in clusters]
 
 
+@dataclass
+class Group:
+    ids: list[int]
+    # Nazwa i powód ze słownika (grupa po tagu); None = grupa po podobieństwie tekstu.
+    label: str | None = None
+    powod: str = "podobny tekst zgłoszeń"
+
+
+def group_tickets(
+    tickets: list[Ticket], threshold: float, label_map: dict[str, dict[str, str]]
+) -> list[Group]:
+    by_problem: dict[str, list[int]] = {}
+    untagged: list[Ticket] = []
+    for t in tickets:
+        problems = (t.tagi or {}).get("problemy") or []
+        if problems:
+            by_problem.setdefault(problems[0], []).append(t.id)
+        else:
+            untagged.append(t)
+    groups = []
+    for slug, ids in by_problem.items():
+        label = label_map.get("problemy", {}).get(slug, slug)
+        groups.append(Group(ids, label, f"wspólny problem: {label}"))
+    similar = group_by_similarity([(t.id, local_embed(t.tresc)) for t in untagged], threshold)
+    groups += [Group(ids) for ids in similar]
+    return groups
+
+
 def trend_for(tickets: list[Ticket], now: datetime) -> tuple[list[WeekCount], str]:
     this_week = week_start(now)
     starts = [this_week - timedelta(weeks=i) for i in range(WEEKS - 1, -1, -1)]
@@ -97,34 +130,31 @@ class RadarService:
     async def build(self) -> RadarRead:
         now = datetime.now(UTC)
         tickets = list((await self.session.scalars(select(Ticket).order_by(Ticket.id))).all())
-        analysed = [t for t in tickets if t.embedding]
-        # Wektory z różnych modeli nie są porównywalne: bierzemy najczęstszy model.
-        model = Counter(t.embedding_model for t in analysed).most_common(1)
-        model_name = model[0][0] if model else self.ai.embedding_model
-        panel = await load_settings(self.session, self.settings, model_name)
+        analysed = [t for t in tickets if t.triaz_zrodlo]
+        panel = await load_settings(self.session, self.settings)
         unmatched = [
             t
             for t in analysed
-            if t.embedding_model == model_name
-            and (
-                t.najlepsze_dopasowanie is None or t.najlepsze_dopasowanie < panel.prog_dopasowania
-            )
+            if t.najlepsze_dopasowanie is None or t.najlepsze_dopasowanie < panel.prog_dopasowania
         ]
         by_id = {t.id: t for t in unmatched}
-        groups = group_by_similarity(
-            [(t.id, t.embedding or []) for t in unmatched], panel.prog_klastra
-        )
-        groups.sort(key=lambda ids: (-len(ids), -max(ids)))
+        label_map = labels(load_vocabulary(self.settings.innovations_path.parent / "slownik.json"))
+        groups = group_tickets(unmatched, panel.prog_klastra, label_map)
+        groups.sort(key=lambda g: (-len(g.ids), -max(g.ids)))
 
-        names = await self._names([[by_id[i] for i in ids] for ids in groups])
+        names = await self._names([[by_id[i] for i in g.ids] for g in groups if g.label is None])
         notes = {
             frozenset(n.zgloszenia_ids): n.id for n in await self.session.scalars(select(TrendNote))
         }
         clusters = []
-        for ids in groups:
+        for group in groups:
+            ids = group.ids
             members = [by_id[i] for i in ids]
             key = cluster_key(ids)
-            name, source = names.get(key) or (name_from_words(members), "slowa")
+            if group.label is not None:
+                name, source = group.label, "slownik"
+            else:
+                name, source = names.get(key) or (name_from_words(members), "slowa")
             weeks, change = trend_for(members, now)
             categories = Counter(t.kategoria for t in members if t.kategoria)
             clusters.append(
@@ -132,6 +162,7 @@ class RadarService:
                     klucz=key,
                     nazwa=name,
                     nazwa_zrodlo=source,
+                    powod=group.powod,
                     liczba=len(members),
                     kategoria=categories.most_common(1)[0][0] if categories else None,
                     trend=weeks,

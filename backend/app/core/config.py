@@ -17,6 +17,8 @@ class Settings(BaseSettings):
     cors_origins: list[str] = []
 
     llm_api_key: str | None = None
+    # Profil dostawcy w adapterze Responses API: `deepseek` albo `openai` (ADR 0010).
+    llm_provider: str = "deepseek"
     # DeepSeek przez SDK openai (Responses API).
     llm_base_url: str = "https://api.deepseek.com"
     llm_model: str = "deepseek-flash"

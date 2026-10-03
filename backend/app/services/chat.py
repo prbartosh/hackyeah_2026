@@ -2,7 +2,6 @@ import json
 import logging
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
-from typing import Any
 
 from pydantic import BaseModel
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -24,19 +23,23 @@ from app.schemas.chat import (
     ResultItem,
     ResultsEvent,
     RoleEvent,
+    SimilarCasesEvent,
     StatusEvent,
     SummaryEvent,
     TextEvent,
 )
 from app.services import prompts
 from app.services.llm import (
+    HistoryItem,
     LLMError,
-    LLMService,
+    LLMProvider,
+    Message,
     TextDelta,
     ToolCall,
+    ToolResult,
     TurnEnd,
-    tool_result_message,
 )
+from app.services.similar_cases import similar_cases
 from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
@@ -156,7 +159,7 @@ class _Turn:
 class ChatService:
     def __init__(
         self,
-        llm: LLMService | None,
+        llm: LLMProvider | None,
         innovations: InnovationRepository,
         budget: TokenBudget,
         enabled: bool = True,
@@ -199,7 +202,7 @@ class ChatService:
     async def run(self, request: ChatRequest) -> AsyncIterator[ServerEvent]:
         assert self.llm is not None, "ensure_available() przed run()"
         turn = _Turn(state=request.state.model_copy(deep=True))
-        messages = self._build_messages(request)
+        history = self._build_history(request)
         nudged = False
         notes = NoteFilter()
         yield ServerEvent(
@@ -208,12 +211,12 @@ class ChatService:
 
         try:
             for _ in range(MAX_LLM_CALLS):
-                tool_results: list[dict[str, Any]] = []
+                tool_results: list[ToolResult] = []
                 terminal = False
-                assistant: list[dict[str, Any]] | None = None
+                assistant: TurnEnd | None = None
 
                 async for event in self.llm.stream(
-                    system=self.system_prompt, tools=prompts.TOOLS, messages=messages
+                    system=self.system_prompt, tools=prompts.TOOLS, history=history
                 ):
                     if isinstance(event, TextDelta):
                         text = notes.feed(event.text)
@@ -226,27 +229,30 @@ class ChatService:
 
                     if isinstance(event, ToolCall):
                         outcome = self._run_tool(turn, request, event)
+                        similar = None
                         if outcome.need is not None:
+                            # Przed zapisem, żeby bieżący przypadek nie liczył się do własnych.
+                            similar = await self._similar_cases(outcome.need)
                             await self._save_need(outcome.need)
                         for server_event in outcome.events:
                             yield server_event
+                        if similar is not None:
+                            yield ServerEvent("similar_cases", similar)
                         if not outcome.is_error and (status := STATUS_AFTER_TOOL.get(event.name)):
                             yield ServerEvent("status", StatusEvent(text=status))
                         terminal = terminal or outcome.terminal
-                        tool_results.append(
-                            tool_result_message(event.id, outcome.result, outcome.is_error)
-                        )
+                        tool_results.append(ToolResult(event.id, outcome.result, outcome.is_error))
                     elif isinstance(event, TurnEnd):
-                        assistant = event.items
+                        assistant = event
 
                 if terminal or assistant is None:
                     break
-                messages.extend(assistant)
+                history.append(assistant)
                 if tool_results:
-                    messages.extend(tool_results)
+                    history.extend(tool_results)
                 elif not nudged:
                     nudged = True
-                    messages.append({"role": "user", "content": NUDGE})
+                    history.append(Message("user", NUDGE))
                 else:
                     break
             else:
@@ -261,6 +267,18 @@ class ChatService:
             "done", DoneEvent(assistant_message=self._assistant_message(turn), state=turn.state)
         )
 
+    async def _similar_cases(self, need: Potrzeba) -> SimilarCasesEvent | None:
+        """Brak bazy lub błąd odczytu nie przerywa rozmowy: blok po prostu się nie pojawia."""
+        if self.sessions is None:
+            return None
+        try:
+            async with self.sessions() as session:
+                history = await PotrzebaRepository(session).recent()
+            return similar_cases(need, history, self.innovations)
+        except Exception:
+            logger.exception("Chat: nie udało się policzyć podobnych przypadków")
+            return None
+
     async def _save_need(self, need: Potrzeba) -> None:
         """Błąd zapisu nie przerywa rozmowy - tylko log."""
         if self.sessions is None:
@@ -272,21 +290,14 @@ class ChatService:
         except Exception:
             logger.exception("Chat: nie udało się zapisać potrzeby")
 
-    def _build_messages(self, request: ChatRequest) -> list[dict[str, Any]]:
-        messages: list[dict[str, Any]] = [
-            {"role": m.role, "content": m.content} for m in request.messages
-        ]
-        if request.action and messages[-1]["role"] == "assistant":
-            messages.append({"role": "user", "content": ACTION_MESSAGES[request.action]})
-        last = messages[-1]
-        last["content"] = [
-            {"type": "input_text", "text": last["content"]},
-            {
-                "type": "input_text",
-                "text": prompts.build_turn_context(request.state, request.action, request.summary),
-            },
-        ]
-        return messages
+    def _build_history(self, request: ChatRequest) -> list[HistoryItem]:
+        history: list[HistoryItem] = [Message(m.role, m.content) for m in request.messages]
+        if request.action and request.messages[-1].role == "assistant":
+            history.append(Message("user", ACTION_MESSAGES[request.action]))
+        last = history[-1]
+        assert isinstance(last, Message)
+        last.context = prompts.build_turn_context(request.state, request.action, request.summary)
+        return history
 
     def _assistant_message(self, turn: _Turn) -> str:
         """Tekstowy zapis tury, który front odsyła w historii przy kolejnym zapytaniu."""

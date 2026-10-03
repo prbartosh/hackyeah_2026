@@ -9,7 +9,7 @@ from app.core.config import settings
 from app.main import app
 from app.models import Potrzeba
 from app.services.chat import LLM_UNAVAILABLE, NoteFilter
-from app.services.llm import LLMError, TextDelta, ToolCall, TurnEnd
+from app.services.llm import LLMError, TextDelta, ToolCall, ToolResult, TurnEnd
 from app.services.token_budget import TokenBudget
 
 MAIN = "kody-qr-na-pomoc-seniorom"
@@ -19,10 +19,10 @@ OTHER = "bawita"
 class FakeLLM:
     def __init__(self, turns: list[list[Any]]) -> None:
         self.turns = turns
-        self.calls: list[list[dict[str, Any]]] = []
+        self.calls: list[list[Any]] = []
 
-    async def stream(self, *, system, tools, messages):
-        self.calls.append(json.loads(json.dumps(messages, default=str)))
+    async def stream(self, *, system, tools, history):
+        self.calls.append(list(history))
         events = self.turns.pop(0)
         if isinstance(events, Exception):
             raise events
@@ -38,7 +38,7 @@ class FakeLLM:
             for e in events
             if isinstance(e, ToolCall)
         ]
-        yield TurnEnd(items=items)
+        yield TurnEnd(state=items)
 
 
 def tool(name: str, **args) -> ToolCall:
@@ -167,10 +167,10 @@ async def test_question_rejected_after_round_limit(client, fake_llm):
     assert [n for n, _ in events] == ["summary", "done"]
     assert events[-1][1]["state"]["rounds"] == 4
     tool_result = llm.calls[1][-1]
-    assert tool_result["type"] == "function_call_output"
-    assert tool_result["output"].startswith("BŁĄD:")
-    assert "Limit" in tool_result["output"]
-    assert "Limit pytań wyczerpany" in llm.calls[0][-1]["content"][1]["text"]
+    assert isinstance(tool_result, ToolResult)
+    assert tool_result.is_error
+    assert "Limit" in tool_result.content
+    assert "Limit pytań wyczerpany" in llm.calls[0][-1].context
 
 
 async def test_role_locked_is_not_overwritten(client, fake_llm):
@@ -217,10 +217,10 @@ async def test_show_results_now_searches_and_enriches(client, fake_llm):
 
     # Akcja bez tekstu -> backend dokleja syntetyczną wiadomość użytkownika.
     first_call = llm.calls[0]
-    assert first_call[-1]["role"] == "user"
-    assert "Pokaż wyniki teraz" in first_call[-1]["content"][0]["text"]
+    assert first_call[-1].role == "user"
+    assert "Pokaż wyniki teraz" in first_call[-1].text
 
-    search_result = json.loads(llm.calls[1][-1]["output"])
+    search_result = json.loads(llm.calls[1][-1].content)
     assert {c["slug"] for c in search_result["karty"]} == {MAIN, OTHER}
     assert search_result["nieznane_slugi"] == ["nie-istnieje"]
 
@@ -256,7 +256,7 @@ async def test_show_results_requires_search(client, fake_llm):
     )
     events = await post(client, first_message() | {"action": "show_results_now"})
 
-    assert llm.calls[1][-1]["output"].startswith("BŁĄD:")
+    assert llm.calls[1][-1].is_error
     assert [i["slug"] for i in dict(events)["results"]["items"]] == [MAIN]
 
 
@@ -277,7 +277,7 @@ async def test_question_rejected_when_user_wants_results(client, fake_llm):
     )
     events = await post(client, first_message() | {"action": "confirm_summary"})
 
-    assert llm.calls[1][-1]["output"].startswith("BŁĄD:")
+    assert llm.calls[1][-1].is_error
     assert "question" not in [n for n, _ in events]
     assert "results" in [n for n, _ in events]
 
@@ -310,7 +310,7 @@ async def test_text_only_answer_gets_one_nudge(client, fake_llm):
     events = await post(client, first_message())
 
     assert len(llm.calls) == 2
-    assert "Nie wywołano narzędzia" in llm.calls[1][-1]["content"]
+    assert "Nie wywołano narzędzia" in llm.calls[1][-1].text
     assert events[-1][0] == "done"
 
 
@@ -452,7 +452,7 @@ async def test_confirmed_summary_goes_to_model(client, fake_llm):
     }
     events = await post(client, payload)
 
-    context = llm.calls[0][-1]["content"][1]["text"]
+    context = llm.calls[0][-1].context
     assert "Poprawione: 50 seniorów w gminie wiejskiej." in context
     assert dict(events)["problem_update"]["problem"]["problemy"]["tekst"] == "samotność"
 
@@ -592,3 +592,71 @@ async def test_no_status_after_failed_tool(client, fake_llm):
     events = await post(client, first_message(), with_status=True)
 
     assert [e["text"] for n, e in events if n == "status"] == ["Analizuję Twoją wiadomość…"]
+
+
+STATE_SIMILAR = {
+    "rola": "mieszkaniec",
+    "grupy_docelowe": {"tekst": "mama", "slugi": ["seniorzy"]},
+    "problemy": {"tekst": "samotność", "slugi": ["samotnosc"]},
+}
+
+
+async def add_needs(sessions, count: int, **fields):
+    async with sessions() as session:
+        for _ in range(count):
+            session.add(
+                Potrzeba(
+                    **{
+                        "problemy": ["samotnosc"],
+                        "grupy_docelowe": ["seniorzy", "kobiety"],
+                        "innowacje": [MAIN, OTHER],
+                    }
+                    | fields
+                )
+            )
+        await session.commit()
+
+
+async def test_similar_cases_shown_from_threshold(client, fake_llm, sessions):
+    await add_needs(sessions, 4, innowacje=[OTHER])
+    await add_needs(sessions, 1, innowacje=[MAIN, OTHER])
+    await add_needs(sessions, 3, problemy=["brak-pracy"])  # inny problem: nie liczy się
+    await add_needs(sessions, 3, grupy_docelowe=["dzieci"])  # inna grupa: nie liczy się
+    fake_llm(results_turns(MAIN))
+    events = await post(
+        client, first_message() | {"action": "show_results_now", "state": STATE_SIMILAR}
+    )
+
+    names = [n for n, _ in events]
+    assert names.index("results") < names.index("similar_cases") < names.index("done")
+    similar = dict(events)["similar_cases"]
+    assert similar["liczba"] == 5
+    assert similar["problem"] == "Samotność"
+    assert [(i["slug"], i["liczba"]) for i in similar["innowacje"]] == [(OTHER, 5), (MAIN, 1)]
+    assert "tresc" not in json.dumps(similar)
+
+
+async def test_similar_cases_hidden_below_threshold(client, fake_llm, sessions):
+    await add_needs(sessions, 4)
+    fake_llm(results_turns(MAIN))
+    events = await post(
+        client, first_message() | {"action": "show_results_now", "state": STATE_SIMILAR}
+    )
+    assert "similar_cases" not in [n for n, _ in events]
+
+
+async def test_current_case_is_not_counted_among_similar(client, fake_llm, sessions):
+    await add_needs(sessions, 4)
+    fake_llm(results_turns(MAIN))
+    payload = first_message() | {"action": "show_results_now", "state": STATE_SIMILAR}
+    await post(client, payload)  # zapisuje piąty przypadek, ale sam go nie widzi
+    fake_llm(results_turns(MAIN))
+    events = await post(client, payload)
+    assert dict(events)["similar_cases"]["liczba"] == 5
+
+
+async def test_no_similar_cases_without_problem_tags(client, fake_llm, sessions):
+    await add_needs(sessions, 6)
+    fake_llm(results_turns(MAIN))
+    events = await post(client, first_message() | {"action": "show_results_now"})
+    assert "similar_cases" not in [n for n, _ in events]

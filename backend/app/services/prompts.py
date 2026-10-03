@@ -257,7 +257,7 @@ def _problem_field(name: str, description: str) -> dict[str, Any]:
 
 
 # Zestaw narzędzi jest stały (limity egzekwuje backend), żeby nie psuć cache promptu.
-# Format neutralny: LLMService zamienia go na format API dostawcy.
+# Format neutralny: adapter LLMProvider zamienia go na format API dostawcy.
 TOOLS: list[dict[str, Any]] = [
     {
         "name": "set_role",

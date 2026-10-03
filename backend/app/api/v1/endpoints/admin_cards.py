@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, Query, status
 
-from app.api.deps import AIGatewayDep, SessionDep, TicketServiceDep
+from app.api.deps import AIGatewayDep, SessionDep
 from app.models import InnovationCard
 from app.repositories.card import CardRepository
 from app.schemas.admin_card import (
@@ -34,7 +34,6 @@ def _read(card: InnovationCard, warning: str | None = None) -> CardRead:
         licencja=card.licencja,
         url_zrodlowy=card.url_zrodlowy,
         wdrozenie=Wdrozenie(**card.wdrozenie) if card.wdrozenie else None,
-        ma_embedding=bool(card.embedding),
         ostrzezenie=warning,
     )
 
@@ -56,7 +55,7 @@ async def list_cards(
 @router.post("/karty", response_model=CardRead, status_code=status.HTTP_201_CREATED)
 async def create_card(data: CardCreate, session: SessionDep, ai: AIGatewayDep):
     try:
-        card = await CardService(session, ai).create(data)
+        card = await CardService(session).create(data)
     except CardError as e:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(e)) from None
     return _read(card, ai.degraded)
@@ -73,7 +72,7 @@ async def get_card(slug: str, session: SessionDep):
 @router.patch("/karty/{slug}", response_model=CardRead)
 async def update_card(slug: str, data: CardUpdate, session: SessionDep, ai: AIGatewayDep):
     try:
-        card = await CardService(session, ai).update(slug, data)
+        card = await CardService(session).update(slug, data)
     except CardError as e:
         code = 404 if "Nie znaleziono" in str(e) else status.HTTP_422_UNPROCESSABLE_CONTENT
         raise HTTPException(code, str(e)) from None
@@ -90,18 +89,3 @@ async def preview_card(slug: str, session: SessionDep):
     if card is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Nie znaleziono karty")
     return to_innovation(card)
-
-
-@router.post("/reindeksuj", summary="Przelicz embeddingi kart i zgłoszeń")
-async def reindex(
-    session: SessionDep, ai: AIGatewayDep, tickets: TicketServiceDep
-) -> dict[str, int | str | None]:
-    cards = await CardService(session, ai).reindex()
-    requests = await tickets.reindex()
-    await session.commit()
-    return {
-        "karty": cards,
-        "zgloszenia": requests,
-        "model": ai.embedding_model,
-        "ostrzezenie": ai.degraded,
-    }

@@ -1,0 +1,132 @@
+"""Deterministyczne dopasowanie zgłoszeń do kart bez embeddingów (ADR 0006).
+
+Czyste funkcje, bez bazy i bez AI: ten sam tekst daje ten sam wynik, a przy każdym dopasowaniu
+znamy powód (etykiety wspólnych tagów ze słownika).
+"""
+
+import json
+import re
+from dataclasses import dataclass, field
+from functools import lru_cache
+from pathlib import Path
+from typing import Any
+
+from app.services.embeddings import cosine, local_embed
+
+_vector = lru_cache(maxsize=2048)(local_embed)
+
+Vocabulary = dict[str, list[dict[str, Any]]]
+Tags = dict[str, list[str]]
+
+# Sekcje słownika używane do dopasowania i ich wagi.
+WEIGHTS = {"problemy": 3, "grupy_docelowe": 2, "miejsca": 1, "typy_rozwiazan": 1}
+# Słowa od tylu liter skracamy do tylu liter (fleksja: demencji/demencja, seniorów/senior).
+STEM_LEN = 6
+_TOKEN = re.compile(r"[^\W_]+\+?", re.UNICODE)
+
+
+@lru_cache
+def load_vocabulary(path: Path) -> Vocabulary:
+    if not path.exists():
+        return {}
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def stem(word: str) -> str:
+    return word[:STEM_LEN]
+
+
+def _stems(text: str) -> list[str]:
+    return [stem(w) for w in _TOKEN.findall(text.lower())]
+
+
+def _contains(haystack: list[str], needle: list[str]) -> bool:
+    n = len(needle)
+    return n > 0 and any(haystack[i : i + n] == needle for i in range(len(haystack) - n + 1))
+
+
+def tag_text(text: str, vocabulary: Vocabulary) -> Tags:
+    """Slugi ze słownika, których etykieta lub alias występuje w tekście jako cała fraza."""
+    tokens = _stems(text)
+    found: Tags = {}
+    for section in WEIGHTS:
+        slugs = []
+        for value in vocabulary.get(section, []):
+            phrases = [value["etykieta"], *value.get("aliasy", [])]
+            for phrase in phrases:
+                stems = _stems(phrase)
+                # Pojedyncze bardzo krótkie słowa dają za dużo fałszywych trafień.
+                if sum(len(s) for s in stems) < 3:
+                    continue
+                if _contains(tokens, stems):
+                    slugs.append(value["slug"])
+                    break
+        if slugs:
+            found[section] = slugs
+    return found
+
+
+def labels(vocabulary: Vocabulary) -> dict[str, dict[str, str]]:
+    return {s: {v["slug"]: v["etykieta"] for v in values} for s, values in vocabulary.items()}
+
+
+def similar_text(a: str, b: str) -> float:
+    """Podobieństwo trigramów znaków (0-1), liczone w locie."""
+    return cosine(_vector(a), _vector(b))
+
+
+@dataclass
+class CardMatch:
+    score: float
+    powody: list[str] = field(default_factory=list)
+    trigram: float = 0.0
+
+
+def card_score(
+    ticket_tags: Tags,
+    overlay: dict[str, Any] | None,
+    label_map: dict[str, dict[str, str]],
+    ticket_text: str,
+    card_text: str,
+) -> CardMatch:
+    """Ważone pokrycie tagów zgłoszenia przez nakładkę karty; remis rozstrzyga trigram.
+
+    Karta bez nakładki albo zgłoszenie bez tagów: wynik to samo podobieństwo trigramów.
+    """
+    trigram = similar_text(ticket_text, card_text)
+    overlay = overlay or {}
+    total = sum(WEIGHTS[s] * len(slugs) for s, slugs in ticket_tags.items())
+    if not total or not any(overlay.get(s) for s in WEIGHTS):
+        return CardMatch(score=trigram, trigram=trigram)
+    covered, reasons = 0, []
+    for section, slugs in ticket_tags.items():
+        have = set(overlay.get(section) or [])
+        for slug in slugs:
+            if slug in have:
+                covered += WEIGHTS[section]
+                reasons.append(label_map.get(section, {}).get(slug, slug))
+    return CardMatch(score=covered / total, powody=reasons, trigram=trigram)
+
+
+def rank_key(match: CardMatch) -> tuple[float, float]:
+    return (match.score, match.trigram)
+
+
+def tag_labels(tags: Tags, label_map: dict[str, dict[str, str]], section: str) -> list[str]:
+    return [label_map.get(section, {}).get(s, s) for s in tags.get(section, [])]
+
+
+def valid_tags(raw: Any, vocabulary: Vocabulary, limit: int = 3) -> Tags:
+    """Tagi od modelu: tylko slugi ze słownika, w znanych sekcjach."""
+    if not isinstance(raw, dict):
+        return {}
+    clean: Tags = {}
+    for section in WEIGHTS:
+        allowed = {v["slug"] for v in vocabulary.get(section, [])}
+        values = raw.get(section)
+        if not isinstance(values, list):
+            continue
+        slugs = [s for s in dict.fromkeys(values) if isinstance(s, str) and s in allowed]
+        if slugs:
+            clean[section] = slugs[:limit]
+    return clean

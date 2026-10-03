@@ -63,7 +63,14 @@ function ClusterCard({ cluster, onNote }: { cluster: Cluster; onNote: () => void
         <strong>{cluster.liczba} {cluster.liczba === 1 ? 'zgłoszenie' : 'zgłoszeń'}</strong> · <Trend change={cluster.zmiana} />
         {cluster.kategoria && <> · {categoryName(cluster.kategoria)}</>}
       </p>
-      <p className="hint">Nazwa {cluster.nazwa_zrodlo === 'ai' ? 'zaproponowana przez AI' : 'ułożona z najczęstszych słów (bez AI)'}.</p>
+      <p className="hint">
+        Dlaczego razem: {cluster.powod}. Nazwa{' '}
+        {cluster.nazwa_zrodlo === 'slownik'
+          ? 'ze słownika problemów'
+          : cluster.nazwa_zrodlo === 'ai'
+            ? 'zaproponowana przez AI'
+            : 'ułożona z najczęstszych słów (bez AI)'}.
+      </p>
       <TrendBars cluster={cluster} />
       <p className="hint">Ostatnie 8 tygodni, od najstarszego do bieżącego.</p>
       <h4>Przykładowe zgłoszenia (źródło)</h4>

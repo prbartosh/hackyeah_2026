@@ -2,7 +2,7 @@
 
 Monorepo: `backend/` (FastAPI + PostgreSQL) i `frontend/` (React + Vite + TypeScript).
 
-Jury: zobacz [docs/jury/README.md](docs/jury/README.md).
+Jury: zobacz [docs/jury/README.md](docs/jury/README.md). Stan prac: [docs/status.md](docs/status.md), decyzje: [docs/adr/](docs/adr/).
 
 ## Struktura
 
@@ -41,6 +41,14 @@ Jury: zobacz [docs/jury/README.md](docs/jury/README.md).
 ```
 
 Przepływ: `endpoint -> service -> repository -> model`. Endpoint nie dotyka ORM bezpośrednio.
+
+## Model językowy
+
+Serwisy używają portu `LLMProvider` (`services/llm.py`), nie SDK dostawcy ([ADR 0010](docs/adr/0010-port-llm.md)). Dostawcę wybierają `LLM_PROVIDER` (`deepseek` domyślnie, `openai`), `LLM_BASE_URL`, `LLM_MODEL` i `LLM_API_KEY` w `.env`. Bez klucza czat odpowiada 503, a panel i kreator działają bez AI. Dopasowanie zgłoszeń do kart w panelu jest deterministyczne (`services/matching.py`), bez embeddingów.
+
+## Limity zapytań
+
+Płatne endpointy (czat, karta usługi) i publiczne zapisy (zgłoszenia, kreator, oceny, `/items`) mają limity w `frontend/nginx.conf`, a czat i panel także dzienny budżet w backendzie (`LLM_DAILY_TOKEN_LIMIT`, `AI_DAILY_CALL_LIMIT`). Nowy publiczny endpoint zapisu dodaj do odpowiedniej sekcji `location` w nginx.
 
 ## Start (Docker)
 

@@ -58,7 +58,7 @@ function SettingsBox() {
           </div>
           <p className="hint">
             {data.ai_dostepne
-              ? `Podpowiedzi AI są włączone (model embeddingów: ${data.model_embeddingow}).`
+              ? 'Podpowiedzi AI są włączone (tagi i szkic odpowiedzi w triażu).'
               : 'Podpowiedzi AI są wyłączone (brak klucza API). Triaż działa w uproszczonym trybie.'}
           </p>
           <div className="btn-row"><button type="submit" className="btn btn-secondary">Zapisz ustawienia</button></div>

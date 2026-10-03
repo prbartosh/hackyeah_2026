@@ -142,7 +142,14 @@ export interface GminaStats {
   obszary: ObszarGminy[]
 }
 
+export interface SimilarCases {
+  liczba: number
+  problem: string
+  innowacje: { slug: string; nazwa: string; liczba: number }[]
+}
+
 export type ServerEvent =
+  | { name: 'similar_cases'; data: SimilarCases }
   | { name: 'gmina_stats'; data: GminaStats }
   | { name: 'text'; data: { text: string } }
   | { name: 'status'; data: { text: string } }

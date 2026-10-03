@@ -122,6 +122,20 @@ class ResultsEvent(BaseModel):
     items: list[ResultItem]
 
 
+class PodobnaInnowacjaPrzypadkow(BaseModel):
+    slug: str
+    nazwa: str
+    liczba: int
+
+
+class SimilarCasesEvent(BaseModel):
+    """Zagregowane podobne przypadki (zadanie 0025): tylko liczby, bez treści rozmów."""
+
+    liczba: int
+    problem: str
+    innowacje: list[PodobnaInnowacjaPrzypadkow]
+
+
 class WskaznikGminy(BaseModel):
     id: str
     nazwa: str

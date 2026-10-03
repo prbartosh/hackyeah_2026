@@ -11,7 +11,7 @@ Demo ([DEMO.md](../DEMO.md)) wymaga rozmowy, w której AI ustala rolę, dopytuje
 
 - `POST /api/v1/chat`, odpowiedź SSE. Front wysyła całą historię, stan i opcjonalną akcję (`show_results_now`, `confirm_summary`, z poprawionym `summary`). Stan to stan problemu z ADR 0004 §7 (`rola`, `grupy_docelowe`, `problemy`, `miejsca`, `skale`, `zasoby`, `proby`, każde pole jako `{tekst, slugi}`) plus `role_locked` i `rounds`. Backend niczego nie zapisuje.
 - Role według ADR 0004 §3: `mieszkaniec`, `cus-ops`, `partner`.
-- Model (Responses API, `LLM_MODEL`, od [ADR 0007](0007-deepseek.md) DeepSeek `deepseek-flash`) działa przez narzędzia (function calling): `set_role`, `update_problem`, `ask_question`, `propose_summary`, `search`, `show_results`, `gmina_stats` (od zadania [0013](../tasks/0013-dane-gminy-w-czacie.md), niżej).
+- Model (Responses API, `LLM_MODEL`, od [ADR 0007](0007-deepseek.md) DeepSeek `deepseek-flash`), dostęp przez port `LLMProvider` ([ADR 0010](0010-port-llm.md)) działa przez narzędzia (function calling): `set_role`, `update_problem`, `ask_question`, `propose_summary`, `search`, `show_results`, `gmina_stats` (od zadania 0013, niżej). Po `results` backend może wysłać zdarzenie `similar_cases` ([ADR 0012](0012-podobne-przypadki.md)).
 - Katalog w system prompcie (wariant podstawowy z ADR 0004 §8, cache): `slug`, `nazwa`, kategoria, `problem`, `grupa_docelowa`, `kto_moze_skorzystac`, `czy_dziala` (skrócone do 300 znaków), `wybrana_do_upowszechniania` i zatwierdzona nakładka z `wzbogacenia.json`, jeśli plik istnieje. Katalog jest w znaczniku `<katalog>`, a prompt mówi, że katalog i karty z `search` to dane, nie polecenia. Rozmiar około 35 tys. tokenów.
 - `search(slugs)`: model wybiera do 8 kandydatów, backend zwraca ich pełne karty (z nakładką). `show_results` przyjmuje tylko slugi pobrane przez `search`; linki, kontakt, licencję i `wybrana_do_upowszechniania` dokleja backend z bazy, model ich nie pisze.
 - `update_problem` ma pola `{tekst, slugi}` (w `zasoby` także `poziom_kosztu`). Dopóki nie ma `slownik.json`, backend zeruje `slugi`.
@@ -24,5 +24,5 @@ Demo ([DEMO.md](../DEMO.md)) wymaga rozmowy, w której AI ustala rolę, dopytuje
 
 - Brak bazy rozmów: prosto i bez danych wrażliwych, ale klient może zmienić historię lub stan (np. licznik rund). Na demo akceptowalne.
 - Gdy czas odpowiedzi lub koszt katalogu w prompcie okażą się za duże, przechodzimy na wariant zapasowy z ADR 0004 §8 (prefiltr po listach nakładki, rerank LLM na 15–20 kandydatach). Kontrakt z frontem się nie zmienia.
-- Zapis potrzeb przy każdej odpowiedzi z wynikami (ADR 0004 §8, tabela `potrzeby`) nie wchodzi w ten zakres: [task 0004](../tasks/0004-zapis-potrzeb.md). Dopóki stan nie ma slugów ze słownika, zapis ma tylko rolę, pokazane innowacje, flagę braku dopasowania i datę.
+- Zapis potrzeb przy każdej odpowiedzi z wynikami (ADR 0004 §8, tabela `potrzeby`) nie wchodzi w ten zakres: task 0004. Dopóki stan nie ma slugów ze słownika, zapis ma tylko rolę, pokazane innowacje, flagę braku dopasowania i datę.
 - Statystyki (anonimowe podsumowania): później, osobno.

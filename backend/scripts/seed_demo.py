@@ -56,7 +56,7 @@ async def main() -> None:
             return
         ai = AIGateway(session, settings, llm)
         # Karty z plików muszą być w bazie, żeby triaż miał z czego dopasowywać.
-        cards = CardService(session, ai)
+        cards = CardService(session)
         await cards.import_from_files(settings.innovations_path)
         await cards.refresh_snapshot()
         service = TicketService(session, ai, settings, get_email_sender(settings))

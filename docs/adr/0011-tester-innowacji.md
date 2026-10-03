@@ -5,7 +5,7 @@
 
 ## Kontekst
 
-Moduł IV wyzwania (+5%): zgłoszenie do testów, ocena rozwiązań, feedback i propozycje usprawnień. Brief: oceny mają podnosić poziom dowodu innowacji (pomysł → pilot → sprawdzone). Panel administratora ([ADR 0006](0006-panel-administratora.md)) ma już skrzynkę, wątki i powiadomienia. Zadanie [0019](../tasks/0019-tester-innowacji.md).
+Moduł IV wyzwania (+5%): zgłoszenie do testów, ocena rozwiązań, feedback i propozycje usprawnień. Brief: oceny mają podnosić poziom dowodu innowacji (pomysł → pilot → sprawdzone). Panel administratora ([ADR 0006](0006-panel-administratora.md)) ma już skrzynkę, wątki i powiadomienia. Zadanie 0019.
 
 ## Decyzja
 

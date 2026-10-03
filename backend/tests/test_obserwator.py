@@ -110,7 +110,7 @@ async def test_chat_tool_emits_gmina_stats(client, fake_llm, chat_with_repo):
     assert stats["obszary"][0]["wskazniki"][0]["wartosc"] == "28339"
     assert "[Dane gminy: Bochnia (miasto), Bochnia (wieś)]" in events[-1][1]["assistant_message"]
     tool_result = llm.calls[1][-1]
-    assert "28339" in json.dumps(tool_result, ensure_ascii=False)
+    assert "28339" in tool_result.content
 
 
 async def test_chat_tool_unknown_gmina(client, fake_llm, chat_with_repo):
@@ -123,4 +123,4 @@ async def test_chat_tool_unknown_gmina(client, fake_llm, chat_with_repo):
     events = await post(client, first_message())
 
     assert [n for n, _ in events] == ["summary", "done"]
-    assert "Brak danych dla „Warszawa”" in json.dumps(llm.calls[1][-1], ensure_ascii=False)
+    assert "Brak danych dla „Warszawa”" in llm.calls[1][-1].content

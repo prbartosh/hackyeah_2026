@@ -164,7 +164,7 @@ Dane w repo (scrapery z publicznej strony ROPS): 51 raportów (`assets/raporty/`
 - Dokumenty są publiczne i dostępne dla wszystkich ról, bez logowania.
 - Powiązanie z innowacją jest częste i typu wiele do wielu: jeden raport może dotyczyć kilku innowacji, a innowacja może mieć kilka raportów. Dokument może też istnieć bez powiązania. Na demo: osobny plik, w którym każdy dokument ma listę slugów powiązanych innowacji. Powiązania proponuje AI, zatwierdza człowiek (jak przy nakładce).
 - **Przez innowację:** powiązane dokumenty pojawiają się na stronie szczegółów innowacji, w osobnej sekcji obok materiałów.
-- **Bezpośrednio:** przeglądanie i wyszukiwanie dokumentów w Zasobniku wiedzy ([zadanie 0003](../tasks/0003-zasobnik-wiedzy.md)).
+- **Bezpośrednio:** przeglądanie i wyszukiwanie dokumentów w Zasobniku wiedzy (zadanie 0003).
 - Narzędzie `search` w czacie przeszukuje wyłącznie innowacje. Treść dokumentów nie trafia do katalogu w prompcie ani nie jest podstawą `why_relevant`.
 - Wyszukiwanie po treści dokumentów nie zmieści się w prompcie. Na demo: filtry po metadanych (rok, tytuł, kategoria). Wyszukiwanie po treści (embeddingi lub pełnotekstowe) to osobna decyzja.
 - Przy każdym dokumencie pokazujemy źródło (link ROPS) i licencję, jeśli jest podana.
@@ -208,4 +208,4 @@ Tracimy:
 
 ## Otwarte kwestie
 
-1. ~~Słownik startowy: kto zatwierdza wartości~~ Ustalone: Bartłomiej (backend) zatwierdza słownik startowy, nakładkę i powiązania dokument ↔ innowacja ([zadanie 0005](../tasks/0005-slownik-i-nakladka.md)). Słownik i nakładka dla 115 innowacji są w repo i czekają na przegląd.
+1. ~~Słownik startowy: kto zatwierdza wartości~~ Ustalone: Bartłomiej (backend) zatwierdza słownik startowy, nakładkę i powiązania dokument ↔ innowacja (zadanie 0005). Słownik i nakładka dla 115 innowacji są w repo i czekają na przegląd.

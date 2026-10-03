@@ -1,6 +1,6 @@
 # Kreator pomysłów (moduł III)
 
-Decyzje: [ADR 0008](adr/0008-kreator-pomyslow.md), zadanie: [0018](tasks/0018-kreator-pomyslow.md).
+Decyzje: [ADR 0008](adr/0008-kreator-pomyslow.md).
 
 ## Uruchomienie
 

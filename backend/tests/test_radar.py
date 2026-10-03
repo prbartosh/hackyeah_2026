@@ -32,7 +32,13 @@ async def test_radar_grupuje_zgloszenia_bez_dopasowania(admin_client):
     assert sizes == [1, 3]
     biggest = radar["klastry"][0]
     assert biggest["liczba"] == 3
-    assert biggest["nazwa"].startswith("Temat:")  # bez AI nazwa ze słów
+    # Grupa po wspólnym tagu ze słownika: nazwa i powód bez AI.
+    assert biggest["nazwa"] == "Brak dostępu do opieki zdrowotnej"
+    assert biggest["nazwa_zrodlo"] == "slownik"
+    assert biggest["powod"] == "wspólny problem: Brak dostępu do opieki zdrowotnej"
+    other_group = radar["klastry"][1]
+    assert other_group["nazwa"].startswith("Temat:")  # bez tagu: nazwa ze słów
+    assert other_group["powod"] == "podobny tekst zgłoszeń"
     assert len(biggest["trend"]) == 8
     assert sum(w["liczba"] for w in biggest["trend"]) == 3
     assert len(biggest["przyklady"]) == 3
@@ -59,8 +65,8 @@ async def test_zgloszenie_z_dopasowaniem_nie_trafia_do_radaru(admin_client):
 
 async def test_nazwy_klastrow_z_ai_sa_cache_owane(admin_client, ai_enabled):
     for text in (
-        "Brakuje autobusu do przychodni dla seniorów na wsi",
-        "Seniorzy na wsi nie mają autobusu do przychodni",
+        "Chcemy zorganizować festiwal latawców nad jeziorem",
+        "Festiwal latawców nad jeziorem potrzebuje organizatora",
     ):
         await submit_and_triage(admin_client, text)
     ai_enabled.json_response = {}

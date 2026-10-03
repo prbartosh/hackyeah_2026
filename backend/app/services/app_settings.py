@@ -5,13 +5,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import Settings
 from app.models import AppSetting
-from app.services.embeddings import LOCAL_MODEL
 
-# Skala podobieństwa zależy od modelu embeddingów.
-_DEFAULTS = {
-    "openai": {"prog_duplikatow": 0.80, "prog_dopasowania": 0.35, "prog_klastra": 0.50},
-    "local": {"prog_duplikatow": 0.55, "prog_dopasowania": 0.30, "prog_klastra": 0.30},
-}
+# Duplikaty i klastry to podobieństwo trigramów, dopasowanie kart to pokrycie tagów (matching.py).
+_DEFAULTS = {"prog_duplikatow": 0.55, "prog_dopasowania": 0.30, "prog_klastra": 0.30}
 KEYS = ("prog_duplikatow", "prog_dopasowania", "prog_klastra", "sla_godziny")
 
 
@@ -26,11 +22,8 @@ class PanelSettings:
         return asdict(self)
 
 
-async def load_settings(
-    session: AsyncSession, settings: Settings, embedding_model: str
-) -> PanelSettings:
-    kind = "local" if embedding_model == LOCAL_MODEL else "openai"
-    values: dict[str, float] = {**_DEFAULTS[kind], "sla_godziny": float(settings.sla_hours)}
+async def load_settings(session: AsyncSession, settings: Settings) -> PanelSettings:
+    values: dict[str, float] = {**_DEFAULTS, "sla_godziny": float(settings.sla_hours)}
     for row in await session.scalars(select(AppSetting)):
         if row.klucz in KEYS:
             values[row.klucz] = row.wartosc

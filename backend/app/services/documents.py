@@ -150,7 +150,7 @@ class DocumentService:
     def __init__(self, session: AsyncSession, ai: AIGateway, categories_path) -> None:
         self.session = session
         self.ai = ai
-        self.cards = CardService(session, ai)
+        self.cards = CardService(session)
         self.category_names = category_names(categories_path)
 
     async def create_import(self, filename: str, data: bytes) -> DocumentImport:

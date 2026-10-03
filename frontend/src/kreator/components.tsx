@@ -126,6 +126,7 @@ export function SimilarInnovations({ token, refreshKey }: { token: string | null
               <li key={i.slug} className="similar-item">
                 <Link to={`/innowacja/${i.slug}`} className="similar-name">{i.nazwa}</Link>
                 {i.problem && <p>{i.problem}</p>}
+                {i.powody.length > 0 && <p className="hint">Pasuje, bo: {i.powody.join(', ')}.</p>}
                 <p className="hint">
                   Źródło: <a href={i.url} target="_blank" rel="noreferrer">{i.zrodlo}<span className="visually-hidden"> (otwiera się w nowej karcie)</span> <ExternalLink size={14} aria-hidden="true" /></a>
                 </p>

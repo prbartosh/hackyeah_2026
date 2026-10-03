@@ -37,7 +37,7 @@ Role: `mieszkaniec`, `cus-ops`, `partner` ([ADR 0004](adr/0004-obiekt-innowacji.
 
 ## Kandydaci na pokaz
 
-Wybór z danych, przed pomiarem z [0009](tasks/0009-ewaluacja-dopasowania.md). Po pomiarze zostają tylko te, które trafiają na 1. miejscu.
+Wybór z danych, przed pomiarem. Po pomiarze zostają tylko te, które trafiają na 1. miejscu.
 
 - **Mieszkaniec:** #1 (mama z demencją). Rezerwa: #2, #3, #17.
 - **CUS/OPS:** #7 (przemoc, dotarcie na wsi). Rezerwa: #8.

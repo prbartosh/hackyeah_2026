@@ -12,6 +12,7 @@ import {
   type ChatAction,
   type ChatState,
   type GminaStats,
+  type SimilarCases,
   type ProblemKey,
   type ProblemState,
   type Question,
@@ -42,6 +43,8 @@ interface ChatData {
   awaiting: 'question' | 'summary' | null
   summaryConfirmed: boolean
   results: Results | null
+  /** Zagregowane podobne przypadki (od progu k), przy wynikach */
+  podobne: SimilarCases | null
   /** Ostatnie dane gminy z narzędzia `gmina_stats`, pokazywane w panelu pod „Gdzie” */
   gmina: GminaStats | null
   streaming: boolean
@@ -58,6 +61,7 @@ const initialData = (): ChatData => ({
   awaiting: null,
   summaryConfirmed: false,
   results: null,
+  podobne: null,
   gmina: null,
   streaming: false,
   status: null,
@@ -195,11 +199,15 @@ function reducer(data: ChatData, action: Action): ChatData {
           return {
             ...data,
             results: e.data,
+            podobne: null,
             display: withAssistant(data.display, (m) => ({
               ...m,
               text: m.text ? `${m.text}\n${resultsLine(e.data)}` : resultsLine(e.data),
             })),
           }
+
+        case 'similar_cases':
+          return { ...data, podobne: e.data }
 
         case 'gmina_stats':
           return { ...data, gmina: e.data }

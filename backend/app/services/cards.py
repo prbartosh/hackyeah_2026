@@ -20,20 +20,10 @@ from app.repositories.innovation import (
 )
 from app.schemas.admin_card import CardCreate, CardUpdate
 from app.schemas.innovation import Innovation
-from app.services.ai import AIGateway
-from app.services.embeddings import cosine
+from app.services.matching import CardMatch, Tags, card_score, rank_key
 
 logger = logging.getLogger(__name__)
 
-# Zmiana tych pól przelicza embedding.
-EMBEDDED_FIELDS = (
-    "nazwa",
-    "problem",
-    "grupa_docelowa",
-    "kto_moze_skorzystac",
-    "czy_dziala",
-    "opis",
-)
 _PL = str.maketrans("ąćęłńóśźżĄĆĘŁŃÓŚŹŻ", "acelnoszzACELNOSZZ")
 
 
@@ -54,7 +44,7 @@ def slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")[:80] or "karta"
 
 
-def embedding_text(card: InnovationCard) -> str:
+def match_text(card: InnovationCard) -> str:
     parts = [card.nazwa, card.problem, card.grupa_docelowa, card.kto_moze_skorzystac]
     parts += [card.czy_dziala, (card.opis or "")[:1500]]
     return "\n".join(p for p in parts if p)
@@ -91,9 +81,8 @@ def overlay_of(card: InnovationCard) -> dict[str, Any] | None:
 
 
 class CardService:
-    def __init__(self, session: AsyncSession, ai: AIGateway) -> None:
+    def __init__(self, session: AsyncSession) -> None:
         self.session = session
-        self.ai = ai
         self.repo = CardRepository(session)
 
     async def refresh_snapshot(self) -> None:
@@ -125,32 +114,24 @@ class CardService:
             )
         self.session.add_all(cards)
         await self.session.flush()
-        await self.reindex(cards)
         await self.session.commit()
         await self.refresh_snapshot()
         logger.info("Zaimportowano %s kart innowacji z plików", len(cards))
         return len(cards)
 
-    async def reindex(self, cards: list[InnovationCard] | None = None) -> int:
-        cards = list(cards if cards is not None else await self.repo.all())
-        if not cards:
-            return 0
-        vectors, model = await self.ai.embed([embedding_text(c) for c in cards])
-        for card, vector in zip(cards, vectors, strict=True):
-            card.embedding = vector
-            card.embedding_model = model
-        return len(cards)
-
-    async def similar(
-        self, vector: list[float], model: str, limit: int = 5
-    ) -> list[tuple[InnovationCard, float]]:
-        """Tylko opublikowane i z tym samym modelem embeddingów."""
+    async def rank(
+        self,
+        text: str,
+        tags: Tags,
+        label_map: dict[str, dict[str, str]],
+        limit: int = 5,
+    ) -> list[tuple[InnovationCard, CardMatch]]:
+        """Opublikowane karty od najlepiej dopasowanych (matching.py), z powodami."""
         scored = [
-            (c, cosine(vector, c.embedding))
+            (c, card_score(tags, c.nakladka, label_map, text, match_text(c)))
             for c in await self.repo.published()
-            if c.embedding and c.embedding_model == model
         ]
-        return sorted(scored, key=lambda x: x[1], reverse=True)[:limit]
+        return sorted(scored, key=lambda x: rank_key(x[1]), reverse=True)[:limit]
 
     async def create(self, data: CardCreate, *, zrodlo: str = "panel") -> InnovationCard:
         slug = await self._unique_slug(data.nazwa)
@@ -158,7 +139,6 @@ class CardService:
         card.pobrano_dnia = datetime.now(UTC).strftime("%Y-%m-%d")
         self._apply(card, data)
         await self.repo.add(card)
-        await self.reindex([card])
         await self.session.commit()
         await self.refresh_snapshot()
         return card
@@ -167,11 +147,9 @@ class CardService:
         card = await self.repo.get(slug)
         if card is None:
             raise CardError("Nie znaleziono karty")
-        changed = self._apply(card, data)
+        self._apply(card, data)
         if card.status == "opublikowana" and not (card.nazwa and card.problem):
             raise CardError("Opublikowana karta musi mieć nazwę i opis problemu")
-        if changed & set(EMBEDDED_FIELDS) or not card.embedding:
-            await self.reindex([card])
         await self.session.commit()
         await self.refresh_snapshot()
         return card

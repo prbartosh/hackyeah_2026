@@ -3,13 +3,12 @@ from httpx import ASGITransport, AsyncClient
 from app.core.config import settings
 from app.main import app
 from app.repositories.innovation import InnovationRepository
-from app.services.ai import AIGateway
 from app.services.cards import CardService
 
 
 async def import_cards(session_factory, tmp_innovations):
     async with session_factory() as session:
-        service = CardService(session, AIGateway(session, settings, None))
+        service = CardService(session)
         return await service.import_from_files(tmp_innovations)
 
 
@@ -27,7 +26,7 @@ async def test_panel_wylaczony_bez_tokenu(admin_client, monkeypatch):
     assert response.status_code == 503
 
 
-async def test_nowa_karta_dostaje_embedding_i_slug(admin_client):
+async def test_nowa_karta_dostaje_slug_i_szkic(admin_client):
     created = await admin_client.post(
         "/api/v1/admin/karty",
         json={"nazwa": "Żółta łódź", "problem": "Samotność seniorów na wsi zimą"},
@@ -36,8 +35,7 @@ async def test_nowa_karta_dostaje_embedding_i_slug(admin_client):
     body = created.json()
     assert body["slug"] == "zolta-lodz"
     assert body["status"] == "szkic"
-    assert body["ma_embedding"] is True
-    assert body["ostrzezenie"] is None  # wektory lokalne to tryb normalny, nie awaria
+    assert body["ostrzezenie"] is None
 
 
 async def test_publikacja_wymaga_problemu(admin_client):
@@ -67,16 +65,6 @@ async def test_opublikowana_karta_widoczna_w_matchmakingu(admin_client):
         "/api/v1/admin/karty/wioska-bez-barier", json={"status": "zarchiwizowana"}
     )
     assert InnovationRepository(path).get("wioska-bez-barier") is None
-
-
-async def test_zmiana_tresci_przelicza_embedding(admin_client):
-    created = await admin_client.post(
-        "/api/v1/admin/karty", json={"nazwa": "Karta A", "problem": "Opis jeden"}
-    )
-    slug = created.json()["slug"]
-    await admin_client.patch(f"/api/v1/admin/karty/{slug}", json={"problem": "Całkiem inny"})
-    reindexed = await admin_client.post("/api/v1/admin/reindeksuj")
-    assert reindexed.json()["karty"] == 1
 
 
 async def test_import_z_plikow_i_lista_ze_statusami(admin_client, session_factory):

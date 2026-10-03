@@ -46,7 +46,6 @@ class CardRead(CardListItem):
     licencja: str | None
     url_zrodlowy: str | None
     wdrozenie: Wdrozenie | None
-    ma_embedding: bool
     ostrzezenie: str | None = None
 
 

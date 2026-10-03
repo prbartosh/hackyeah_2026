@@ -42,15 +42,8 @@ class FakeLLM:
     def __init__(self) -> None:
         self.json_response: dict | Exception = {}
         self.json_calls: list[dict] = []
-        self.embed_calls = 0
 
-    async def embed(self, texts, *, timeout):
-        from app.services.embeddings import local_embed
-
-        self.embed_calls += 1
-        return [local_embed(t) for t in texts]
-
-    async def complete_json(self, *, system, user, timeout):
+    async def complete_json(self, *, system, user, timeout, schema=None):
         self.json_calls.append({"system": system, "user": user})
         if isinstance(self.json_response, Exception):
             raise self.json_response

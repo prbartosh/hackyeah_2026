@@ -33,6 +33,9 @@ class Ticket(TimestampMixin, Base):
     triaz_zrodlo: Mapped[str | None] = mapped_column(String(10))  # "ai" | "reguly"
     triaz_komunikat: Mapped[str | None] = mapped_column(Text)
     najlepsze_dopasowanie: Mapped[float | None] = mapped_column(Float)
+    # Tagi ze słownika (sekcja -> slugi): z fraz w treści, po triażu AI zwalidowane tagi modelu.
+    tagi: Mapped[dict[str, list[str]] | None] = mapped_column(JSON)
+    # Nieużywane od ADR 0006 (embeddingi zastąpiło matching.py); kolumny zostają do czasu migracji.
     embedding: Mapped[list[float] | None] = mapped_column(JSON)
     embedding_model: Mapped[str | None] = mapped_column(String(80))
 

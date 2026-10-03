@@ -37,6 +37,7 @@ export interface PodobnaInnowacja {
   problem: string | null
   grupa_docelowa: string | null
   score: number
+  powody: string[]
 }
 
 export interface NaborPole {

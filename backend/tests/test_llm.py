@@ -4,7 +4,17 @@ from types import SimpleNamespace as NS
 import pytest
 
 from app.core.config import Settings
-from app.services.llm import LLMError, LLMService, TextDelta, ToolCall, TurnEnd
+from app.services.llm import (
+    PROFILES,
+    LLMError,
+    Message,
+    ResponsesProvider,
+    TextDelta,
+    ToolCall,
+    ToolResult,
+    TurnEnd,
+    create_provider,
+)
 from app.services.token_budget import TokenBudget
 
 
@@ -47,16 +57,17 @@ class FakeResponses:
         return gen()
 
 
-def service(events, **settings) -> tuple[LLMService, FakeResponses]:
-    llm = LLMService(Settings(database_url="x", llm_api_key="test", **settings))
+def service(events, profile="deepseek", **settings) -> tuple[ResponsesProvider, FakeResponses]:
+    llm = create_provider(Settings(database_url="x", llm_api_key="test", **settings))
+    llm.profile = PROFILES[profile]
     responses = FakeResponses(events)
     llm.client.responses = responses
     return llm, responses
 
 
-async def collect(llm: LLMService):
+async def collect(llm: ResponsesProvider, history=None):
     tools = [{"name": "set_role", "description": "d", "parameters": {"type": "object"}}]
-    return [e async for e in llm.stream(system="SYS", tools=tools, messages=[])]
+    return [e async for e in llm.stream(system="SYS", tools=tools, history=history or [])]
 
 
 async def test_streams_text_and_tool_calls():
@@ -83,8 +94,8 @@ async def test_streams_text_and_tool_calls():
     end = events[3]
     assert isinstance(end, TurnEnd)
     # Rozumowanie wraca do historii razem z wywołaniami narzędzi.
-    assert [i["type"] for i in end.items] == ["reasoning", "function_call", "function_call"]
-    assert end.items[0]["content"][0]["text"] == "myślę"
+    assert [i["type"] for i in end.state] == ["reasoning", "function_call", "function_call"]
+    assert end.state[0]["content"][0]["text"] == "myślę"
 
     sent = responses.kwargs
     assert sent["instructions"] == "SYS"
@@ -137,3 +148,49 @@ async def test_usage_is_added_to_budget():
     assert responses.kwargs["max_output_tokens"] == 8000
     assert llm.budget.used == 200
     assert llm.budget.exhausted()
+
+
+async def test_history_is_converted_to_responses_input():
+    llm, responses = service([done([])])
+    history = [
+        Message("user", "Cześć", context="<stan_rozmowy>x</stan_rozmowy>"),
+        TurnEnd(state=[{"type": "function_call", "call_id": "a", "name": "set_role"}]),
+        ToolResult("a", "ok"),
+        ToolResult("b", "zły slug", is_error=True),
+        Message("assistant", "Dobrze."),
+    ]
+    await collect(llm, history)
+
+    assert responses.kwargs["input"] == [
+        {
+            "role": "user",
+            "content": [
+                {"type": "input_text", "text": "Cześć"},
+                {"type": "input_text", "text": "<stan_rozmowy>x</stan_rozmowy>"},
+            ],
+        },
+        {"type": "function_call", "call_id": "a", "name": "set_role"},
+        {"type": "function_call_output", "call_id": "a", "output": "ok"},
+        {"type": "function_call_output", "call_id": "b", "output": "BŁĄD: zły slug"},
+        {"role": "assistant", "content": "Dobrze."},
+    ]
+
+
+async def test_deepseek_profile_sends_no_provider_specific_flags():
+    llm, responses = service([done([])])
+    await collect(llm)
+    assert "store" not in responses.kwargs
+    assert "include" not in responses.kwargs
+    assert "strict" not in responses.kwargs["tools"][0]
+
+
+async def test_openai_profile_is_stateless_with_encrypted_reasoning():
+    llm, responses = service([done([])], profile="openai")
+    await collect(llm)
+    assert responses.kwargs["store"] is False
+    assert responses.kwargs["include"] == ["reasoning.encrypted_content"]
+
+
+def test_unknown_provider_is_rejected():
+    with pytest.raises(ValueError):
+        create_provider(Settings(database_url="x", llm_api_key="k", llm_provider="nieznany"))

@@ -38,6 +38,7 @@ export interface CardSuggestion {
   slug: string
   nazwa: string
   score: number
+  powody: string[]
   url: string
   uzyta: boolean
 }
@@ -81,7 +82,6 @@ export interface PanelSettings {
   prog_dopasowania: number
   prog_klastra: number
   sla_godziny: number
-  model_embeddingow: string
   ai_dostepne: boolean
 }
 
@@ -113,11 +113,10 @@ export interface Card extends CardListItem {
   licencja: string | null
   url_zrodlowy: string | null
   wdrozenie: Wdrozenie | null
-  ma_embedding: boolean
   ostrzezenie: string | null
 }
 
-export type CardInput = Partial<Omit<Card, 'slug' | 'zrodlo' | 'updated_at' | 'ma_embedding' | 'ostrzezenie' | 'url_zrodlowy'>>
+export type CardInput = Partial<Omit<Card, 'slug' | 'zrodlo' | 'updated_at' | 'ostrzezenie' | 'url_zrodlowy'>>
 
 export interface ImportListItem {
   id: number
@@ -146,7 +145,8 @@ export interface ImportDetail extends ImportListItem {
 export interface Cluster {
   klucz: string
   nazwa: string
-  nazwa_zrodlo: 'ai' | 'slowa'
+  nazwa_zrodlo: 'ai' | 'slowa' | 'slownik'
+  powod: string
   liczba: number
   kategoria: string | null
   trend: { tydzien: string; liczba: number }[]

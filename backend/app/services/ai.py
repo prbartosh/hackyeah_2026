@@ -8,8 +8,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import Settings
 from app.models import AiUsage
-from app.services.embeddings import LOCAL_MODEL, local_embed
-from app.services.llm import LLMError, LLMService
+from app.services.llm import LLMError, LLMProvider
 
 logger = logging.getLogger(__name__)
 
@@ -19,15 +18,11 @@ class AIUnavailableError(Exception):
 
 
 class AIGateway:
-    def __init__(self, session: AsyncSession, settings: Settings, llm: LLMService | None) -> None:
+    def __init__(self, session: AsyncSession, settings: Settings, llm: LLMProvider | None) -> None:
         self.session = session
         self.settings = settings
         self.llm = llm
         self.degraded: str | None = None
-
-    @property
-    def embedding_model(self) -> str:
-        return LOCAL_MODEL
 
     @property
     def _configured(self) -> bool:
@@ -56,10 +51,6 @@ class AIGateway:
             )
         usage.wywolania += 1
         await self.session.flush()
-
-    async def embed(self, texts: list[str]) -> tuple[list[list[float]], str]:
-        """Wektory i nazwa modelu. Zawsze lokalnie: DeepSeek nie ma API embeddingów (ADR 0007)."""
-        return [local_embed(t) for t in texts], LOCAL_MODEL
 
     async def json(self, system: str, user: str, *, scope: str | None = None) -> dict[str, Any]:
         if not self._configured or self.llm is None:

@@ -12,7 +12,7 @@ from app.schemas.service_card import (
     ServiceCardRequest,
     ServiceCardResponse,
 )
-from app.services.llm import LLMError, LLMService
+from app.services.llm import LLMError, LLMProvider
 from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
@@ -75,7 +75,7 @@ class ServiceCardFailedError(Exception):
 class ServiceCardService:
     def __init__(
         self,
-        llm: LLMService | None,
+        llm: LLMProvider | None,
         innovations: InnovationRepository,
         budget: TokenBudget,
         enabled: bool = True,

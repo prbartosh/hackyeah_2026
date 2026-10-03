@@ -36,6 +36,7 @@ class CardSuggestion(BaseModel):
     slug: str
     nazwa: str
     score: float
+    powody: list[str] = []
     url: str
     uzyta: bool = False
 
@@ -123,7 +124,6 @@ class SettingsRead(BaseModel):
     prog_dopasowania: float
     prog_klastra: float
     sla_godziny: float
-    model_embeddingow: str
     ai_dostepne: bool
 
 

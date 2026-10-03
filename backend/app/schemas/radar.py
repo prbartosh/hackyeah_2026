@@ -16,7 +16,8 @@ class ClusterExample(BaseModel):
 class ClusterRead(BaseModel):
     klucz: str
     nazwa: str
-    nazwa_zrodlo: str  # "ai" | "slowa"
+    nazwa_zrodlo: str  # "ai" | "slowa" | "slownik"
+    powod: str  # dlaczego zgłoszenia są razem
     liczba: int
     kategoria: str | None
     trend: list[WeekCount]

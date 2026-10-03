@@ -20,7 +20,7 @@ from app.services.email import get_email_sender
 from app.services.fiszki import FiszkaService
 from app.services.innovation import InnovationService
 from app.services.knowledge import KnowledgeService
-from app.services.llm import LLMService
+from app.services.llm import LLMProvider, create_provider
 from app.services.nabory import NaborService
 from app.services.opinions import OpinionService
 from app.services.service_card import ServiceCardService
@@ -55,17 +55,17 @@ def get_token_budget() -> TokenBudget:
 
 
 @lru_cache
-def _llm_service() -> LLMService:
-    return LLMService(settings, get_token_budget())
+def _llm_service() -> LLMProvider:
+    return create_provider(settings, get_token_budget())
 
 
-def get_llm_service() -> LLMService | None:
+def get_llm_service() -> LLMProvider | None:
     """None bez klucza - SDK rzuca wtedy OpenAIError już przy tworzeniu klienta."""
     return _llm_service() if settings.llm_api_key else None
 
 
 def get_chat_service(
-    llm: Annotated[LLMService | None, Depends(get_llm_service)],
+    llm: Annotated[LLMProvider | None, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
     budget: Annotated[TokenBudget, Depends(get_token_budget)],
     sessions: Annotated[async_sessionmaker[AsyncSession], Depends(get_session_factory)],
@@ -82,7 +82,7 @@ def get_chat_service(
 
 
 def get_service_card_service(
-    llm: Annotated[LLMService | None, Depends(get_llm_service)],
+    llm: Annotated[LLMProvider | None, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
     budget: Annotated[TokenBudget, Depends(get_token_budget)],
 ) -> ServiceCardService:

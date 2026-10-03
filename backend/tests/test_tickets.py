@@ -97,7 +97,7 @@ async def test_awaria_llm_nie_psuje_triazu(admin_client, ai_enabled):
     assert "ręcznie" in body["triaz_komunikat"] or "reguł" in body["triaz_komunikat"]
 
 
-async def test_duplikaty_wykrywane_embeddingami(admin_client):
+async def test_duplikaty_wykrywane_po_podobienstwie_tekstu(admin_client):
     await submit(admin_client, "Brak autobusu do przychodni dla seniorów w naszej wsi")
     await submit(admin_client, "Brak autobusu do przychodni dla seniorów w naszej wsi, prosimy")
     await submit(admin_client, "Szukamy pomysłu na zajęcia dla młodzieży z uzależnieniami")
@@ -165,3 +165,54 @@ async def test_walidacja_zgloszenia(admin_client):
         f"{API}/zgloszenia", json={"tresc": "Wystarczająco długi opis problemu", "autor_email": "x"}
     )
     assert bad_email.status_code == 422
+
+
+async def import_real_cards(session_factory):
+    from app.core.config import settings
+    from app.services.cards import CardService
+
+    async with session_factory() as session:
+        service = CardService(session)
+        await service.import_from_files(settings.innovations_path)
+        await service.refresh_snapshot()
+
+
+async def stored_tags(session_factory, ticket_id):
+    async with session_factory() as session:
+        return (await session.get(Ticket, ticket_id)).tagi
+
+
+async def test_triaz_dopasowuje_karty_po_tagach_z_powodami(admin_client, session_factory):
+    await import_real_cards(session_factory)
+    await submit(admin_client, "Seniorzy w naszej wsi są samotni i odcięci od ludzi")
+    ticket_id = await first_ticket_id(admin_client)
+    body = (await admin_client.post(f"{API}/admin/zgloszenia/{ticket_id}/triaz")).json()
+
+    best = body["proponowane_karty"][0]
+    assert best["score"] > 0.5
+    assert "Samotność" in best["powody"]
+    tags = await stored_tags(session_factory, ticket_id)
+    assert tags["problemy"] == ["samotnosc"]
+    assert "seniorzy" in tags["grupy_docelowe"]
+
+
+async def test_tagi_ai_sa_walidowane_ze_slownikiem(admin_client, ai_enabled, session_factory):
+    await submit(admin_client, "Chcemy festiwal latawców nad jeziorem")
+    ticket_id = await first_ticket_id(admin_client)
+    ai_enabled.json_response = {
+        "kategoria": None,
+        "pilnosc": "niska",
+        "uzyte_karty": [],
+        "szkic_odpowiedzi": "Dzień dobry, dziękujemy.",
+        "tagi": {"problemy": ["samotnosc", "wymyslony-slug"], "miejsca": "nie lista"},
+    }
+    await admin_client.post(f"{API}/admin/zgloszenia/{ticket_id}/triaz")
+    assert await stored_tags(session_factory, ticket_id) == {"problemy": ["samotnosc"]}
+    assert "<SLOWNIK>" in ai_enabled.json_calls[-1]["user"]
+
+
+async def test_triaz_bez_slow_ze_slownika_zostawia_puste_tagi(admin_client, session_factory):
+    await submit(admin_client, "Chcemy festiwal latawców nad jeziorem")
+    ticket_id = await first_ticket_id(admin_client)
+    await admin_client.post(f"{API}/admin/zgloszenia/{ticket_id}/triaz")
+    assert await stored_tags(session_factory, ticket_id) == {}

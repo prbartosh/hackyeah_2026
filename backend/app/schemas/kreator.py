@@ -85,6 +85,7 @@ class PodobnaInnowacja(BaseModel):
     problem: str | None
     grupa_docelowa: str | None
     score: float
+    powody: list[str] = []
 
 
 class PodobneRead(BaseModel):

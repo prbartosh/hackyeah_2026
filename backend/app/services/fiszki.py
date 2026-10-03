@@ -20,6 +20,7 @@ from app.services.app_settings import load_settings
 from app.services.cards import CardService, category_names
 from app.services.errors import KreatorError
 from app.services.kreator_ai import values_of
+from app.services.matching import labels, load_vocabulary, tag_text
 from app.services.tickets import TicketService
 
 EDITABLE = ("opis_wlasny", "istota", "odbiorca", "etap", "obszar", "lokalizacja", "potrzeby")
@@ -38,7 +39,7 @@ class FiszkaService:
         self.settings = settings
         self.tickets = tickets
         self.repo = FiszkaRepository(session)
-        self.cards = CardService(session, ai)
+        self.cards = CardService(session)
 
     def categories(self) -> dict[str, str]:
         return category_names(self.settings.innovations_path)
@@ -131,9 +132,11 @@ class FiszkaService:
     ) -> list[PodobnaInnowacja]:
         if len(text.strip()) < 15:
             return []
-        vectors, model = await self.ai.embed([text])
-        panel = await load_settings(self.session, self.settings, model)
-        found = await self.cards.similar(vectors[0], model, MAX_SIMILAR + 1)
+        panel = await load_settings(self.session, self.settings)
+        vocabulary = load_vocabulary(self.settings.innovations_path.parent / "slownik.json")
+        found = await self.cards.rank(
+            text, tag_text(text, vocabulary), labels(vocabulary), MAX_SIMILAR + 1
+        )
         return [
             PodobnaInnowacja(
                 slug=c.slug,
@@ -142,10 +145,11 @@ class FiszkaService:
                 zrodlo=SOURCE_NAME,
                 problem=(c.problem or "")[:300] or None,
                 grupa_docelowa=(c.grupa_docelowa or "")[:200] or None,
-                score=round(score, 3),
+                score=round(match.score, 3),
+                powody=match.powody,
             )
-            for c, score in found
-            if score >= panel.prog_dopasowania and c.slug != exclude
+            for c, match in found
+            if match.score >= panel.prog_dopasowania and c.slug != exclude
         ][:MAX_SIMILAR]
 
     def ticket_text(self, fiszka: Fiszka) -> str:

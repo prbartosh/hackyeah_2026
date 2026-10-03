@@ -40,6 +40,8 @@ Nagłówek zadania w `docs/tasks/` = jedyne źródło prawdy o stanie. Stałe po
 - Kod prosty, czytelny, bezpieczny. Bez przerostu formy.
 - Brak 100% pewności: pytaj, nie zgaduj.
 - Python: `uv`, instalacja `uv pip install`.
+- Model językowy tylko przez port `LLMProvider` ([ADR 0010](docs/adr/0010-port-llm.md)): serwisy nie importują SDK dostawcy ani nie znają formatu jego API.
+- Nowy publiczny endpoint zapisu: limit w `frontend/nginx.conf` w tym samym PR.
 - Backend: endpoint -> service -> repository -> model.
 - Stan prac: `docs/status.md`. Zadania: `docs/tasks/`. Decyzje: `docs/adr/` (nowy plik z `0000-template.md`, kolejny numer).
 
