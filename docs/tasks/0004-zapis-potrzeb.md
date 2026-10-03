@@ -17,5 +17,7 @@ Przy każdej odpowiedzi z wynikami (`show_results`) backend zapisuje potrzebę w
 
 ## Notatki
 
+- Retencja: zapisy trzymamy do końca demo/hackathonu, potem kasujemy.
+- Trendy (panel admina) są poza demo. Później widok dla roli ROPS z logowaniem.
 - Backend jest bezstanowy i nie zna identyfikatora rozmowy. Jeśli użytkownik poprosi o wyniki drugi raz w tej samej rozmowie, powstaną dwa rekordy. Na demo akceptowalne, przy trendach liczymy to jako szum.
 - Slugi w stanie pojawią się po [zadaniu 0005](0005-slownik-i-nakladka.md). Wcześniej zapis ma rolę, pokazane innowacje, flagę i datę.

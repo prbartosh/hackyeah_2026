@@ -1,7 +1,7 @@
 # 0005. Słownik i nakładka innowacji
 
 - Status: w toku (czeka na przegląd)
-- Osoba: bartek pietrzak
+- Osoba: Bartłomiej (backend)
 
 ## Cel
 

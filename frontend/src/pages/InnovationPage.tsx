@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Download, ExternalLink, FileText, PlayCircle } from 'lucide-react'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import { Download, ExternalLink, FileText } from 'lucide-react'
 import { getInnovation } from '@/api/innovations'
+import VideoEmbed from '@/components/VideoEmbed'
 import { useChat } from '@/context/ChatContext'
 import { kategoriaNazwa, type Innowacja } from '@/types/innowacja'
 
@@ -21,15 +22,21 @@ function NewTab() {
 export default function InnovationPage() {
   const { slug = '' } = useParams()
   const { results } = useChat()
-  const [state, setState] = useState<{ slug: string; data: Innowacja | null } | null>(null)
+  // Wejście z zasobnika (link z karty niesie filtry listy): wracamy do listy z tymi filtrami
+  const zasobnik = (useLocation().state as { zasobnik?: string } | null)?.zasobnik
+  const [state, setState] = useState<{ slug: string; data: Innowacja | null; failed?: boolean } | null>(null)
 
   useEffect(() => {
-    let active = true
-    void getInnovation(slug).then((data) => active && setState({ slug, data }))
-    return () => { active = false }
+    const controller = new AbortController()
+    getInnovation(slug, controller.signal)
+      .then((data) => setState({ slug, data }))
+      .catch((e) => { if (!controller.signal.aborted) setState({ slug, data: null, failed: e instanceof Error }) })
+    return () => controller.abort()
   }, [slug])
 
-  const backLink = results ? (
+  const backLink = zasobnik !== undefined ? (
+    <Link to={`/zasobnik${zasobnik}`}>← Wróć do zasobnika wiedzy</Link>
+  ) : results ? (
     <Link to="/#wyniki">← Wróć do wyników wyszukiwania</Link>
   ) : (
     <Link to="/">← Wróć do strony głównej</Link>
@@ -39,6 +46,15 @@ export default function InnovationPage() {
     return <div className="container page"><p role="status">Wczytywanie opisu rozwiązania…</p></div>
   }
   const rec = state.data
+  if (state.failed) {
+    return (
+      <div className="container page">
+        <h1>Nie udało się wczytać rozwiązania</h1>
+        <p role="alert">Brak połączenia z serwerem. Odśwież stronę albo spróbuj za chwilę.</p>
+        <p>{backLink}</p>
+      </div>
+    )
+  }
   if (!rec) {
     return (
       <div className="container page">
@@ -54,8 +70,14 @@ export default function InnovationPage() {
     <div className="container page">
       <nav aria-label="Ścieżka nawigacji" className="breadcrumbs">
         <ol>
-          <li><Link to="/">Strona główna</Link></li>
-          {results && <li><Link to="/#wyniki">Wyniki</Link></li>}
+          {zasobnik !== undefined ? (
+            <li><Link to={`/zasobnik${zasobnik}`}>Zasobnik wiedzy</Link></li>
+          ) : (
+            <>
+              <li><Link to="/">Strona główna</Link></li>
+              {results && <li><Link to="/#wyniki">Wyniki</Link></li>}
+            </>
+          )}
           <li aria-current="page">{rec.nazwa}</li>
         </ol>
       </nav>
@@ -65,6 +87,13 @@ export default function InnovationPage() {
           {kategoria && <p className="detail-kicker">{kategoria}</p>}
           <h1>{rec.nazwa}</h1>
           {rec.wybrana_do_upowszechniania && <p className="badge">Polecana przez ROPS do upowszechniania</p>}
+
+          {rec.youtube_url && (
+            <section className="detail-section">
+              <h2>Film</h2>
+              <VideoEmbed url={rec.youtube_url} nazwa={rec.nazwa} />
+            </section>
+          )}
 
           <Section title="Na czym polega rozwiązanie" text={rec.opis} />
           <Section title="Jakich problemów dotyczy" text={rec.problem} />
@@ -82,22 +111,17 @@ export default function InnovationPage() {
           <section className="side-box">
             <h2>Materiały do pobrania</h2>
             <ul className="link-list">
-              <li>
-                <a href={rec.materialy_url}>
-                  <Download size={20} aria-hidden="true" /> Pakiet materiałów (ZIP)
-                </a>
-              </li>
+              {rec.materialy_url && (
+                <li>
+                  <a href={rec.materialy_url}>
+                    <Download size={20} aria-hidden="true" /> Pakiet materiałów (ZIP)
+                  </a>
+                </li>
+              )}
               {rec.pdf_url && (
                 <li>
                   <a href={rec.pdf_url} target="_blank" rel="noreferrer">
                     <FileText size={20} aria-hidden="true" /> Folder informacyjny (PDF)<NewTab />
-                  </a>
-                </li>
-              )}
-              {rec.youtube_url && (
-                <li>
-                  <a href={rec.youtube_url} target="_blank" rel="noreferrer">
-                    <PlayCircle size={20} aria-hidden="true" /> Film o rozwiązaniu<NewTab />
                   </a>
                 </li>
               )}
@@ -130,7 +154,7 @@ export default function InnovationPage() {
                 'Zasady wykorzystania innowacji MIIS — szczegóły na stronie źródłowej.'
               )}
             </p>
-            <p className="hint">Dane pobrano: {rec.pobrano_dnia}</p>
+            {rec.pobrano_dnia && <p className="hint">Dane pobrano: {rec.pobrano_dnia}</p>}
           </section>
         </aside>
       </div>
