@@ -6,6 +6,7 @@ import pytest
 from app.api.deps import get_llm_service, get_token_budget
 from app.core.config import settings
 from app.main import app
+from app.services.chat import LLM_UNAVAILABLE
 from app.services.llm import LLMError, TextDelta, ToolCall, TurnEnd
 from app.services.token_budget import TokenBudget
 
@@ -307,7 +308,42 @@ async def test_llm_error_becomes_error_event(client, fake_llm):
     fake_llm([LLMError("Błąd API modelu (529)")])
     events = await post(client, first_message())
 
-    assert events == [("error", {"message": "Błąd API modelu (529)"})]
+    # Szczegóły techniczne zostają w logu.
+    assert events == [("error", {"message": LLM_UNAVAILABLE})]
+
+
+async def test_missing_api_key_returns_503(client, monkeypatch):
+    monkeypatch.setattr(settings, "llm_api_key", None)
+    response = await client.post("/api/v1/chat", json=first_message())
+    assert response.status_code == 503
+    assert response.json()["detail"] == LLM_UNAVAILABLE
+
+
+@pytest.mark.parametrize(
+    "slug, organizacja",
+    [
+        ("sciezka-motosensoryczna", "Politechnika Krakowska"),
+        ("bez-presji-z-depresji", "Instytut HR"),
+    ],
+)
+async def test_organization_without_names(client, fake_llm, slug, organizacja):
+    response = await client.get(f"/api/v1/innovations/{slug}")
+    assert response.json()["organizacja"] == organizacja
+
+    fake_llm(
+        [
+            [tool("search", slugs=[slug])],
+            [
+                tool(
+                    "show_results",
+                    items=[{"slug": slug, "match": "main", "why_relevant": "x"}],
+                    no_good_match=False,
+                )
+            ],
+        ]
+    )
+    events = await post(client, first_message() | {"action": "show_results_now"})
+    assert dict(events)["results"]["items"][0]["organizacja"] == organizacja
 
 
 @pytest.mark.parametrize(

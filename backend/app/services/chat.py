@@ -36,6 +36,8 @@ logger = logging.getLogger(__name__)
 
 MAX_LLM_CALLS = 6
 
+LLM_UNAVAILABLE = "Asystent jest chwilowo niedostępny. Spróbuj ponownie za chwilę."
+
 ACTION_MESSAGES = {
     "show_results_now": "[Użytkownik kliknął „Pokaż wyniki teraz”]",
     "confirm_summary": "[Użytkownik potwierdził podsumowanie]",
@@ -80,7 +82,7 @@ class _Turn:
 class ChatService:
     def __init__(
         self,
-        llm: LLMService,
+        llm: LLMService | None,
         innovations: InnovationRepository,
         budget: TokenBudget,
         enabled: bool = True,
@@ -92,7 +94,9 @@ class ChatService:
         self.system_prompt = prompts.build_system_prompt(innovations)
 
     def ensure_available(self) -> None:
-        """Wyłącznik i budżet dzienny - sprawdzane przed otwarciem strumienia (503)."""
+        """Wyłącznik, klucz modelu i budżet dzienny - sprawdzane przed strumieniem (503)."""
+        if self.llm is None:
+            raise ChatUnavailableError(LLM_UNAVAILABLE)
         if not self.enabled:
             raise ChatUnavailableError("Czat jest chwilowo wyłączony. Spróbuj później.")
         if self.budget.exhausted():
@@ -114,6 +118,7 @@ class ChatService:
             raise InvalidConversationError("Ostatnia wiadomość musi być od użytkownika")
 
     async def run(self, request: ChatRequest) -> AsyncIterator[ServerEvent]:
+        assert self.llm is not None, "ensure_available() przed run()"
         turn = _Turn(state=request.state.model_copy(deep=True))
         messages = self._build_messages(request)
         nudged = False
@@ -154,7 +159,9 @@ class ChatService:
             else:
                 logger.warning("Chat: przekroczono limit %s wywołań modelu", MAX_LLM_CALLS)
         except LLMError as e:
-            yield ServerEvent("error", ErrorEvent(message=str(e)))
+            # Szczegóły tylko w logu - użytkownik dostaje ogólny komunikat.
+            logger.error("Chat: błąd modelu: %s", e)
+            yield ServerEvent("error", ErrorEvent(message=LLM_UNAVAILABLE))
             return
 
         yield ServerEvent(

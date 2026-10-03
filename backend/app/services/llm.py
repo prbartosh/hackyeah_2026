@@ -130,6 +130,9 @@ class LLMService:
         except openai.APIStatusError as e:
             logger.error("LLM API error %s: %s", e.status_code, e.message)
             raise LLMError(f"Błąd API modelu ({e.status_code})") from e
+        except openai.OpenAIError as e:
+            logger.error("LLM error: %r", e)
+            raise LLMError("Błąd API modelu") from e
 
         if response is None:
             raise LLMError("Brak odpowiedzi modelu")

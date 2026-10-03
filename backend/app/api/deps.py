@@ -36,12 +36,17 @@ def get_token_budget() -> TokenBudget:
 
 
 @lru_cache
-def get_llm_service() -> LLMService:
+def _llm_service() -> LLMService:
     return LLMService(settings, get_token_budget())
 
 
+def get_llm_service() -> LLMService | None:
+    """None bez klucza - SDK rzuca wtedy OpenAIError już przy tworzeniu klienta."""
+    return _llm_service() if settings.llm_api_key else None
+
+
 def get_chat_service(
-    llm: Annotated[LLMService, Depends(get_llm_service)],
+    llm: Annotated[LLMService | None, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
     budget: Annotated[TokenBudget, Depends(get_token_budget)],
 ) -> ChatService:
@@ -77,8 +82,7 @@ def require_admin(authorization: Annotated[str | None, Header()] = None) -> None
 
 
 def get_ai_gateway(session: SessionDep) -> AIGateway:
-    llm = get_llm_service() if settings.llm_api_key else None
-    return AIGateway(session, settings, llm)
+    return AIGateway(session, settings, get_llm_service())
 
 
 AIGatewayDep = Annotated[AIGateway, Depends(get_ai_gateway)]
