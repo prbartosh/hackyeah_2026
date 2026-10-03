@@ -1,5 +1,3 @@
-"""Dokument projektu -> szkic karty: parsery PDF/DOCX, ekstrakcja przez AI, weryfikacja cytatów."""
-
 import io
 import json
 import logging
@@ -197,7 +195,6 @@ class DocumentService:
         record.pola = fields
 
     async def approve(self, record: DocumentImport, update_slug: str | None) -> str:
-        """Tworzy lub aktualizuje kartę (opublikowaną) wraz z embeddingiem."""
         v = {k: f.get("wartosc") for k, f in record.pola.items()}
         if not v.get("nazwa") or not v.get("problem"):
             raise DocumentError("Do zatwierdzenia potrzebne są co najmniej nazwa i opis problemu.")

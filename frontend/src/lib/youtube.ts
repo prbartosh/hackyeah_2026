@@ -1,4 +1,3 @@
-// Wyciąga identyfikator filmu z linków watch?v=, youtu.be/, /embed/ i /shorts/.
 export function youtubeId(url: string | null): string | null {
   if (!url) return null
   try {

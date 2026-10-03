@@ -32,7 +32,6 @@ export class AdminApiError extends Error {
   }
 }
 
-/** Komunikat dla człowieka: z pola `detail` backendu albo ogólny, po polsku. */
 function friendly(status: number, detail: unknown): string {
   if (typeof detail === 'string' && detail) return detail
   if (Array.isArray(detail)) return 'Sprawdź poprawność wpisanych danych.'
@@ -77,12 +76,10 @@ function query(params: Record<string, string | number | undefined>): string {
 }
 
 export const api = {
-  // publiczne
   createTicket: (data: { tresc: string; autor_nazwa?: string; autor_email?: string }) =>
     call<{ token_watku: string }>('/zgloszenia', json('POST', data), false),
   publicThread: (token: string) => call<PublicThread>(`/zgloszenia/watek/${encodeURIComponent(token)}`, {}, false),
 
-  // zgłoszenia
   tickets: (p: Record<string, string | number | undefined>) =>
     call<Page<TicketListItem>>(`/admin/zgloszenia${query(p)}`),
   ticket: (id: number) => call<Ticket>(`/admin/zgloszenia/${id}`),
@@ -92,7 +89,6 @@ export const api = {
   approveReply: (id: number, tresc: string, zrodla: string[]) =>
     call<Ticket>(`/admin/zgloszenia/${id}/odpowiedz`, json('POST', { tresc, zrodla })),
 
-  // powiadomienia i ustawienia
   notifications: (onlyUnread = false) =>
     call<{ items: AppNotification[]; nieprzeczytane: number }>(
       `/admin/powiadomienia${query({ tylko_nieprzeczytane: onlyUnread ? 'true' : undefined })}`,
@@ -102,7 +98,6 @@ export const api = {
   settings: () => call<PanelSettings>('/admin/ustawienia'),
   saveSettings: (data: Partial<PanelSettings>) => call<PanelSettings>('/admin/ustawienia', json('PUT', data)),
 
-  // karty
   cards: (p: Record<string, string | number | undefined>) =>
     call<Page<CardListItem>>(`/admin/karty${query(p)}`),
   card: (slug: string) => call<Card>(`/admin/karty/${encodeURIComponent(slug)}`),
@@ -112,7 +107,6 @@ export const api = {
   cardPreview: (slug: string) =>
     call<import('@/types/innowacja').Innowacja>(`/admin/karty/${encodeURIComponent(slug)}/podglad`),
 
-  // import dokumentu
   imports: () => call<Page<ImportListItem>>('/admin/importy?limit=50'),
   importDetail: (id: number) => call<ImportDetail>(`/admin/importy/${id}`),
   uploadDocument: (file: File) => {
@@ -126,7 +120,6 @@ export const api = {
     call<ImportDetail>(`/admin/importy/${id}/zatwierdz`, json('POST', { aktualizuj_slug })),
   rejectImport: (id: number) => call<ImportDetail>(`/admin/importy/${id}/odrzuc`, { method: 'POST' }),
 
-  // radar
   radar: () => call<Radar>('/admin/radar'),
   notes: () => call<Note[]>('/admin/radar/notatki'),
   createNote: (cluster: Cluster) =>

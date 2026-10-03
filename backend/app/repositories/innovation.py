@@ -25,7 +25,6 @@ OVERLAY_LIMITS = {
 }
 OVERLAY_LISTS = tuple(OVERLAY_LIMITS)
 
-# slug wartości -> etykieta, osobno dla każdej sekcji słownika
 Vocabulary = dict[str, dict[str, str]]
 
 # Poprawki ręczne po slugu. innowacje.json nadpisuje scraper, więc nie edytujemy go ręcznie.
@@ -48,7 +47,6 @@ def _load(path: Path) -> dict[str, Innovation]:
 
 @lru_cache
 def _load_vocabulary(path: Path) -> dict[str, list[dict[str, Any]]]:
-    """Słownik wartości (slownik.json, ADR 0004 §5), pusty, jeśli pliku nie ma."""
     if not path.exists():
         return {}
     return json.loads(path.read_text(encoding="utf-8"))
@@ -86,10 +84,7 @@ def _clean_list(values: list[str], allowed: dict[str, str], limit: int) -> list[
 def _load_overlay(
     path: Path, known: frozenset[str], vocabulary_path: Path
 ) -> dict[str, dict[str, Any]]:
-    """Zatwierdzona nakładka (wzbogacenia.json), jeśli plik istnieje.
-
-    Błędne wartości są logowane i pomijane - zły wpis nie blokuje startu backendu.
-    """
+    """Błędne wartości są logowane i pomijane - zły wpis nie blokuje startu backendu."""
     if not path.exists():
         return {}
     vocabulary = vocabulary_labels(_load_vocabulary(vocabulary_path))
@@ -117,7 +112,6 @@ def vocabulary_labels(raw: dict[str, list[dict[str, Any]]]) -> Vocabulary:
 
 @lru_cache
 def _load_category_names(path: Path) -> dict[str, str]:
-    """Nazwy kategorii z kategorie.json (slug -> nazwa); bez pliku zostają same slugi."""
     if not path.exists():
         return {}
     return {c["slug"]: c["nazwa"] for c in json.loads(path.read_text(encoding="utf-8"))}
@@ -125,7 +119,6 @@ def _load_category_names(path: Path) -> dict[str, str]:
 
 @lru_cache
 def _load_haystacks(path: Path) -> dict[str, str]:
-    """Znormalizowany tekst do wyszukiwania (slug -> tekst), liczony raz na plik."""
     return {slug: haystack(r) for slug, r in _load(path).items()}
 
 
@@ -140,8 +133,6 @@ def set_db_snapshot(cards: dict[str, tuple[bool, Innovation, dict[str, Any] | No
 
 
 class InnovationRepository:
-    """Baza innowacji ROPS: pliki JSON plus migawka kart z bazy (tylko odczyt)."""
-
     def __init__(self, path: Path) -> None:
         self._by_slug = dict(_load(path))
         vocabulary_path = path.parent / VOCABULARY_FILE
@@ -175,7 +166,6 @@ class InnovationRepository:
     def list(
         self, kategoria: str | None = None, q: str | None = None, wybrane: bool = False
     ) -> list[Innovation]:
-        """Innowacje po filtrach (kategoria, słowa z q, tylko wybrane), posortowane po nazwie."""
         words = tokens(q) if q else []
         found = [
             r
@@ -187,7 +177,6 @@ class InnovationRepository:
         return sorted(found, key=sort_key)
 
     def categories(self) -> list[Category]:
-        """Kategorie z liczbą innowacji (liczone z rekordów, zgodnie z filtrem `kategoria`)."""
         counts: dict[str, int] = {}
         for r in self._by_slug.values():
             for slug in r.kategorie:
@@ -203,7 +192,6 @@ class InnovationRepository:
         return self._overlay.get(slug)
 
     def vocabulary(self) -> dict[str, list[dict[str, Any]]]:
-        """Pełny słownik: sekcja -> [{slug, etykieta, aliasy}]."""
         return self._vocabulary
 
     def vocabulary_slugs(self, section: str) -> set[str]:

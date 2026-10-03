@@ -1,4 +1,3 @@
-"""Publikacje ze świata innowacji -> assets/publikacje; Social Canvas -> assets/canvas"""
 import re
 from urllib.parse import unquote
 

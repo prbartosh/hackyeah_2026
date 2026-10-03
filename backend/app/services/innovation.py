@@ -5,8 +5,6 @@ from app.schemas.innovation import Category, Innovation
 
 
 class InnovationService:
-    """Przeglądanie Biblioteki Innowacji (zasobnik wiedzy)."""
-
     def __init__(self, repo: InnovationRepository) -> None:
         self.repo = repo
 

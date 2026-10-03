@@ -52,7 +52,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
   )
 }
 
-/** Ochrona widoków panelu (właściwa kontrola jest na backendzie) i wspólna nawigacja z licznikiem powiadomień. */
+/** Właściwa kontrola dostępu jest na backendzie. */
 export default function AdminLayout() {
   const [loggedIn, setLoggedIn] = useState(() => getToken() !== null)
   const [unread, setUnread] = useState<number | null>(null)

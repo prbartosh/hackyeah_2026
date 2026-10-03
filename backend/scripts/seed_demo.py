@@ -25,13 +25,9 @@ DEMO_TICKETS: list[tuple[int, str]] = [
     # seniorzy i demencja (są karty w bazie)
     (3, "Mama ma początki demencji i po dziesięć razy dziennie dzwoni z pytaniem, czy brała leki."),
     (2, "Mama ma demencję, ciągle dzwoni i pyta czy brała leki i gdzie są klucze. Szukam pomocy."),
-    # osoby głuche
     (9, "Głuchy student musi złożyć wniosek o tłumacza PJM, formularz jest zbyt trudny."),
-    # mobilność
     (6, "Nie mogę zrobić zakupów z synem na wózku, nie ma jak posadzić go w koszyku sklepowym."),
-    # rynek pracy
     (20, "Szukamy sposobu na aktywizację osób w kryzysie bezdomności, które nie utrzymają etatu."),
-    # cudzoziemcy
     (11, "Do naszej szkoły trafiło dużo dzieci z Ukrainy, nauczyciele nie wiedzą jak pomagać."),
     # grupa bez dopasowania: transport seniorów na wsi (rosnąca)
     (40, "W naszej wsi nie jeździ żaden autobus, seniorzy nie mają jak dojechać do przychodni."),
@@ -46,7 +42,6 @@ DEMO_TICKETS: list[tuple[int, str]] = [
     ),
     (8, "Wypalenie zawodowe pracowników socjalnych w gminie, brakuje superwizji i wsparcia."),
     (2, "Pracownicy socjalni są przeciążeni i wypaleni, potrzebujemy wsparcia dla zespołu OPS."),
-    # pojedyncze
     (7, "Młodzież w naszym mieście spędza całe dnie z telefonem, brakuje zajęć pozaszkolnych."),
     (30, "Brakuje punktu pomocy prawnej dla osób zagrożonych eksmisją w naszej dzielnicy."),
 ]

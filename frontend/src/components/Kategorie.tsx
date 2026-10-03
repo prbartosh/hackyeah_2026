@@ -8,7 +8,6 @@ interface Props {
   onSelect: (slug: string | null) => void
 }
 
-// Kategorie jako „pigułki” przełączające filtr (aria-pressed), z liczbą innowacji.
 export default function Kategorie({ kategorie, razem, wybrana, onSelect }: Props) {
   return (
     <section aria-labelledby="zs-kategorie-h" className="zs-cats">

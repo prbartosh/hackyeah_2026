@@ -102,12 +102,10 @@
   --shadow-float: none;
 }
 
-/* ── Wielkość tekstu ── */
 html { font-size: 100%; }                            /* 16px */
 html[data-font-size="large"] { font-size: 118.75%; }  /* 19px */
 html[data-font-size="xlarge"] { font-size: 137.5%; }  /* 22px */
 
-/* ── Podstawy ── */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body {
@@ -153,7 +151,6 @@ main { flex: 1; display: flex; flex-direction: column; }
 }
 .skip-link:focus { left: 0.5rem; }
 
-/* ── Górny pasek: nazwa serwisu w lewym rogu, ułatwienia dostępu po prawej ── */
 .topbar { background: var(--surface-alt); border-bottom: var(--border-width) solid var(--border); }
 .topbar-inner {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
@@ -184,7 +181,6 @@ main { flex: 1; display: flex; flex-direction: column; }
 .a11y-btn:hover { border-color: var(--primary); }
 .a11y-btn[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
 
-/* ── Przyciski i pola ── */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
   min-height: 2.75rem; padding: 0.5rem 1.25rem;
@@ -266,7 +262,6 @@ main { flex: 1; display: flex; flex-direction: column; }
   html[data-font-size="xlarge"] .workspace.has-panel .problem-panel { grid-column: 2; grid-row: 1; align-self: start; position: sticky; top: 1rem; }
 }
 
-/* Czat */
 .chat { display: flex; flex-direction: column; min-width: 0; width: 100%; max-width: 54rem; margin-inline: auto; }
 .chat-title { font-size: clamp(1.75rem, 4.5vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; text-align: center; }
 
@@ -318,7 +313,6 @@ main { flex: 1; display: flex; flex-direction: column; }
 .summary-block label { font-weight: 600; }
 .status-ok { font-weight: 700; color: var(--success); }
 
-/* Pole pisania: duże, zaokrąglone, „pływające” */
 .composer-dock { display: grid; gap: 0.4rem; }
 .chat:not(.is-empty) .composer-dock {
   position: sticky; bottom: 0; z-index: 5; padding-block: 1.5rem 1rem;
@@ -344,7 +338,6 @@ main { flex: 1; display: flex; flex-direction: column; }
 .voice-status { order: 10; flex-basis: 100%; font-weight: 600; padding-inline: 0.5rem; }
 .voice-status:empty { display: none; }
 
-/* Stan początkowy: tytuł, pole pisania i krótkie podpowiedzi na środku */
 .chat.is-empty { justify-content: center; padding: 2rem 0 3rem; }
 .chat.is-empty .chat-title { margin-bottom: 1.5rem; }
 .chat.is-empty .chat-log, .chat.is-empty .chat-end { display: none; }
@@ -364,7 +357,6 @@ main { flex: 1; display: flex; flex-direction: column; }
 .msg, .chat-toolbar { animation: rise 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.12s both; }
 .chat.is-empty .chat-title, .chat.is-empty .chips { animation: fade-in 0.45s ease-out 0.05s both; }
 
-/* Panel „Twój problem” (po rozpoczęciu rozmowy) */
 .problem-panel {
   background: var(--surface-float); border: 1px solid var(--line); border-radius: var(--radius-md);
   box-shadow: var(--shadow-float); padding: 1.1rem 1.25rem 1.25rem;
@@ -383,7 +375,6 @@ details.problem-panel summary::before { content: "▸"; color: var(--primary); f
 details.problem-panel[open] summary::before { transform: rotate(90deg); }
 .panel-count { color: var(--link); font-size: 0.9rem; }
 
-/* ── Wyniki ── */
 .results { max-width: 76rem; margin-inline: auto; padding-block: 2rem 3rem; scroll-margin-top: 1rem; }
 .results h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 1rem; }
 .results h2:focus-visible { outline-offset: 4px; border-radius: 8px; }
@@ -412,7 +403,6 @@ details.problem-panel[open] summary::before { transform: rotate(90deg); }
 .result-files { font-size: 0.95rem; }
 .result-card .btn-row { margin-top: 0.4rem; }
 
-/* ── Strona szczegółów ── */
 .page { padding-block: 1.5rem 3rem; }
 .page > h1 { font-size: clamp(1.8rem, 4vw, 2.4rem); margin-block: 0.5rem 1rem; }
 .page > p { margin-bottom: 0.75rem; }
@@ -438,7 +428,6 @@ details.problem-panel[open] summary::before { transform: rotate(90deg); }
 .contact-list dd { margin-bottom: 0.6rem; }
 .back-link { margin-top: 2rem; font-weight: 700; }
 
-/* ── Stopka: jedna drobna linia ── */
 .site-footer { padding-block: 1rem 1.25rem; font-size: 0.85rem; color: var(--text-muted); text-align: center; }
 .footer-inner { display: block; }
 
@@ -468,7 +457,6 @@ details.problem-panel[open] summary::before { transform: rotate(90deg); }
   html[data-font-size="xlarge"] .chat:not(.is-empty) .composer-dock { position: static; background: none; }
 }
 
-/* ── Nawigacja główna w nagłówku ── */
 .site-nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1.25rem; }
 .site-nav a { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 700; color: var(--text); text-decoration: none; border-bottom: 3px solid transparent; }
 .site-nav a:hover { text-decoration: underline; text-decoration-thickness: 2px; }

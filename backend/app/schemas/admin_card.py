@@ -47,7 +47,6 @@ class CardRead(CardListItem):
     url_zrodlowy: str | None
     wdrozenie: Wdrozenie | None
     ma_embedding: bool
-    # Komunikat o trybie uproszczonym embeddingów, jeśli dotyczy.
     ostrzezenie: str | None = None
 
 

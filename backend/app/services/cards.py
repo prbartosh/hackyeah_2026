@@ -1,5 +1,3 @@
-"""Karty innowacji w bazie: import z JSON, edycja, embeddingi, migawka dla matchmakingu."""
-
 import json
 import logging
 import re
@@ -63,7 +61,6 @@ def embedding_text(card: InnovationCard) -> str:
 
 
 def to_innovation(card: InnovationCard) -> Innovation:
-    """Karta tak, jak widzi ją użytkownik (matchmaking, Zasobnik, strona innowacji)."""
     return Innovation(
         slug=card.slug,
         url_zrodlowy=card.url_zrodlowy or f"/innowacja/{card.slug}",
@@ -99,18 +96,14 @@ class CardService:
         self.ai = ai
         self.repo = CardRepository(session)
 
-    # --- migawka dla matchmakingu ---
-
     async def refresh_snapshot(self) -> None:
         cards = await self.repo.all()
         set_db_snapshot(
             {c.slug: (c.status == "opublikowana", to_innovation(c), overlay_of(c)) for c in cards}
         )
 
-    # --- import z JSON ---
-
     async def import_from_files(self, path: Path) -> int:
-        """Jednorazowo: 115 kart ROPS z plików do bazy jako opublikowane. Zwraca liczbę kart."""
+        """Jednorazowo: 115 kart ROPS z plików do bazy jako opublikowane."""
         if await self.repo.count():
             return 0
         records = _load(path)
@@ -138,10 +131,7 @@ class CardService:
         logger.info("Zaimportowano %s kart innowacji z plików", len(cards))
         return len(cards)
 
-    # --- embeddingi ---
-
     async def reindex(self, cards: list[InnovationCard] | None = None) -> int:
-        """Przelicza embeddingi podanych kart (domyślnie wszystkich) jednym wywołaniem."""
         cards = list(cards if cards is not None else await self.repo.all())
         if not cards:
             return 0
@@ -154,15 +144,13 @@ class CardService:
     async def similar(
         self, vector: list[float], model: str, limit: int = 5
     ) -> list[tuple[InnovationCard, float]]:
-        """Opublikowane karty najbliższe wektorowi (tylko z tym samym modelem embeddingów)."""
+        """Tylko opublikowane i z tym samym modelem embeddingów."""
         scored = [
             (c, cosine(vector, c.embedding))
             for c in await self.repo.published()
             if c.embedding and c.embedding_model == model
         ]
         return sorted(scored, key=lambda x: x[1], reverse=True)[:limit]
-
-    # --- CRUD ---
 
     async def create(self, data: CardCreate, *, zrodlo: str = "panel") -> InnovationCard:
         slug = await self._unique_slug(data.nazwa)

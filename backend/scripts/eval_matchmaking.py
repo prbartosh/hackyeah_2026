@@ -68,7 +68,6 @@ class Outcome:
 
 
 def parse_cases(markdown: str) -> list[Case]:
-    """Wiersze tabeli: | # | Rola | Zgłoszenie | Oczekiwany `slug` | Uwagi |."""
     cases: list[Case] = []
     for line in markdown.splitlines():
         cells = [c.strip() for c in line.strip().strip("|").split("|")]
@@ -90,7 +89,7 @@ def parse_cases(markdown: str) -> list[Case]:
 
 
 def parse_sse(lines: list[str]) -> list[tuple[str, dict]]:
-    """Zdarzenia SSE jako (nazwa, dane). Backend wysyła jedną linię `data` na zdarzenie."""
+    """Backend wysyła jedną linię `data` na zdarzenie."""
     events: list[tuple[str, dict]] = []
     name = None
     for line in lines:
@@ -169,7 +168,6 @@ def summary(outcomes: list[Outcome]) -> str:
 
 
 def append_result(path: Path, line: str) -> None:
-    """Dopisuje linię na końcu sekcji „Wyniki” (tworzy sekcję na końcu pliku, jeśli jej nie ma)."""
     text = path.read_text(encoding="utf-8")
     if RESULTS_HEADER not in text:
         text = text.rstrip("\n") + f"\n\n{RESULTS_HEADER}\n"
@@ -177,7 +175,6 @@ def append_result(path: Path, line: str) -> None:
     end = text.find("\n## ", start + len(RESULTS_HEADER))
     end = len(text) if end == -1 else end + 1
     section = text[start:end].rstrip("\n")
-    # Pusta linia po nagłówku przed pierwszym wynikiem.
     separator = "\n\n" if section == RESULTS_HEADER else "\n"
     section += separator + line + "\n"
     rest = text[end:]

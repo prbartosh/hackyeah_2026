@@ -23,7 +23,6 @@ class AIGateway:
         self.session = session
         self.settings = settings
         self.llm = llm
-        # Ustawiane, gdy embeddingi spadły na tryb lokalny; pokazywane w UI.
         self.degraded: str | None = None
 
     @property

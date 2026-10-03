@@ -1,4 +1,3 @@
-"""Mapa Wyzwań Społecznych (single PDF) -> assets/mapa-wyzwan"""
 from common import ASSETS, BASE
 from publikacje import fetch
 from common import write_json

@@ -4,14 +4,9 @@ const BASE_URL = import.meta.env.VITE_API_URL ?? '/api/v1'
 
 const EVENT_NAMES = new Set(['text', 'role', 'problem_update', 'question', 'summary', 'results', 'done', 'error'])
 
-/** Błąd, który można pokazać użytkownikowi (komunikat po polsku). */
 export class ChatError extends Error {}
 
-/**
- * POST /chat → strumień SSE. fetch + ReadableStream, bo EventSource obsługuje tylko GET.
- * Generator kończy się po zdarzeniu `done` lub `error`. Błędy sieci i serwera rzucają ChatError
- * z komunikatem po polsku, który interfejs pokazuje użytkownikowi razem z przyciskiem „Spróbuj ponownie”.
- */
+/** fetch + ReadableStream, bo EventSource obsługuje tylko GET. */
 export async function* streamChat(req: ChatRequest, signal?: AbortSignal): AsyncGenerator<ServerEvent> {
   let res: Response
   try {

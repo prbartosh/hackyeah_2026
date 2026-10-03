@@ -14,8 +14,6 @@ OTHER = "bawita"
 
 
 class FakeLLM:
-    """Odtwarza zaplanowane tury modelu i zapisuje, co dostał."""
-
     def __init__(self, turns: list[list[Any]]) -> None:
         self.turns = turns
         self.calls: list[list[dict[str, Any]]] = []
@@ -45,7 +43,6 @@ def tool(name: str, **args) -> ToolCall:
 
 
 def empty_problem(**fields) -> dict:
-    """Argumenty update_problem: podane pola jako {tekst, slugi}, reszta null."""
     keys = ["grupy_docelowe", "problemy", "miejsca", "skale", "zasoby", "proby"]
     fields = {k: {"tekst": v, "slugi": ["zmyslony-slug"]} for k, v in fields.items()}
     return {k: fields.get(k) for k in keys}

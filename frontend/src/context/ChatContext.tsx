@@ -35,11 +35,9 @@ export interface DisplayMessage {
 interface ChatData {
   /** Co widzi użytkownik (zdarzenia SSE), bez notatek technicznych z `assistant_message` */
   display: DisplayMessage[]
-  /** Co wysyłamy do backendu */
   history: ApiMessage[]
   state: ChatState
   recentlyUpdated: ProblemKey[]
-  /** Czy ostatnia wiadomość asystenta czeka na odpowiedź użytkownika */
   awaiting: 'question' | 'summary' | null
   summaryConfirmed: boolean
   results: Results | null
@@ -71,7 +69,7 @@ const clip = (text: string, max = MAX_MESSAGE_CHARS) => text.slice(0, max)
 const clipUser = (text: string) => clip(text, MAX_USER_MESSAGE_CHARS)
 const historyChars = (history: ApiMessage[]) => history.reduce((sum, m) => sum + m.content.length, 0)
 
-/** Dopisuje wiadomość użytkownika; po nieudanej turze (brak odpowiedzi) łączy z poprzednią. */
+/** Po nieudanej turze (brak odpowiedzi) łączy z poprzednią wiadomością użytkownika. */
 function appendUser(history: ApiMessage[], content: string): ApiMessage[] {
   const last = history[history.length - 1]
   let next: ApiMessage[]
@@ -90,19 +88,16 @@ function appendUser(history: ApiMessage[], content: string): ApiMessage[] {
 
 const nextId = (display: DisplayMessage[]) => (display.length ? display[display.length - 1].id + 1 : 1)
 
-/** Ostatnia wiadomość asystenta w bieżącej turze (tworzy ją, jeśli jeszcze nie ma). */
 function withAssistant(display: DisplayMessage[], update: (m: DisplayMessage) => DisplayMessage): DisplayMessage[] {
   const last = display[display.length - 1]
   if (last?.from === 'assistant') return [...display.slice(0, -1), update(last)]
   return [...display, update({ id: nextId(display), from: 'assistant', text: '' })]
 }
 
-/** Pola panelu, których tekst się zmienił (do oznaczenia „nowe”). */
 function changedKeys(prev: ProblemState, next: ProblemState): ProblemKey[] {
   return PROBLEM_FIELDS.map((f) => f.key).filter((k) => (next[k]?.tekst ?? null) !== (prev[k]?.tekst ?? null))
 }
 
-/** Panel z backendu podmienia pola problemu w płaskim stanie (rola, blokada i licznik rund zostają). */
 function withProblem(state: ChatState, problem: ProblemState): ChatState {
   return { ...state, ...problem }
 }
@@ -113,7 +108,6 @@ function resultsLine(results: Results): string {
   return `Znalazłem ${results.items.length} ${results.items.length === 1 ? 'rozwiązanie' : 'rozwiązania'}. Pokazuję je pod rozmową.`
 }
 
-/** Usuwa z końca pustą bańkę asystenta (np. po błędzie przed pierwszym tekstem). */
 function dropEmptyAssistant(display: DisplayMessage[]): DisplayMessage[] {
   const last = display[display.length - 1]
   if (last?.from === 'assistant' && !last.text && !last.question && !last.summary) return display.slice(0, -1)
@@ -220,9 +214,7 @@ function reducer(data: ChatData, action: Action): ChatData {
 }
 
 interface ChatContextValue extends ChatData {
-  /** Zwykła wiadomość użytkownika: wpisany tekst albo kliknięta opcja pytania */
   sendMessage: (text: string) => void
-  /** Zatwierdzenie podsumowania; z argumentem — wersja poprawiona przez użytkownika (pole `summary`) */
   confirmSummary: (correctedSummary?: string) => void
   showResultsNow: () => void
   changeRole: (role: Role) => void

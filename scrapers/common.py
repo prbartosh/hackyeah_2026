@@ -1,4 +1,3 @@
-"""Shared helpers for the ROPS scrapers."""
 import json
 import re
 import time
@@ -17,7 +16,6 @@ session.headers["User-Agent"] = UA
 
 
 def get(url, **kw):
-    """GET/POST with retries and a polite delay."""
     method = kw.pop("method", "GET")
     for attempt in range(4):
         try:
@@ -39,7 +37,6 @@ def slugify(text, limit=80):
 
 
 def download(url, dest: Path):
-    """Download url to dest unless it already exists. Returns the response headers or None."""
     if dest.exists() and dest.stat().st_size > 0:
         return None
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -51,7 +48,6 @@ def download(url, dest: Path):
 
 
 def pdf_to_markdown(pdf: Path, out: Path):
-    """Extract text per page into a markdown file. Returns page count."""
     out.parent.mkdir(parents=True, exist_ok=True)
     with pymupdf.open(pdf) as doc, open(out, "w", encoding="utf-8") as f:
         for i, page in enumerate(doc, 1):

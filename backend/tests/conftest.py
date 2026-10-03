@@ -28,7 +28,6 @@ async def client():
 
 @pytest.fixture
 async def session_factory():
-    """Baza SQLite w pamięci z pełnym schematem (testy panelu administratora)."""
     engine = create_async_engine(
         "sqlite+aiosqlite://", poolclass=StaticPool, connect_args={"check_same_thread": False}
     )
@@ -40,8 +39,6 @@ async def session_factory():
 
 
 class FakeLLM:
-    """Podmienia LLMService: deterministyczne embeddingi i zaprogramowana odpowiedź JSON."""
-
     def __init__(self) -> None:
         self.json_response: dict | Exception = {}
         self.json_calls: list[dict] = []
@@ -67,7 +64,7 @@ def fake_llm():
 
 @pytest.fixture
 def ai_enabled(monkeypatch, fake_llm):
-    """Gateway z fałszywym LLM i „kluczem”; bez tego panel działa w trybie lokalnym."""
+    """Bez tego panel działa w trybie lokalnym."""
     monkeypatch.setattr(settings, "llm_api_key", "test-key")
     return fake_llm
 

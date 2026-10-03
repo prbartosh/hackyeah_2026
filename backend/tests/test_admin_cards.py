@@ -82,7 +82,6 @@ async def test_zmiana_tresci_przelicza_embedding(admin_client):
 async def test_import_z_plikow_i_lista_ze_statusami(admin_client, session_factory):
     imported = await import_cards(session_factory, settings.innovations_path)
     assert imported > 100
-    # drugi import nic nie robi
     assert await import_cards(session_factory, settings.innovations_path) == 0
     listing = await admin_client.get("/api/v1/admin/karty?status=opublikowana&limit=10")
     assert listing.json()["total"] == imported

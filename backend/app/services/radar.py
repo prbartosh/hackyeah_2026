@@ -40,7 +40,6 @@ def week_start(moment: datetime) -> datetime:
 
 
 def group_by_similarity(items: list[tuple[int, list[float]]], threshold: float) -> list[list[int]]:
-    """Zachłanne klastrowanie: zgłoszenie trafia do klastra o najbliższym centroidzie."""
     clusters: list[tuple[list[float], list[int], int]] = []  # centroid (suma), ids, liczba
     for ticket_id, vector in items:
         best, best_score = None, threshold

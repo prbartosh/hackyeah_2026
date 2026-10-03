@@ -2,9 +2,7 @@ from datetime import date
 
 
 class TokenBudget:
-    """Dzienny licznik tokenów modelu (wejście + wyjście).
-
-    Trzymany w pamięci procesu: działa przy jednym workerze i zeruje się po restarcie.
+    """Trzymany w pamięci procesu: działa przy jednym workerze i zeruje się po restarcie.
     Na demo to wystarcza, docelowo licznik w Postgresie (zadanie 0006).
     """
 

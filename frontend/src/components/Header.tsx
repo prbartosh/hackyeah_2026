@@ -1,7 +1,6 @@
 import { Link, NavLink } from 'react-router-dom'
 import AccessibilityBar from '@/components/AccessibilityBar'
 
-/** Górny pasek: nazwa serwisu w lewym rogu, ułatwienia dostępu po prawej. */
 export default function Header() {
   return (
     <header className="topbar">

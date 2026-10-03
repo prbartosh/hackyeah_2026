@@ -16,7 +16,6 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
-    """Import kart z plików przy pierwszym starcie i migawka kart z bazy dla matchmakingu."""
     try:
         async with SessionLocal() as session:
             service = CardService(session, get_ai_gateway(session))
@@ -28,10 +27,7 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 
 def configure_logging() -> None:
-    """Logi aplikacji (app.*) na INFO, m.in. zużycie tokenów „LLM turn”.
-
-    Tylko logger `app`: uvicorn i SQLAlchemy mają własne handlery, root dałby duplikaty.
-    """
+    """Tylko logger `app`: uvicorn i SQLAlchemy mają własne handlery, root dałby duplikaty."""
     logger = logging.getLogger("app")
     if logger.handlers:
         return

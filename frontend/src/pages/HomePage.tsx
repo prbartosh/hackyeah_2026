@@ -5,7 +5,6 @@ import { useChat } from '@/context/ChatContext'
 
 export default function HomePage() {
   const { display } = useChat()
-  // Panel „Twój problem” pojawia się dopiero po rozpoczęciu rozmowy
   const started = display.length > 0
 
   return (

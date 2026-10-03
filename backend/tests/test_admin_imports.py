@@ -97,7 +97,6 @@ async def test_bez_ai_pola_puste_i_reczna_edycja(admin_client):
     assert body["ekstrakcja_zrodlo"] == "reczna"
     assert "ręcznie" in body["komunikat"]
     assert all(f["wartosc"] is None for f in body["pola"].values())
-    # zatwierdzenie pustego szkicu jest zablokowane
     blocked = await admin_client.post(f"{API}/importy/{body['id']}/zatwierdz", json={})
     assert blocked.status_code == 422
     edited = await admin_client.patch(

@@ -40,7 +40,6 @@ CACHE_DIR = OUT_DIR / ".cache"
 ITEM_LINK = re.compile(rf"^{re.escape(LIBRARY)}/([a-z0-9-]+),([a-z0-9-]+)$")
 HEADING = re.compile(r"^\s*\d+\s*[.)]\s*(.+?)\s*$")
 
-# fragment znormalizowanego nagłówka -> pole rekordu
 SECTION_FIELDS = [
     ("na czym polega", "opis"),
     ("jakich problemow", "problem"),
@@ -74,7 +73,6 @@ def fetch(client: httpx.Client, url: str, refresh: bool) -> str:
 
 
 def parse_category_page(html: str) -> tuple[str, list[tuple[str, str]]]:
-    """Zwraca (nazwa kategorii, [(kategoria, slug), ...])."""
     soup = BeautifulSoup(html, "html.parser")
     title = soup.select_one(".content__main .page-title") or soup.find("h1")
     name = clean(title.get_text()) if title else ""

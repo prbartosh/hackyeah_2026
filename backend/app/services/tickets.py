@@ -1,5 +1,3 @@
-"""Zgłoszenia: tworzenie, wątek, powiadomienia, licznik czasu, triaż AI, odpowiedzi."""
-
 import json
 import logging
 import secrets
@@ -84,8 +82,6 @@ class TicketService:
     async def panel_settings(self) -> PanelSettings:
         return await load_settings(self.session, self.settings, self.ai.embedding_model)
 
-    # --- zgłoszenie od użytkownika ---
-
     async def create(self, data: TicketCreate, *, synthetic: bool = False) -> Ticket:
         ticket = Ticket(
             tresc=data.tresc.strip(),
@@ -125,8 +121,6 @@ class TicketService:
             .order_by(ThreadMessage.created_at, ThreadMessage.id)
         )
         return ticket, list(rows)
-
-    # --- lista dla admina ---
 
     async def list_tickets(
         self,
@@ -177,8 +171,6 @@ class TicketService:
             .order_by(ThreadMessage.created_at, ThreadMessage.id)
         )
         return list(rows)
-
-    # --- triaż ---
 
     async def triage(self, ticket: Ticket) -> Ticket:
         vectors, model = await self.ai.embed([ticket.tresc])
@@ -323,8 +315,6 @@ class TicketService:
             for t, s in close
         ]
 
-    # --- odpowiedź ---
-
     async def save_draft(self, ticket: Ticket, draft: str) -> Ticket:
         ticket.szkic_odpowiedzi = draft
         if ticket.status == "nowe":
@@ -360,8 +350,6 @@ class TicketService:
                 f"{message.tresc}\n\nCała rozmowa: {link}",
             )
         return message
-
-    # --- powiadomienia ---
 
     async def notifications(
         self, *, only_unread: bool, limit: int

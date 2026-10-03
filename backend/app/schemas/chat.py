@@ -16,8 +16,6 @@ MAX_HISTORY_CHARS = 20_000
 
 
 class PoleProblemu(BaseModel):
-    """Pole panelu: tekst do wyświetlenia i slugi ze słownika do wyszukiwania."""
-
     tekst: str | None = None
     slugi: list[str] = Field(default_factory=list)
 
@@ -72,9 +70,6 @@ class ChatRequest(BaseModel):
         if sum(len(m.content) for m in self.messages) > MAX_HISTORY_CHARS:
             raise ValueError(f"Historia rozmowy może mieć najwyżej {MAX_HISTORY_CHARS} znaków")
         return self
-
-
-# --- Dane zdarzeń SSE ---
 
 
 class TextEvent(BaseModel):
