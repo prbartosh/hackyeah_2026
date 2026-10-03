@@ -3,6 +3,7 @@
 - Status: review
 - Osoba: Kacper
 - PR: #34, #40
+- PR: #34, #39
 
 ## Cel
 
@@ -20,7 +21,7 @@ Użytkownik opisuje pomysł, AI wypełnia fiszkę, użytkownik poprawia i wysył
 - [x] Seed demo, testy backendu i helperów frontendu
 - [ ] Test z czytnikiem ekranu (NVDA) i axe
 - [ ] Przejście z prawdziwym `LLM_API_KEY` (DeepSeek)
-- [ ] Migracja `0003` na prawdziwym PostgreSQL
+- [x] Migracja `0003` na prawdziwym PostgreSQL
 - [ ] Sprawdzenie szablonu canvy z oryginalnym PDF
 - [x] Rate limit publicznych endpointów `/kreator/*` (nginx, tylko POST, strefa `form_req`)
 - [ ] Wizualizacja pomysłu: poza zakresem, brak dostawcy obrazów
@@ -30,3 +31,4 @@ Użytkownik opisuje pomysł, AI wypełnia fiszkę, użytkownik poprawia i wysył
 - Uruchomienie i demo: [kreator-pomyslow.md](../kreator-pomyslow.md).
 - Wysłana fiszka i wniosek to zwykłe zgłoszenie w skrzynce panelu (bez zmian modelu `Ticket`).
 - 2026-10-03: Limit POST w nginx: strefa `form_req`, 20 na minutę na IP, zapas 10, sprawdzone na obrazie frontendu (12. zapytanie z rzędu dostaje 429, PUT bez limitu).
+- 2026-10-03: migracje `0001`–`0005` sprawdzone na PostgreSQL 16 (obraz `postgres:16-alpine`): `upgrade head`, import 115 kart przy starcie, seedy (`seed_demo`, `seed_kreator`, `seed_tester`, ponownie bez duplikatów), 14 endpointów (opinie, moderacja, skrzynka, radar, karty, nabory, fiszka: zapis, autozapis, wysyłka, zgłoszenie) i `downgrade base` z ponownym `upgrade head`.

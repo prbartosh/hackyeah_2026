@@ -1,0 +1,50 @@
+/* Tester innowacji (moduł IV). Wyłącznie tokeny z index.css (motywy, kontrast). */
+
+.evidence-steps { list-style: none; margin: 0.25rem 0 0.75rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.evidence-steps li {
+  display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.9rem 0.35rem 0.4rem;
+  border: 2px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--text-muted); font-weight: 600;
+}
+.evidence-steps li.is-reached { border-color: var(--success); color: var(--text); }
+.evidence-steps li[aria-current="step"] { background: var(--primary-soft); color: var(--on-primary-soft); border-color: var(--primary); }
+.step-dot {
+  display: grid; place-items: center; width: 1.6rem; height: 1.6rem; border-radius: 50%;
+  background: var(--surface-alt); font-size: 0.85rem; font-weight: 800;
+}
+.evidence-steps li.is-reached .step-dot { background: var(--success); color: var(--surface); }
+
+.tester-stats { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; margin-block: 0.5rem; }
+.stars { display: inline-flex; gap: 0.1rem; vertical-align: -0.2em; }
+.star-on { color: var(--warning-border); fill: currentColor; }
+.star-off { color: var(--line-strong); }
+
+.opinion-list { list-style: none; margin: 0.75rem 0; padding: 0; display: grid; gap: 0.6rem; }
+.opinion { padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: 16px; background: var(--surface-float); display: grid; gap: 0.3rem; }
+.opinion-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; }
+.opinion-who { font-weight: 700; }
+
+.tester-actions { margin-top: 0.75rem; }
+.opinion-form {
+  display: grid; gap: 0.35rem; margin-top: 1rem; padding: 1rem 1.25rem; max-width: 44rem;
+  border: 2px solid var(--primary); border-radius: var(--radius-md); background: var(--surface-float);
+}
+.opinion-form h3 { font-size: 1.15rem; margin-bottom: 0.25rem; }
+.opinion-form > label { font-weight: 700; margin-top: 0.5rem; }
+.rating-field { border: 0; margin: 0; padding: 0; min-width: 0; }
+.rating-field legend { font-weight: 700; padding: 0; margin-bottom: 0.4rem; }
+.rating-options { display: grid; gap: 0.4rem; }
+.rating-option {
+  display: flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; padding: 0.4rem 0.9rem; cursor: pointer;
+  border: 2px solid var(--line-strong); border-radius: 14px; background: var(--surface); font-weight: 600;
+}
+.rating-option:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); color: var(--on-primary-soft); }
+.rating-option input { width: 1.3rem; height: 1.3rem; flex-shrink: 0; accent-color: var(--primary); }
+.opinion-form .field-error { text-align: left; }
+.tester-sent { margin-top: 1rem; display: grid; gap: 0.4rem; }
+.tester-sent:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+:root[data-theme="high-contrast"] .opinion,
+:root[data-theme="high-contrast"] .opinion-form,
+:root[data-theme="high-contrast"] .rating-option,
+:root[data-theme="high-contrast"] .evidence-steps li { border-color: var(--border); }
+:root[data-theme="high-contrast"] .star-on { color: var(--primary); }

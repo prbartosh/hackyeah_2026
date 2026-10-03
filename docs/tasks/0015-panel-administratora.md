@@ -3,6 +3,7 @@
 - Status: review
 - Osoba: Kacper (do potwierdzenia)
 - PR: #19, #40
+- PR: #19, #39
 
 ## Cel
 
@@ -21,6 +22,8 @@ Pracownik ROPS loguje się tokenem, widzi skrzynkę zgłoszeń z triażem AI i z
 - [ ] Test z czytnikiem ekranu (NVDA) i przejście całej ścieżki z prawdziwym `LLM_API_KEY` (DeepSeek)
 - [ ] Migracja `0002` na prawdziwym PostgreSQL (sprawdzona na SQLite i jako SQL dla Postgresa)
 - [x] Limit zapytań dla publicznego `POST /zgloszenia` (nginx, strefa `form_req`)
+- [x] Migracja `0002` na prawdziwym PostgreSQL
+- [ ] Limit zapytań dla publicznego `POST /zgloszenia`
 - [ ] Testy frontendu (po wejściu vitest do `main`)
 - [ ] Link „Zgłoś potrzebę” w nawigacji i na ekranie wyników czatu (dziś tylko stopka, żeby nie ruszać Header i ResultsSection)
 
@@ -29,3 +32,4 @@ Pracownik ROPS loguje się tokenem, widzi skrzynkę zgłoszeń z triażem AI i z
 - `potrzeby` ([0004](0004-zapis-potrzeb.md)) nie istnieje, radar opiera się na zgłoszeniach z panelu.
 - Zmiany we wspólnym kodzie: `InnovationRepository` (migawka kart z bazy), `LLMService` (`complete_json`; `embed` usunięte po przejściu na DeepSeek), `main.py` (lifespan), `deps.py`, `router.py`, `Layout.tsx` (linki w stopce), `App.tsx` (trasy).
 - Po przejściu na DeepSeek ([ADR 0007](../adr/0007-deepseek.md)) embeddingi są zawsze lokalne (`local-trigram-v1`). Zamiennik dopasowania kart i radaru: [0017](0017-dopasowanie-deterministyczne-panel.md).
+- 2026-10-03: migracje `0001`–`0005` sprawdzone na PostgreSQL 16 (obraz `postgres:16-alpine`): `upgrade head`, import 115 kart przy starcie, seedy (`seed_demo`, `seed_kreator`, `seed_tester`, ponownie bez duplikatów), 14 endpointów (opinie, moderacja, skrzynka, radar, karty, nabory, fiszka: zapis, autozapis, wysyłka, zgłoszenie) i `downgrade base` z ponownym `upgrade head`.
