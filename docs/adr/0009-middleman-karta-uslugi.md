@@ -5,7 +5,7 @@
 
 ## Kontekst
 
-Moduł VII wyzwania (+5%, decyzja z [0007](../tasks/0007-ustalenia-otwarte.md)): pracownik CUS/OPS albo partner (JST, NGO, ekspert) ogląda innowację i chce wiedzieć, jak wdrożyć ją u siebie. Zadanie [0012](../tasks/0012-middleman-innowacji.md). Numer 0008 jest zarezerwowany dla portu LLM z [0016](../tasks/0016-adaptery-llm.md).
+Moduł VII wyzwania (+5%, decyzja z [0007](../tasks/0007-ustalenia-otwarte.md)): pracownik CUS/OPS albo partner (JST, NGO, ekspert) ogląda innowację i chce wiedzieć, jak wdrożyć ją u siebie. Zadanie [0012](../tasks/0012-middleman-innowacji.md).
 
 ## Decyzja
 

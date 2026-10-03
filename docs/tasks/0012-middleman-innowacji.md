@@ -1,6 +1,6 @@
 # 0012. Moduł VII: Middleman innowacji
 
-- Status: review
+- Status: w toku
 - Osoba: Bartosz (ADR, backend), Kacper (frontend)
 - PR: #32
 
