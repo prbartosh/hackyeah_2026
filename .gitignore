@@ -28,3 +28,6 @@ assets/**/files/*.pdf
 
 # Lockfile uv (decyzja zespołu, na razie poza repo)
 backend/uv.lock
+
+# Artefakty builda TypeScript
+*.tsbuildinfo
