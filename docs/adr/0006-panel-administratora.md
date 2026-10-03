@@ -24,3 +24,5 @@ Panel dla pracowników ROPS: skrzynka zgłoszeń z triażem AI, upload dokumentu
 Zyskujemy: panel działający bez klucza OpenAI, jedną ścieżkę zatwierdzania kart, brak zmian w kodzie czatu.
 Tracimy: jeden wspólny token zamiast kont (brak śladu, kto co zatwierdził), lokalny embedding jest słabszy niż model OpenAI, a podobieństwo w Pythonie nie skaluje się poza tysiące rekordów.
 Zmiana wspólnego kodu: `InnovationRepository` (migawka z bazy), `LLMService` (metody `embed` i `complete_json`), `main.py` (start), `deps.py` i `router.py`.
+
+2026-10-04: dzienny limit wywołań AI usunięty (decyzja Nikodema).
