@@ -22,7 +22,7 @@ Pracownik ROPS loguje się tokenem, widzi skrzynkę zgłoszeń z triażem AI i z
 - [ ] Migracja `0002` na prawdziwym PostgreSQL (sprawdzona na SQLite i jako SQL dla Postgresa)
 - [ ] Limit zapytań dla publicznego `POST /zgloszenia`
 - [ ] Testy frontendu (po wejściu vitest do `main`)
-- [ ] Link „Zgłoś potrzebę” w nawigacji i na ekranie wyników czatu (dziś tylko stopka, żeby nie ruszać Header i ResultsSection)
+- [x] Link „Zgłoś potrzebę” w nawigacji i na ekranie wyników czatu (formularz dostaje opis z panelu „Twój problem”)
 
 ## Notatki
 
