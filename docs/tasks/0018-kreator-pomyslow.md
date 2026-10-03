@@ -1,8 +1,8 @@
 # 0018. Kreator pomysłów (moduł III)
 
-- Status: w toku
+- Status: review
 - Osoba: Kacper
-- PR: 
+- PR: #34
 
 ## Cel
 
