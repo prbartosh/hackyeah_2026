@@ -16,6 +16,7 @@ Unknown. The site (home page, contact, footer) states no licence or terms of reu
 |---|---|
 | `observations.csv` | **Main dataset.** All indicators merged, long format, ~403 400 rows. |
 | `data/<indicator_id>.csv` | The same rows split per indicator (same columns). 184 files; 32 are header-only (see "Empty indicators"). |
+| `wskazniki-czatu.json` | Indicators shown in the chat for a gmina (task 0013): `id`, display `nazwa`, short `zrodlo`. Read by `ObserwatorRepository` in the backend. |
 | `indicators.json` | Indicator catalogue: `id`, `name`, `category`, `years` (years offered by the site, not years with data), `description` (`Nazwa wskaźnika`, `Źródło`, `Opis`). |
 | `text/<id>-<slug>.md` | One readable markdown page per indicator: name, category, source, description and a powiat × year table. Best for search/RAG. Gmina values are **not** in these files. |
 
