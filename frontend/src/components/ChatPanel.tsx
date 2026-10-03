@@ -1,7 +1,9 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { ArrowUp, Pencil, RotateCcw } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useChat, type DisplayMessage } from '@/context/ChatContext'
 import { MAX_MESSAGE_CHARS, MAX_USER_MESSAGE_CHARS, ROLE_LABELS, type Question, type Role } from '@/types/chat'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import VoiceButton from '@/components/VoiceButton'
 
 // Krótkie podpowiedzi; kliknięcie wysyła pełny opis (scenariusze z user_scenario.md i docs/DEMO.md)
@@ -211,11 +213,13 @@ function MessageItem({ message, isLast, lastSummaryId }: { message: DisplayMessa
           </>
         )}
         {message.summary && (
-          <SummaryBlock
-            text={message.summary}
-            pending={isLast && awaiting === 'summary'}
-            confirmed={summaryConfirmed && message.id === lastSummaryId}
-          />
+          <ErrorBoundary label="podsumowanie problemu">
+            <SummaryBlock
+              text={message.summary}
+              pending={isLast && awaiting === 'summary'}
+              confirmed={summaryConfirmed && message.id === lastSummaryId}
+            />
+          </ErrorBoundary>
         )}
       </div>
     </li>
@@ -245,11 +249,12 @@ function fadeOutGhost(el: HTMLElement | null) {
 }
 
 export default function ChatPanel() {
-  const { display, streaming, status, sendMessage, showResultsNow, error, retry, results, reset } = useChat()
+  const { display, streaming, status, sendMessage, showResultsNow, error, unavailable, retry, results, reset } = useChat()
   const [draft, setDraft] = useState('')
   const [showError, setShowError] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const endRef = useRef<HTMLDivElement>(null)
+  const logRef = useRef<HTMLOListElement>(null)
   const dockRef = useRef<HTMLFormElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const chipsRef = useRef<HTMLUListElement>(null)
@@ -320,6 +325,18 @@ export default function ChatPanel() {
     target?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'end' })
   }, [display])
 
+  // Po zakończeniu odpowiedzi: pytanie z opcjami dostaje focus; w innym razie wracamy do pola pisania,
+  // jeśli focus zgubił się razem z klikniętym przyciskiem (opcja, podpowiedź, „Potwierdzam”)
+  const wasStreaming = useRef(false)
+  useEffect(() => {
+    const justFinished = wasStreaming.current && !streaming
+    wasStreaming.current = streaming
+    if (!justFinished) return
+    const option = logRef.current?.querySelector<HTMLElement>('.question .btn-option:not(:disabled)')
+    if (option) option.focus({ preventScroll: true })
+    else if (!document.activeElement || document.activeElement === document.body) textareaRef.current?.focus({ preventScroll: true })
+  }, [streaming])
+
   const submit = () => {
     if (streaming) return
     if (!draft.trim()) {
@@ -355,29 +372,41 @@ export default function ChatPanel() {
         </div>
       )}
 
-      <ol className="chat-log" aria-live="polite" aria-relevant="additions text" aria-busy={streaming}>
-        {display.map((m, i) => (
-          <MessageItem key={m.id} message={m} isLast={i === display.length - 1} lastSummaryId={lastSummaryId} />
-        ))}
-        {streaming && (
-          <li className="msg msg-assistant msg-typing">
-            <Avatar />
-            <div className="msg-content">
-              <p className="typing-row" aria-hidden="true">
-                <span className="typing"><span /><span /><span /></span>
-                <span className="typing-status">{status ?? 'Splot pisze…'}</span>
-              </p>
-            </div>
-          </li>
-        )}
-      </ol>
+      <ErrorBoundary label="rozmowa">
+        <ol ref={logRef} className="chat-log" aria-live="polite" aria-relevant="additions text" aria-busy={streaming}>
+          {display.map((m, i) => (
+            <MessageItem key={m.id} message={m} isLast={i === display.length - 1} lastSummaryId={lastSummaryId} />
+          ))}
+          {streaming && (
+            <li className="msg msg-assistant msg-typing">
+              <Avatar />
+              <div className="msg-content">
+                <p className="typing-row" aria-hidden="true">
+                  <span className="typing"><span /><span /><span /></span>
+                  <span className="typing-status">{status ?? 'Splot pisze…'}</span>
+                </p>
+              </div>
+            </li>
+          )}
+        </ol>
+      </ErrorBoundary>
       {/* Poza listą: `aria-busy` na liście wycisza ją dla czytnika do końca tury */}
       <p className="visually-hidden" role="status">
         {streaming ? (status ?? 'Splot pisze…') : ''}
       </p>
       <div ref={endRef} className="chat-end" aria-hidden="true" />
 
-      {error && (
+      {error && unavailable && (
+        <div className="alert alert-warning" role="alert">
+          <p>
+            <strong>Asystent jest teraz niedostępny.</strong> {error}
+          </p>
+          <p className="alert-note">
+            Możesz zgłosić potrzebę pracownikowi ROPS: <Link to="/zglos">przejdź do formularza</Link>.
+          </p>
+        </div>
+      )}
+      {error && !unavailable && (
         <div className="alert alert-error" role="alert">
           <p>{error}</p>
           <button type="button" className="btn btn-secondary" onClick={retry}>
