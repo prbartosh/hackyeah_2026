@@ -1,5 +1,7 @@
-import { Check, Contrast, Moon, Sun } from 'lucide-react'
+import { useRef, useState } from 'react'
+import { Check, Contrast, Moon, Settings, Sun } from 'lucide-react'
 import { useAccessibility, type FontSize, type ThemeMode } from '@/context/AccessibilityContext'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 const fontOptions: { key: FontSize; label: string; ariaLabel: string; size: string }[] = [
   { key: 'normal', label: 'A', ariaLabel: 'Tekst normalny', size: '0.95rem' },
@@ -13,7 +15,7 @@ const themeOptions: { key: ThemeMode; label: string; icon: typeof Sun }[] = [
   { key: 'high-contrast', label: 'Wysoki kontrast', icon: Contrast },
 ]
 
-export default function AccessibilityBar() {
+function Controls() {
   const { fontSize, themeMode, setFontSize, setThemeMode } = useAccessibility()
 
   return (
@@ -56,6 +58,49 @@ export default function AccessibilityBar() {
           ))}
         </div>
       </div>
+    </div>
+  )
+}
+
+/** Na wąskim ekranie pasek zwija się do jednego przycisku, żeby treść była widoczna od razu. */
+export default function AccessibilityBar() {
+  const compact = useMediaQuery('(max-width: 48rem)')
+  const [open, setOpen] = useState(false)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+
+  if (!compact) return <Controls />
+
+  const close = () => {
+    setOpen(false)
+    buttonRef.current?.focus()
+  }
+
+  return (
+    <div
+      className="a11y-compact"
+      onKeyDown={(e) => {
+        if (e.key === 'Escape' && open) {
+          e.stopPropagation()
+          close()
+        }
+      }}
+    >
+      <button
+        ref={buttonRef}
+        type="button"
+        className="a11y-btn a11y-toggle"
+        aria-expanded={open}
+        aria-controls="a11y-panel"
+        onClick={() => (open ? close() : setOpen(true))}
+      >
+        <Settings size={18} aria-hidden="true" />
+        Ustawienia dostępności
+      </button>
+      {open && (
+        <div id="a11y-panel" className="a11y-panel">
+          <Controls />
+        </div>
+      )}
     </div>
   )
 }
