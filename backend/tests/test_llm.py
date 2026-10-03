@@ -55,7 +55,7 @@ async def collect(llm: LLMService):
 
 
 async def test_assembles_text_and_streamed_tool_calls():
-    args_a = json.dumps({"role": "jst"})
+    args_a = json.dumps({"rola": "partner"})
     args_b = json.dumps({"text": "Ile osób?", "options": ["1", "2", "3"]})
     llm, completions = service(
         [
@@ -69,7 +69,7 @@ async def test_assembles_text_and_streamed_tool_calls():
     events = await collect(llm)
 
     assert events[0] == TextDelta("Rozumiem.")
-    assert events[1] == ToolCall("a", "set_role", {"role": "jst"})
+    assert events[1] == ToolCall("a", "set_role", {"rola": "partner"})
     assert events[2] == ToolCall("b", "ask_question", json.loads(args_b))
     end = events[3]
     assert isinstance(end, TurnEnd)

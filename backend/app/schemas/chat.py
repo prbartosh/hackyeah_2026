@@ -2,7 +2,9 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-Role = Literal["mieszkaniec", "ngo", "jst", "cus_ops", "ekspert"]
+# Role i stan problemu zgodne z ADR 0004 (§3, §7).
+Role = Literal["mieszkaniec", "cus-ops", "partner"]
+PoziomKosztu = Literal["niski", "sredni", "wysoki"]
 ChatAction = Literal["show_results_now", "confirm_summary"]
 MatchKind = Literal["main", "complementary"]
 
@@ -10,23 +12,36 @@ MAX_MESSAGES = 40
 MAX_MESSAGE_CHARS = 4000
 
 
-class ProblemFields(BaseModel):
-    """Panel „Twój problem”. None = jeszcze nieustalone."""
+class PoleProblemu(BaseModel):
+    """Pole panelu: tekst do wyświetlenia i slugi ze słownika do wyszukiwania."""
 
-    kogo_dotyczy: str | None = None
-    gdzie: str | None = None
-    skala: str | None = None
-    przyczyna: str | None = None
-    co_probowano: str | None = None
-    zasoby: str | None = None
+    tekst: str | None = None
+    slugi: list[str] = Field(default_factory=list)
 
 
-class ChatState(BaseModel):
-    role: Role | None = None
+class PoleZasoby(PoleProblemu):
+    poziom_kosztu: PoziomKosztu | None = None
+
+
+class ProblemState(BaseModel):
+    """Panel „Twój problem” (ADR 0004 §7)."""
+
+    grupy_docelowe: PoleProblemu = Field(default_factory=PoleProblemu)
+    problemy: PoleProblemu = Field(default_factory=PoleProblemu)
+    miejsca: PoleProblemu = Field(default_factory=PoleProblemu)
+    skale: PoleProblemu = Field(default_factory=PoleProblemu)
+    zasoby: PoleZasoby = Field(default_factory=PoleZasoby)
+    proby: PoleProblemu = Field(default_factory=PoleProblemu)
+
+
+class ChatState(ProblemState):
+    rola: Role | None = None
     # True, gdy użytkownik sam zmienił rolę przyciskiem „Zmień” - model jej nie nadpisuje.
     role_locked: bool = False
-    problem: ProblemFields = Field(default_factory=ProblemFields)
     rounds: int = Field(default=0, ge=0)
+
+    def problem(self) -> ProblemState:
+        return ProblemState.model_validate(self.model_dump(include=set(ProblemState.model_fields)))
 
 
 class ChatMessage(BaseModel):
@@ -38,6 +53,8 @@ class ChatRequest(BaseModel):
     messages: list[ChatMessage] = Field(min_length=1, max_length=MAX_MESSAGES)
     state: ChatState = Field(default_factory=ChatState)
     action: ChatAction | None = None
+    # Podsumowanie poprawione przez użytkownika, wysyłane z action = "confirm_summary".
+    summary: str | None = Field(default=None, max_length=MAX_MESSAGE_CHARS)
 
 
 # --- Dane zdarzeń SSE ---
@@ -48,11 +65,11 @@ class TextEvent(BaseModel):
 
 
 class RoleEvent(BaseModel):
-    role: Role
+    rola: Role
 
 
 class ProblemUpdateEvent(BaseModel):
-    problem: ProblemFields
+    problem: ProblemState
 
 
 class QuestionEvent(BaseModel):
@@ -62,7 +79,7 @@ class QuestionEvent(BaseModel):
 
 class SummaryEvent(BaseModel):
     summary: str
-    problem: ProblemFields
+    problem: ProblemState
 
 
 class ResultItem(BaseModel):
@@ -71,11 +88,12 @@ class ResultItem(BaseModel):
     match: MatchKind
     why_relevant: str
     kategorie: list[str]
+    wybrana_do_upowszechniania: bool
     url_zrodlowy: str
-    materialy_url: str
+    materialy_url: str | None
     pdf_url: str | None
     youtube_url: str | None
-    obraz_url: str
+    obraz_url: str | None
     organizacja: str | None
     licencja: str | None
 

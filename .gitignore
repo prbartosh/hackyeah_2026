@@ -22,3 +22,6 @@ dist/
 
 # Scraper cache
 assets/innowacje-spoleczne/.cache/
+
+# Scraped PDFs (source URLs in assets/*/metadata.json, refetch with scrapers/run_all.py)
+assets/**/files/*.pdf
