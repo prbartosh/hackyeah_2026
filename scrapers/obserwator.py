@@ -121,7 +121,6 @@ def main(limit=None):
 
 
 def merge(inds):
-    """Combine per-indicator CSVs and write a readable markdown file per indicator for RAG."""
     with open(OUT / "observations.csv", "w", newline="", encoding="utf-8") as out:
         w = csv.writer(out)
         w.writerow(FIELDS)

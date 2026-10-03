@@ -2,9 +2,7 @@ from pydantic import BaseModel
 
 
 class Innovation(BaseModel):
-    """Rekord z assets/innowacje-spoleczne/innowacje.json (opis pól: docs/baza-innowacji.md).
-
-    Pola treści mogą być null (ADR 0004 §2) - pusty rekord po odświeżeniu scraperem
+    """Pola treści mogą być null (ADR 0004 §2) - pusty rekord po odświeżeniu scraperem
     nie może wywalić startu backendu.
     """
 
@@ -28,8 +26,6 @@ class Innovation(BaseModel):
 
 
 class Category(BaseModel):
-    """Kategoria Biblioteki Innowacji z liczbą innowacji (źródło nazw: kategorie.json)."""
-
     slug: str
     nazwa: str
     liczba_innowacji: int

@@ -73,7 +73,7 @@ async def test_nazwy_klastrow_z_ai_sa_cache_owane(admin_client, ai_enabled):
     calls = len(ai_enabled.json_calls)
     again = (await admin_client.get(f"{API}/admin/radar")).json()
     assert again["klastry"][0]["nazwa"] == "Transport do lekarza na wsi"
-    assert len(ai_enabled.json_calls) == calls  # z cache, bez nowego wywołania
+    assert len(ai_enabled.json_calls) == calls
 
 
 async def test_trend_rosnacy(admin_client, session_factory):

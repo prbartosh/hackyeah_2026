@@ -292,7 +292,6 @@ export default function ChatPanel() {
     setDraft('')
   }
 
-  // Pole rośnie razem z tekstem (do limitu), a po wysłaniu wraca do małego
   useEffect(() => {
     const el = textareaRef.current
     if (!el) return
@@ -312,7 +311,6 @@ export default function ChatPanel() {
     return () => observer.disconnect()
   }, [])
 
-  // Najnowsza wiadomość ma być widoczna nad polem pisania
   useEffect(() => {
     if (!display.length) return
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches

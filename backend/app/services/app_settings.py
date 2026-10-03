@@ -1,5 +1,3 @@
-"""Ustawienia panelu: wartości domyślne z env/modelu, nadpisywane w tabeli `ustawienia`."""
-
 from dataclasses import asdict, dataclass
 
 from sqlalchemy import select

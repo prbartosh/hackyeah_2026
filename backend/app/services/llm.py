@@ -58,7 +58,6 @@ class LLMService:
         )
 
     async def complete_json(self, *, system: str, user: str, timeout: float) -> dict[str, Any]:
-        """Jedno wywołanie bez strumienia, odpowiedź jako obiekt JSON (panel administratora)."""
         extra: dict[str, Any] = {}
         if self.settings.llm_reasoning_effort:
             extra["reasoning_effort"] = self.settings.llm_reasoning_effort

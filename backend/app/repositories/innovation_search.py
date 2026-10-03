@@ -1,6 +1,4 @@
-"""Wyszukiwanie tekstowe w bazie innowacji (zasobnik wiedzy, zadanie 0003).
-
-Zapytanie to słowa rozdzielone spacją; innowacja pasuje, gdy każde słowo występuje w jej tekście.
+"""Zapytanie to słowa rozdzielone spacją; innowacja pasuje, gdy każde słowo występuje w jej tekście.
 Wielkość liter i polskie znaki nie mają znaczenia, odmiany łapie lekka heurystyka (nie stemmer).
 """
 
@@ -9,12 +7,11 @@ import unicodedata
 
 from app.schemas.innovation import Innovation
 
-# Pola przeszukiwane: nazwa, problem, odbiorcy, wdrażający, opis, organizacja
 SEARCH_FIELDS = ("nazwa", "problem", "grupa_docelowa", "kto_moze_skorzystac", "opis", "organizacja")
 
 
 def normalize(text: str) -> str:
-    """Małe litery bez znaków diakrytycznych („ł” nie rozkłada się w NFD, więc osobno)."""
+    """„ł” nie rozkłada się w NFD, więc osobno."""
     folded = unicodedata.normalize("NFD", text.lower().replace("ł", "l"))
     return "".join(c for c in folded if not unicodedata.combining(c))
 

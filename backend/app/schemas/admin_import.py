@@ -33,7 +33,6 @@ class ImportRead(ImportListItem):
     komunikat: str | None
     tekst: str
     pola: dict[str, ImportField]
-    # Opisy pól po polsku dla ekranu przeglądu.
     etykiety: dict[str, str]
 
 

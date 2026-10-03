@@ -8,8 +8,6 @@ from app.db.base import Base, TimestampMixin
 
 
 class DocumentImport(TimestampMixin, Base):
-    """Dokument projektu wgrany przez admina i szkic karty z niego wyciągnięty."""
-
     __tablename__ = "importy_dokumentow"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -24,8 +22,6 @@ class DocumentImport(TimestampMixin, Base):
 
 
 class TrendNote(Base):
-    """Notatka/zadanie dla ROPS utworzona z klastra radaru."""
-
     __tablename__ = "notatki_rops"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -37,7 +33,7 @@ class TrendNote(Base):
 
 
 class ClusterName(Base):
-    """Cache nazw klastrów radaru (klucz: skrót posortowanych id zgłoszeń)."""
+    """Klucz: skrót posortowanych id zgłoszeń."""
 
     __tablename__ = "nazwy_klastrow"
 

@@ -26,7 +26,6 @@
 
 
 .zs-root { position: relative; isolation: isolate; padding-bottom: 1rem; }
-/* Poświata w tle: trzy rozmyte plamy, zanikają ku dołowi */
 .zs-root::before {
   content: ""; position: absolute; inset: -6rem 0 auto 0; height: 38rem; z-index: -1; pointer-events: none;
   background:
@@ -37,11 +36,9 @@
   mask-image: linear-gradient(to bottom, #000 55%, transparent);
 }
 
-/* ── Hero ── */
 .zs-hero { padding-block: 2.5rem 1rem; text-align: center; }
 .zs-title { font-size: clamp(1.6rem, 3.5vw, 2.1rem); font-weight: 650; letter-spacing: -0.02em; line-height: 1.2; color: var(--text); }
 
-/* ── Pole wyszukiwania w stylu „composera” czatu ── */
 .zs-composer {
   max-width: 44rem; margin: 1.5rem auto 0; padding: 0.45rem;
   background: var(--surface-float); border: 1.5px solid var(--field-border);
@@ -61,7 +58,6 @@
 .zs-composer-submit { flex-shrink: 0; min-height: 3rem; padding-inline: 1.5rem; }
 .zs-composer-tools { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.4rem 0.4rem 0.25rem; }
 
-/* ── Pigułki (kategorie i przełącznik) ── */
 .zs-chip {
   display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.5rem; padding: 0.35rem 0.95rem;
   font: inherit; font-size: 0.95rem; font-weight: 550; line-height: 1.25; color: var(--text); cursor: pointer;
@@ -84,7 +80,6 @@
 .zs-overline { margin-bottom: 0.75rem; font-size: 0.8rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
 .zs-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
 
-/* ── Wyniki ── */
 .zs-results { padding-block: 1.5rem 2rem; }
 .zs-results-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 1.25rem; }
 .zs-h2 { font-size: clamp(1.4rem, 3vw, 1.75rem); }
@@ -127,7 +122,6 @@
 .zs-card .badge { justify-self: start; }
 .zs-source { margin-top: 2.5rem; text-align: center; }
 
-/* ── Film ── */
 .zs-video { display: grid; gap: 0.75rem; }
 .zs-video-frame { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius-md); background: #000; }
 .zs-video-start {

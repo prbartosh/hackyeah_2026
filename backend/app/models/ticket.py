@@ -24,7 +24,6 @@ class Ticket(TimestampMixin, Base):
     status: Mapped[str] = mapped_column(String(20), default="nowe", index=True)
     odpowiedziano: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
-    # Triaż (None = jeszcze nie wykonany)
     kategoria: Mapped[str | None] = mapped_column(String(100), index=True)
     pilnosc: Mapped[str | None] = mapped_column(String(10))
     pilnosc_uzasadnienie: Mapped[str | None] = mapped_column(Text)

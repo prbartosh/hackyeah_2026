@@ -33,7 +33,6 @@ function PanelBody() {
   )
 }
 
-/** Panel „Twój problem”: pojawia się po rozpoczęciu rozmowy; obok czatu na szerokim ekranie, zwijany nad czatem na wąskim. */
 export default function ProblemPanel() {
   const { state } = useChat()
   const { fontSize } = useAccessibility()

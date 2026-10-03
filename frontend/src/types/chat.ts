@@ -12,7 +12,6 @@ export const ROLE_LABELS: Record<Role, string> = {
 
 export type PoziomKosztu = 'niski' | 'sredni' | 'wysoki'
 
-/** Pole panelu: tekst do wyświetlenia i slugi ze słownika do wyszukiwania. */
 export interface PoleProblemu {
   tekst: string | null
   slugi: string[]
@@ -53,7 +52,6 @@ export const emptyProblem = (): ProblemState => ({
   proby: { tekst: null, slugi: [] },
 })
 
-/** Stan rozmowy: płaski — pola panelu plus rola, blokada roli i licznik rund. */
 export interface ChatState extends ProblemState {
   rola: Role | null
   /** true, gdy użytkownik sam zmienił rolę przyciskiem „Zmień” — model jej nie nadpisuje */
@@ -123,7 +121,6 @@ export interface Results {
   items: ResultItem[]
 }
 
-/** Zdarzenia SSE z POST /api/v1/chat */
 export type ServerEvent =
   | { name: 'text'; data: { text: string } }
   | { name: 'role'; data: { rola: Role } }

@@ -34,7 +34,6 @@ from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
 
-# Ile razy w jednym zapytaniu wołamy model (set_role/update_problem -> search -> show_results...).
 MAX_LLM_CALLS = 6
 
 ACTION_MESSAGES = {
@@ -72,8 +71,6 @@ class ToolOutcome:
 
 @dataclass
 class _Turn:
-    """Stan jednego zapytania: zmienia się w trakcie pętli narzędzi."""
-
     state: ChatState
     searched: set[str] = field(default_factory=set)
     transcript: list[str] = field(default_factory=list)
@@ -164,8 +161,6 @@ class ChatService:
             "done", DoneEvent(assistant_message=self._assistant_message(turn), state=turn.state)
         )
 
-    # --- historia ---
-
     def _build_messages(self, request: ChatRequest) -> list[dict[str, Any]]:
         messages: list[dict[str, Any]] = [
             {"role": m.role, "content": m.content} for m in request.messages
@@ -186,8 +181,6 @@ class ChatService:
         """Tekstowy zapis tury, który front odsyła w historii przy kolejnym zapytaniu."""
         parts = ["".join(turn.text).strip(), *turn.transcript]
         return "\n".join(p for p in parts if p) or "[brak odpowiedzi]"
-
-    # --- narzędzia ---
 
     def _run_tool(self, turn: _Turn, request: ChatRequest, call: ToolCall) -> ToolOutcome:
         handler = getattr(self, f"_tool_{call.name}", None)

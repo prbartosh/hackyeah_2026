@@ -22,7 +22,6 @@ async def _sse(service: ChatService, request: ChatRequest) -> AsyncIterator[str]
     summary="Rozmowa matchmakingu (strumień SSE)",
 )
 async def chat(request: ChatRequest, service: ChatServiceDep) -> StreamingResponse:
-    """Zdarzenia: text, role, problem_update, question, summary, results, done, error."""
     try:
         service.ensure_available()
     except ChatUnavailableError as e:

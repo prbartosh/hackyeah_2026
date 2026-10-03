@@ -1,4 +1,3 @@
-"""Raporty z badań -> assets/raporty/{files,text,metadata.json}"""
 import re
 
 from bs4 import BeautifulSoup
