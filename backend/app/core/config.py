@@ -6,6 +6,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 DEFAULT_INNOVATIONS_PATH = (
     Path(__file__).resolve().parents[3] / "assets" / "innowacje-spoleczne" / "innowacje.json"
 )
+DEFAULT_OBSERWATOR_PATH = (
+    Path(__file__).resolve().parents[3] / "assets" / "obserwator" / "observations.csv"
+)
 
 
 class Settings(BaseSettings):
@@ -27,6 +30,7 @@ class Settings(BaseSettings):
     # false = czat odpowiada 503 bez wołania modelu.
     chat_enabled: bool = True
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH
+    obserwator_path: Path = DEFAULT_OBSERWATOR_PATH
 
     # Panel administratora (ADR 0006). Pusty token = panel wyłączony.
     admin_token: str | None = None

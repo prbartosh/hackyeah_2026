@@ -7,11 +7,14 @@ from typing import Any
 from pydantic import BaseModel
 
 from app.repositories.innovation import InnovationRepository
+from app.repositories.obserwator import ObserwatorRepository
 from app.schemas.chat import (
     ChatRequest,
     ChatState,
     DoneEvent,
     ErrorEvent,
+    GminaStatsEvent,
+    ObszarGminy,
     ProblemState,
     ProblemUpdateEvent,
     QuestionEvent,
@@ -84,8 +87,10 @@ class ChatService:
         innovations: InnovationRepository,
         budget: TokenBudget,
         enabled: bool = True,
+        obserwator: ObserwatorRepository | None = None,
     ) -> None:
         self.llm = llm
+        self.obserwator = obserwator
         self.innovations = innovations
         self.budget = budget
         self.enabled = enabled
@@ -325,3 +330,21 @@ class ChatService:
         )
         turn.transcript.append("[Wyniki: " + (", ".join(i.slug for i in items) or "brak") + "]")
         return ToolOutcome("ok", terminal=True, events=[ServerEvent("results", results)])
+
+    def _tool_gmina_stats(self, turn: _Turn, request: ChatRequest, args: dict) -> ToolOutcome:
+        gmina = args["gmina"].strip()
+        found = self.obserwator.find(gmina) if self.obserwator else []
+        if not found:
+            return ToolOutcome(
+                f"Brak danych dla „{gmina}”. Obserwator obejmuje tylko gminy Małopolski. "
+                "Nie podawaj liczb o tej gminie."
+            )
+        event = GminaStatsEvent(
+            gmina=gmina,
+            obszary=[ObszarGminy.model_validate(o, from_attributes=True) for o in found],
+        )
+        turn.transcript.append(f"[Dane gminy: {', '.join(o.nazwa for o in event.obszary)}]")
+        return ToolOutcome(
+            json.dumps(event.model_dump(), ensure_ascii=False),
+            events=[ServerEvent("gmina_stats", event)],
+        )

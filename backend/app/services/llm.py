@@ -78,6 +78,14 @@ class LLMService:
         except openai.APIStatusError as e:
             logger.error("LLM API error %s: %s", e.status_code, e.message)
             raise LLMError(f"Błąd API modelu ({e.status_code})") from e
+        if response.usage:
+            if self.budget is not None:
+                self.budget.add(response.usage.total_tokens)
+            logger.info(
+                "LLM json: in=%s out=%s",
+                response.usage.prompt_tokens,
+                response.usage.completion_tokens,
+            )
         content = response.choices[0].message.content or ""
         try:
             data = json.loads(content)
