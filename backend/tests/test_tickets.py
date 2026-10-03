@@ -47,7 +47,7 @@ async def test_zlota_sciezka_zgloszenie_triaz_odpowiedz(admin_client, ai_enabled
         "pilnosc": "wysoka",
         "pilnosc_uzasadnienie": "Ryzyko pominięcia leków.",
         "uzyte_karty": [slug, "wymyslona-karta"],
-        "szkic_odpowiedzi": "Dzień dobry,\nPolecamy kartę Kody QR dla seniorów.\nPozdrawiamy, zespół ROPS",
+        "szkic_odpowiedzi": "Dzień dobry,\nPolecamy kartę Kody QR dla seniorów.\nZespół ROPS",
     }
     triaged = (await admin_client.post(f"{API}/admin/zgloszenia/{ticket_id}/triaz")).json()
     assert triaged["triaz_zrodlo"] == "ai"
