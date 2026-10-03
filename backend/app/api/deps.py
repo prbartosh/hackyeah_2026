@@ -9,6 +9,7 @@ from app.core.config import settings
 from app.db.session import SessionLocal
 from app.repositories.innovation import InnovationRepository
 from app.services.chat import ChatService
+from app.services.innovation import InnovationService
 from app.services.llm import LLMService
 
 
@@ -36,5 +37,12 @@ def get_chat_service(
     return ChatService(llm, innovations)
 
 
+def get_innovation_service(
+    repo: Annotated[InnovationRepository, Depends(get_innovation_repository)],
+) -> InnovationService:
+    return InnovationService(repo)
+
+
 InnovationRepositoryDep = Annotated[InnovationRepository, Depends(get_innovation_repository)]
+InnovationServiceDep = Annotated[InnovationService, Depends(get_innovation_service)]
 ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]

@@ -25,3 +25,11 @@ class Innovation(BaseModel):
     obraz_url: str | None
     licencja: str | None
     pobrano_dnia: str | None
+
+
+class Category(BaseModel):
+    """Kategoria Biblioteki Innowacji z liczbą innowacji (źródło nazw: kategorie.json)."""
+
+    slug: str
+    nazwa: str
+    liczba_innowacji: int

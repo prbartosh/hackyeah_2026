@@ -34,3 +34,9 @@ export const KATEGORIE: Record<string, string> = {
 export function kategoriaNazwa(slugs: string[]): string | null {
   return slugs.length ? (KATEGORIE[slugs[0]] ?? slugs[0]) : null
 }
+
+export interface Kategoria {
+  slug: string
+  nazwa: string
+  liczba_innowacji: number
+}

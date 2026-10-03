@@ -1,6 +1,6 @@
 # 0007. Ustalenia otwarte
 
-- Status: todo
+- Status: zrobione
 - Osoba: Nikodem, Wiktor
 
 ## Cel
@@ -10,26 +10,26 @@ Rozstrzygnąć decyzje, które blokują inne zadania. Każde ustalenie wpisać w
 ## Do ustalenia
 
 Zespół i odpowiedzialność
-- [ ] Wasze obszary (Nikodem, Wiktor) do tabeli „Zespół” w [CLAUDE.md](../../CLAUDE.md)
-- [ ] Kto robi [zadanie 0005](0005-slownik-i-nakladka.md) (słownik i nakładka)
-- [ ] Kto zatwierdza słownik startowy, nakładkę i powiązania dokument ↔ innowacja ([ADR 0004](../adr/0004-obiekt-innowacji.md), otwarta kwestia 1)
+- [x] Wasze obszary (Nikodem, Wiktor) do tabeli „Zespół” w [CLAUDE.md](../../CLAUDE.md): produkt i demo, razem
+- [x] Kto robi [zadanie 0005](0005-slownik-i-nakladka.md) (słownik i nakładka): Bartłomiej
+- [x] Kto zatwierdza słownik startowy, nakładkę i powiązania dokument ↔ innowacja ([ADR 0004](../adr/0004-obiekt-innowacji.md), otwarta kwestia 1): Bartłomiej
 
 Zakres demo
-- [ ] Dodatkowy moduł (+5%): potwierdzić „VII Middleman innowacji” (karta usługi dla CUS/OPS i partnera na stronie innowacji) albo wybrać inny. Krótkie uzasadnienie pod [kryteria oceny](../kryteria-oceny.md)
-- [ ] Obserwator Statystyk w czacie: czy demo pokazuje dane gminy z pola „Gdzie” (np. „w Twojej gminie...”), czy zostaje poza zakresem, jak w [DEMO.md](../DEMO.md)
-- [ ] Dostępność poza WCAG: wejście głosowe (🎤 w makiecie DEMO.md) robimy czy usuwamy z makiety. Czy PJM i audio wchodzą do demo
+- [x] Dodatkowy moduł (+5%): VII Middleman innowacji potwierdzony. Uzasadnienie pod [kryteria oceny](../kryteria-oceny.md): +5% za kolejny moduł, pasuje do ról CUS/OPS i partner, wykorzystuje ten sam model i dane innowacji (niski koszt, potencjał wdrożeniowy)
+- [x] Obserwator Statystyk w czacie: dane gminy z pola „Gdzie” są w demo (zapisane w [DEMO.md](../DEMO.md)). Wymaga mapowania gminy na wskaźniki i narzędzia modelu
+- [x] Dostępność poza WCAG: wejście głosowe (🎤) robimy. PJM i audio poza demo
 
 Limity i koszty ([zadanie 0006](0006-limity-czatu.md), Bartłomiej)
-- [ ] Zatwierdzić albo zmienić wartości z tabel w 0006
-- [ ] Kto ma dostęp do panelu OpenAI i ustawia limit budżetu oraz alert
+- [x] Zatwierdzić albo zmienić wartości z tabel w 0006: zatwierdzone bez zmian
+- [x] Kto ma dostęp do panelu OpenAI i ustawia limit budżetu oraz alert: Nikodem
 
 Potrzeby ([zadanie 0004](0004-zapis-potrzeb.md), Bartłomiej)
-- [ ] Retencja zapisów potrzeb (jak długo trzymamy)
-- [ ] Kto widzi trendy potrzeb (panel admina: rola, logowanie)
+- [x] Retencja zapisów potrzeb: do końca demo/hackathonu
+- [x] Kto widzi trendy potrzeb: poza demo, później rola ROPS z logowaniem
 
 Jakość dopasowania
-- [ ] Zestaw testowy: 20–30 zgłoszeń napisanych jak przez użytkownika, każde z rolą i oczekiwanym `slug` wyniku głównego. Plik `docs/zestaw-testowy.md`. Wzór: [user_scenario.md](../../user_scenario.md) i scenariusze z DEMO.md (wójt, mieszkaniec, NGO)
-- [ ] Dokończyć ręczne sprawdzenie pola `organizacja` w 115 rekordach pod kątem nazwisk (`sciezka-motosensoryczna` już znalezione w PR #9). Listę slugów z nazwiskami przekazać Bartłomiejowi: poprawki robi backend (`InnovationRepository`), nie frontend i nie `innowacje.json` (ustalenie z [komentarza w PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9))
+- [x] Zestaw testowy: 28 zgłoszeń w [zestaw-testowy.md](../zestaw-testowy.md) (rola, oczekiwany `slug`, jedno „brak dopasowania”)
+- [x] Przegląd pola `organizacja` w 115 rekordach pod kątem nazwisk. Lista dla Bartłomieja (poprawki robi backend w `InnovationRepository`, nie frontend i nie `innowacje.json`): `sciezka-motosensoryczna`, `bez-presji-z-depresji` (nazwa firmy z imieniem i nazwiskiem). Nazwy z „im.” (patroni instytucji) uznane za bezpieczne
 
 ## Poza zakresem
 
