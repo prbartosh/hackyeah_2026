@@ -1,4 +1,4 @@
-# 0008. Panel administratora (moduł VI)
+# 0015. Panel administratora (moduł VI)
 
 - Status: w toku
 - Osoba: Kacper (do potwierdzenia)
