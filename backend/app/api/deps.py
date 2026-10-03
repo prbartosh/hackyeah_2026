@@ -1,5 +1,6 @@
 import secrets
 from collections.abc import AsyncIterator
+from datetime import date
 from functools import lru_cache
 from typing import Annotated
 
@@ -10,14 +11,21 @@ from app.core.config import settings
 from app.db.session import SessionLocal
 from app.repositories.document import DocumentRepository
 from app.repositories.innovation import InnovationRepository
+from app.repositories.obserwator import ObserwatorRepository
 from app.services.ai import AIGateway
+from app.services.asystent import AsystentService
+from app.services.canvy import CanvaService
 from app.services.chat import ChatService
 from app.services.email import get_email_sender
+from app.services.fiszki import FiszkaService
 from app.services.innovation import InnovationService
 from app.services.knowledge import KnowledgeService
 from app.services.llm import LLMService
+from app.services.nabory import NaborService
+from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
 from app.services.token_budget import TokenBudget
+from app.services.wnioski import WniosekService
 
 
 def get_session_factory() -> async_sessionmaker[AsyncSession]:
@@ -34,6 +42,10 @@ SessionDep = Annotated[AsyncSession, Depends(get_session)]
 
 def get_innovation_repository() -> InnovationRepository:
     return InnovationRepository(settings.innovations_path)
+
+
+def get_obserwator_repository() -> ObserwatorRepository:
+    return ObserwatorRepository(settings.obserwator_path)
 
 
 @lru_cache
@@ -56,8 +68,24 @@ def get_chat_service(
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
     budget: Annotated[TokenBudget, Depends(get_token_budget)],
     sessions: Annotated[async_sessionmaker[AsyncSession], Depends(get_session_factory)],
+    obserwator: Annotated[ObserwatorRepository, Depends(get_obserwator_repository)],
 ) -> ChatService:
-    return ChatService(llm, innovations, budget, enabled=settings.chat_enabled, sessions=sessions)
+    return ChatService(
+        llm,
+        innovations,
+        budget,
+        enabled=settings.chat_enabled,
+        sessions=sessions,
+        obserwator=obserwator,
+    )
+
+
+def get_service_card_service(
+    llm: Annotated[LLMService | None, Depends(get_llm_service)],
+    innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
+    budget: Annotated[TokenBudget, Depends(get_token_budget)],
+) -> ServiceCardService:
+    return ServiceCardService(llm, innovations, budget, enabled=settings.chat_enabled)
 
 
 def get_innovation_service(
@@ -80,6 +108,7 @@ InnovationRepositoryDep = Annotated[InnovationRepository, Depends(get_innovation
 InnovationServiceDep = Annotated[InnovationService, Depends(get_innovation_service)]
 ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
 KnowledgeServiceDep = Annotated[KnowledgeService, Depends(get_knowledge_service)]
+ServiceCardServiceDep = Annotated[ServiceCardService, Depends(get_service_card_service)]
 
 
 def require_admin(authorization: Annotated[str | None, Header()] = None) -> None:
@@ -111,3 +140,55 @@ def get_ticket_service(session: SessionDep, ai: AIGatewayDep) -> TicketService:
 
 
 TicketServiceDep = Annotated[TicketService, Depends(get_ticket_service)]
+
+
+def get_today() -> date:
+    return date.today()
+
+
+TodayDep = Annotated[date, Depends(get_today)]
+
+
+def get_fiszka_service(
+    session: SessionDep, ai: AIGatewayDep, tickets: TicketServiceDep
+) -> FiszkaService:
+    return FiszkaService(session, ai, settings, tickets)
+
+
+FiszkaServiceDep = Annotated[FiszkaService, Depends(get_fiszka_service)]
+
+
+def get_nabor_service(session: SessionDep) -> NaborService:
+    return NaborService(session, settings.innovations_path)
+
+
+NaborServiceDep = Annotated[NaborService, Depends(get_nabor_service)]
+
+
+def get_wniosek_service(
+    session: SessionDep,
+    ai: AIGatewayDep,
+    fiszki: FiszkaServiceDep,
+    nabory: NaborServiceDep,
+    tickets: TicketServiceDep,
+) -> WniosekService:
+    return WniosekService(session, ai, fiszki, nabory, tickets)
+
+
+WniosekServiceDep = Annotated[WniosekService, Depends(get_wniosek_service)]
+
+
+def get_canva_service(session: SessionDep) -> CanvaService:
+    return CanvaService(session)
+
+
+CanvaServiceDep = Annotated[CanvaService, Depends(get_canva_service)]
+
+
+def get_asystent_service(
+    session: SessionDep, ai: AIGatewayDep, fiszki: FiszkaServiceDep
+) -> AsystentService:
+    return AsystentService(session, ai, fiszki)
+
+
+AsystentServiceDep = Annotated[AsystentService, Depends(get_asystent_service)]

@@ -10,6 +10,12 @@ import NotificationsPage from '@/admin/NotificationsPage'
 import RadarPage from '@/admin/RadarPage'
 import TicketPage from '@/admin/TicketPage'
 import Layout from '@/components/Layout'
+import { NaborEditPage, NaboryPage } from '@/kreator/AdminNabory'
+import CanvaPage from '@/kreator/CanvaPage'
+import FiszkaPage from '@/kreator/FiszkaPage'
+import FinansowaniePage from '@/kreator/FinansowaniePage'
+import KreatorHome from '@/kreator/KreatorHome'
+import WniosekPage from '@/kreator/WniosekPage'
 import HomePage from '@/pages/HomePage'
 import InnovationPage from '@/pages/InnovationPage'
 import NotFoundPage from '@/pages/NotFoundPage'
@@ -26,6 +32,11 @@ export default function App() {
         <Route path="innowacja/:slug" element={<InnovationPage />} />
         <Route path="zglos" element={<ReportPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
+        <Route path="kreator" element={<KreatorHome />} />
+        <Route path="kreator/fiszka/:token?" element={<FiszkaPage />} />
+        <Route path="kreator/finansowanie" element={<FinansowaniePage />} />
+        <Route path="kreator/wniosek/:token" element={<WniosekPage />} />
+        <Route path="kreator/canva/:token?" element={<CanvaPage />} />
         <Route path="admin" element={<AdminLayout />}>
           <Route index element={<InboxPage />} />
           <Route path="zgloszenia/:id" element={<TicketPage />} />
@@ -35,6 +46,8 @@ export default function App() {
           <Route path="karty" element={<CardsPage />} />
           <Route path="karty/:slug" element={<CardEditPage />} />
           <Route path="radar" element={<RadarPage />} />
+          <Route path="nabory" element={<NaboryPage />} />
+          <Route path="nabory/:slug" element={<NaborEditPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>

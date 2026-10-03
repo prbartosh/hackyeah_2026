@@ -10,11 +10,14 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from app.models import Potrzeba
 from app.repositories.innovation import InnovationRepository
 from app.repositories.need import PotrzebaRepository
+from app.repositories.obserwator import ObserwatorRepository
 from app.schemas.chat import (
     ChatRequest,
     ChatState,
     DoneEvent,
     ErrorEvent,
+    GminaStatsEvent,
+    ObszarGminy,
     ProblemState,
     ProblemUpdateEvent,
     QuestionEvent,
@@ -54,6 +57,7 @@ STATUS_START_RESULTS = "Szukam pasujących rozwiązań…"
 STATUS_AFTER_TOOL = {
     "update_problem": "Uzupełniam opis problemu…",
     "search": "Porównuję rozwiązania z Twoim problemem…",
+    "gmina_stats": "Analizuję dane o gminie…",
 }
 
 # Początki linii zapisu tury (`_Turn.transcript`, ACTION_MESSAGES). Model widzi je w historii
@@ -64,6 +68,7 @@ NOTE_PREFIXES = (
     "[Pytanie:",
     "[Podsumowanie",
     "[Wyniki:",
+    "[Dane gminy:",
     "[Użytkownik",
     "[brak odpowiedzi]",
 )
@@ -156,8 +161,10 @@ class ChatService:
         budget: TokenBudget,
         enabled: bool = True,
         sessions: async_sessionmaker[AsyncSession] | None = None,
+        obserwator: ObserwatorRepository | None = None,
     ) -> None:
         self.llm = llm
+        self.obserwator = obserwator
         self.innovations = innovations
         self.budget = budget
         self.enabled = enabled
@@ -444,3 +451,21 @@ class ChatService:
             brak_dopasowania=results.no_good_match,
         )
         return ToolOutcome("ok", terminal=True, events=[ServerEvent("results", results)], need=need)
+
+    def _tool_gmina_stats(self, turn: _Turn, request: ChatRequest, args: dict) -> ToolOutcome:
+        gmina = args["gmina"].strip()
+        found = self.obserwator.find(gmina) if self.obserwator else []
+        if not found:
+            return ToolOutcome(
+                f"Brak danych dla „{gmina}”. Obserwator obejmuje tylko gminy Małopolski. "
+                "Nie podawaj liczb o tej gminie."
+            )
+        event = GminaStatsEvent(
+            gmina=gmina,
+            obszary=[ObszarGminy.model_validate(o, from_attributes=True) for o in found],
+        )
+        turn.transcript.append(f"[Dane gminy: {', '.join(o.nazwa for o in event.obszary)}]")
+        return ToolOutcome(
+            json.dumps(event.model_dump(), ensure_ascii=False),
+            events=[ServerEvent("gmina_stats", event)],
+        )

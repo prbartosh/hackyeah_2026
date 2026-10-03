@@ -72,5 +72,5 @@ class AppSetting(Base):
 class AiUsage(Base):
     __tablename__ = "uzycie_ai"
 
-    dzien: Mapped[str] = mapped_column(String(10), primary_key=True)
+    dzien: Mapped[str] = mapped_column(String(32), primary_key=True)
     wywolania: Mapped[int] = mapped_column(Integer, default=0)

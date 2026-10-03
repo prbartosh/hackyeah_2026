@@ -122,6 +122,28 @@ class ResultsEvent(BaseModel):
     items: list[ResultItem]
 
 
+class WskaznikGminy(BaseModel):
+    id: str
+    nazwa: str
+    wartosc: str
+    rok: str
+    zrodlo: str
+    url: str
+
+
+class ObszarGminy(BaseModel):
+    nazwa: str
+    powiat: str
+    wskazniki: list[WskaznikGminy]
+
+
+class GminaStatsEvent(BaseModel):
+    """Dane gminy z Obserwatora Statystyk Społecznych (zadanie 0013) dla panelu pod „Gdzie”."""
+
+    gmina: str
+    obszary: list[ObszarGminy]
+
+
 class DoneEvent(BaseModel):
     # Front dopisuje to dosłownie do historii jako wiadomość asystenta.
     assistant_message: str

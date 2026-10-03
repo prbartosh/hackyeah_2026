@@ -8,6 +8,7 @@ from app.api.v1.endpoints import (
     health,
     innovations,
     items,
+    kreator,
     tickets,
 )
 
@@ -20,3 +21,4 @@ api_router.include_router(categories.router, prefix="/categories", tags=["catego
 api_router.include_router(documents.router, prefix="/documents", tags=["documents"])
 api_router.include_router(admin.router, prefix="/admin", tags=["admin"])
 api_router.include_router(tickets.router, prefix="/zgloszenia", tags=["zgloszenia"])
+api_router.include_router(kreator.router, prefix="/kreator", tags=["kreator"])

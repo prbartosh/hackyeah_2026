@@ -5,6 +5,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 DEFAULT_ASSETS_PATH = Path(__file__).resolve().parents[3] / "assets"
 DEFAULT_INNOVATIONS_PATH = DEFAULT_ASSETS_PATH / "innowacje-spoleczne" / "innowacje.json"
+DEFAULT_OBSERWATOR_PATH = DEFAULT_ASSETS_PATH / "obserwator" / "observations.csv"
 
 
 class Settings(BaseSettings):
@@ -28,12 +29,15 @@ class Settings(BaseSettings):
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH
     # Raporty, publikacje, Mapa Wyzwań i Obserwator (Zasobnik wiedzy, zadanie 0003).
     assets_path: Path = DEFAULT_ASSETS_PATH
+    obserwator_path: Path = DEFAULT_OBSERWATOR_PATH
 
     # Panel administratora (ADR 0006). Pusty token = panel wyłączony.
     admin_token: str | None = None
     sla_hours: int = 48
     ai_daily_call_limit: int = 200
     ai_timeout_seconds: float = 45.0
+    # Kreator pomysłów jest publiczny: własny dzienny limit wywołań AI, osobny od panelu.
+    kreator_ai_daily_call_limit: int = 100
     max_upload_mb: int = 10
     email_backend: str = "log"
     email_from: str = "panel@splot.local"

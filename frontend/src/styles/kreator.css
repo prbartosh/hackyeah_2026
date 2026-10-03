@@ -1,0 +1,83 @@
+/* Kreator pomysłów (fiszka, wniosek, canva). Wyłącznie tokeny z index.css (motywy, kontrast). */
+
+.kreator h1 { font-size: clamp(1.6rem, 3.5vw, 2.1rem); margin-bottom: 0.75rem; }
+.kreator h2 { font-size: 1.3rem; margin-block: 1.25rem 0.5rem; }
+.kreator h3 { font-size: 1.1rem; margin-block: 1rem 0.4rem; }
+.kreator h4 { font-size: 1rem; margin-block: 0.75rem 0.25rem; }
+.kreator .lead { max-width: 70ch; margin-bottom: 1rem; color: var(--text-muted); }
+.kreator .stack { max-width: 48rem; }
+.kreator .edit-layout .stack { max-width: none; }
+.kreator h2 svg, .kreator h3 svg { vertical-align: -0.2em; margin-right: 0.35rem; }
+.kreator .panel h2 { margin-top: 0; }
+
+/* Płytki wejściowe */
+.tile-list { list-style: none; margin: 1.5rem 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); }
+.tile {
+  display: grid; gap: 0.75rem; align-content: start; padding: 1.25rem;
+  background: var(--surface-float); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-float);
+}
+.tile h2 { margin: 0; }
+.tile .btn { justify-self: start; }
+:root[data-theme="high-contrast"] .tile { border-width: 2px; border-color: var(--border); box-shadow: none; }
+
+/* Pasek postępu */
+.step-progress { margin-bottom: 0.75rem; max-width: 48rem; }
+.step-count { font-weight: 700; margin-bottom: 0.4rem; }
+.progress-track { height: 0.75rem; border-radius: 999px; background: var(--primary-soft); border: 2px solid var(--line-strong); overflow: hidden; }
+.progress-fill { height: 100%; background: var(--primary); transition: width 0.2s ease; }
+@media (prefers-reduced-motion: reduce) { .progress-fill { transition: none; } }
+.step-title { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-block: 1rem 0.75rem; }
+.step-title:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+.step-nav { margin-top: 1.5rem; }
+
+/* Stan zapisu */
+.save-status { display: flex; align-items: center; gap: 0.4rem; min-height: 1.75rem; margin-bottom: 0.5rem; font-size: 0.95rem; color: var(--text-muted); }
+.save-saved { color: var(--success); }
+.save-error { color: var(--error); font-weight: 700; }
+
+/* Oznaczenia pól */
+.field-badges { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag-ai { border-style: dashed; color: var(--link); border-color: var(--primary); }
+.counter { font-size: 0.9rem; color: var(--text-muted); }
+.wniosek-pole { display: grid; gap: 0.25rem; }
+
+/* Wybór etapu */
+.radio-cards { display: grid; gap: 0.75rem; }
+.radio-card {
+  display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.9rem 1rem; cursor: pointer;
+  background: var(--surface); border: 2px solid var(--line-strong); border-radius: 16px;
+}
+.radio-card:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); color: var(--on-primary-soft); }
+.radio-card input { width: 1.4rem; height: 1.4rem; margin-top: 0.2rem; flex-shrink: 0; accent-color: var(--primary); }
+
+/* Podgląd fiszki */
+.preview-list { display: grid; gap: 0.75rem; margin: 0; }
+.preview-row { display: grid; gap: 0.25rem 1rem; grid-template-columns: minmax(0, 1fr); padding: 0.75rem 1rem; background: var(--surface-float); border: 1px solid var(--line); border-radius: 16px; }
+.preview-row dt { font-weight: 700; }
+.preview-row dd { margin: 0; }
+@media (min-width: 40rem) { .preview-row { grid-template-columns: 11rem minmax(0, 1fr) auto; align-items: start; } }
+
+/* Podobne innowacje i asystent */
+.similar { margin-top: 1.5rem; padding: 1rem 1.25rem; border-left: 6px solid var(--primary); background: var(--surface-float); border-radius: 0 16px 16px 0; }
+.similar h3 { margin-top: 0; }
+.similar-item { padding-block: 0.4rem; border-top: 1px solid var(--line); }
+.similar-name { font-weight: 700; }
+.assistant { max-width: 48rem; }
+
+/* Canva */
+.canva-help { margin-top: 0.25rem; }
+.canva-help summary { cursor: pointer; min-height: 2.75rem; display: flex; align-items: center; font-weight: 600; }
+.canva-group { margin-block: 1rem; }
+.canva-group dl { display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin: 0; }
+.canva-cell { padding: 0.75rem 1rem; border: 2px solid var(--line-strong); border-radius: 12px; background: var(--surface); }
+.canva-cell dt { font-weight: 700; margin-bottom: 0.25rem; }
+.canva-cell dd { margin: 0; }
+
+/* Druk canvy: tylko plansza */
+@media print {
+  .topbar, .site-footer, .no-print, .skip-link { display: none !important; }
+  .kreator.canva { padding: 0; max-width: none; }
+  .print-area { color: #000; }
+  .canva-cell { break-inside: avoid; border-color: #000; background: #fff; }
+  body { background: #fff; color: #000; }
+}

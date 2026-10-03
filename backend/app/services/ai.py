@@ -33,14 +33,24 @@ class AIGateway:
     def _configured(self) -> bool:
         return bool(self.settings.llm_api_key) and self.llm is not None
 
-    async def _spend(self) -> None:
-        """Zlicza wywołanie w dziennym limicie; po przekroczeniu AI jest wyłączone do jutra."""
+    async def _spend(self, scope: str | None = None) -> None:
+        """Zlicza wywołanie w dziennym limicie; po przekroczeniu AI jest wyłączone do jutra.
+
+        `scope` daje osobny licznik i limit (np. publiczny Kreator pomysłów), żeby użytkownicy
+        nie wyczerpali limitu panelu.
+        """
         day = datetime.now(UTC).strftime("%Y-%m-%d")
-        usage = await self.session.get(AiUsage, day)
+        key = day if scope is None else f"{scope}:{day}"
+        limit = (
+            self.settings.ai_daily_call_limit
+            if scope is None
+            else self.settings.kreator_ai_daily_call_limit
+        )
+        usage = await self.session.get(AiUsage, key)
         if usage is None:
-            usage = AiUsage(dzien=day, wywolania=0)
+            usage = AiUsage(dzien=key, wywolania=0)
             self.session.add(usage)
-        if usage.wywolania >= self.settings.ai_daily_call_limit:
+        if usage.wywolania >= limit:
             raise AIUnavailableError(
                 "Dzienny limit wywołań AI został wykorzystany. Spróbuj ponownie jutro."
             )
@@ -51,10 +61,10 @@ class AIGateway:
         """Wektory i nazwa modelu. Zawsze lokalnie: DeepSeek nie ma API embeddingów (ADR 0007)."""
         return [local_embed(t) for t in texts], LOCAL_MODEL
 
-    async def json(self, system: str, user: str) -> dict[str, Any]:
+    async def json(self, system: str, user: str, *, scope: str | None = None) -> dict[str, Any]:
         if not self._configured or self.llm is None:
             raise AIUnavailableError("Podpowiedzi AI są wyłączone (brak klucza API modelu).")
-        await self._spend()
+        await self._spend(scope)
         try:
             return await self.llm.complete_json(
                 system=system, user=user, timeout=self.settings.ai_timeout_seconds

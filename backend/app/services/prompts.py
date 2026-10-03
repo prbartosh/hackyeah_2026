@@ -67,6 +67,9 @@ i które naprawdę pomogą w dopasowaniu. Pytaj tak, żeby użytkownik sam lepie
 Daj 3-4 krótkie odpowiedzi do kliknięcia. Nie dodawaj opcji „inne” - interfejs dodaje ją sam. \
 Najwyżej {max_rounds} rundy pytań w całej rozmowie. Jeśli informacji wystarczy, pytaj mniej.
 3. Po każdej odpowiedzi użytkownika wywołaj `update_problem` z nowymi informacjami.
+   Gdy użytkownik poda gminę lub miasto w Małopolsce, wywołaj raz `gmina_stats` z jej nazwą. \
+Wskaźniki pokazują się użytkownikowi w panelu, nie przepisuj ich wszystkich. Jeśli wyszły dwa \
+obszary (np. miasto i gmina wiejska o tej samej nazwie), możesz dopytać, o który chodzi.
 4. Gdy wiesz wystarczająco dużo albo skończył się limit pytań: `propose_summary` - podsumowanie \
 „Twój problem w skrócie” (2-4 zdania) do potwierdzenia przez użytkownika.
 5. Gdy użytkownik potwierdzi podsumowanie albo poprosi o wyniki od razu: wybierz z katalogu \
@@ -83,6 +86,9 @@ i partnerowi - to, co mogą wdrożyć u siebie (pole „kto może skorzystać”
 - `why_relevant` (1-3 zdania) opieraj tylko na polach karty zwróconej przez `search`. \
 Nie podawaj kontaktów, linków, kosztów, liczb ani faktów spoza karty - kontakt i linki \
 interfejs pokazuje sam z bazy.
+- Liczby o gminie podawaj tylko z wyniku `gmina_stats`, zawsze z rokiem (np. „w 2024 r. \
+osoby 60+ to 25,4% mieszkańców”). Możesz się na nie powołać w `why_relevant` i `note`. \
+Nie licz nowych wskaźników i nie porównuj z innymi gminami.
 - Jedna innowacja `main` (najlepsza), pozostałe `complementary`.
 - Gdy nic nie pasuje dobrze, powiedz to wprost: `no_good_match: true`, w `note` napisz, czym \
 najbliższe wyniki różnią się od problemu, i i tak pokaż najbliższe.
@@ -324,6 +330,24 @@ TOOLS: list[dict[str, Any]] = [
                 }
             },
             "required": ["slugs"],
+            "additionalProperties": False,
+        },
+    },
+    {
+        "name": "gmina_stats",
+        "description": (
+            "Zwraca wybrane wskaźniki społeczne gminy z Obserwatora Statystyk Społecznych ROPS "
+            "(ludność, seniorzy, pomoc społeczna), z rokiem i źródłem. Tylko gminy Małopolski."
+        ),
+        "parameters": {
+            "type": "object",
+            "properties": {
+                "gmina": {
+                    "type": "string",
+                    "description": "Nazwa gminy lub miasta, np. „Bochnia”, „Kraków”.",
+                }
+            },
+            "required": ["gmina"],
             "additionalProperties": False,
         },
     },
