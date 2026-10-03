@@ -84,7 +84,7 @@ async function describeHttpError(res: Response): Promise<ChatError> {
   }
   if (res.status === 429) return new ChatError('Za dużo zapytań naraz. Odczekaj minutę i spróbuj ponownie.')
   if (res.status === 503) {
-    // Wyłączony czat albo wyczerpany budżet dzienny: backend podaje komunikat w detail.
+    // Wyłączony czat: backend podaje komunikat w detail.
     try {
       const body = (await res.json()) as { detail?: unknown }
       if (typeof body.detail === 'string') return new ChatError(body.detail, true)

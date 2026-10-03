@@ -1,6 +1,6 @@
 # 0013. Dane gminy z Obserwatora w czacie
 
-- Status: review
+- Status: w toku
 - Osoba: Bartosz (integracja)
 - PR: #31, #38
 
@@ -17,6 +17,7 @@ Gdy użytkownik poda gminę w polu „Gdzie”, czat pokazuje kilka wskaźników
 - [x] Front: obsługa zdarzenia SSE `gmina_stats` (backend je wysyła, format w ADR 0005). Nowe zdarzenie SSE dla panelu „Twój problem”: blok „Dane gminy” pod „Gdzie”, z rokiem i linkiem do Obserwatora
 - [x] Decyzję dopisać do ADR 0005 albo w nowym ADR (nowe narzędzie zmienia stały zestaw narzędzi i jednorazowo unieważnia cache promptu)
 - [x] Testy: znana gmina, gmina miejsko-wiejska, nieznana nazwa, brak danych dla wskaźnika
+- [ ] Test na prawdziwym modelu (DeepSeek)
 
 ## Notatki
 

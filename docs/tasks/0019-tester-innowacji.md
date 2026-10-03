@@ -1,8 +1,8 @@
 # 0019. Tester innowacji (moduł IV)
 
-- Status: review
+- Status: w toku
 - Osoba: Kacper
-- PR: #39
+- PR: #39, #40
 
 ## Cel
 
@@ -19,8 +19,8 @@ Na karcie innowacji instytucja zgłasza się do testów albo ocenia rozwiązanie
 - [x] Seed demo (`scripts/seed_tester.py`, też w `dev_panel.py`), testy backendu
 - [x] axe: strona innowacji z formularzem i strona moderacji, 0 naruszeń
 - [x] Migracja `0005` na prawdziwym PostgreSQL
+- [x] Limit zapytań dla publicznego `POST /innovations/{slug}/opinie` (nginx, strefa `form_req`, [PR #40](https://github.com/prbartosh/hackyeah_2026/pull/40))
 - [ ] Test z czytnikiem ekranu (NVDA)
-- [ ] Limit zapytań dla publicznego `POST /innovations/{slug}/opinie` (nginx)
 
 ## Notatki
 
