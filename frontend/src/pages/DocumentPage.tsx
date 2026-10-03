@@ -3,7 +3,9 @@ import { Link, useParams } from 'react-router-dom'
 import { ExternalLink, FileText } from 'lucide-react'
 import { getDocument, splitPages, TYP_NAZWA, type DokumentSzczegoly } from '@/api/documents'
 import IndicatorExplorer from '@/components/IndicatorExplorer'
+import MapaWyzwanDocument from '@/components/MapaWyzwanDocument'
 import ReportDocument from '@/components/ReportDocument'
+import { parseMapaWyzwan } from '@/lib/mapaWyzwan'
 import { parseIndicatorTable } from '@/lib/indicator'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { plural } from '@/lib/plural'
@@ -51,6 +53,10 @@ export default function DocumentPage() {
     )
   }
 
+  if (doc.typ === 'mapa-wyzwan') {
+    const areas = parseMapaWyzwan(doc.tresc)
+    if (areas) return <MapaWyzwanDocument key={doc.id} doc={doc} areas={areas} />
+  }
   if (doc.typ !== 'wskaznik') return <ReportDocument key={doc.id} doc={doc} />
 
   // Tabela powiat × rok jest w wykresach i tabeli powyżej, więc w wersji tekstowej zostaje sam opis wskaźnika

@@ -14,6 +14,9 @@ function NewTab() {
 /** Tytuły ROPS zaczynają się od roku i kreski: „2025 | Usługi…”. Rok pokazujemy osobno. */
 const cleanTitle = (t: string) => t.replace(/^\d{4}\s*[|\-–]\s*/, '').replace(/\s+/g, ' ').trim()
 
+/** Nagłówki pisane wersalikami skracamy do zwykłej wielkości liter, mieszane zostają jak w dokumencie. */
+const tocLabel = (t: string) => (t === t.toLocaleUpperCase('pl-PL') ? t.charAt(0) + t.slice(1).toLocaleLowerCase('pl-PL') : t)
+
 export default function ReportDocument({ doc }: { doc: DokumentSzczegoly }) {
   const report = useMemo(() => parseReport(doc.tresc), [doc.tresc])
   const wide = useMediaQuery('(min-width: 64rem)')
@@ -74,7 +77,7 @@ export default function ReportDocument({ doc }: { doc: DokumentSzczegoly }) {
                 el?.focus({ preventScroll: true })
                 history.replaceState(null, '', `#${h.id}`)
               }}>
-              {h.text.charAt(0) + h.text.slice(1).toLocaleLowerCase('pl-PL')}
+              {tocLabel(h.text)}
             </a>
           </li>
         ))}

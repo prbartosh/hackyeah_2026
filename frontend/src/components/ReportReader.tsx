@@ -56,8 +56,10 @@ function Blocks({ blocks, query }: { blocks: Block[]; query: string }) {
             )
           case 'note':
             return <p key={i} className="zs-r-note"><span className="visually-hidden">Przypis: </span><Rich text={b.text} query={query} /></p>
+          case 'label':
+            return <p key={i} className="zs-r-label"><Rich text={b.text} query={query} /></p>
           case 'page':
-            return b.page > 0 ? <div key={i} id={`strona-${b.page}`} className="zs-r-pagemark" role="separator" aria-label={`Strona ${b.page}`}><span>strona {b.page}</span></div> : null
+            return b.page > 0 ? <div key={i} id={`strona-${b.page}`} className="zs-r-pagemark" role="separator" aria-label={b.label ?? `Strona ${b.page}`}><span>{b.label ?? `strona ${b.page}`}</span></div> : null
         }
       })}
     </>

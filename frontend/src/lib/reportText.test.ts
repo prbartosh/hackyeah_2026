@@ -5,6 +5,26 @@ import { parseReport } from './reportText'
 const dir = '../assets/raporty/text'
 const load = (prefix: string) => readFileSync(`${dir}/${readdirSync(dir).find((f) => f.startsWith(prefix))!}`, 'utf8')
 
+const pubDir = '../assets/publikacje/text'
+
+describe('parseReport: publikacje składane na rozkładówkach', () => {
+  const r = parseReport(readFileSync(`${pubDir}/pocz-kropki-publikacja-iws.md`, 'utf8'))
+  const all = JSON.stringify(r.blocks)
+
+  it('usuwa nagłówki robocze stron i zostawia numery stron drukowanych', () => {
+    expect(all).not.toContain('■')
+    expect(all).not.toMatch(/Strona ■/)
+    expect(r.blocks.some((b) => b.t === 'page' && b.label === 'strony 6–7')).toBe(true)
+  })
+
+  it('buduje strukturę z części i rozdziałów oraz czyta spis treści bez kropek', () => {
+    const names = r.headings.map((h) => h.text)
+    expect(names).toContain('Część I: Włączenie społeczne')
+    expect(names).toContain('Rozdział 1 Czym jest włączenie społeczne?')
+    expect(all).not.toContain('Spis treści')
+  })
+})
+
 describe('parseReport', () => {
   it('zwraca pusty wynik bez tekstu', () => {
     expect(parseReport(null).blocks).toEqual([])
