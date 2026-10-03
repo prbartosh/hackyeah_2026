@@ -42,7 +42,7 @@ Python 3.10+. No browser is needed: every page used here is server-rendered.
 ## Gotchas
 
 - The sites return **HTTP 403** to the default `requests`/WebFetch user agent but work with a browser User-Agent (set in `common.py`).
-- 35 Obserwator indicators are listed in the menu but the site redirects them to its home page, so their CSVs only contain a header. They are listed in `assets/obserwator/README.md`.
+- 32 Obserwator indicators are listed in the menu but have no data on the site, so their CSVs only contain a header (listed in `assets/obserwator/README.md`). Indicators 172–174 have no year dropdown either, but the scraper recovers them (2010–2012) from the powiat-portrait endpoint `/portrait/ajax/district/1/year/<y>/pointer/<id>`. That fallback runs for any indicator without a year dropdown, and is skipped when its CSV already exists.
 - The English "Guide to social innovations (MIIS)" PDF on the publications page is not picked up, because `publikacje.py` reads only the table of publications.
 - PDF text extraction flattens tables and loses graphics. The Social Canvas text is badly garbled.
 - Adding a new source: write a `<name>.py` with a `main()`, save under `assets/<name>/` with `files/`, `text/`, `metadata.json` and a `README.md`, and add it to `run_all.py`.

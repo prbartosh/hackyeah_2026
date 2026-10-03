@@ -32,4 +32,4 @@ Wskaźnik dostępności szpitali - liczba łóżek w szpitalach ogólnych w prze
 | powiat tarnowski | 5 | 6 | 6 | 6 | 8 | 7 | 8 | 8 | 8 | 8 | 6 | 6 | 6 | 6 | 5 | 5 | 5 |
 | powiat tatrzański | 101 | 107 | 110 | 103 | 106 | 105 | 109 | 106 | 107 | 107 | 103 | 104 | 92 | 96 | 99 | 92 | 88 |
 | powiat wadowicki | 18 | 21 | 20 | 20 | 20 | 18 | 17 | 16 | 16 | 17 | 19 | 17 | 15 | 16 | 15 | 15 | 17 |
-| powiat wielicki | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 0 | Brakdanych | 0 | 0 | 0 | 0 | 0 |
+| powiat wielicki | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 0 | 0 | 0 |  | 0 | 0 | 0 | 0 | 0 |

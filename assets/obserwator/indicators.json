@@ -1943,7 +1943,11 @@
       "Źródło": "Dane dla Polski - MRiPS-03 (wcześniej MRPiPS-03). Dane dla Małopolski - Sprawozdanie: OZPS (do 2017 r.), MRPiPS-03 (od 2018 r.).",
       "Opis": "Liczba osób korzystających ze specjalistycznych usług opiekuńczych w miejscu zamieszkania dla osób z zaburzeniami psychicznymi."
     },
-    "years": []
+    "years": [
+      "2012",
+      "2011",
+      "2010"
+    ]
   },
   {
     "id": "173",
@@ -1954,7 +1958,11 @@
       "Źródło": "Dane dla Polski - Sprawozdanie MRPiPS-03, dane dla Małopolski - Sprawozdanie: MRPiPS-03 (do 2014 r. i od 2018 r.), OZPS (w latach 2015 - 2017 r.).",
       "Opis": "Odsetek korzystających ze świadczeń pieniężnych w ogólnej liczbie\r\nświadczeniobiorców pomocy społecznej (liczba osób w rodzinach)"
     },
-    "years": []
+    "years": [
+      "2012",
+      "2011",
+      "2010"
+    ]
   },
   {
     "id": "174",
@@ -1965,7 +1973,11 @@
       "Źródło": "Dane dla Polski - MRiPS-03 (wcześniej MRPiPS-03). Dane dla Małopolski - Sprawozdanie: OZPS (do 2017 r.), MRPiPS-03 (od 2018 r.).",
       "Opis": "Liczba osób korzystających ze specjalistycznych usług opiekuńczych w miejscu zamieszkania dla osób z zaburzeniami psychicznymi."
     },
-    "years": []
+    "years": [
+      "2012",
+      "2011",
+      "2010"
+    ]
   },
   {
     "id": "225",

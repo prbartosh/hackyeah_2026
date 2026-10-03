@@ -23,7 +23,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2024,gmina,Chrzanów,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2024,gmina,Libiąż,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2024,gmina,Trzebinia,powiat chrzanowski,
-21,Wskaźnik dostępności muzeów,2024,powiat,powiat dąbrowski,powiat dąbrowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2024,powiat,powiat dąbrowski,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2024,gmina,Bolesław,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2024,gmina,Dąbrowa Tarnowska,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2024,gmina,Gręboszów,powiat dąbrowski,
@@ -224,7 +224,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2023,gmina,Chrzanów,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2023,gmina,Libiąż,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2023,gmina,Trzebinia,powiat chrzanowski,
-21,Wskaźnik dostępności muzeów,2023,powiat,powiat dąbrowski,powiat dąbrowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2023,powiat,powiat dąbrowski,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2023,gmina,Bolesław,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2023,gmina,Dąbrowa Tarnowska,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2023,gmina,Gręboszów,powiat dąbrowski,
@@ -425,7 +425,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2022,gmina,Chrzanów,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2022,gmina,Libiąż,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2022,gmina,Trzebinia,powiat chrzanowski,
-21,Wskaźnik dostępności muzeów,2022,powiat,powiat dąbrowski,powiat dąbrowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2022,powiat,powiat dąbrowski,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2022,gmina,Bolesław,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2022,gmina,Dąbrowa Tarnowska,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2022,gmina,Gręboszów,powiat dąbrowski,
@@ -626,7 +626,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2021,gmina,Chrzanów,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2021,gmina,Libiąż,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2021,gmina,Trzebinia,powiat chrzanowski,
-21,Wskaźnik dostępności muzeów,2021,powiat,powiat dąbrowski,powiat dąbrowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2021,powiat,powiat dąbrowski,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2021,gmina,Bolesław,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2021,gmina,Dąbrowa Tarnowska,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2021,gmina,Gręboszów,powiat dąbrowski,
@@ -827,7 +827,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2020,gmina,Chrzanów,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2020,gmina,Libiąż,powiat chrzanowski,
 21,Wskaźnik dostępności muzeów,2020,gmina,Trzebinia,powiat chrzanowski,
-21,Wskaźnik dostępności muzeów,2020,powiat,powiat dąbrowski,powiat dąbrowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2020,powiat,powiat dąbrowski,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2020,gmina,Bolesław,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2020,gmina,Dąbrowa Tarnowska,powiat dąbrowski,
 21,Wskaźnik dostępności muzeów,2020,gmina,Gręboszów,powiat dąbrowski,
@@ -2488,7 +2488,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2012,powiat,powiat m. Kraków,powiat m. Kraków,17235
 21,Wskaźnik dostępności muzeów,2012,powiat,powiat m. Nowy Sącz,powiat m. Nowy Sącz,21032
 21,Wskaźnik dostępności muzeów,2012,powiat,powiat m. Tarnów,powiat m. Tarnów,28238
-21,Wskaźnik dostępności muzeów,2012,powiat,powiat miechowski,powiat miechowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2012,powiat,powiat miechowski,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2012,gmina,Charsznica,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2012,gmina,Gołcza,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2012,gmina,Kozłów,powiat miechowski,
@@ -2689,7 +2689,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2011,powiat,powiat m. Kraków,powiat m. Kraków,17253
 21,Wskaźnik dostępności muzeów,2011,powiat,powiat m. Nowy Sącz,powiat m. Nowy Sącz,21081
 21,Wskaźnik dostępności muzeów,2011,powiat,powiat m. Tarnów,powiat m. Tarnów,37864
-21,Wskaźnik dostępności muzeów,2011,powiat,powiat miechowski,powiat miechowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2011,powiat,powiat miechowski,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2011,gmina,Charsznica,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2011,gmina,Gołcza,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2011,gmina,Kozłów,powiat miechowski,
@@ -2890,7 +2890,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2010,powiat,powiat m. Kraków,powiat m. Kraków,15786
 21,Wskaźnik dostępności muzeów,2010,powiat,powiat m. Nowy Sącz,powiat m. Nowy Sącz,21092
 21,Wskaźnik dostępności muzeów,2010,powiat,powiat m. Tarnów,powiat m. Tarnów,38059
-21,Wskaźnik dostępności muzeów,2010,powiat,powiat miechowski,powiat miechowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2010,powiat,powiat miechowski,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2010,gmina,Charsznica,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2010,gmina,Gołcza,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2010,gmina,Kozłów,powiat miechowski,
@@ -3091,7 +3091,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2009,powiat,powiat m. Kraków,powiat m. Kraków,17159
 21,Wskaźnik dostępności muzeów,2009,powiat,powiat m. Nowy Sącz,powiat m. Nowy Sącz,21139
 21,Wskaźnik dostępności muzeów,2009,powiat,powiat m. Tarnów,powiat m. Tarnów,38386
-21,Wskaźnik dostępności muzeów,2009,powiat,powiat miechowski,powiat miechowski,Brakdanych
+21,Wskaźnik dostępności muzeów,2009,powiat,powiat miechowski,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2009,gmina,Charsznica,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2009,gmina,Gołcza,powiat miechowski,
 21,Wskaźnik dostępności muzeów,2009,gmina,Kozłów,powiat miechowski,
@@ -3560,7 +3560,7 @@ indicator_id,indicator,year,level,area,powiat,value
 21,Wskaźnik dostępności muzeów,2007,gmina,Polanka Wielka,powiat oświęcimski,
 21,Wskaźnik dostępności muzeów,2007,gmina,Przeciszów,powiat oświęcimski,
 21,Wskaźnik dostępności muzeów,2007,gmina,Zator,powiat oświęcimski,
-21,Wskaźnik dostępności muzeów,2007,powiat,powiat proszowicki,powiat proszowicki,Brakdanych
+21,Wskaźnik dostępności muzeów,2007,powiat,powiat proszowicki,powiat proszowicki,
 21,Wskaźnik dostępności muzeów,2007,gmina,Koniusza,powiat proszowicki,
 21,Wskaźnik dostępności muzeów,2007,gmina,Koszyce,powiat proszowicki,
 21,Wskaźnik dostępności muzeów,2007,gmina,Nowe Brzesko,powiat proszowicki,

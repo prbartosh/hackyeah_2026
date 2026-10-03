@@ -17,6 +17,7 @@ from common import ASSETS, get, slugify, write_json
 HOST = "https://obserwator.rops.krakow.pl"
 OUT = ASSETS / "obserwator"
 WORKERS = 8
+PORTRAIT_YEARS = range(2007, 2025)
 FIELDS = ["indicator_id", "indicator", "year", "level", "area", "powiat", "value"]
 
 
@@ -36,13 +37,15 @@ def indicator_list():
 
 
 def num(cell):
-    t = cell.get_text(strip=True).replace("\xa0", "").replace(" ", "").replace(",", ".")
-    return t
+    t = cell.get_text(strip=True)
+    if t == "Brak danych":
+        return ""
+    return t.replace("\xa0", "").replace(" ", "").replace(",", ".")
 
 
 def parse(html, iid, name, year):
     soup = BeautifulSoup(html, "html.parser")
-    table = soup.select_one("#tabela table.with-child-tables")
+    table = soup.select_one("#tabela table.with-child-tables") or soup.select_one("table.with-child-tables")
     rows = []
     if not table:
         return rows
@@ -85,6 +88,16 @@ def scrape(ind):
     if csv_path.exists():
         return
     rows = []
+    if not years:
+        # Some indicators have no year dropdown on /differenceanalysis but are served by the
+        # "Portret powiatu" view (e.g. 172-174 for 2010-2012). Probe it for every year.
+        for y in PORTRAIT_YEARS:
+            r = get(f"{HOST}/portrait/ajax/district/1/year/{y}/pointer/{iid}")
+            rows += [x for x in parse(r.text, iid, name, str(y))]
+        if not any(x[6] for x in rows):
+            rows = []
+        else:
+            ind["years"] = sorted({x[2] for x in rows}, reverse=True)
     for y in years:
         r = get(url, method="POST", data={"differenceanalysis[year]": y, "differenceanalysis[regions]": "-1"})
         rows += parse(r.text, iid, name, y)

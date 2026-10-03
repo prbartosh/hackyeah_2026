@@ -32,4 +32,4 @@ Liczba noclegowni, schronisk i domów dla osób bezdomnych działających na dan
 | powiat tarnowski | 0 | 0 | 0 | 0 | 0 | 8 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | powiat tatrzański | 1 | 1 | 1 | 1 | 1 | 2 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | powiat wadowicki | 1 | 2 | 2 | 2 | 2 | 5 | 1 | 1 | 1 | 1 | 1 | 1 | 2 |
-| powiat wielicki | 1 | 0 | 0 | 0 | 0 | 5 | 0 | Brakdanych | 0 | 0 | 0 | 0 | 0 |
+| powiat wielicki | 1 | 0 | 0 | 0 | 0 | 5 | 0 |  | 0 | 0 | 0 | 0 | 0 |

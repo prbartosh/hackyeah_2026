@@ -10,8 +10,8 @@ Social and demographic statistics for the Małopolska voivodeship (Poland) by **
 
 | Path | What it is |
 |---|---|
-| `observations.csv` | **Main dataset.** All indicators merged, long format, ~401 600 rows. |
-| `data/<indicator_id>.csv` | The same rows split per indicator (same columns). 184 files; 35 are header-only (see "Empty indicators"). |
+| `observations.csv` | **Main dataset.** All indicators merged, long format, ~403 400 rows. |
+| `data/<indicator_id>.csv` | The same rows split per indicator (same columns). 184 files; 32 are header-only (see "Empty indicators"). |
 | `indicators.json` | Indicator catalogue: `id`, `name`, `category`, `years` (years offered by the site, not years with data), `description` (`Nazwa wskaźnika`, `Źródło`, `Opis`). |
 | `text/<id>-<slug>.md` | One readable markdown page per indicator: name, category, source, description and a powiat × year table. Best for search/RAG. Gmina values are **not** in these files. |
 
@@ -38,7 +38,7 @@ pop = df[(df.indicator_id == "186") & (df.level == "powiat") & (df.year == "2024
 
 ## Things to know
 
-- **Powiat values are never blank; gmina values often are** (about half of all rows). The site returns an empty cell when a gmina has no value; many indicators (e.g. infrastructure counts) exist only at powiat level.
+- **Powiat values are almost always present (43 blank of ~44 000); gmina values often are blank** (about half of all rows). The site returns an empty cell or "Brak danych" when there is no value (stored as an empty string); many indicators (e.g. infrastructure counts) exist only at powiat level.
 - **Years with no data are simply absent**, not blank. 84 indicators have fewer years than the site's dropdown (2007–2024) offers. Census-based indicators (family, disability) exist only for 2011 and/or 2021.
 - **Some values are ratios / indices** computed by ROPS (e.g. per 1 000 inhabitants), not raw GUS counts.
 - **No voivodeship-total row** is stored; sum powiats or use GUS if you need the region total.
@@ -46,11 +46,13 @@ pop = df[(df.indicator_id == "186") & (df.level == "powiat") & (df.year == "2024
 
 ## Empty indicators (site serves no data)
 
-These 35 indicator pages redirect to the home page on the live site (retried 2026-10-03, all years and three area selections), so their CSVs contain only a header and `text/` has no useful table:
+32 indicators are listed in the site menu but have no data anywhere on the site. Their CSVs contain only a header and `text/` has no useful table. Checked 2026-10-03: the comparison view offers no year for them, and the powiat-portrait view never lists them, for any powiat or year 2007–2024.
 
-`130 131 132 133 134 135 136 137 138 139 140 141 142 143 145 146 148 149 150 151 172 173 174 196 197 198 199 200 261 271 272 280 281 282 283`
+`130 131 132 133 134 135 136 137 138 139 140 141 142 143 145 146 148 149 150 151 196 197 198 199 200 261 271 272 280 281 282 283`
 
-Covers: fertility and life expectancy, poverty rates and household income/expenditure, DPS waiting lists, employment rates (all variants), pensions, university students, migration balance (European/American), and a few care/health items.
+Covers: fertility and life expectancy, poverty rates and household income/expenditure, employment rates (all variants), pensions, university students, migration balance (European/American), disability employment, and a few care/health items.
+
+**Indicators 172, 173, 174** (DPS waiting lists: elderly, chronically somatically ill, chronically mentally ill) are not served by the comparison view either, but the **powiat portrait** view has them for **2010–2012 only**. The scraper falls back to that view (`/portrait/ajax/district/1/year/<y>/pointer/<id>`), which returns the same table (all powiats, gminas as child rows). Their gmina values are all blank and a few powiat values are missing. Values are percentages (e.g. `25.00%`); the indicator description on the site is probably copy-pasted from another indicator, so rely on the name.
 
 ## Categories (indicator counts)
 

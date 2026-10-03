@@ -18,7 +18,7 @@ Udział dzieci i młodzieży w wieku 7-24 lata otrzymujących stypendia socjalne
 | powiat gorlicki | 24.78% | 24.53% | 25.08% | 63.89% | 22.08% | 19.60% |
 | powiat krakowski | 5.78% | 5.91% | 6.09% | 14.25% | 5.37% | 4.10% |
 | powiat limanowski | 27.36% | 28.14% | 26.44% | 7.20% | 27.39% | 22.74% |
-| powiat m. Kraków | Brakdanych | 1.96% | 2.60% | 9.13% | 1.43% | 0.00% |
+| powiat m. Kraków |  | 1.96% | 2.60% | 9.13% | 1.43% | 0.00% |
 | powiat m. Nowy Sącz | 5.92% | 6.05% | 5.58% | 2.72% | 4.45% | 3.73% |
 | powiat m. Tarnów | 6.74% | 8.27% | 5.52% | 1.52% | 3.92% | 3.23% |
 | powiat miechowski | 9.53% | 10.09% | 13.12% | 5.91% | 9.13% | 7.05% |
