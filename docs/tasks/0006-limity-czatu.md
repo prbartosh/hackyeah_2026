@@ -1,7 +1,8 @@
 # 0006. Limity i kontrola kosztu czatu
 
-- Status: todo (wartości zatwierdzone)
+- Status: zrobione
 - Osoba: Bartłomiej (backend), Bartosz (nginx, konfiguracja), Nikodem (panel OpenAI)
+- PR: #16, #22
 
 ## Cel
 
@@ -49,15 +50,16 @@ Najgorszy przypadek dziś: 40 × 4000 znaków historii (ok. 50 tys. tokenów) + 
 ## Kroki
 
 - [x] Zatwierdzić wartości (tabela wyżej): zatwierdzone bez zmian, `LLM_DAILY_TOKEN_LIMIT` po pomiarze
-- [ ] nginx: `limit_req_zone`, `limit_conn_zone` i osobny `location = /api/v1/chat`
-- [ ] Backend: nowe limity w `schemas/chat.py`, limit całej historii, niższy `max_completion_tokens`
-- [ ] Backend: licznik dzienny, `LLM_DAILY_TOKEN_LIMIT`, `CHAT_ENABLED` w `core/config.py` i `.env.example`
-- [ ] Frontend: komunikat dla 429 i dla zdarzenia `error` z budżetu, blokada wysyłki w trakcie strumienia
-- [ ] Limit budżetu i alert u dostawcy (Nikodem ma dostęp do panelu OpenAI)
-- [ ] Testy: 429 z nginx, odrzucenie za długiej historii, zablokowany czat po przekroczeniu budżetu
+- [x] nginx: `limit_req_zone`, `limit_conn_zone` i osobny `location = /api/v1/chat`
+- [x] Backend: nowe limity w `schemas/chat.py`, limit całej historii, niższy `max_completion_tokens`
+- [x] Backend: licznik dzienny, `LLM_DAILY_TOKEN_LIMIT`, `CHAT_ENABLED` w `core/config.py` i `.env.example`
+- [x] Frontend: komunikat dla 429 i dla zdarzenia `error` z budżetu, blokada wysyłki w trakcie strumienia
+- [x] Limit budżetu i alert u dostawcy (Nikodem ma dostęp do panelu OpenAI)
+- [x] Testy: 429 z nginx, odrzucenie za długiej historii, zablokowany czat po przekroczeniu budżetu
 
 ## Notatki
 
+- Wartości limitów zatwierdzone w [0007](0007-ustalenia-otwarte.md).
 - `max_completion_tokens` podniesione z 4000 do 8000, bo obejmuje tokeny rozumowania; przy 4000 odpowiedź może być ucięta (`finish=length`). Można zejść niżej po pomiarze, bez zmiany kodu.
 - Odmowa z budżetu lub wyłącznika to 503 przed otwarciem strumienia, a nie zdarzenie `error`: sprawdzane tak jak walidacja (422), frontend pokazuje `detail`.
 - Limit 1500 znaków dotyczy wiadomości użytkownika. Wiadomości asystenta (z zapisem tury) i `summary` mają 4000, całość ogranicza 20 000.

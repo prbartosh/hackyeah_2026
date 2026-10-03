@@ -1,7 +1,8 @@
 # 0003. Zasobnik wiedzy (moduł II)
 
-- Status: w toku (frontend innowacji gotowy, backend i dokumenty do zrobienia)
+- Status: w toku
 - Osoba: Bartłomiej (backend), Daniel, Kacper (frontend)
+- PR: #9
 
 ## Cel
 

@@ -29,10 +29,7 @@ export default function VoiceButton({ onText }: { onText: (text: string) => void
       return
     }
     const Ctor = getRecognition()
-    if (!Ctor) {
-      setStatus('Dyktowanie działa w Chrome i Edge.')
-      return
-    }
+    if (!Ctor) return
     const rec = new Ctor()
     rec.lang = 'pl-PL'
     rec.interimResults = false
@@ -53,6 +50,9 @@ export default function VoiceButton({ onText }: { onText: (text: string) => void
     setListening(true)
     setStatus('Słucham… Mów teraz.')
   }
+
+  // Przeglądarka bez Web Speech API (np. Firefox): nie pokazujemy przycisku, który i tak nic nie zrobi
+  if (!getRecognition()) return null
 
   return (
     <>

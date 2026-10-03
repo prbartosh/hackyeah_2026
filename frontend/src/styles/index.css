@@ -178,6 +178,9 @@ main { flex: 1; display: flex; flex-direction: column; }
   background: var(--surface); color: var(--text);
   font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
 }
+.a11y-compact { flex-basis: 100%; display: grid; gap: 0.5rem; }
+.a11y-toggle { justify-self: start; }
+.a11y-panel { padding: 0.5rem 0 0.25rem; }
 .a11y-btn:hover { border-color: var(--primary); }
 .a11y-btn[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
 
@@ -242,14 +245,25 @@ main { flex: 1; display: flex; flex-direction: column; }
   grid-template-columns: minmax(0, 1fr); grid-template-rows: 1fr;
 }
 .workspace.has-panel { grid-template-rows: auto 1fr; }
+/* Boczne kolumny mają tę samą szerokość, więc czat stoi dokładnie na środku i nie przesuwa się, gdy pojawia się panel.
+   Media queries liczą rem od 16px (nie od rozmiaru html), więc próg układu trójkolumnowego skalujemy razem z tekstem:
+   przy większej czcionce panel ląduje nad czatem, zamiast ściskać rozmowę. */
 @media (min-width: 75rem) {
-  /* Boczne kolumny mają tę samą szerokość, więc czat stoi dokładnie na środku i nie przesuwa się, gdy pojawia się panel */
-  .workspace, .workspace.has-panel {
-    grid-template-columns: minmax(19.5rem, 1fr) minmax(0, 54rem) minmax(19.5rem, 1fr);
-    grid-template-rows: 1fr; column-gap: 0;
-  }
-  .workspace .chat { grid-column: 2; grid-row: 1; }
-  .workspace .problem-panel { grid-column: 3; grid-row: 1; justify-self: end; width: 18rem; align-self: start; position: sticky; top: 1rem; }
+  html:not([data-font-size="large"]):not([data-font-size="xlarge"]) .workspace,
+  html:not([data-font-size="large"]):not([data-font-size="xlarge"]) .workspace.has-panel { grid-template-columns: minmax(19.5rem, 1fr) minmax(0, 54rem) minmax(19.5rem, 1fr); grid-template-rows: 1fr; column-gap: 0; }
+  html:not([data-font-size="large"]):not([data-font-size="xlarge"]) .workspace .chat { grid-column: 2; grid-row: 1; }
+  html:not([data-font-size="large"]):not([data-font-size="xlarge"]) .workspace .problem-panel { grid-column: 3; grid-row: 1; justify-self: end; width: 18rem; align-self: start; position: sticky; top: 1rem; }
+}
+/* Większy tekst: bez pustej kolumny po lewej, czat + panel obok siebie już od ok. 1000 px, żeby „Twój problem” było stale widoczne */
+@media (min-width: 62rem) {
+  html[data-font-size="large"] .workspace.has-panel { grid-template-columns: minmax(0, 54rem) 20rem; grid-template-rows: 1fr; column-gap: 1.5rem; justify-content: center; }
+  html[data-font-size="large"] .workspace.has-panel .chat { grid-column: 1; grid-row: 1; }
+  html[data-font-size="large"] .workspace.has-panel .problem-panel { grid-column: 2; grid-row: 1; align-self: start; position: sticky; top: 1rem; }
+}
+@media (min-width: 72rem) {
+  html[data-font-size="xlarge"] .workspace.has-panel { grid-template-columns: minmax(0, 54rem) 22rem; grid-template-rows: 1fr; column-gap: 1.5rem; justify-content: center; }
+  html[data-font-size="xlarge"] .workspace.has-panel .chat { grid-column: 1; grid-row: 1; }
+  html[data-font-size="xlarge"] .workspace.has-panel .problem-panel { grid-column: 2; grid-row: 1; align-self: start; position: sticky; top: 1rem; }
 }
 
 /* Czat */
@@ -437,6 +451,12 @@ details.problem-panel[open] summary::before { transform: rotate(90deg); }
 :root[data-theme="high-contrast"] .role-pill { border-width: 2px; border-color: var(--border); }
 :root[data-theme="high-contrast"] .problem-row,
 :root[data-theme="high-contrast"] .detail-section { border-top-color: var(--border); }
+
+/* Duży tekst na niskim ekranie: przyklejone pole pisania zasłaniałoby większość rozmowy */
+@media (max-height: 56rem) {
+  html[data-font-size="large"] .chat:not(.is-empty) .composer-dock,
+  html[data-font-size="xlarge"] .chat:not(.is-empty) .composer-dock { position: static; background: none; }
+}
 
 @media (max-width: 40rem) {
   .brand-tagline { display: none; }
