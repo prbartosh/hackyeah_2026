@@ -8,7 +8,6 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz): stack, strony i axe sprawdzone, scenariusze i pytest zrobione, limit 300 tys. tokenów, brakuje testu czatu przez proxy i pełnego pomiaru
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
 - [0015](tasks/0015-panel-administratora.md) Panel administratora, moduł VI (Kacper, do potwierdzenia): backend, UI, seed i testy gotowe, zostaje test z czytnikiem ekranu, prawdziwy Postgres i klucz DeepSeek ([jak uruchomić](panel-administratora.md))
-- [0009](tasks/0009-ewaluacja-dopasowania.md) Ewaluacja dopasowania (Bartosz, Nikodem, Wiktor): skrypt jest, pierwszy pomiar do zrobienia na DeepSeek
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
 
 ## Do zrobienia
@@ -26,6 +25,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
+- 2026-10-03: Ewaluacja dopasowania ([0009](tasks/0009-ewaluacja-dopasowania.md)): skrypt `backend/scripts/eval_matchmaking.py`, pełny pomiar niepotrzebny (decyzja Bartosza)
 - 2026-10-03: Frontend buduje się z `npm ci` na podstawie `package-lock.json` ([zadanie 0001](tasks/0001-package-lock.md))
 - 2026-10-03: Pasek dostępności zwijany na mobile, axe na mobile 0 naruszeń ([zadanie 0010](tasks/0010-dostepnosc-mobile-i-glos.md))
 - 2026-10-03: Licencje danych ROPS ([0014](tasks/0014-licencje-danych-rops.md)): CC BY 4.0 przy 5 z 51 raportów, reszta bez licencji na stronie, GUS z podaniem źródła; w Zasobniku licencja tylko tam, gdzie jest
