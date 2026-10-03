@@ -18,7 +18,7 @@ Frontend nie pokazuje białego ekranu przy awarii, ładuje się szybciej, nie wy
 - [x] Granice w czacie: lista wiadomości oraz osobno bloki wyników, podsumowania i „Dane gminy”
 - [x] Stan „model niedostępny / limit dzienny” (503) odróżniony od awarii technicznej
 - [x] `useItems`: komunikat błędu po polsku zamiast `Unknown error`
-- [ ] Sprawdzenie ręczne: wymuszony wyjątek w stronie, w trasie i w bloku czatu nie daje białego ekranu
+- [x] Sprawdzenie ręczne: wymuszony wyjątek w stronie, w trasie i w bloku czatu nie daje białego ekranu
 
 ### 2. Lazy loading tras
 
@@ -28,7 +28,7 @@ Frontend nie pokazuje białego ekranu przy awarii, ładuje się szybciej, nie wy
 - [x] Jeden `Suspense` w `Layout` wokół `Outlet`, dostępny fallback (`role="status"`, stała wysokość)
 - [x] Błąd pobrania chunka (po nowym wdrożeniu) kończy w granicy z punktu 1 z propozycją przeładowania
 - [x] Pomiar po zmianie, porównanie w opisie PR
-- [ ] Przejście przez wszystkie trasy, bezpośredni link `/admin/karty/xyz` po twardym odświeżeniu, wolna sieć w DevTools
+- [x] Przejście przez wszystkie trasy, bezpośredni link `/admin/karty/xyz` po twardym odświeżeniu, wolna sieć w DevTools
 
 ### 3. Czcionki lokalnie (RODO)
 
@@ -36,7 +36,7 @@ Frontend nie pokazuje białego ekranu przy awarii, ładuje się szybciej, nie wy
 - [x] Usunięcie Google Fonts z `index.html` (`preconnect` i arkusz)
 - [x] Preload głównego pliku czcionki (waga 400)
 - [x] Przeszukanie `src` i `index.html` pod kątem innych zewnętrznych zasobów
-- [ ] Sprawdzenie: pusty cache, zero zapytań do domen Google; „ąęłńóśźż” poprawne we wszystkich wagach i trzech motywach
+- [x] Sprawdzenie: pusty cache, zero zapytań do domen Google; „ąęłńóśźż” poprawne we wszystkich wagach i trzech motywach
 - [x] `npm ci` w Dockerze z nowym `package-lock.json`
 
 ### 4. Dostępność
@@ -47,9 +47,9 @@ Frontend nie pokazuje białego ekranu przy awarii, ładuje się szybciej, nie wy
 - [ ] Czat: potwierdzone w NVDA, że odpowiedź nie jest czytana wielokrotnie podczas strumienia i jest czytana po zakończeniu
 - [x] Czat: focus po zakończeniu odpowiedzi i po pojawieniu się pytania z opcjami
 - [x] Przycisk głosowy: stan nagrywania ogłaszany tekstem, nie tylko kolorem
-- [ ] axe w każdym motywie i rozmiarze tekstu
+- [x] axe w każdym motywie i rozmiarze tekstu
 - [x] `prefers-reduced-motion` dla animacji pisania i przewijania
-- [ ] Zoom 200% i reflow 320 px
+- [x] Zoom 200% i reflow 320 px
 - [ ] Jedna sesja NVDA: strona główna → czat → wyniki → karta innowacji; Zasobnik; Kreator; panel; formularz ocen
 - [ ] Raport z NVDA w `docs/`, odhaczenie punktu NVDA w zadaniach 0003, 0015, 0018, 0019
 
@@ -60,6 +60,7 @@ Frontend nie pokazuje białego ekranu przy awarii, ładuje się szybciej, nie wy
 - [x] `npm run lint`, `npm run build`, `npm test` przechodzą
 
 ## Notatki
+- Testy ręczne wykonane automatem (Playwright + axe, Chrome, build z `vite preview`, API zamockowane): trasy, błąd chunka, wyjątki renderu strony i bloków czatu, 503 i 500 w czacie, focus w czacie i po zmianie trasy, brak zapytań poza własnym hostem, polskie znaki w 4 wagach, axe (WCAG 2 A/AA) na `/`, `/zasobnik`, `/zglos`, `/kreator` w motywach high-contrast i dark oraz rozmiarach normal/large/xlarge, reflow 320 px. Motyw `standard` bez osobnych reguł. Zostaje NVDA i raport. Przy nawigacji w aplikacji react-router używa transition, więc przy wolnym chunku zostaje stara strona zamiast fallbacku `Suspense` (fallback widać przy twardym wejściu na trasę).
 - Stan (kod gotowy, 4 commity + sprzątanie na gałęzi `0020-odpornosc-frontendu`): zostały testy ręczne w przeglądarce, axe, zoom/reflow i sesja NVDA. Do tego czasu bez PR i bez `review`.
 - Bundle: przed 462,45 kB (gzip 137,71 kB), po 352,09 kB (gzip 109,92 kB) w głównym pliku; admin 54,12 kB (gzip 14,55 kB), kreator 39,68 kB (gzip 11,98 kB) ładowane dopiero po wejściu na trasę.
 - Strony panelu miały już `useTitle` (panelowy odpowiednik `useDocumentTitle`), a `AdminLayout` renderuje się wewnątrz `<main id="main-content">` z `Layout`, więc skip link działa. `prefers-reduced-motion` jest już globalnie w `index.css`.

@@ -25,7 +25,8 @@ export default function Layout() {
       return
     }
     if (window.location.hash) return
-    mainRef.current?.focus({ preventScroll: true })
+    // Granica błędów (np. nieudany chunk) sama przenosi focus na alert, więc go nie zabieramy
+    if (!document.activeElement?.closest('.error-boundary')) mainRef.current?.focus({ preventScroll: true })
 
     // Tytuł ustawia strona, a leniwa strona robi to dopiero po pobraniu chunka, więc czekamy na zmianę <title>
     const titleEl = document.querySelector('title')
