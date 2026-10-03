@@ -1,5 +1,6 @@
 """Karty innowacji w bazie: import z JSON, edycja, embeddingi, migawka dla matchmakingu."""
 
+import json
 import logging
 import re
 import unicodedata
@@ -35,6 +36,13 @@ EMBEDDED_FIELDS = (
     "opis",
 )
 _PL = str.maketrans("ąćęłńóśźżĄĆĘŁŃÓŚŹŻ", "acelnoszzACELNOSZZ")
+
+
+def category_names(path: Path) -> dict[str, str]:
+    file = path.parent / "kategorie.json"
+    if not file.exists():
+        return {}
+    return {c["slug"]: c["nazwa"] for c in json.loads(file.read_text(encoding="utf-8"))}
 
 
 class CardError(Exception):

@@ -5,7 +5,6 @@ import logging
 import secrets
 from collections import defaultdict
 from datetime import UTC, datetime
-from pathlib import Path
 from typing import Any
 
 from sqlalchemy import case, func, select
@@ -16,7 +15,7 @@ from app.models import InnovationCard, Notification, ThreadMessage, Ticket
 from app.schemas.ticket import SlaInfo, TicketCreate
 from app.services.ai import AIGateway, AIUnavailableError
 from app.services.app_settings import PanelSettings, load_settings
-from app.services.cards import CardService
+from app.services.cards import CardService, category_names
 from app.services.email import EmailSender
 from app.services.embeddings import cosine
 
@@ -66,13 +65,6 @@ def sla_info(ticket: Ticket, panel: PanelSettings, now: datetime | None = None) 
         przeterminowane=waited > panel.sla_godziny,
         pozostalo_godzin=None if answered else round(panel.sla_godziny - waited, 1),
     )
-
-
-def _category_names(path: Path) -> dict[str, str]:
-    file = path.parent / "kategorie.json"
-    if not file.exists():
-        return {}
-    return {c["slug"]: c["nazwa"] for c in json.loads(file.read_text(encoding="utf-8"))}
 
 
 class TicketService:
@@ -206,7 +198,7 @@ class TicketService:
             }
             for c, score in similar
         ]
-        categories = _category_names(self.settings.innovations_path)
+        categories = category_names(self.settings.innovations_path)
         fallback_category = self._category_from_cards(similar)
         ticket.kategoria = fallback_category
         ticket.pilnosc = (
