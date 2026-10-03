@@ -2,7 +2,7 @@
 
 - Status: review
 - Osoba: Kacper
-- PR: #34
+- PR: #34, #39
 
 ## Cel
 

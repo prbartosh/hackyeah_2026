@@ -1,8 +1,8 @@
 # 0019. Tester innowacji (moduł IV)
 
-- Status: w toku
+- Status: review
 - Osoba: Kacper
-- PR:
+- PR: #39
 
 ## Cel
 

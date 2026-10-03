@@ -1,8 +1,8 @@
 # 0015. Panel administratora (moduł VI)
 
-- Status: w toku
+- Status: review
 - Osoba: Kacper (do potwierdzenia)
-- PR: #19
+- PR: #19, #39
 
 ## Cel
 
