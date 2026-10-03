@@ -37,6 +37,7 @@ Python 3.10+. No browser is needed: every page used here is server-rendered.
 - All requests go through `common.get()`: browser-like User-Agent, retries with backoff (4 attempts), 0.5 s pause after each request. Errors are raised after the retries, so a failed request is never silently turned into "no data".
 - `obserwator.py` runs 8 worker threads (`WORKERS`), one indicator per worker. Keep the delay and worker count modest; this is a public institution's server.
 - Paths stored in `metadata.json` are relative to the repo root with forward slashes.
+- PDFs (`assets/*/files/*.pdf`) are not committed (too large for git). Each `metadata.json` entry keeps the original `url`; run the scraper to get them locally under `file`.
 - Console output on Windows may show broken Polish characters; set `PYTHONIOENCODING=utf-8`. The files themselves are UTF-8.
 
 ## Gotchas

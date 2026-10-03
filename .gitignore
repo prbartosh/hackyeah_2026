@@ -19,3 +19,6 @@ dist/
 .DS_Store
 .idea/
 .vscode/
+
+# Scraped PDFs (source URLs in assets/*/metadata.json, refetch with scrapers/run_all.py)
+assets/**/files/*.pdf
