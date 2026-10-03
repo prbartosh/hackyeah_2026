@@ -16,11 +16,22 @@ CATEGORIES_FILE = "kategorie.json"
 # Typowane listy nakładki (ADR 0004 §3) - tylko te pola trafiają do katalogu.
 OVERLAY_LISTS = ("grupy_docelowe", "problemy", "miejsca", "skale", "typy_rozwiazan", "role")
 
+# Poprawki ręczne po slugu. innowacje.json nadpisuje scraper, więc nie edytujemy go ręcznie.
+# W polu `organizacja` scraper zostawił nazwiska autorów, a strona innowacji i wyniki czatu są
+# publiczne (docs/baza-innowacji.md: nazwisk osób nie zapisujemy).
+CORRECTIONS: dict[str, dict[str, Any]] = {
+    "sciezka-motosensoryczna": {"organizacja": "Politechnika Krakowska"},
+}
+
 
 @lru_cache
 def _load(path: Path) -> dict[str, Innovation]:
     records = json.loads(path.read_text(encoding="utf-8"))
-    return {r["slug"]: Innovation.model_validate(r) for r in records}
+    innovations = {r["slug"]: Innovation.model_validate(r) for r in records}
+    for slug, fix in CORRECTIONS.items():
+        if slug in innovations:
+            innovations[slug] = innovations[slug].model_copy(update=fix)
+    return innovations
 
 
 @lru_cache

@@ -49,6 +49,6 @@ Później (osobne zadania)
 ## Notatki
 
 - Innowacje (PR #9): backend `GET /innovations?kategoria=&q=&wybrane=true` (lista innowacji, sort po nazwie) i `GET /categories` (`{slug, nazwa, liczba_innowacji}`), frontend `/zasobnik` i film na `/innowacja/:slug`. Wyszukiwanie `q` (`repositories/innovation_search.py`): bez wielkości liter i polskich znaków, wszystkie słowa muszą pasować, lekka odmiana (wózek → wózków, seniorów → senior), przeszukiwane są nazwa, problem, grupa docelowa, kto może skorzystać, opis i organizacja.
-- Pole `organizacja` w `sciezka-motosensoryczna` zawiera nazwiska autorów. Front tego nie poprawia, poprawka ma być w backendzie (`InnovationRepository`, np. po slugu albo przez nakładkę). Do tego czasu nazwiska widać na stronie innowacji i w wynikach czatu.
-- Pole `organizacja` może zawierać nazwisko. Przed demem sprawdzić je ręcznie.
+- Pole `organizacja` w `sciezka-motosensoryczna` zawierało nazwiska autorów. Poprawka po slugu jest w `InnovationRepository` (`CORRECTIONS`), więc działa w czacie, szczegółach i liście. Test pilnuje też, że żadna organizacja w bazie nie ma tytułów osobistych (prof., dr, mgr, inż.). Po odświeżeniu danych scraperem warto sprawdzić pozostałe rekordy.
+- Pole `organizacja` może zawierać nazwisko. Tytuły osobiste wyłapuje test, ale samo nazwisko bez tytułu nie. Przed demem sprawdzić ręcznie.
 - PDF-y nie są w repo (`.gitignore`: `assets/**/files/*.pdf`). Linkujemy do `url` na stronie ROPS.

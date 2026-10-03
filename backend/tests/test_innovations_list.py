@@ -1,4 +1,5 @@
 import json
+import re
 
 import pytest
 
@@ -169,6 +170,30 @@ async def test_categories_endpoint(client, fake_repo):
         "nazwa": "Dla cudzoziemców",
         "liczba_innowacji": 1,
     }
+
+
+def test_corrections_are_applied_by_slug(tmp_path):
+    repo_module._load.cache_clear()
+    repo_module._load_haystacks.cache_clear()
+    path = tmp_path / "innowacje.json"
+    wrong = "Politechnika Krakowska - prof. dr hab. Jan Kowalski"
+    record = BASE | {"slug": "sciezka-motosensoryczna", "nazwa": "Ścieżka", "organizacja": wrong}
+    other = BASE | {"slug": "inna", "nazwa": "Inna", "organizacja": "Fundacja Test"}
+    path.write_text(json.dumps([record, other]), encoding="utf-8")
+    repo = InnovationRepository(path)
+    assert repo.get("sciezka-motosensoryczna").organizacja == "Politechnika Krakowska"
+    assert repo.get("inna").organizacja == "Fundacja Test"
+    # poprawka obejmuje też listę, katalog dla czatu i wyszukiwanie
+    assert [r.organizacja for r in repo.list(q="politechnika")] == ["Politechnika Krakowska"]
+    assert repo.list(q="kowalski") == []
+
+
+def test_real_database_has_no_personal_titles_in_organization():
+    repo_module._load.cache_clear()
+    repo = InnovationRepository(DEFAULT_INNOVATIONS_PATH)
+    assert repo.get("sciezka-motosensoryczna").organizacja == "Politechnika Krakowska"
+    titles = re.compile(r"(prof|dr|mgr|inż)\.?", re.IGNORECASE)
+    assert [r.slug for r in repo.all() if r.organizacja and titles.search(r.organizacja)] == []
 
 
 def test_real_database_categories_match_filter():
