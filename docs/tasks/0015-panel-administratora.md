@@ -1,10 +1,8 @@
 # 0015. Panel administratora (moduł VI)
 
-- Status: review
+- Status: w toku
 - Osoba: Kacper (do potwierdzenia)
-- PR: #19, #41
-- PR: #19, #40
-- PR: #19, #39
+- PR: #19, #39, #40, #41
 
 ## Cel
 
@@ -20,13 +18,11 @@ Pracownik ROPS loguje się tokenem, widzi skrzynkę zgłoszeń z triażem AI i z
 - [x] Lista i edycja kart, podgląd
 - [x] Radar trendów i notatki dla ROPS
 - [x] Seed demo (dane syntetyczne), testy backendu (autoryzacja, triaż, zatwierdzenie karty z embeddingiem, import, radar)
-- [ ] Test z czytnikiem ekranu (NVDA) i przejście całej ścieżki z prawdziwym `LLM_API_KEY` (DeepSeek)
-- [ ] Migracja `0002` na prawdziwym PostgreSQL (sprawdzona na SQLite i jako SQL dla Postgresa)
-- [x] Limit zapytań dla publicznego `POST /zgloszenia` (nginx, strefa `form_req`)
 - [x] Migracja `0002` na prawdziwym PostgreSQL
-- [ ] Limit zapytań dla publicznego `POST /zgloszenia`
-- [ ] Testy frontendu (po wejściu vitest do `main`)
+- [x] Limit zapytań dla publicznego `POST /zgloszenia` (nginx, strefa `form_req`)
+- [x] Testy frontendu (vitest)
 - [x] Link „Zgłoś potrzebę” w nawigacji i na ekranie wyników czatu (formularz dostaje opis z panelu „Twój problem”)
+- [ ] Test z czytnikiem ekranu (NVDA) i przejście całej ścieżki z prawdziwym `LLM_API_KEY` (DeepSeek)
 
 ## Notatki
 

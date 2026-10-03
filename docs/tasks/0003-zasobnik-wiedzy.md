@@ -1,6 +1,6 @@
 # 0003. Zasobnik wiedzy (moduł II)
 
-- Status: review
+- Status: w toku
 - Osoba: Bartłomiej (backend), Daniel, Kacper (frontend)
 - PR: #9, #35, #42
 
@@ -40,7 +40,8 @@ Frontend: dokumenty
 - [x] Wskaźniki Obserwatora: lista po kategoriach, strona wskaźnika z opisem i źródłem (bez wykresów w pierwszej wersji)
 
 Dostępność (całość)
-- [ ] Nawigacja klawiaturą, `alt` dla obrazów, tytuł `iframe` z filmem, audyt axe (axe na `/zasobnik` i `/innowacja/:slug` w trzech motywach bez naruszeń, `iframe` ma tytuł, brakuje ręcznego testu klawiaturą i czytnikiem ekranu)
+- [x] Audyt axe: `/zasobnik` i `/innowacja/:slug` w trzech motywach bez naruszeń, `iframe` z filmem ma tytuł
+- [ ] Ręczny test klawiaturą i czytnikiem ekranu
 
 Później (osobne zadania)
 - [ ] Powiązania dokument ↔ innowacja na stronie innowacji (ADR 0004 §9, zależy od zatwierdzonych powiązań)

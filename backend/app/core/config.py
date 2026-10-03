@@ -21,9 +21,6 @@ class Settings(BaseSettings):
     llm_base_url: str = "https://api.deepseek.com"
     llm_model: str = "deepseek-flash"
     llm_reasoning_effort: str | None = "low"
-    # Obejmuje też tokeny rozumowania - za mało = ucięta odpowiedź (finish=length).
-    llm_max_completion_tokens: int = 8000
-    llm_daily_token_limit: int | None = None
     # false = czat odpowiada 503 bez wołania modelu.
     chat_enabled: bool = True
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH

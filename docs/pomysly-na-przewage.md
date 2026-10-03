@@ -14,7 +14,7 @@ Stan na 2026-10-04, noc przed oddaniem (termin 11:00). Szczegóły: [status.md](
 | VI. Panel administratora | Skrzynka z triażem AI i licznikiem czasu, powiadomienia, „wgraj dokument → karta”, edycja kart, radar trendów, nabory, moderacja opinii |
 | VII. Middleman | Karta wdrożenia pod rolę instytucji, druk, „Chcę to wdrożyć” do skrzynki ROPS |
 
-Pod spodem: FastAPI + Postgres + React, Docker Compose, DeepSeek za warstwą LLM, limity kosztów (budżet tokenów, nginx), WCAG: pasek dostępności (3 rozmiary, 3 motywy), axe 0 naruszeń na wszystkich stronach.
+Pod spodem: FastAPI + Postgres + React, Docker Compose, DeepSeek za warstwą LLM, limity zapytań (nginx), WCAG: pasek dostępności (3 rozmiary, 3 motywy), axe 0 naruszeń na wszystkich stronach.
 
 ## Pomysły na przewagę
 
