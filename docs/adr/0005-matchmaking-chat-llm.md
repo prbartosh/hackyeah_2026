@@ -1,4 +1,4 @@
-# 0004. Rozmowa matchmakingu: bezstanowy backend, narzędzia modelu, SSE
+# 0005. Rozmowa matchmakingu: bezstanowy backend, narzędzia modelu, SSE
 
 - Data: 2026-10-03
 - Status: przyjęta

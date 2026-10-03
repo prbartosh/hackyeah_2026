@@ -14,4 +14,4 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 ## Zrobione
 
 - 2026-10-03: Struktura repo, Docker Compose, frontend statycznie na nginx
-- 2026-10-03: Backend rozmowy matchmakingu: `POST /api/v1/chat` (SSE), `GET /api/v1/innovations/{slug}` ([ADR 0004](adr/0004-matchmaking-chat-llm.md))
+- 2026-10-03: Backend rozmowy matchmakingu: `POST /api/v1/chat` (SSE), `GET /api/v1/innovations/{slug}` ([ADR 0005](adr/0005-matchmaking-chat-llm.md))
