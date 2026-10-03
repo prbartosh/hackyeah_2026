@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Map, Search } from 'lucide-react'
+import { Search } from 'lucide-react'
 import { listDocuments, TYP_NAZWA, type Dokument } from '@/api/documents'
+import { ListSkeleton } from '@/components/Skeleton'
 import { plural } from '@/lib/plural'
 
 const PAGE = 12
@@ -12,7 +13,6 @@ function DocCard({ doc }: { doc: Dokument }) {
       <div className="zs-card-body">
         <div className="zs-card-top">
           <span className="zs-card-kicker">{TYP_NAZWA[doc.typ]}{doc.rok ? `, ${doc.rok}` : ''}</span>
-          <ArrowUpRight size={20} aria-hidden="true" className="zs-card-arrow" />
         </div>
         <h3 className="zs-card-title"><Link to={`/dokument/${doc.id}`}>{doc.tytul}</Link></h3>
         {doc.opis && <p className="zs-card-problem">{doc.opis}</p>}
@@ -60,17 +60,14 @@ export default function ZasobnikWyzwania() {
     <section className="zs-results container" aria-labelledby="zs-wyzwania-h">
       <h2 id="zs-wyzwania-h" className="zs-h2">Wyzwania Małopolski</h2>
       <p className="zs-lead">
-        Raporty, publikacje i Mapa Wyzwań Społecznych ROPS. Każdy dokument ma wersję tekstową, wygodną na telefonie
-        i dla czytnika ekranu, oraz link do PDF na stronie ROPS.
+        Raporty, publikacje i Mapa Wyzwań Społecznych ROPS. Każdy dokument przeczytasz tutaj jako tekst
+        (także na telefonie i czytnikiem ekranu) albo otworzysz w PDF na stronie ROPS.
       </p>
 
       {mapa && !q && (
         <div className="zs-feature">
-          <Map size={28} aria-hidden="true" className="zs-feature-icon" />
-          <div>
-            <h3 className="zs-card-title"><Link to={`/dokument/${mapa.id}`}>{mapa.tytul}</Link></h3>
-            <p>Najważniejsze wyzwania społeczne: rodzina, seniorzy, niepełnosprawność, ubóstwo i inne obszary, z danymi.</p>
-          </div>
+          <h3 className="zs-card-title"><Link to={`/dokument/${mapa.id}`}>{mapa.tytul}</Link></h3>
+          <p>Najważniejsze wyzwania społeczne: rodzina, seniorzy, niepełnosprawność, ubóstwo i inne obszary, z danymi.</p>
         </div>
       )}
 
@@ -108,6 +105,7 @@ export default function ZasobnikWyzwania() {
           <button type="button" className="btn btn-secondary" onClick={() => setAttempt((n) => n + 1)}>Spróbuj ponownie</button>
         </div>
       )}
+      {docs === null && !error && <ListSkeleton count={6} listClassName="zs-grid" />}
       {docs && filtered.length === 0 && !error && (
         <div className="alert alert-warning"><p>Brak dokumentów dla tych filtrów. Spróbuj innego słowa albo wybierz „Wszystkie lata”.</p></div>
       )}

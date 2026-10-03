@@ -26,8 +26,7 @@ Wszystko pod `/api/v1/admin/*` wymaga `Authorization: Bearer <ADMIN_TOKEN>`: `zg
 
 ## AI, koszty i awarie
 
-- Dzienny limit wywołań AI: `AI_DAILY_CALL_LIMIT` (tabela `uzycie_ai`). Liczy się każde wywołanie modelu (JSON).
-- Dopasowanie bez embeddingów ([ADR 0006](adr/0006-panel-administratora.md), `services/matching.py`): tagi ze słownika, pokrycie tagów kart i trigramy, z powodami przy każdej karcie i grupie. Bez klucza, po przekroczeniu limitu i przy awarii: triaż regułowy, import dokumentu z pustymi polami do ręcznego uzupełnienia. UI pokazuje komunikat po polsku.
+- Dopasowanie bez embeddingów ([ADR 0006](adr/0006-panel-administratora.md), `services/matching.py`): tagi ze słownika, pokrycie tagów kart i trigramy, z powodami przy każdej karcie i grupie. Bez klucza i przy awarii: triaż regułowy, import dokumentu z pustymi polami do ręcznego uzupełnienia. UI pokazuje komunikat po polsku.
 - Nie ma już przeliczania wektorów ani `POST /api/v1/admin/reindeksuj`: wynik liczy się w locie.
 - Szkic odpowiedzi cytuje tylko karty z listy kandydatów, wskazanych przez `matching.py`. Pole z dokumentu bez dosłownego cytatu w tekście jest zerowane.
 

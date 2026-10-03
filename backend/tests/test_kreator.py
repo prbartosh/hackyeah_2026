@@ -143,19 +143,6 @@ async def test_ai_bez_klucza_dziala_lagodnie(kreator):
     assert "ręcznie" in body["komunikat"]
 
 
-async def test_limit_kosztow_ai_w_kreatorze_jest_osobny(kreator, ai_enabled, monkeypatch):
-    from app.core.config import settings
-
-    monkeypatch.setattr(settings, "kreator_ai_daily_call_limit", 1)
-    ai_enabled.json_response = {"istota": "Pomysł"}
-    payload = {"opis": "Chcę pomagać samotnym seniorom na wsi."}
-    assert (await kreator.post(f"{API}/kreator/ai/wypelnij", json=payload)).json()["ai_uzyte"]
-    second = (await kreator.post(f"{API}/kreator/ai/wypelnij", json=payload)).json()
-    assert second["ai_uzyte"] is False
-    assert "limit" in second["komunikat"]
-    assert len(ai_enabled.json_calls) == 1
-
-
 async def test_podobne_innowacje_ze_zrodlem(kreator):
     created = await kreator.post(
         f"{API}/admin/karty",

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { api } from '@/admin/api'
 import {
-  COST_LABELS, ErrorBox, EVIDENCE_LABELS, Loading, TIME_LABELS, errorText, useLoad, useTitle,
+  COST_LABELS, ErrorBox, EVIDENCE_LABELS, FormSkeleton, StatusLine, TIME_LABELS, errorText, useLoad, useTitle,
 } from '@/admin/ui'
 import type { ImportDetail } from '@/admin/types'
 import { KATEGORIE } from '@/types/innowacja'
@@ -38,9 +38,9 @@ function payload(values: Values): Record<string, unknown> {
 }
 
 function FieldStatus({ field, empty, manual }: { field: ImportDetail['pola'][string]; empty: boolean; manual: boolean }) {
-  if (field.reczne) return <span className="tag tag-new">Wpisane ręcznie</span>
-  if (empty && manual) return <span className="tag tag-warn">Do uzupełnienia ręcznie</span>
-  if (empty) return <span className="tag tag-warn">Brak w dokumencie: uzupełnij ręcznie albo zostaw puste</span>
+  if (field.reczne) return <span className="tag">Wpisane ręcznie</span>
+  if (empty && manual) return <span className="tag">Do uzupełnienia ręcznie</span>
+  if (empty) return <span className="tag">Brak w dokumencie: uzupełnij albo zostaw puste</span>
   if (field.niska_pewnosc) return <span className="tag tag-warn">Niska pewność: sprawdź z dokumentem</span>
   return <span className="tag tag-ontime">Zgodne z cytatem</span>
 }
@@ -54,22 +54,35 @@ export default function ImportReviewPage() {
   const [update, setUpdate] = useState('')
   const [busy, setBusy] = useState(false)
   const [failure, setFailure] = useState('')
+  const [message, setMessage] = useState('')
+  const [closedNow, setClosedNow] = useState(false)
+  const resultRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (data) setValues(toValues(data))
   }, [data])
 
-  if (loading && !data) return <Loading text="Wczytywanie szkicu…" />
+  // Po zatwierdzeniu lub odrzuceniu przyciski znikają: fokus na wyniku, w tym samym miejscu strony.
+  useEffect(() => {
+    if (closedNow) resultRef.current?.focus()
+  }, [closedNow])
+
+  if (loading && !data) return <FormSkeleton label="Wczytywanie szkicu…" />
   if (error || !data) return <ErrorBox message={error ?? 'Nie znaleziono importu.'} onRetry={reload} />
 
   const closed = data.status !== 'szkic'
   const keys = ORDER.filter((k) => k in data.pola)
 
-  async function run(action: () => Promise<ImportDetail>) {
+  async function run(action: () => Promise<ImportDetail>, done?: string) {
+    if (busy) return
     setBusy(true)
     setFailure('')
+    setMessage('')
     try {
-      setData(await action())
+      const next = await action()
+      setData(next)
+      if (next.status !== 'szkic') setClosedNow(true)
+      else if (done) setMessage(done)
     } catch (e) {
       setFailure(errorText(e))
     } finally {
@@ -79,16 +92,18 @@ export default function ImportReviewPage() {
 
   return (
     <>
-      <p><Link to="/admin/importy">← Wróć do dokumentów</Link></p>
+      <p><Link to="/admin/importy">Wróć do dokumentów</Link></p>
       <h1>Szkic karty z dokumentu: {data.nazwa_pliku}</h1>
       {data.ekstrakcja_zrodlo === 'ai'
         ? <p className="hint">Szkic przygotowało AI. Obok każdego pola widać fragment dokumentu, z którego pochodzi. Pola bez fragmentu zostały puste.</p>
         : <p className="hint">Szkic nie został wypełniony automatycznie. Uzupełnij pola ręcznie, korzystając z tekstu dokumentu na dole strony.</p>}
       {data.komunikat && <p className="alert alert-warning" role="status">{data.komunikat}</p>}
-      {data.status === 'zatwierdzony' && data.karta_slug && (
-        <p className="alert alert-warning" role="status">Zatwierdzono. <Link to={`/admin/karty/${data.karta_slug}`}>Otwórz kartę</Link></p>
+      {closed && !closedNow && (
+        <p className="admin-done">
+          {data.status === 'zatwierdzony' ? 'Szkic zatwierdzony, karta opublikowana.' : 'Szkic odrzucony.'} Pola są tylko do odczytu.
+          {data.karta_slug && <> <Link to={`/admin/karty/${data.karta_slug}`}>Otwórz kartę</Link></>}
+        </p>
       )}
-      {data.status === 'odrzucony' && <p className="alert alert-warning" role="status">Ten szkic został odrzucony.</p>}
 
       <div className="review" role="group" aria-label="Pola karty i fragmenty dokumentu">
         <div className="review-head" aria-hidden="true">
@@ -123,7 +138,9 @@ export default function ImportReviewPage() {
               <div className="source" aria-label={`Źródło pola: ${data.etykiety[key] ?? key}`}>
                 {field.cytat
                   ? <blockquote>{field.cytat}</blockquote>
-                  : <p className="empty-state">Brak cytatu: tego pola nie ma w dokumencie.</p>}
+                  : <p className="empty-state">{data.ekstrakcja_zrodlo === 'reczna'
+                    ? 'Brak cytatu: dokument nie został przeanalizowany automatycznie.'
+                    : 'Brak cytatu: tego pola nie ma w dokumencie.'}</p>}
               </div>
             </div>
           )
@@ -140,26 +157,37 @@ export default function ImportReviewPage() {
             </select>
             <p className="hint">Przy aktualizacji uzupełniane są tylko pola wpisane powyżej, pozostałe dane karty zostają bez zmian.</p>
           </div>
-          {failure && <p className="field-error" role="alert">{failure}</p>}
           <p className="hint">Zatwierdzenie publikuje kartę i od razu włącza ją do wyszukiwarki dla użytkowników.</p>
           <div className="btn-row">
-            <button type="button" className="btn btn-primary" disabled={busy}
+            <button type="button" className="btn btn-primary" aria-disabled={busy || undefined}
               onClick={() => run(async () => { await api.editImport(id, payload(values)); return api.approveImport(id, update || null) })}>
-              {busy ? 'Zapisywanie…' : 'Zatwierdź i opublikuj kartę'}
+              Zatwierdź i opublikuj kartę
             </button>
-            <button type="button" className="btn btn-secondary" disabled={busy} onClick={() => run(() => api.editImport(id, payload(values)))}>
+            <button type="button" className="btn btn-secondary" aria-disabled={busy || undefined}
+              onClick={() => run(() => api.editImport(id, payload(values)), 'Zmiany w szkicu zapisane.')}>
               Zapisz zmiany w szkicu
             </button>
-            <button type="button" className="btn btn-ghost" disabled={busy} onClick={() => run(() => api.rejectImport(id))}>
+            <button type="button" className="btn btn-ghost" aria-disabled={busy || undefined} onClick={() => run(() => api.rejectImport(id))}>
               Odrzuć szkic
             </button>
           </div>
+          <StatusLine message={message} error={failure} />
+        </div>
+      )}
+      {closedNow && (
+        <div ref={resultRef} tabIndex={-1} className="admin-done" role="status">
+          <p>{data.status === 'odrzucony' ? 'Szkic odrzucony.' : update ? 'Karta zaktualizowana danymi ze szkicu.' : 'Karta opublikowana. Jest już w wyszukiwarce.'}</p>
+          <ul className="admin-next">
+            {data.karta_slug && <li><Link to={`/admin/karty/${data.karta_slug}`}>Otwórz kartę w panelu</Link></li>}
+            {data.karta_slug && <li><Link to={`/innowacja/${data.karta_slug}`}>Zobacz kartę tak, jak widzą ją użytkownicy</Link></li>}
+            <li><Link to="/admin/importy">Wgraj kolejny dokument</Link></li>
+          </ul>
         </div>
       )}
 
       <details className="panel" open={data.ekstrakcja_zrodlo === 'reczna'}>
         <summary>Cały tekst dokumentu</summary>
-        <p className="pre doc-text">{data.tekst}</p>
+        <div className="pre doc-text" tabIndex={0} role="region" aria-label="Tekst dokumentu">{data.tekst}</div>
       </details>
     </>
   )

@@ -120,8 +120,8 @@ def require_admin(authorization: Annotated[str | None, Header()] = None) -> None
         )
 
 
-def get_ai_gateway(session: SessionDep) -> AIGateway:
-    return AIGateway(session, settings, get_llm_service())
+def get_ai_gateway() -> AIGateway:
+    return AIGateway(settings, get_llm_service())
 
 
 AIGatewayDep = Annotated[AIGateway, Depends(get_ai_gateway)]

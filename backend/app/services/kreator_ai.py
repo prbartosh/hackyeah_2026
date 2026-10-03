@@ -14,7 +14,6 @@ from app.models.kreator import ETAPY
 from app.schemas.kreator import ETAP_ETYKIETY, POLA_FISZKI_ETYKIETY
 from app.services.ai import AIGateway, AIUnavailableError
 
-SCOPE = "kreator"
 BRAK_DANYCH = "Brak danych w fiszce. Uzupełnij to pole sam."
 _NUMBER = re.compile(r"\d+(?:[.,]\d+)?")
 
@@ -111,7 +110,7 @@ async def fill_fiszka(
         f"<OPIS>\n{opis}\n</OPIS>"
     )
     try:
-        result = await ai.json(FILL_SYSTEM, user, scope=SCOPE)
+        result = await ai.json(FILL_SYSTEM, user)
     except AIUnavailableError as e:
         return {}, False, f"{e} Wypełnij fiszkę ręcznie."
     etap = result.get("etap")
@@ -195,7 +194,7 @@ async def draft_wniosek(
         f"<POLA_WNIOSKU>\n{json.dumps(fields, ensure_ascii=False)}\n</POLA_WNIOSKU>"
     )
     try:
-        result = await ai.json(DRAFT_SYSTEM, user, scope=SCOPE)
+        result = await ai.json(DRAFT_SYSTEM, user)
     except AIUnavailableError as e:
         return build_pola(nabor, values, None), (
             f"{e} Pola wypełniono tekstem z fiszki bez AI, popraw je ręcznie."
@@ -212,7 +211,7 @@ async def assistant_questions(
         f"<BRAKI>\n{json.dumps(gaps, ensure_ascii=False)}\n</BRAKI>"
     )
     try:
-        result = await ai.json(ASSISTANT_SYSTEM, user, scope=SCOPE)
+        result = await ai.json(ASSISTANT_SYSTEM, user)
     except AIUnavailableError as e:
         return [], False, str(e)
     raw = result.get("pytania")

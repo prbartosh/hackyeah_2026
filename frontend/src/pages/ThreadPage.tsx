@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { api } from '@/admin/api'
-import { ErrorBox, Loading, formatDate, useLoad } from '@/admin/ui'
+import { ErrorBox, formatDate, useLoad } from '@/admin/ui'
+import { ListSkeleton } from '@/components/Skeleton'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import '@/styles/admin.css'
 
@@ -13,7 +14,7 @@ export default function ThreadPage() {
   return (
     <div className="container page">
       <h1>Twoje zgłoszenie</h1>
-      {loading && !data && <Loading />}
+      {loading && !data && <ListSkeleton label="Wczytywanie zgłoszenia…" count={2} />}
       {error && <ErrorBox message={error} onRetry={reload} />}
       {data && (
         <>
@@ -39,6 +40,10 @@ export default function ThreadPage() {
           </ol>
         </>
       )}
+      <ul className="next-links">
+        <li><Link to="/">Wyszukaj rozwiązanie w Splocie</Link></li>
+        <li><Link to="/zglos">Wyślij nowe zgłoszenie</Link></li>
+      </ul>
     </div>
   )
 }

@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState, type ReactNode } from 'react'
-import { AlertTriangle, CheckCircle2, Circle, CircleDot, Clock } from 'lucide-react'
 import { AdminApiError } from '@/admin/api'
 import type { Pilnosc, Sla, StatusKarty, StatusZgloszenia } from '@/admin/types'
 import { KATEGORIE } from '@/types/innowacja'
@@ -58,31 +57,24 @@ export function categoryName(slug: string | null): string {
   return slug ? (KATEGORIE[slug] ?? slug) : '—'
 }
 
-const STATUS: Record<StatusZgloszenia, { label: string; icon: typeof Circle }> = {
-  nowe: { label: 'Nowe', icon: Circle },
-  w_trakcie: { label: 'W trakcie', icon: CircleDot },
-  odpowiedziane: { label: 'Odpowiedziane', icon: CheckCircle2 },
+const STATUS: Record<StatusZgloszenia, string> = {
+  nowe: 'Nowe',
+  w_trakcie: 'W trakcie',
+  odpowiedziane: 'Odpowiedziane',
 }
 
-/** Status zawsze jako tekst i ikona, nigdy samym kolorem. */
+/** Status zawsze tekstem; kolor ramki tylko go wspiera. */
 export function StatusBadge({ status }: { status: StatusZgloszenia }) {
-  const { label, icon: Icon } = STATUS[status]
-  return (
-    <span className={`tag tag-status-${status}`}>
-      <Icon size={14} aria-hidden="true" /> {label}
-    </span>
-  )
+  return <span className={`tag tag-status-${status}`}>{STATUS[status]}</span>
 }
 
 const URGENCY: Record<Pilnosc, string> = { niska: 'Niska', srednia: 'Średnia', wysoka: 'Wysoka' }
 
+/** Wyróżniona jest tylko wysoka pilność; pozostałe to zwykły tekst (nagłówek kolumny lub etykieta mówi, co to jest). */
 export function UrgencyBadge({ urgency }: { urgency: Pilnosc | null }) {
   if (!urgency) return <span className="hint">Brak oceny</span>
-  return (
-    <span className={`tag tag-urgency-${urgency}`}>
-      {urgency === 'wysoka' && <AlertTriangle size={14} aria-hidden="true" />} Pilność: {URGENCY[urgency].toLowerCase()}
-    </span>
-  )
+  if (urgency === 'wysoka') return <span className="tag tag-urgency-wysoka">{URGENCY[urgency]}</span>
+  return <span>{URGENCY[urgency]}</span>
 }
 
 export function hoursText(hours: number): string {
@@ -95,17 +87,9 @@ export function hoursText(hours: number): string {
 export function SlaBadge({ sla, answered }: { sla: Sla; answered: boolean }) {
   if (answered) return <span className="hint">Odpowiedź po {hoursText(sla.oczekuje_godzin)}</span>
   if (sla.przeterminowane) {
-    return (
-      <span className="tag tag-overdue">
-        <AlertTriangle size={14} aria-hidden="true" /> Po terminie o {hoursText(sla.oczekuje_godzin - sla.cel_godzin)}
-      </span>
-    )
+    return <span className="tag tag-overdue">Po terminie o {hoursText(sla.oczekuje_godzin - sla.cel_godzin)}</span>
   }
-  return (
-    <span className="tag tag-ontime">
-      <Clock size={14} aria-hidden="true" /> Czeka {hoursText(sla.oczekuje_godzin)}, zostało {hoursText(sla.pozostalo_godzin ?? 0)}
-    </span>
-  )
+  return <span>Czeka {hoursText(sla.oczekuje_godzin)}, zostało {hoursText(sla.pozostalo_godzin ?? 0)}</span>
 }
 
 const CARD_STATUS: Record<StatusKarty, string> = {
@@ -140,12 +124,14 @@ export function Pagination({
   const to = Math.min(offset + limit, total)
   return (
     <nav className="pagination" aria-label="Strony wyników">
-      <button type="button" className="btn btn-ghost" disabled={offset === 0} onClick={() => onChange(Math.max(0, offset - limit))}>
-        ← Poprzednie
+      <button type="button" className="btn btn-ghost" aria-disabled={offset === 0 || undefined}
+        onClick={() => { if (offset > 0) onChange(Math.max(0, offset - limit)) }}>
+        Poprzednie
       </button>
       <span aria-live="polite">Pozycje {offset + 1}–{to} z {total}</span>
-      <button type="button" className="btn btn-ghost" disabled={to >= total} onClick={() => onChange(offset + limit)}>
-        Następne →
+      <button type="button" className="btn btn-ghost" aria-disabled={to >= total || undefined}
+        onClick={() => { if (to < total) onChange(offset + limit) }}>
+        Następne
       </button>
     </nav>
   )
@@ -153,4 +139,80 @@ export function Pagination({
 
 export function SyntheticTag() {
   return <span className="tag tag-synthetic" title="Dane demonstracyjne, wymyślone">Dane demo</span>
+}
+
+/**
+ * Stały komunikat o wyniku akcji. Element istnieje od początku (czytnik ekranu ogłasza zmianę treści)
+ * i rezerwuje jedną linię, więc pojawienie się tekstu nie przesuwa przycisków.
+ */
+export function StatusLine({ message, error }: { message?: string; error?: string }) {
+  return (
+    <div className="status-line">
+      <p role="status" className="status-ok">{error ? '' : message}</p>
+      {error && <p role="alert" className="field-error">{error}</p>}
+    </div>
+  )
+}
+
+function Bars({ count, className = 'skeleton-line' }: { count: number; className?: string }) {
+  return <>{Array.from({ length: count }, (_, i) => <span key={i} className={`skeleton ${className}`} />)}</>
+}
+
+/** Szkielet tabeli: tyle wierszy, ile zwykle widać, więc tabela wchodzi na to samo miejsce. */
+export function TableSkeleton({ label, rows = 6 }: { label: string; rows?: number }) {
+  return (
+    <div aria-busy="true">
+      <p role="status" className="visually-hidden">{label}</p>
+      <div className="table-wrap admin-skeleton-table" aria-hidden="true">
+        {Array.from({ length: rows }, (_, i) => (
+          <div key={i} className="admin-skeleton-row">
+            <span className="skeleton skeleton-line" />
+            <span className="skeleton skeleton-line skeleton-short" />
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+/** Szkielet strony edycji (zgłoszenie, karta, szkic z dokumentu, nabór): powrót, tytuł, pola. */
+export function FormSkeleton({ label, side = false }: { label: string; side?: boolean }) {
+  return (
+    <div aria-busy="true">
+      <p role="status" className="visually-hidden">{label}</p>
+      <div className="skeleton-page" aria-hidden="true">
+        <span className="skeleton skeleton-line skeleton-kicker" />
+        <span className="skeleton skeleton-title" />
+        <div className={side ? 'ticket-layout' : undefined}>
+          <div className="skeleton-page">
+            <span className="skeleton skeleton-kicker" />
+            <span className="skeleton admin-skeleton-field" />
+            <span className="skeleton skeleton-kicker" />
+            <span className="skeleton skeleton-block" />
+            <Bars count={2} />
+          </div>
+          {side && <div className="skeleton-page"><span className="skeleton skeleton-block" /><Bars count={3} /></div>}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** Szkielet treści wewnątrz istniejącego panelu (podgląd karty, analiza zgłoszenia). */
+export function ContentSkeleton({ label }: { label?: string }) {
+  return (
+    <div aria-busy="true">
+      {label && <p role="status" className="visually-hidden">{label}</p>}
+      <div className="skeleton-page" aria-hidden="true">
+        <span className="skeleton skeleton-line skeleton-mid" />
+        <Bars count={3} />
+        <span className="skeleton skeleton-block" />
+      </div>
+    </div>
+  )
+}
+
+/** Szkielet całego panelu bocznego. */
+export function PanelSkeleton({ label }: { label?: string }) {
+  return <div className="panel"><ContentSkeleton label={label} /></div>
 }

@@ -126,7 +126,7 @@ async def main() -> None:
         if await session.scalar(select(Fiszka.id).where(Fiszka.syntetyczna.is_(True))):
             print("Dane demo Kreatora już istnieją, nic nie robię.")
             return
-        ai = AIGateway(session, settings, llm)
+        ai = AIGateway(settings, llm)
         tickets = TicketService(session, ai, settings, get_email_sender(settings))
         fiszki = FiszkaService(session, ai, settings, tickets)
         today = date.today()

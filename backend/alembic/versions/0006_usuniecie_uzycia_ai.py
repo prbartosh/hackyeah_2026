@@ -1,4 +1,4 @@
-"""tagi zgłoszeń: dopasowanie bez embeddingów (zadanie 0017)
+"""usunięcie licznika dziennego limitu wywołań AI
 
 Revision ID: 0006
 Revises: 0005
@@ -18,8 +18,13 @@ depends_on: str | Sequence[str] | None = None
 
 
 def upgrade() -> None:
-    op.add_column("zgloszenia", sa.Column("tagi", sa.JSON(), nullable=True))
+    op.drop_table("uzycie_ai")
 
 
 def downgrade() -> None:
-    op.drop_column("zgloszenia", "tagi")
+    op.create_table(
+        "uzycie_ai",
+        sa.Column("dzien", sa.String(length=32), nullable=False),
+        sa.Column("wywolania", sa.Integer(), nullable=False),
+        sa.PrimaryKeyConstraint("dzien"),
+    )

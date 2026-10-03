@@ -51,6 +51,8 @@ interface ChatData {
   /** Etap tury od backendu (zdarzenie `status`), pokazywany przy wskaźniku pisania */
   status: string | null
   error: string | null
+  /** Czat niedostępny (503 z komunikatem): bez przycisku ponowienia */
+  unavailable: boolean
 }
 
 const initialData = (): ChatData => ({
@@ -66,12 +68,13 @@ const initialData = (): ChatData => ({
   streaming: false,
   status: null,
   error: null,
+  unavailable: false,
 })
 
 type Action =
   | { type: 'send'; display: string; content: string; confirmSummary?: boolean }
   | { type: 'event'; event: ServerEvent }
-  | { type: 'fail'; message: string }
+  | { type: 'fail'; message: string; unavailable?: boolean }
   | { type: 'retry' }
   | { type: 'set_role'; role: Role }
   | { type: 'reset' }
@@ -138,16 +141,17 @@ function reducer(data: ChatData, action: Action): ChatData {
         streaming: true,
         status: null,
         error: null,
+        unavailable: false,
       }
 
     case 'fail':
-      return { ...data, display: dropEmptyAssistant(data.display), streaming: false, error: action.message }
+      return { ...data, display: dropEmptyAssistant(data.display), streaming: false, error: action.message, unavailable: !!action.unavailable }
 
     case 'retry': {
       // Odrzuć niedokończoną odpowiedź z nieudanej tury — zdarzenia przyjdą od nowa
       let display = data.display
       while (display.length && display[display.length - 1].from === 'assistant') display = display.slice(0, -1)
-      return { ...data, display, awaiting: null, recentlyUpdated: [], streaming: true, status: null, error: null }
+      return { ...data, display, awaiting: null, recentlyUpdated: [], streaming: true, status: null, error: null, unavailable: false }
     }
 
     case 'set_role':
@@ -274,6 +278,7 @@ export function ChatProvider({ children }: { children: ReactNode }) {
         dispatch({
           type: 'fail',
           message: e instanceof ChatError ? e.message : 'Coś poszło nie tak. Spróbuj ponownie.',
+          unavailable: e instanceof ChatError && e.unavailable,
         })
       }
     },

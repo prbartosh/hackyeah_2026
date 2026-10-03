@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, Integer, String, Text, func
+from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base, TimestampMixin
@@ -70,10 +70,3 @@ class AppSetting(Base):
 
     klucz: Mapped[str] = mapped_column(String(50), primary_key=True)
     wartosc: Mapped[float] = mapped_column(Float)
-
-
-class AiUsage(Base):
-    __tablename__ = "uzycie_ai"
-
-    dzien: Mapped[str] = mapped_column(String(32), primary_key=True)
-    wywolania: Mapped[int] = mapped_column(Integer, default=0)

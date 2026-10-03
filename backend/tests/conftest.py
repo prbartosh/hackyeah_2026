@@ -72,7 +72,7 @@ async def admin_client(session_factory, fake_llm, monkeypatch):
             yield session
 
     def override_gateway(session: Annotated[AsyncSession, Depends(get_session)]) -> AIGateway:
-        return AIGateway(session, settings, fake_llm if settings.llm_api_key else None)
+        return AIGateway(settings, fake_llm if settings.llm_api_key else None)
 
     app.dependency_overrides[get_session] = override_session
     app.dependency_overrides[get_ai_gateway] = override_gateway

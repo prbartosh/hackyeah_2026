@@ -1,7 +1,7 @@
 import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '@/admin/api'
 import {
-  CardStatusBadge, EVIDENCE_LABELS, Empty, ErrorBox, Loading, Pagination, categoryName, formatDate, useLoad, useTitle,
+  CardStatusBadge, EVIDENCE_LABELS, Empty, ErrorBox, Pagination, TableSkeleton, categoryName, formatDate, useLoad, useTitle,
 } from '@/admin/ui'
 
 const LIMIT = 25
@@ -37,14 +37,14 @@ export default function CardsPage() {
   return (
     <>
       <h1>Karty innowacji</h1>
-      <p className="lead">Karty widoczne dla użytkowników mają status „Opublikowana”. Zmiana treści karty przelicza jej dopasowanie w wyszukiwarce.</p>
+      <p className="lead">Użytkownicy widzą tylko karty ze statusem „Opublikowana”. Po zmianie treści wyszukiwarka od razu uwzględnia nową wersję.</p>
       <div className="btn-row">
         <Link className="btn btn-primary" to="/admin/karty/nowa">Dodaj kartę ręcznie</Link>
         <Link className="btn btn-secondary" to="/admin/importy">Wgraj dokument projektu</Link>
       </div>
 
       <div className="filters" role="group" aria-label="Filtry kart">
-        <div className="field">
+        <div className="field field-wide">
           <span id="status-label" className="label">Status</span>
           <div className="a11y-options" role="group" aria-labelledby="status-label">
             {STATUSES.map((s) => (
@@ -63,10 +63,10 @@ export default function CardsPage() {
       </div>
 
       {error && <ErrorBox message={error} onRetry={reload} />}
-      {loading && !data && <Loading text="Wczytywanie kart…" />}
+      {loading && !data && <TableSkeleton label="Wczytywanie kart…" />}
       {data && data.items.length === 0 && <Empty>Brak kart dla tych filtrów.</Empty>}
       {data && data.items.length > 0 && (
-        <div className="table-wrap" tabIndex={0} role="region" aria-label="Tabela kart">
+        <div className={`table-wrap${loading ? ' is-stale' : ''}`} tabIndex={0} role="region" aria-label="Tabela kart" aria-busy={loading || undefined}>
           <table className="admin-table">
             <caption className="visually-hidden">Karty innowacji, {data.total} łącznie</caption>
             <thead>

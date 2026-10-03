@@ -9,7 +9,7 @@ Decyzje: [ADR 0008](adr/0008-kreator-pomyslow.md).
 3. Bez Dockera: `python backend/scripts/dev_panel.py` (SQLite, token panelu `demo-token`, seeduje też Kreatora) i `npm --prefix frontend run dev`.
 4. Kreator: <http://localhost:8080/kreator>. Nabory w panelu: `/admin/nabory`.
 
-Konfiguracja: `KREATOR_AI_DAILY_CALL_LIMIT`, `LLM_API_KEY` (bez klucza formularze działają ręcznie).
+Konfiguracja: `LLM_API_KEY` (bez klucza formularze działają ręcznie).
 
 ## Przejście demo
 
@@ -23,7 +23,7 @@ Konfiguracja: `KREATOR_AI_DAILY_CALL_LIMIT`, `LLM_API_KEY` (bez klucza formularz
 
 ## Współdzielone z panelem admina
 
-`Ticket`, `ThreadMessage`, `Notification`, `/watek/:token`, `TicketService.create` (bez zmian). Minimalne zmiany wspólnego kodu: `AIGateway.json(scope=...)`, `uzycie_ai.dzien` 10→32, `main.py`, `deps.py`, `router.py`, `admin.py`, `App.tsx`, `Header.tsx`, `Layout.tsx`, `AdminLayout.tsx`, `InnovationPage.tsx` (przycisk), `admin/api.ts` (export `call`), `scripts/dev_panel.py`.
+`Ticket`, `ThreadMessage`, `Notification`, `/watek/:token`, `TicketService.create` (bez zmian). Minimalne zmiany wspólnego kodu: `main.py`, `deps.py`, `router.py`, `admin.py`, `App.tsx`, `Header.tsx`, `Layout.tsx`, `AdminLayout.tsx`, `InnovationPage.tsx` (przycisk), `admin/api.ts` (export `call`), `scripts/dev_panel.py`.
 
 ## Znane ograniczenia
 

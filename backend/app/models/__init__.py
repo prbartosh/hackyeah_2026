@@ -5,10 +5,9 @@ from app.models.item import Item
 from app.models.kreator import Canva, Fiszka, Nabor, SzablonCanvy, Wniosek
 from app.models.need import Potrzeba
 from app.models.opinion import Opinia
-from app.models.ticket import AiUsage, AppSetting, Notification, ThreadMessage, Ticket
+from app.models.ticket import AppSetting, Notification, ThreadMessage, Ticket
 
 __all__ = [
-    "AiUsage",
     "AppSetting",
     "Canva",
     "ClusterName",
