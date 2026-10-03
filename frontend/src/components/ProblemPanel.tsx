@@ -1,12 +1,56 @@
 import { useChat } from '@/context/ChatContext'
 import { useAccessibility } from '@/context/AccessibilityContext'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
-import { PROBLEM_FIELDS } from '@/types/chat'
+import { PROBLEM_FIELDS, type GminaStats, type WskaznikGminy } from '@/types/chat'
 
 const WIDE_FROM = { normal: 75, large: 62, xlarge: 72 } as const
+const VISIBLE_INDICATORS = 3
+
+function Indicator({ w }: { w: WskaznikGminy }) {
+  return (
+    <li>
+      <strong>{w.wartosc}</strong>{' '}
+      <a href={w.url} target="_blank" rel="noreferrer">
+        {w.nazwa}<span className="visually-hidden"> (otwiera się w nowej karcie)</span>
+      </a>{' '}
+      <span className="gmina-year">({w.rok})</span>
+    </li>
+  )
+}
+
+/** Wskaźniki gminy z Obserwatora: każdy z rokiem i linkiem, źródła pod listą. */
+function GminaBlock({ gmina }: { gmina: GminaStats }) {
+  const sources = [...new Set(gmina.obszary.flatMap((o) => o.wskazniki.map((w) => w.zrodlo)))]
+  return (
+    <section className="gmina-block" aria-labelledby="gmina-title">
+      <h3 id="gmina-title" className="gmina-title">Dane gminy</h3>
+      {gmina.obszary.map((o) => (
+        <div key={`${o.nazwa}-${o.powiat}`} className="gmina-area">
+          <p className="gmina-name">{o.nazwa}, {o.powiat}</p>
+          <ul className="gmina-list">
+            {o.wskazniki.slice(0, VISIBLE_INDICATORS).map((w) => <Indicator key={w.id} w={w} />)}
+          </ul>
+          {o.wskazniki.length > VISIBLE_INDICATORS && (
+            <details className="gmina-more">
+              <summary>Pozostałe wskaźniki ({o.wskazniki.length - VISIBLE_INDICATORS})</summary>
+              <ul className="gmina-list">
+                {o.wskazniki.slice(VISIBLE_INDICATORS).map((w) => <Indicator key={w.id} w={w} />)}
+              </ul>
+            </details>
+          )}
+        </div>
+      ))}
+      <p className="gmina-source">
+        Źródło: <a href="https://obserwator.rops.krakow.pl" target="_blank" rel="noreferrer">
+          Obserwator Statystyk Społecznych ROPS<span className="visually-hidden"> (otwiera się w nowej karcie)</span>
+        </a>{sources.length > 0 && ` (${sources.join(', ')})`}
+      </p>
+    </section>
+  )
+}
 
 function PanelBody() {
-  const { state, recentlyUpdated } = useChat()
+  const { state, recentlyUpdated, gmina } = useChat()
   return (
     <dl className="problem-list">
       {PROBLEM_FIELDS.map(({ key, label }) => {
@@ -25,6 +69,7 @@ function PanelBody() {
                   <span className="visually-hidden">jeszcze nie ustalono</span>
                 </span>
               )}
+              {key === 'miejsca' && gmina && <GminaBlock gmina={gmina} />}
             </dd>
           </div>
         )

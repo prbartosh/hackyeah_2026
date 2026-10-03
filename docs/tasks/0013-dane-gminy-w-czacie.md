@@ -14,7 +14,7 @@ Gdy użytkownik poda gminę w polu „Gdzie”, czat pokazuje kilka wskaźników
 - [x] `ObserwatorRepository`: wczytuje `assets/obserwator/observations.csv` przy starcie, zostawia tylko wybrane wskaźniki i najnowszy rok z wartością dla każdej gminy
 - [x] Dopasowanie nazwy gminy: bez polskich znaków i wielkości liter. Gminy miejsko-wiejskie mają dwa wiersze (`Bochnia (miasto)`, `Bochnia (wieś)`), wtedy pokazać oba albo dopytać
 - [x] Narzędzie modelu (propozycja: `gmina_stats(gmina)`) zwraca wskaźniki z rokiem i źródłem. Model nie podaje liczb spoza tego narzędzia
-- [ ] Front: obsługa zdarzenia SSE `gmina_stats` (backend je wysyła, format w ADR 0005). Nowe zdarzenie SSE dla panelu „Twój problem”: blok „Dane gminy” pod „Gdzie”, z rokiem i linkiem do Obserwatora
+- [x] Front: obsługa zdarzenia SSE `gmina_stats` (backend je wysyła, format w ADR 0005). Nowe zdarzenie SSE dla panelu „Twój problem”: blok „Dane gminy” pod „Gdzie”, z rokiem i linkiem do Obserwatora
 - [x] Decyzję dopisać do ADR 0005 albo w nowym ADR (nowe narzędzie zmienia stały zestaw narzędzi i jednorazowo unieważnia cache promptu)
 - [x] Testy: znana gmina, gmina miejsko-wiejska, nieznana nazwa, brak danych dla wskaźnika
 
@@ -26,3 +26,4 @@ Gdy użytkownik poda gminę w polu „Gdzie”, czat pokazuje kilka wskaźników
 - Gmina miejsko-wiejska: backend zwraca oba wiersze, a prompt pozwala modelowi dopytać, o który chodzi. Kraków, Tarnów i Nowy Sącz są w danych tylko jako `powiat m. X` i są dopasowywane po nazwie miasta.
 - Wczytanie CSV przy pierwszym zapytaniu czatu trwa ok. 0,6 s, potem dane są w pamięci.
 - Nie sprawdzone na prawdziwym modelu.
+- 2026-10-03, front (Kacper): blok „Dane gminy” w panelu „Twój problem” pod „Gdzie”, osobno dla każdego obszaru (miasto i wieś). Widać 3 pierwsze wskaźniki z `wskazniki-czatu.json`, reszta pod „Pozostałe wskaźniki”. Każdy wskaźnik z rokiem i linkiem do Obserwatora, pod listą źródła danych. Sprawdzone na danych Bochni ze stubem strumienia, axe 0 naruszeń (panel boczny i zwinięty). W danych źródło wskaźnika 36 to „MRPiPS-03”, a pozostałych „MRiPS-03”, więc w źródłach są oba napisy.
