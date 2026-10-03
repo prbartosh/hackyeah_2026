@@ -16,6 +16,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz): backend z narzędziem `gmina_stats` i zdarzeniem SSE gotowy, front (Daniel, Kacper) do zrobienia, test na prawdziwym modelu
 - [0018](tasks/0018-kreator-pomyslow.md) Kreator pomysłów, moduł III (Kacper): fiszka, nabory i generator wniosków, canvy, asystent gotowe, zostaje test z czytnikiem ekranu i DeepSeek (Postgres sprawdzony) ([jak uruchomić](kreator-pomyslow.md))
 - [0019](tasks/0019-tester-innowacji.md) Tester innowacji, moduł IV (Kacper): oceny, zgłoszenia do testów, poziom dowodu i moderacja w panelu gotowe ([ADR 0011](adr/0011-tester-innowacji.md), proponowany), zostaje NVDA i limit w nginx (osobny PR)
+- [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu (Daniel, do potwierdzenia): granice błędów, lazy loading tras, lokalne czcionki i poprawki dostępności gotowe w kodzie, zostają testy ręczne, axe i sesja NVDA
 
 ## Do zrobienia
 
