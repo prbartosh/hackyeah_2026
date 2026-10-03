@@ -5,7 +5,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 ## W toku
 
 - [0001](tasks/0001-package-lock.md) package-lock.json i npm ci (Daniel, Kacper): lock jest, brakuje `npm ci` w Dockerfile
-- [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): frontend w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), backend nie zaczęty
+- [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): frontend innowacji w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9) (czeka na endpointy listy i kategorii), backend i dokumenty nie zaczęte, brakuje testu z czytnikiem ekranu
 
 ## Do zrobienia
 

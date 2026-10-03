@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Download, ExternalLink, FileText, PlayCircle } from 'lucide-react'
+import { Link, useLocation, useParams } from 'react-router-dom'
+import { Download, ExternalLink, FileText } from 'lucide-react'
 import { getInnovation } from '@/api/innovations'
+import VideoEmbed from '@/components/VideoEmbed'
 import { useChat } from '@/context/ChatContext'
 import { kategoriaNazwa, type Innowacja } from '@/types/innowacja'
 
@@ -21,6 +22,8 @@ function NewTab() {
 export default function InnovationPage() {
   const { slug = '' } = useParams()
   const { results } = useChat()
+  // Wejście z zasobnika (link z karty niesie filtry listy): wracamy do listy z tymi filtrami
+  const zasobnik = (useLocation().state as { zasobnik?: string } | null)?.zasobnik
   const [state, setState] = useState<{ slug: string; data: Innowacja | null; failed?: boolean } | null>(null)
 
   useEffect(() => {
@@ -31,7 +34,9 @@ export default function InnovationPage() {
     return () => controller.abort()
   }, [slug])
 
-  const backLink = results ? (
+  const backLink = zasobnik !== undefined ? (
+    <Link to={`/zasobnik${zasobnik}`}>← Wróć do zasobnika wiedzy</Link>
+  ) : results ? (
     <Link to="/#wyniki">← Wróć do wyników wyszukiwania</Link>
   ) : (
     <Link to="/">← Wróć do strony głównej</Link>
@@ -65,8 +70,14 @@ export default function InnovationPage() {
     <div className="container page">
       <nav aria-label="Ścieżka nawigacji" className="breadcrumbs">
         <ol>
-          <li><Link to="/">Strona główna</Link></li>
-          {results && <li><Link to="/#wyniki">Wyniki</Link></li>}
+          {zasobnik !== undefined ? (
+            <li><Link to={`/zasobnik${zasobnik}`}>Zasobnik wiedzy</Link></li>
+          ) : (
+            <>
+              <li><Link to="/">Strona główna</Link></li>
+              {results && <li><Link to="/#wyniki">Wyniki</Link></li>}
+            </>
+          )}
           <li aria-current="page">{rec.nazwa}</li>
         </ol>
       </nav>
@@ -76,6 +87,13 @@ export default function InnovationPage() {
           {kategoria && <p className="detail-kicker">{kategoria}</p>}
           <h1>{rec.nazwa}</h1>
           {rec.wybrana_do_upowszechniania && <p className="badge">Polecana przez ROPS do upowszechniania</p>}
+
+          {rec.youtube_url && (
+            <section className="detail-section">
+              <h2>Film</h2>
+              <VideoEmbed url={rec.youtube_url} nazwa={rec.nazwa} />
+            </section>
+          )}
 
           <Section title="Na czym polega rozwiązanie" text={rec.opis} />
           <Section title="Jakich problemów dotyczy" text={rec.problem} />
@@ -104,13 +122,6 @@ export default function InnovationPage() {
                 <li>
                   <a href={rec.pdf_url} target="_blank" rel="noreferrer">
                     <FileText size={20} aria-hidden="true" /> Folder informacyjny (PDF)<NewTab />
-                  </a>
-                </li>
-              )}
-              {rec.youtube_url && (
-                <li>
-                  <a href={rec.youtube_url} target="_blank" rel="noreferrer">
-                    <PlayCircle size={20} aria-hidden="true" /> Film o rozwiązaniu<NewTab />
                   </a>
                 </li>
               )}

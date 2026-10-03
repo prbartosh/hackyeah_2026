@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import AccessibilityBar from '@/components/AccessibilityBar'
 
 /** Górny pasek: nazwa serwisu w lewym rogu, ułatwienia dostępu po prawej. */
@@ -19,6 +19,10 @@ export default function Header() {
             <span className="brand-tagline">Wyszukiwarka innowacji społecznych</span>
           </span>
         </Link>
+        <nav aria-label="Główna" className="site-nav">
+          <NavLink to="/" end>Wyszukiwarka</NavLink>
+          <NavLink to="/zasobnik">Zasobnik wiedzy</NavLink>
+        </nav>
         <AccessibilityBar />
       </div>
     </header>

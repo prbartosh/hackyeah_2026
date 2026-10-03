@@ -1,6 +1,6 @@
 # 0003. Zasobnik wiedzy (moduł II)
 
-- Status: todo
+- Status: w toku (frontend innowacji gotowy, backend i dokumenty do zrobienia)
 - Osoba: Bartłomiej (backend), Daniel, Kacper (frontend)
 
 ## Cel
@@ -24,10 +24,10 @@ Backend: innowacje
 - [ ] Testy endpointów
 
 Frontend: innowacje
-- [ ] `/zasobnik`: kafle kategorii z liczbą innowacji, wyszukiwarka tekstowa, filtr „wybrane do upowszechniania”
-- [ ] Karta innowacji: nazwa, kategoria, skrót problemu. Bez obrazu: `obraz_url` w sprawdzonych rekordach to kod QR do strony ROPS (ustalenie z PR #9)
-- [ ] Uzupełnić `/innowacja/:slug` o brakujące pola: opis, problem, grupa docelowa, kto może skorzystać, czy działa, osadzony film, PDF, ZIP, licencja i link do źródła ROPS. Puste pola zgodnie z baza-innowacji.md
-- [ ] Link do zasobnika w `Layout`
+- [x] `/zasobnik`: kafle kategorii z liczbą innowacji, wyszukiwarka tekstowa, filtr „wybrane do upowszechniania”
+- [x] Karta innowacji: nazwa, kategoria, skrót problemu. Bez obrazu: `obraz_url` w sprawdzonych rekordach to kod QR do strony ROPS (ustalenie z PR #9)
+- [x] Uzupełnić `/innowacja/:slug` o brakujące pola: opis, problem, grupa docelowa, kto może skorzystać, czy działa, osadzony film, PDF, ZIP, licencja i link do źródła ROPS. Puste pola zgodnie z baza-innowacji.md
+- [x] Link do zasobnika w `Layout`
 
 Backend: dokumenty
 - [ ] `DocumentRepository`: odczyt `metadata.json` z `assets/raporty/`, `assets/publikacje/`, `assets/mapa-wyzwan/` oraz `indicators.json` z `assets/obserwator/`
@@ -39,7 +39,7 @@ Frontend: dokumenty
 - [ ] Wskaźniki Obserwatora: lista po kategoriach, strona wskaźnika z opisem i źródłem (bez wykresów w pierwszej wersji)
 
 Dostępność (całość)
-- [ ] Nawigacja klawiaturą, `alt` dla obrazów, tytuł `iframe` z filmem, audyt axe
+- [ ] Nawigacja klawiaturą, `alt` dla obrazów, tytuł `iframe` z filmem, audyt axe (axe na `/zasobnik` i `/innowacja/:slug` w trzech motywach bez naruszeń, `iframe` ma tytuł, brakuje ręcznego testu klawiaturą i czytnikiem ekranu)
 
 Później (osobne zadania)
 - [ ] Powiązania dokument ↔ innowacja na stronie innowacji (ADR 0004 §9, zależy od zatwierdzonych powiązań)
@@ -48,5 +48,7 @@ Później (osobne zadania)
 
 ## Notatki
 
+- Frontend (PR #9): `/zasobnik` i film na `/innowacja/:slug`. Lista i kategorie wołają `GET /innovations?kategoria=&q=&wybrane=true` (tablica innowacji) i `GET /categories` (tablica `{slug, nazwa, liczba_innowacji}`). Front nie ma lokalnego fallbacku (po #12 dane idą tylko przez API), więc `/zasobnik` pokaże komunikat o błędzie z przyciskiem ponowienia, dopóki backend nie doda tych endpointów. Oczekiwane zachowanie `q`: filtr `q` bez wielkości liter i polskich znaków, wszystkie słowa muszą pasować, lekka odmiana (wózek → wózków), kolejność po nazwie.
+- Pole `organizacja` w `sciezka-motosensoryczna` zawiera nazwiska autorów. Front tego nie poprawia, poprawka ma być w backendzie (`InnovationRepository`, np. po slugu albo przez nakładkę). Do tego czasu nazwiska widać na stronie innowacji i w wynikach czatu.
 - Pole `organizacja` może zawierać nazwisko. Przed demem sprawdzić je ręcznie.
 - PDF-y nie są w repo (`.gitignore`: `assets/**/files/*.pdf`). Linkujemy do `url` na stronie ROPS.
