@@ -121,7 +121,29 @@ export interface Results {
   items: ResultItem[]
 }
 
+/** Dane gminy z Obserwatora Statystyk Społecznych (zadanie 0013, ADR 0005). */
+export interface WskaznikGminy {
+  id: string
+  nazwa: string
+  wartosc: string
+  rok: string
+  zrodlo: string
+  url: string
+}
+
+export interface ObszarGminy {
+  nazwa: string
+  powiat: string
+  wskazniki: WskaznikGminy[]
+}
+
+export interface GminaStats {
+  gmina: string
+  obszary: ObszarGminy[]
+}
+
 export type ServerEvent =
+  | { name: 'gmina_stats'; data: GminaStats }
   | { name: 'text'; data: { text: string } }
   | { name: 'status'; data: { text: string } }
   | { name: 'role'; data: { rola: Role } }

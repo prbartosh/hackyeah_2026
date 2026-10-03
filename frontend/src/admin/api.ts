@@ -35,6 +35,7 @@ export class AdminApiError extends Error {
 function friendly(status: number, detail: unknown): string {
   if (typeof detail === 'string' && detail) return detail
   if (Array.isArray(detail)) return 'Sprawdź poprawność wpisanych danych.'
+  if (status === 429) return 'Za dużo zapytań w krótkim czasie. Odczekaj minutę i spróbuj ponownie.'
   if (status === 401) return 'Sesja wygasła lub token jest nieprawidłowy. Zaloguj się ponownie.'
   if (status === 503) return 'Panel jest wyłączony na serwerze (brak tokenu administratora).'
   if (status >= 500) return 'Serwer nie mógł wykonać operacji. Spróbuj za chwilę.'

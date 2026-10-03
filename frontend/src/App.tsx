@@ -7,6 +7,7 @@ import ImportReviewPage from '@/admin/ImportReviewPage'
 import ImportsPage from '@/admin/ImportsPage'
 import InboxPage from '@/admin/InboxPage'
 import NotificationsPage from '@/admin/NotificationsPage'
+import OpinionsPage from '@/admin/OpinionsPage'
 import RadarPage from '@/admin/RadarPage'
 import TicketPage from '@/admin/TicketPage'
 import Layout from '@/components/Layout'
@@ -20,6 +21,7 @@ import HomePage from '@/pages/HomePage'
 import InnovationPage from '@/pages/InnovationPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import ReportPage from '@/pages/ReportPage'
+import ServiceCardPage from '@/pages/ServiceCardPage'
 import ThreadPage from '@/pages/ThreadPage'
 import ZasobnikPage from '@/pages/ZasobnikPage'
 
@@ -30,6 +32,7 @@ export default function App() {
         <Route index element={<HomePage />} />
         <Route path="zasobnik" element={<ZasobnikPage />} />
         <Route path="innowacja/:slug" element={<InnovationPage />} />
+        <Route path="innowacja/:slug/wdrozenie" element={<ServiceCardPage />} />
         <Route path="zglos" element={<ReportPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
         <Route path="kreator" element={<KreatorHome />} />
@@ -48,6 +51,7 @@ export default function App() {
           <Route path="radar" element={<RadarPage />} />
           <Route path="nabory" element={<NaboryPage />} />
           <Route path="nabory/:slug" element={<NaborEditPage />} />
+          <Route path="opinie" element={<OpinionsPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>

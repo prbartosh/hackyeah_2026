@@ -7,6 +7,7 @@ Decyzje: [ADR 0006](adr/0006-panel-administratora.md), zadanie: [0015](tasks/001
 1. W `.env` ustaw `ADMIN_TOKEN` (dowolny długi sekret) i, jeśli jest klucz, `LLM_API_KEY` (DeepSeek). Bez tokenu panel jest wyłączony (503), bez klucza działa tryb uproszczony (patrz niżej).
 2. `docker compose up --build`. Przy starcie migracja `0002` tworzy tabele, a backend jednorazowo importuje 115 kart z `assets/innowacje-spoleczne/` do bazy jako opublikowane.
 3. Dane demo (16 syntetycznych zgłoszeń, oznaczonych „Dane demo”): `docker compose exec backend python scripts/seed_demo.py`. Skrypt jest idempotentny. Przy `LLM_API_KEY` triaż idzie przez DeepSeek. Embeddingi są zawsze lokalne.
+   Oceny i testy innowacji (moduł IV, [ADR 0011](adr/0011-tester-innowacji.md)): `docker compose exec backend python scripts/seed_tester.py`. Moderacja w `/admin/opinie`, sekcja „Oceny i testy” na karcie np. `/innowacja/kody-qr-na-pomoc-seniorom`.
 4. Dokumenty do uploadu: `assets/demo/*.docx` (syntetyczne; odtworzenie: `python backend/scripts/make_demo_documents.py`).
 5. Aplikacja: <http://localhost:8080>. Panel: `/admin` (logowanie tokenem). Formularz zgłoszenia: `/zglos` (link w stopce).
 

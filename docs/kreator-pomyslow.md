@@ -27,7 +27,7 @@ Konfiguracja: `KREATOR_AI_DAILY_CALL_LIMIT`, `LLM_API_KEY` (bez klucza formularz
 
 ## Znane ograniczenia
 
-- Brak rate limitu poza dziennym limitem AI. Brak kont: utrata linku to utrata szkicu.
+- Limit w nginx tylko dla POST (20 na minutę na IP, zapas 10), autozapis (PUT) bez limitu. Brak kont: utrata linku to utrata szkicu.
 - Szablon canvy odtworzony z PDF z zepsutym tekstem, do sprawdzenia z oryginałem.
 - Nabory w demo są wymyślone. Prawdziwe wpisuje admin.
 - Wizualizacja pomysłu nie jest zrobiona (brak dostawcy obrazów).

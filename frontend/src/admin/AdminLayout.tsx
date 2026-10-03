@@ -94,6 +94,7 @@ export default function AdminLayout() {
           <NavLink to="/admin/karty">Karty innowacji</NavLink>
           <NavLink to="/admin/radar">Radar trendów</NavLink>
           <NavLink to="/admin/nabory">Nabory grantowe</NavLink>
+          <NavLink to="/admin/opinie">Oceny i testy</NavLink>
         </nav>
         <button
           type="button" className="btn btn-ghost"
