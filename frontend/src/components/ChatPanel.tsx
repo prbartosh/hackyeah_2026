@@ -252,13 +252,15 @@ export default function ChatPanel() {
   const endRef = useRef<HTMLDivElement>(null)
   const dockRef = useRef<HTMLFormElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
-  const chipsRef = useRef<HTMLUListElement>(null)
+  const introRef = useRef<HTMLParagraphElement>(null)
+  const chipsRef = useRef<HTMLDivElement>(null)
   const flipFrom = useRef<DOMRect | null>(null)
+  const shownCount = useRef(0)
   const started = display.length > 0
   const lastSummaryId = [...display].reverse().find((m) => m.summary)?.id ?? null
 
-  // Przejście ekran startowy ↔ rozmowa (jak w Gemini): pole pisania płynnie zjeżdża na dół (FLIP: zapamiętujemy
-  // pozycję przed zmianą, a po zmianie animujemy różnicę); powitanie i podpowiedzi blakną.
+  // Przejście ekran startowy ↔ rozmowa: pole pisania płynnie zjeżdża na dół (FLIP: zapamiętujemy
+  // pozycję przed zmianą, a po zmianie animujemy różnicę); powitanie i przykłady blakną.
   const rememberComposer = () => {
     const box = dockRef.current?.querySelector('.composer-box')
     flipFrom.current = box ? box.getBoundingClientRect() : null
@@ -274,7 +276,7 @@ export default function ChatPanel() {
     if (!dx && !dy) return
     box.animate(
       [{ transform: `translate(${dx}px, ${dy}px)` }, { transform: 'none' }],
-      { duration: 520, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' },
+      { duration: 200, easing: 'cubic-bezier(0.2, 0, 0, 1)' },
     )
   }, [started])
 
@@ -282,6 +284,7 @@ export default function ChatPanel() {
     if (!started) {
       rememberComposer()
       fadeOutGhost(titleRef.current)
+      fadeOutGhost(introRef.current)
       fadeOutGhost(chipsRef.current)
     }
     sendMessage(text)
@@ -311,13 +314,23 @@ export default function ChatPanel() {
     return () => observer.disconnect()
   }, [])
 
+  // Przewijanie za rozmową. Nowa wiadomość: płynnie do końca. Kolejne fragmenty odpowiedzi (strumień):
+  // bez animacji i tylko wtedy, gdy koniec rozmowy i tak jest na ekranie. Kto przewinął wyżej, żeby czytać
+  // (albo jest już przy wynikach pod rozmową), zostaje tam, gdzie jest.
   useEffect(() => {
-    if (!display.length) return
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    const dock = dockRef.current
+    const end = endRef.current
+    const added = display.length !== shownCount.current
+    shownCount.current = display.length
+    if (!display.length || !dock || !end) return
     // Przyklejone pole: przewiń do końca rozmowy; nieprzyklejone (telefon + duży tekst): do końca pola
-    const sticky = dockRef.current && getComputedStyle(dockRef.current).position === 'sticky'
-    const target = sticky ? endRef.current : dockRef.current
-    target?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'end' })
+    const sticky = getComputedStyle(dock).position === 'sticky'
+    const target = sticky ? end : dock
+    if (!added) {
+      const visibleBottom = window.innerHeight - (sticky ? dock.offsetHeight : 0)
+      if (Math.abs(target.getBoundingClientRect().bottom - visibleBottom) > 200) return
+    }
+    target.scrollIntoView({ behavior: added && !prefersReducedMotion() ? 'smooth' : 'auto', block: 'end' })
   }, [display])
 
   const submit = () => {
@@ -344,6 +357,12 @@ export default function ChatPanel() {
       <h1 ref={titleRef} id="chat-title" className={started ? 'visually-hidden' : 'chat-title'}>
         Opisz problem, znajdź rozwiązanie
       </h1>
+      {!started && (
+        <p ref={introRef} className="chat-intro">
+          Napisz własnymi słowami, czego potrzebujesz. Splot zada kilka pytań i pokaże pasujące rozwiązania
+          z Biblioteki Innowacji Społecznych ROPS Kraków.
+        </p>
+      )}
 
       {started && (
         <div className="chat-toolbar">
@@ -429,15 +448,18 @@ export default function ChatPanel() {
       </form>
 
       {!started && (
-        <ul ref={chipsRef} className="chips" aria-label="Przykłady do wypróbowania">
-          {EXAMPLES.map((ex) => (
-            <li key={ex.label}>
-              <button type="button" className="chip" onClick={() => send(ex.text)}>
-                {ex.label}
-              </button>
-            </li>
-          ))}
-        </ul>
+        <div ref={chipsRef}>
+          <p id="chips-label" className="chips-label">Albo zacznij od przykładu:</p>
+          <ul className="chips" aria-labelledby="chips-label">
+            {EXAMPLES.map((ex) => (
+              <li key={ex.label}>
+                <button type="button" className="chip" onClick={() => send(ex.text)}>
+                  {ex.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       )}
     </section>
   )

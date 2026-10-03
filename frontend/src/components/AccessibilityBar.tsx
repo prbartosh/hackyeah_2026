@@ -51,7 +51,7 @@ function Controls() {
               aria-pressed={themeMode === key}
             >
               {themeMode === key
-                ? <Check className="check" size={18} strokeWidth={3} aria-hidden="true" />
+                ? <Check size={18} strokeWidth={3} aria-hidden="true" />
                 : <Icon size={18} aria-hidden="true" />}
               {label}
             </button>

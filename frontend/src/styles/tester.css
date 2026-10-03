@@ -3,7 +3,7 @@
 .evidence-steps { list-style: none; margin: 0.25rem 0 0.75rem; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .evidence-steps li {
   display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.35rem 0.9rem 0.35rem 0.4rem;
-  border: 2px solid var(--line-strong); border-radius: 999px; background: var(--surface); color: var(--text-muted); font-weight: 600;
+  border: 2px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--surface); color: var(--text-muted); font-weight: 600;
 }
 .evidence-steps li.is-reached { border-color: var(--success); color: var(--text); }
 .evidence-steps li[aria-current="step"] { background: var(--primary-soft); color: var(--on-primary-soft); border-color: var(--primary); }
@@ -19,14 +19,14 @@
 .star-off { color: var(--line-strong); }
 
 .opinion-list { list-style: none; margin: 0.75rem 0; padding: 0; display: grid; gap: 0.6rem; }
-.opinion { padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: 16px; background: var(--surface-float); display: grid; gap: 0.3rem; }
+.opinion { padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); display: grid; gap: 0.3rem; }
 .opinion-head { display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem 0.75rem; }
 .opinion-who { font-weight: 700; }
 
 .tester-actions { margin-top: 0.75rem; }
 .opinion-form {
   display: grid; gap: 0.35rem; margin-top: 1rem; padding: 1rem 1.25rem; max-width: 44rem;
-  border: 2px solid var(--primary); border-radius: var(--radius-md); background: var(--surface-float);
+  border: 1px solid var(--line-strong); border-top: 5px solid var(--primary); border-radius: var(--radius-sm); background: var(--surface); animation: rise 200ms var(--ease) both;
 }
 .opinion-form h3 { font-size: 1.15rem; margin-bottom: 0.25rem; }
 .opinion-form > label { font-weight: 700; margin-top: 0.5rem; }
@@ -35,7 +35,7 @@
 .rating-options { display: grid; gap: 0.4rem; }
 .rating-option {
   display: flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; padding: 0.4rem 0.9rem; cursor: pointer;
-  border: 2px solid var(--line-strong); border-radius: 14px; background: var(--surface); font-weight: 600;
+  border: 1px solid var(--line-strong); border-radius: var(--radius-sm); background: var(--surface); font-weight: 600;
 }
 .rating-option:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); color: var(--on-primary-soft); }
 .rating-option input { width: 1.3rem; height: 1.3rem; flex-shrink: 0; accent-color: var(--primary); }

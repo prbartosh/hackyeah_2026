@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Search, Sparkles, X } from 'lucide-react'
+import { Search, X } from 'lucide-react'
 import InnowacjaCard from '@/components/InnowacjaCard'
 import Kategorie from '@/components/Kategorie'
+import { ListSkeleton } from '@/components/Skeleton'
 import ZasobnikWskazniki from '@/components/ZasobnikWskazniki'
 import ZasobnikWyzwania from '@/components/ZasobnikWyzwania'
 import { getCategories, listInnovations } from '@/api/innovations'
@@ -142,7 +143,7 @@ export default function ZasobnikPage() {
               aria-pressed={wybrane}
               onClick={() => ustaw({ wybrane: wybrane ? null : '1' })}
             >
-              <Sparkles size={16} aria-hidden="true" /> Wybrane przez ROPS do upowszechniania
+              Tylko polecane przez ROPS do upowszechniania
             </button>
           </div>
         </form>
@@ -174,6 +175,7 @@ export default function ZasobnikPage() {
             </button>
           </div>
         )}
+        {!blad && wyniki === null && <ListSkeleton count={6} listClassName="zs-grid" />}
         {!blad && wyniki && wyniki.length === 0 && (
           <div className="alert alert-warning">
             <p>Nie znaleziono innowacji dla tych filtrów. Spróbuj innego słowa, krótszej frazy albo wyczyść filtry.</p>
