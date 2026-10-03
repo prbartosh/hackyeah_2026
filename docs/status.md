@@ -5,7 +5,6 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 ## W toku
 
 - [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): innowacje (backend i frontend) w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), dokumenty nie zaczęte, brakuje testu z czytnikiem ekranu
-- [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz): stack, strony i axe sprawdzone, scenariusze i pytest zrobione, limit 300 tys. tokenów, brakuje testu czatu przez proxy i pełnego pomiaru
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
 - [0015](tasks/0015-panel-administratora.md) Panel administratora, moduł VI (Kacper, do potwierdzenia): backend, UI, seed i testy gotowe, zostaje test z czytnikiem ekranu, prawdziwy Postgres i klucz DeepSeek ([jak uruchomić](panel-administratora.md))
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
@@ -26,6 +25,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
+- 2026-10-03: Pierwsze uruchomienie stacku ([0002](tasks/0002-smoke-test.md)): stack, strony, axe, pytest, czat przez proxy na DeepSeek; pełna rozmowa to 6 wywołań modelu i ok. 297 tys. tokenów, więc limit 300 tys. to 1 rozmowa dziennie
 - 2026-10-03: Ewaluacja dopasowania ([0009](tasks/0009-ewaluacja-dopasowania.md)): skrypt `backend/scripts/eval_matchmaking.py`, pełny pomiar niepotrzebny (decyzja Bartosza)
 - 2026-10-03: Frontend buduje się z `npm ci` na podstawie `package-lock.json` ([zadanie 0001](tasks/0001-package-lock.md))
 - 2026-10-03: Pasek dostępności zwijany na mobile, axe na mobile 0 naruszeń ([zadanie 0010](tasks/0010-dostepnosc-mobile-i-glos.md))
