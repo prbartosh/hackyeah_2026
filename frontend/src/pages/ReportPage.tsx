@@ -2,7 +2,6 @@ import { useState, type FormEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { api } from '@/admin/api'
 import { errorText } from '@/admin/ui'
-import { useChat } from '@/context/ChatContext'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import '@/styles/admin.css'
 
@@ -11,7 +10,6 @@ export default function ReportPage() {
   useDocumentTitle('Zgłoś potrzebę · Splot')
   // Z wyników czatu przychodzi gotowy opis problemu, żeby nie pisać go drugi raz
   const prefill = (useLocation().state as { tresc?: string } | null)?.tresc ?? ''
-  const { results } = useChat()
   const [text, setText] = useState(prefill)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -45,33 +43,19 @@ export default function ReportPage() {
     const link = `/watek/${token}`
     return (
       <div className="container page">
-        <h1>Zgłoszenie wysłane do ROPS</h1>
+        <h1>Dziękujemy, zgłoszenie dotarło do zespołu ROPS</h1>
         <p role="status">Odpowiedź pojawi się pod tym adresem. Zapisz go lub dodaj do zakładek:</p>
         <p><Link to={link}>{window.location.origin}{link}</Link></p>
-        <p className="hint">Jeśli podano e-mail, odpowiedź przyjdzie też e-mailem.</p>
-        <ul className="next-links">
-          <li><Link to={link}>Przejdź do swojego zgłoszenia</Link></li>
-          <li><Link to="/">Wróć do wyszukiwarki</Link></li>
-        </ul>
+        <p className="hint">Jeśli podałeś e-mail, dostaniesz też wiadomość z odpowiedzią.</p>
       </div>
     )
   }
 
   return (
     <div className="container page report">
-      <nav aria-label="Ścieżka nawigacji" className="breadcrumbs">
-        <ol>
-          <li><Link to="/">Wyszukiwarka</Link></li>
-          {results && <li><Link to="/#wyniki">Wyniki</Link></li>}
-          <li aria-current="page">Zgłoś potrzebę</li>
-        </ol>
-      </nav>
-      <h1>Zgłoś potrzebę do ROPS</h1>
-      <p className="lead">
-        Opisz, czego potrzebujesz. Pracownik ROPS przeczyta zgłoszenie i odpowie, wskazując rozwiązania z bazy innowacji.
-        Nie trzeba zakładać konta.
-      </p>
-      {prefill && <p className="hint">Wpisaliśmy opis z rozmowy lub ze strony rozwiązania. Możesz go zmienić albo uzupełnić.</p>}
+      <h1>Nie znalazłeś rozwiązania? Zgłoś potrzebę</h1>
+      <p>Opisz swoją sprawę. Pracownik ROPS przeczyta zgłoszenie i odpowie, wskazując rozwiązania z bazy innowacji.</p>
+      {prefill && <p className="hint">Wpisaliśmy opis z rozmowy. Możesz go zmienić albo uzupełnić.</p>}
       <form onSubmit={submit} className="stack" noValidate>
         <div className="field">
           <label htmlFor="r-text">Opis sprawy</label>

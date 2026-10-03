@@ -2,7 +2,7 @@ import { useState, type FormEvent } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { api } from '@/admin/api'
 import {
-  Empty, ErrorBox, Pagination, SlaBadge, StatusBadge, StatusLine, SyntheticTag, TableSkeleton, UrgencyBadge,
+  Empty, ErrorBox, Loading, Pagination, SlaBadge, StatusBadge, SyntheticTag, UrgencyBadge,
   categoryName, errorText, formatDate, useLoad, useTitle,
 } from '@/admin/ui'
 import type { PanelSettings } from '@/admin/types'
@@ -27,8 +27,8 @@ function SettingsBox() {
     setFail('')
     try {
       await api.saveSettings(body)
-      // Bez ponownego wczytania: formularz się nie przebudowuje, więc fokus zostaje na przycisku.
       setMessage('Zapisano ustawienia.')
+      reload()
     } catch (err) {
       setFail(errorText(err))
     }
@@ -62,9 +62,10 @@ function SettingsBox() {
               : 'Podpowiedzi AI są wyłączone (brak klucza API). Triaż działa w uproszczonym trybie.'}
           </p>
           <div className="btn-row"><button type="submit" className="btn btn-secondary">Zapisz ustawienia</button></div>
+          {message && <p role="status" className="status-ok">{message}</p>}
+          {fail && <p role="alert" className="field-error">{fail}</p>}
         </form>
       )}
-      <StatusLine message={message} error={fail} />
     </details>
   )
 }
@@ -149,12 +150,12 @@ export default function InboxPage() {
       </form>
 
       {error && <ErrorBox message={error} onRetry={reload} />}
-      {loading && !data && <TableSkeleton label="Wczytywanie zgłoszeń…" />}
+      {loading && !data && <Loading text="Wczytywanie zgłoszeń…" />}
       {data && data.items.length === 0 && (
         <Empty>{hasFilters ? 'Żadne zgłoszenie nie pasuje do filtrów.' : 'Skrzynka jest pusta. Nowe zgłoszenia pojawią się tutaj.'}</Empty>
       )}
       {data && data.items.length > 0 && (
-        <div className={`table-wrap${loading ? ' is-stale' : ''}`} tabIndex={0} role="region" aria-label="Tabela zgłoszeń" aria-busy={loading || undefined}>
+        <div className="table-wrap" tabIndex={0} role="region" aria-label="Tabela zgłoszeń">
           <table className="admin-table">
             <caption className="visually-hidden">Zgłoszenia od użytkowników, {data.total} łącznie</caption>
             <thead>
@@ -170,7 +171,7 @@ export default function InboxPage() {
               {data.items.map((t) => (
                 <tr key={t.id}>
                   <th scope="row" className="cell-main">
-                    <Link to={`/admin/zgloszenia/${t.id}`} state={{ from: params.toString() }}>Nr {t.id}: {t.skrot}</Link>
+                    <Link to={`/admin/zgloszenia/${t.id}`}>Nr {t.id}: {t.skrot}</Link>
                     <div className="hint">
                       Wpłynęło {formatDate(t.created_at)}
                       {t.syntetyczne && <> <SyntheticTag /></>}

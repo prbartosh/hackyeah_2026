@@ -38,7 +38,7 @@ export default function VideoEmbed({ url, nazwa }: Props) {
         </button>
       ) : null}
       <p>
-        <a href={url} target="_blank" rel="noreferrer" className="link-ext">
+        <a href={url} target="_blank" rel="noreferrer">
           Obejrzyj film w serwisie YouTube <ExternalLink size={16} aria-hidden="true" />
           <span className="visually-hidden"> (otwiera się w nowej karcie)</span>
         </a>

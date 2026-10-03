@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Search } from 'lucide-react'
 import { listDocuments, type Dokument } from '@/api/documents'
-import { ListSkeleton } from '@/components/Skeleton'
 import { normalizeText } from '@/lib/text'
 import { plural } from '@/lib/plural'
 
@@ -63,7 +62,6 @@ export default function ZasobnikWskazniki() {
           <button type="button" className="btn btn-secondary" onClick={() => setAttempt((n) => n + 1)}>Spróbuj ponownie</button>
         </div>
       )}
-      {docs === null && !error && <ListSkeleton count={6} />}
       <div className="zs-groups">
         {groups.map(([kategoria, items]) => (
           <details key={kategoria} className="zs-group" open={Boolean(q)}>
