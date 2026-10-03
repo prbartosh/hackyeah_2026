@@ -2,7 +2,11 @@ from pydantic import BaseModel
 
 
 class Innovation(BaseModel):
-    """Rekord z assets/innowacje-spoleczne/innowacje.json (opis pól: docs/baza-innowacji.md)."""
+    """Rekord z assets/innowacje-spoleczne/innowacje.json (opis pól: docs/baza-innowacji.md).
+
+    Pola treści mogą być null (ADR 0004 §2) - pusty rekord po odświeżeniu scraperem
+    nie może wywalić startu backendu.
+    """
 
     slug: str
     url_zrodlowy: str
@@ -10,14 +14,14 @@ class Innovation(BaseModel):
     kategorie: list[str]
     wybrana_do_upowszechniania: bool
     opis: str | None
-    problem: str
+    problem: str | None
     grupa_docelowa: str | None
-    kto_moze_skorzystac: str
+    kto_moze_skorzystac: str | None
     czy_dziala: str | None
     organizacja: str | None
     pdf_url: str | None
     youtube_url: str | None
-    materialy_url: str
-    obraz_url: str
+    materialy_url: str | None
+    obraz_url: str | None
     licencja: str | None
-    pobrano_dnia: str
+    pobrano_dnia: str | None

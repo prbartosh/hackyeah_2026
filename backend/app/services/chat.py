@@ -12,7 +12,7 @@ from app.schemas.chat import (
     ChatState,
     DoneEvent,
     ErrorEvent,
-    ProblemFields,
+    ProblemState,
     ProblemUpdateEvent,
     QuestionEvent,
     ResultItem,
@@ -79,7 +79,7 @@ class ChatService:
     def __init__(self, llm: LLMService, innovations: InnovationRepository) -> None:
         self.llm = llm
         self.innovations = innovations
-        self.system_prompt = prompts.build_system_prompt(innovations.all())
+        self.system_prompt = prompts.build_system_prompt(innovations)
 
     def validate(self, request: ChatRequest) -> None:
         """Wywoływane przed otwarciem strumienia, żeby zła historia dała 422."""
@@ -151,7 +151,10 @@ class ChatService:
         last = messages[-1]
         last["content"] = [
             {"type": "text", "text": last["content"]},
-            {"type": "text", "text": prompts.build_turn_context(request.state, request.action)},
+            {
+                "type": "text",
+                "text": prompts.build_turn_context(request.state, request.action, request.summary),
+            },
         ]
         return messages
 
@@ -175,22 +178,31 @@ class ChatService:
     def _tool_set_role(self, turn: _Turn, request: ChatRequest, args: dict) -> ToolOutcome:
         if turn.state.role_locked:
             return ToolOutcome("Rolę ustalił użytkownik - nie zmieniaj jej.", is_error=True)
-        role = RoleEvent(role=args["role"]).role
-        turn.state.role = role
-        turn.transcript.append(f"[Rola: {role}]")
-        return ToolOutcome("ok", events=[ServerEvent("role", RoleEvent(role=role))])
+        event = RoleEvent(rola=args["rola"])
+        turn.state.rola = event.rola
+        turn.transcript.append(f"[Rola: {event.rola}]")
+        return ToolOutcome("ok", events=[ServerEvent("role", event)])
 
     def _tool_update_problem(self, turn: _Turn, request: ChatRequest, args: dict) -> ToolOutcome:
-        updates = {k: v.strip() for k, v in args.items() if isinstance(v, str) and v.strip()}
-        merged = turn.state.problem.model_dump() | updates
-        turn.state.problem = ProblemFields.model_validate(merged)
-        if updates:
-            turn.transcript.append(
-                "[Panel: " + "; ".join(f"{k}: {v}" for k, v in updates.items()) + "]"
-            )
+        changed: list[str] = []
+        for name in ProblemState.model_fields:
+            update = args.get(name)
+            if not isinstance(update, dict):
+                continue  # null = bez zmian
+            pole = getattr(turn.state, name)
+            tekst = (update.get("tekst") or "").strip()
+            if tekst:
+                pole.tekst = tekst
+                changed.append(f"{name}: {tekst}")
+            # Slugi tylko ze słownika (ADR 0004 §5) - do czasu slownik.json zostają puste.
+            pole.slugi = []
+            if name == "zasoby" and update.get("poziom_kosztu"):
+                pole.poziom_kosztu = update["poziom_kosztu"]
+        if changed:
+            turn.transcript.append("[Panel: " + "; ".join(changed) + "]")
+        problem = turn.state.problem()
         return ToolOutcome(
-            "ok",
-            events=[ServerEvent("problem_update", ProblemUpdateEvent(problem=turn.state.problem))],
+            "ok", events=[ServerEvent("problem_update", ProblemUpdateEvent(problem=problem))]
         )
 
     def _tool_ask_question(self, turn: _Turn, request: ChatRequest, args: dict) -> ToolOutcome:
@@ -214,7 +226,7 @@ class ChatService:
             return ToolOutcome(
                 "Użytkownik chce wyniki. Wywołaj `search` i `show_results`.", is_error=True
             )
-        summary = SummaryEvent(summary=args["summary"].strip(), problem=turn.state.problem)
+        summary = SummaryEvent(summary=args["summary"].strip(), problem=turn.state.problem())
         turn.transcript.append(f"[Podsumowanie do potwierdzenia: {summary.summary}]")
         return ToolOutcome("ok", terminal=True, events=[ServerEvent("summary", summary)])
 
@@ -238,6 +250,7 @@ class ChatService:
                     "wybrana_do_upowszechniania",
                 }
             )
+            | ({"nakladka": overlay} if (overlay := self.innovations.overlay(i.slug)) else {})
             for i in found
         ]
         missing = sorted(set(slugs) - turn.searched)
@@ -266,6 +279,7 @@ class ChatService:
                             "slug",
                             "nazwa",
                             "kategorie",
+                            "wybrana_do_upowszechniania",
                             "url_zrodlowy",
                             "materialy_url",
                             "pdf_url",

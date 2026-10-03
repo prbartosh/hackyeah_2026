@@ -10,6 +10,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 - [0001](tasks/0001-package-lock.md) package-lock.json i npm ci
 - [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku
+- [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb bez dopasowania
 
 ## Zrobione
 
