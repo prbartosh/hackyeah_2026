@@ -178,6 +178,9 @@ main { flex: 1; display: flex; flex-direction: column; }
   background: var(--surface); color: var(--text);
   font: inherit; font-size: 0.95rem; font-weight: 600; cursor: pointer;
 }
+.a11y-compact { flex-basis: 100%; display: grid; gap: 0.5rem; }
+.a11y-toggle { justify-self: start; }
+.a11y-panel { padding: 0.5rem 0 0.25rem; }
 .a11y-btn:hover { border-color: var(--primary); }
 .a11y-btn[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); border-color: var(--primary); }
 
