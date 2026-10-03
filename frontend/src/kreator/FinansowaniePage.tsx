@@ -4,6 +4,7 @@ import { CalendarDays, ExternalLink } from 'lucide-react'
 import { ErrorBox, Loading, errorText, useLoad } from '@/admin/ui'
 import { kreator } from '@/kreator/api'
 import { formatDay } from '@/kreator/helpers'
+import { rememberDraft } from '@/kreator/storage'
 import type { NaborDopasowany } from '@/kreator/types'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
@@ -17,17 +18,18 @@ export default function FinansowaniePage() {
   const { data, error, loading, reload } = useLoad(() => kreator.nabory({ fiszka, karta }), [fiszka, karta])
   const [busy, setBusy] = useState<string | null>(null)
   const [actionError, setActionError] = useState('')
-  const [fromCard, setFromCard] = useState<string | null>(null)
-
   async function prepare(slug: string) {
     setBusy(slug)
     setActionError('')
     try {
-      let token = fiszka ?? fromCard
+      let token = fiszka
       if (!token && karta) {
-        // Z karty innowacji: fiszka powstaje z jej danych, bez przepisywania
-        token = (await kreator.fiszkaZKarty(karta)).token
-        setFromCard(token)
+        // Z karty innowacji: fiszka powstaje z jej danych, bez przepisywania. Token trafia do adresu,
+        // żeby po odświeżeniu albo powrocie z wniosku nie tworzyć kolejnej fiszki.
+        const created = await kreator.fiszkaZKarty(karta)
+        token = created.token
+        rememberDraft({ typ: 'fiszka', token, tytul: `Z karty: ${created.karta?.nazwa ?? karta}` })
+        navigate(`/kreator/finansowanie?fiszka=${token}`, { replace: true })
       }
       if (!token) return
       const wniosek = await kreator.createWniosek(token, slug)
