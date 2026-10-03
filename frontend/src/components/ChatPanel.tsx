@@ -245,7 +245,7 @@ function fadeOutGhost(el: HTMLElement | null) {
 }
 
 export default function ChatPanel() {
-  const { display, streaming, sendMessage, showResultsNow, error, retry, results, reset } = useChat()
+  const { display, streaming, status, sendMessage, showResultsNow, error, retry, results, reset } = useChat()
   const [draft, setDraft] = useState('')
   const [showError, setShowError] = useState(false)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
@@ -363,12 +363,18 @@ export default function ChatPanel() {
           <li className="msg msg-assistant msg-typing">
             <Avatar />
             <div className="msg-content">
-              <span className="typing" aria-hidden="true"><span /><span /><span /></span>
-              <span className="visually-hidden">Splot pisze…</span>
+              <p className="typing-row" aria-hidden="true">
+                <span className="typing"><span /><span /><span /></span>
+                <span className="typing-status">{status ?? 'Splot pisze…'}</span>
+              </p>
             </div>
           </li>
         )}
       </ol>
+      {/* Poza listą: `aria-busy` na liście wycisza ją dla czytnika do końca tury */}
+      <p className="visually-hidden" role="status">
+        {streaming ? (status ?? 'Splot pisze…') : ''}
+      </p>
       <div ref={endRef} className="chat-end" aria-hidden="true" />
 
       {error && (

@@ -21,6 +21,7 @@ from app.schemas.chat import (
     ResultItem,
     ResultsEvent,
     RoleEvent,
+    StatusEvent,
     SummaryEvent,
     TextEvent,
 )
@@ -44,6 +45,15 @@ LLM_UNAVAILABLE = "Asystent jest chwilowo niedostępny. Spróbuj ponownie za chw
 ACTION_MESSAGES = {
     "show_results_now": "[Użytkownik kliknął „Pokaż wyniki teraz”]",
     "confirm_summary": "[Użytkownik potwierdził podsumowanie]",
+}
+
+# Statusy etapów tury. Teksty ustala backend, nie model.
+STATUS_START = "Analizuję Twoją wiadomość…"
+STATUS_START_RESULTS = "Szukam pasujących rozwiązań…"
+# Po narzędziu, na czas kolejnego wywołania modelu.
+STATUS_AFTER_TOOL = {
+    "update_problem": "Uzupełniam opis problemu…",
+    "search": "Porównuję rozwiązania z Twoim problemem…",
 }
 
 # Początki linii zapisu tury (`_Turn.transcript`, ACTION_MESSAGES). Model widzi je w historii
@@ -185,6 +195,9 @@ class ChatService:
         messages = self._build_messages(request)
         nudged = False
         notes = NoteFilter()
+        yield ServerEvent(
+            "status", StatusEvent(text=STATUS_START_RESULTS if request.action else STATUS_START)
+        )
 
         try:
             for _ in range(MAX_LLM_CALLS):
@@ -210,6 +223,8 @@ class ChatService:
                             await self._save_need(outcome.need)
                         for server_event in outcome.events:
                             yield server_event
+                        if not outcome.is_error and (status := STATUS_AFTER_TOOL.get(event.name)):
+                            yield ServerEvent("status", StatusEvent(text=status))
                         terminal = terminal or outcome.terminal
                         tool_results.append(
                             tool_result_message(event.id, outcome.result, outcome.is_error)

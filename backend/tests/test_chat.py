@@ -79,11 +79,12 @@ def parse_sse(body: str) -> list[tuple[str, dict]]:
     return events
 
 
-async def post(client, payload) -> list[tuple[str, dict]]:
+async def post(client, payload, with_status: bool = False) -> list[tuple[str, dict]]:
     response = await client.post("/api/v1/chat", json=payload)
     assert response.status_code == 200, response.text
     assert response.headers["content-type"].startswith("text/event-stream")
-    return parse_sse(response.text)
+    events = parse_sse(response.text)
+    return events if with_status else [e for e in events if e[0] != "status"]
 
 
 def first_message(text="Mama ma demencję i dzwoni do mnie 10 razy dziennie"):
@@ -562,3 +563,32 @@ async def test_model_notes_are_not_shown(client, fake_llm):
     done = events[-1][1]["assistant_message"]
     # w historii zostaje tylko zapis tury z backendu, bez kopii z tekstu modelu
     assert done.count("[Pytanie:") == 1
+
+
+async def test_status_events_describe_turn(client, fake_llm):
+    fake_llm(
+        [
+            [tool("update_problem", **empty_problem(problemy="samotność"))],
+            [tool("ask_question", text="Gdzie?", options=["a", "b", "c"])],
+        ]
+    )
+    events = await post(client, first_message(), with_status=True)
+
+    assert [n for n, _ in events] == ["status", "problem_update", "status", "question", "done"]
+    assert events[0][1] == {"text": "Analizuję Twoją wiadomość…"}
+    assert events[2][1] == {"text": "Uzupełniam opis problemu…"}
+
+
+async def test_status_events_for_results(client, fake_llm):
+    fake_llm(results_turns(MAIN))
+    events = await post(client, first_message() | {"action": "show_results_now"}, with_status=True)
+
+    statuses = [e["text"] for n, e in events if n == "status"]
+    assert statuses == ["Szukam pasujących rozwiązań…", "Porównuję rozwiązania z Twoim problemem…"]
+
+
+async def test_no_status_after_failed_tool(client, fake_llm):
+    fake_llm([[tool("search", slugs=["nie-ma"])], [tool("propose_summary", summary="x")]])
+    events = await post(client, first_message(), with_status=True)
+
+    assert [e["text"] for n, e in events if n == "status"] == ["Analizuję Twoją wiadomość…"]

@@ -76,6 +76,12 @@ class TextEvent(BaseModel):
     text: str
 
 
+class StatusEvent(BaseModel):
+    """Krótki opis etapu tury dla użytkownika (np. „Przeglądam Bibliotekę Innowacji…”)."""
+
+    text: str
+
+
 class RoleEvent(BaseModel):
     rola: Role
 
