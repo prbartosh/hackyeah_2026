@@ -12,6 +12,7 @@ Przegląd w jednej linii na zadanie. Szczegóły i kroki w [tasks/](tasks/), dec
 - [0015](tasks/0015-panel-administratora.md) Panel administratora (moduł VI, [jak uruchomić](panel-administratora.md)): zostaje NVDA i przejście z kluczem DeepSeek
 - [0018](tasks/0018-kreator-pomyslow.md) Kreator pomysłów (moduł III, [jak uruchomić](kreator-pomyslow.md)): zostaje NVDA, klucz DeepSeek i sprawdzenie szablonu canvy
 - [0019](tasks/0019-tester-innowacji.md) Tester innowacji (moduł IV): zostaje NVDA
+- [0020](tasks/0020-dopracowanie-ui.md) Dopracowanie UI stron publicznych i panelu (spokojny wygląd, szkielety ładowania, przepływ): review
 
 ## Do zrobienia
 

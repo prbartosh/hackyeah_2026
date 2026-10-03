@@ -13,8 +13,8 @@ Strony publiczne i panel administratora wyglądają jak spokojny serwis publiczn
 - [x] Podstawy: tokeny, typografia, przyciski, karty, szkielety ładowania, przejścia
 - [x] Strony publiczne: czat i wyniki, Zasobnik, innowacja, karta usługi, dokument, zgłoś, wątek
 - [x] Przepływ: czat → innowacja → wdrożenie → zgłoś
-- [ ] Panel administratora
-- [ ] axe 0 naruszeń, build, lint, testy
+- [x] Panel administratora
+- [x] axe 0 naruszeń, build, lint, testy
 
 ## Notatki
 
@@ -23,3 +23,5 @@ Strony publiczne i panel administratora wyglądają jak spokojny serwis publiczn
 - Przepływ: na innowacji box „Co dalej” (wdrożenie, finansowanie, pytanie do ROPS z wpisanym tematem); ścieżka nawigacji i powrót z karty wdrożenia zachowują wejście z Zasobnika lub z wyników; zgłoszenie i wątek mają linki dalej.
 - Poprawka: tekst dokumentu na telefonie przewijał stronę w poziomie. Ikona „✓” w przełączniku motywu dostawała styl `.check` z `admin.css`.
 - axe (WCAG 2.1 A/AA, Playwright + axe-core 4.13): 10 stron publicznych × 3 motywy × desktop i 390 px, 0 naruszeń, bez poziomego przewijania; czat z wynikami (DeepSeek) w 3 motywach, desktop i 390 px, 0 naruszeń. Panel administratora jeszcze nie przejrzany (wspólne tokeny działają, wygląd bez zmian poza tokenami).
+- 2026-10-04, etap 2 (panel administratora): nawigacja jak zakładki z podkreśleniem, etykiety prostokątne bez ikon (kolor tylko przy pilnym i po terminie), szkielety tabel i formularzy zamiast „Wczytywanie…”, wynik akcji w stałej linii statusu (bez skoku układu), przyciski w trakcie zapisu bez `disabled` (fokus nie ucieka). Przepływ: powrót ze zgłoszenia do skrzynki z filtrami, po wysłaniu odpowiedzi, zatwierdzeniu szkicu z dokumentu i utworzeniu notatki fokus na komunikacie z linkami dalej. Radar: mniejszy wykres z datami tygodni, tabela dla czytnika bez poziomego przewijania. Klasy panelu z przedrostkiem `admin-` (np. `.admin-check`), `.lead` w panelu zwykłym rozmiarem.
+- axe etap 2: 15 widoków panelu × 3 motywy × desktop i 390 px (dane demo z `scripts/dev_panel.py`), 0 naruszeń, bez poziomego przewijania; ponownie strony publiczne z etapu 1 oraz zgłoszenie, kreator i tester: 0 naruszeń.
