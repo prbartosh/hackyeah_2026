@@ -100,7 +100,10 @@ class ChatService:
             raise ChatUnavailableError("Czat jest chwilowo wyłączony. Spróbuj później.")
         if self.budget.exhausted():
             logger.warning("Chat: wyczerpany dzienny limit tokenów (%s)", self.budget.daily_limit)
-            raise ChatUnavailableError("Usługa chwilowo niedostępna, spróbuj jutro.")
+            raise ChatUnavailableError(
+                "Asystent AI wykorzystał już dzienny limit rozmów. "
+                "Wróć jutro albo przejrzyj Bibliotekę Innowacji Społecznych ROPS Kraków."
+            )
 
     def validate(self, request: ChatRequest) -> None:
         """Wywoływane przed otwarciem strumienia, żeby zła historia dała 422."""
