@@ -79,6 +79,16 @@ async function describeHttpError(res: Response): Promise<string> {
     }
     return 'Nie można kontynuować tej rozmowy. Zacznij od nowa.'
   }
+  if (res.status === 429) return 'Za dużo zapytań naraz. Odczekaj minutę i spróbuj ponownie.'
+  if (res.status === 503) {
+    // Wyłączony czat albo wyczerpany budżet dzienny: backend podaje komunikat w detail.
+    try {
+      const body = (await res.json()) as { detail?: unknown }
+      if (typeof body.detail === 'string') return body.detail
+    } catch {
+      /* 503 bez JSON (np. z nginx) */
+    }
+  }
   if (res.status === 404 || res.status === 502 || res.status === 503 || res.status === 504) {
     return 'Serwer jest chwilowo niedostępny. Spróbuj ponownie za chwilę.'
   }

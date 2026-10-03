@@ -2,8 +2,10 @@ import { createContext, useCallback, useContext, useMemo, useReducer, useRef, ty
 import { ChatError, streamChat } from '@/api/chat'
 import {
   ACTION_HISTORY_TEXT,
+  MAX_HISTORY_CHARS,
   MAX_MESSAGES,
   MAX_MESSAGE_CHARS,
+  MAX_USER_MESSAGE_CHARS,
   PROBLEM_FIELDS,
   initialState,
   type ApiMessage,
@@ -65,20 +67,24 @@ type Action =
   | { type: 'set_role'; role: Role }
   | { type: 'reset' }
 
-const clip = (text: string) => text.slice(0, MAX_MESSAGE_CHARS)
+const clip = (text: string, max = MAX_MESSAGE_CHARS) => text.slice(0, max)
+const clipUser = (text: string) => clip(text, MAX_USER_MESSAGE_CHARS)
+const historyChars = (history: ApiMessage[]) => history.reduce((sum, m) => sum + m.content.length, 0)
 
 /** Dopisuje wiadomość użytkownika; po nieudanej turze (brak odpowiedzi) łączy z poprzednią. */
 function appendUser(history: ApiMessage[], content: string): ApiMessage[] {
   const last = history[history.length - 1]
   let next: ApiMessage[]
   if (last?.role === 'user') {
-    next = [...history.slice(0, -1), { role: 'user', content: clip(`${last.content}\n${content}`) }]
+    next = [...history.slice(0, -1), { role: 'user', content: clipUser(`${last.content}\n${content}`) }]
   } else {
-    next = [...history, { role: 'user', content: clip(content) }]
+    next = [...history, { role: 'user', content: clipUser(content) }]
   }
-  // Limit backendu: najwyżej MAX_MESSAGES wiadomości, historia ma zaczynać się od user.
-  // Zdejmujemy po parze (user, assistant), więc kolejność zostaje zachowana.
-  while (next.length > MAX_MESSAGES - 1) next = next.slice(2)
+  // Limity backendu: najwyżej MAX_MESSAGES wiadomości i MAX_HISTORY_CHARS znaków, historia ma
+  // zaczynać się od user. Zdejmujemy po parze (user, assistant), więc kolejność zostaje zachowana.
+  while (next.length > MAX_MESSAGES - 1 || (next.length > 1 && historyChars(next) > MAX_HISTORY_CHARS)) {
+    next = next.slice(2)
+  }
   return next
 }
 

@@ -1,7 +1,7 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
 import { ArrowUp, Pencil, RotateCcw } from 'lucide-react'
 import { useChat, type DisplayMessage } from '@/context/ChatContext'
-import { MAX_MESSAGE_CHARS, ROLE_LABELS, type Question, type Role } from '@/types/chat'
+import { MAX_MESSAGE_CHARS, MAX_USER_MESSAGE_CHARS, ROLE_LABELS, type Question, type Role } from '@/types/chat'
 import VoiceButton from '@/components/VoiceButton'
 
 // Krótkie podpowiedzi; kliknięcie wysyła pełny opis (scenariusze z user_scenario.md i docs/DEMO.md)
@@ -98,7 +98,7 @@ function QuestionOptions({ question }: { question: Question }) {
               className="input"
               value={otherText}
               placeholder="Wpisz swoją odpowiedź"
-              maxLength={MAX_MESSAGE_CHARS}
+              maxLength={MAX_USER_MESSAGE_CHARS}
               onChange={(e) => setOtherText(e.target.value)}
               autoFocus
             />
@@ -395,7 +395,7 @@ export default function ChatPanel() {
             id="chat-input"
             className="composer-input"
             rows={1}
-            maxLength={MAX_MESSAGE_CHARS}
+            maxLength={MAX_USER_MESSAGE_CHARS}
             value={draft}
             placeholder={started ? 'Napisz odpowiedź…' : 'Np. mama zapomina o lekach, a nie mogę być przy niej cały dzień'}
             onChange={(e) => { setDraft(e.target.value); if (showError) setShowError(false) }}
