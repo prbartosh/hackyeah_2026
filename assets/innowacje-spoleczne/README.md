@@ -10,6 +10,8 @@ treści na licencji CC BY 4.0. Przy każdym rekordzie jest `url_zrodlowy`.
 Pole `null` oznacza brak sekcji na stronie źródłowej (np. `opis` w `teleasystent`). Strona nie podaje kosztu, czasu ani wymagań wdrożenia, więc tych pól nie ma.
 Nazwisk autorów nie zapisujemy. `organizacja` jest wykrywana heurystycznie (słowa kluczowe) i może zawierać dopisek z nazwiskiem w kilku rekordach.
 
+Pełna dokumentacja: [docs/baza-innowacji.md](../../docs/baza-innowacji.md).
+
 Odświeżenie danych (z `backend/`):
 
 ```bash
