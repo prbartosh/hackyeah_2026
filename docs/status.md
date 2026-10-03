@@ -9,7 +9,6 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz): stack, strony i axe sprawdzone, czat czeka na klucz i test z prawdziwym modelem
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
 - [0006](tasks/0006-limity-czatu.md) Limity i kontrola kosztu czatu (Bartłomiej, Bartosz, Nikodem: panel OpenAI): nginx, backend i frontend gotowe, brakuje limitu w panelu OpenAI, testu 429 na stacku i ustawienia `LLM_DAILY_TOKEN_LIMIT`
-- [0010](tasks/0010-dostepnosc-mobile-i-glos.md) Pasek dostępności na mobile i wejście głosowe (Daniel): pasek zwijany, dyktowanie ukryte bez API, axe na mobile 0 naruszeń; brakuje testu dyktowania w Chrome, Safari i Firefoksie
 
 ## Do zrobienia
 
@@ -26,6 +25,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
+- 2026-10-03: Pasek dostępności zwijany na mobile, axe na mobile 0 naruszeń ([zadanie 0010](tasks/0010-dostepnosc-mobile-i-glos.md))
 - 2026-10-03: Struktura repo, Docker Compose, frontend statycznie na nginx
 - 2026-10-03: Scraper Biblioteki Innowacji, 115 innowacji w `assets/innowacje-spoleczne/` ([baza-innowacji.md](baza-innowacji.md))
 - 2026-10-03: Scrapery raportów, publikacji, Mapy Wyzwań i Obserwatora Statystyk w `assets/`
