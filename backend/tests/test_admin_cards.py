@@ -9,7 +9,7 @@ from app.services.cards import CardService
 
 async def import_cards(session_factory, tmp_innovations):
     async with session_factory() as session:
-        service = CardService(session, AIGateway(session, settings, None))
+        service = CardService(session, AIGateway(settings, None))
         return await service.import_from_files(tmp_innovations)
 
 
