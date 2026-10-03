@@ -17,7 +17,6 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo: błąd przy braku klucza, pole `organizacja` (Bartłomiej)
 - [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper)
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz)
-- [0014](tasks/0014-licencje-danych-rops.md) Licencje danych ROPS: raporty, publikacje, Mapa Wyzwań, Obserwator (Wiktor)
 
 ## Do zaprojektowania
 
@@ -27,6 +26,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 - 2026-10-03: Frontend buduje się z `npm ci` na podstawie `package-lock.json` ([zadanie 0001](tasks/0001-package-lock.md))
 - 2026-10-03: Pasek dostępności zwijany na mobile, axe na mobile 0 naruszeń ([zadanie 0010](tasks/0010-dostepnosc-mobile-i-glos.md))
+- 2026-10-03: Licencje danych ROPS ([0014](tasks/0014-licencje-danych-rops.md)): CC BY 4.0 przy 5 z 51 raportów, reszta bez licencji na stronie, GUS z podaniem źródła; w Zasobniku licencja tylko tam, gdzie jest
 - 2026-10-03: Struktura repo, Docker Compose, frontend statycznie na nginx
 - 2026-10-03: Scraper Biblioteki Innowacji, 115 innowacji w `assets/innowacje-spoleczne/` ([baza-innowacji.md](baza-innowacji.md))
 - 2026-10-03: Scrapery raportów, publikacji, Mapy Wyzwań i Obserwatora Statystyk w `assets/`

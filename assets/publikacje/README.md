@@ -18,6 +18,10 @@ Publications about social innovation incubated by ROPS Kraków projects. Languag
 - The "Biblioteka innowacji społecznych" (a different site section, assigned to someone else).
 - The Social Canvas, which is in `../canvas/`.
 
+## Licence
+
+Unknown. Neither the listing page nor the extracted PDF text states a licence (checked 2026-10-03). Show the source and link only.
+
 ## Layout
 
 | Path | What it is |

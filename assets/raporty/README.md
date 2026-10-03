@@ -26,6 +26,10 @@
 | `file`, `text` | Paths to the PDF and the extracted text, relative to the repository root, forward slashes. |
 | `pages` | Page count of the PDF. |
 
+## Licence
+
+The listing page states "Publikacja jest udostępniona na podstawie licencji CC BY 4.0" for 5 of 51 reports (ids 1479, 1348, 1310, 1257, 1105). It is copied into `licencja` in `metadata.json`; for the other 46 it is `null`, meaning the site states no licence (not that none applies). Checked 2026-10-03.
+
 ## Notes
 
 - Text is extracted with PyMuPDF. Cover pages and image-only pages come out empty; tables and charts are flattened to plain text, so tables lose structure. For exact figures, open the PDF.

@@ -5,6 +5,10 @@ A single document, "Załącznik nr 2. Mapa Wyzwań Społecznych" (Map of Social 
 - **Source:** <https://rops.krakow.pl/mpliki/IS/IWS_20/za._nr_2._Mapa_Wyzwa_Spoecznych.pdf>
 - **Scraped:** 2026-10-03 with `scrapers/mapa_wyzwan.py`.
 
+## Licence
+
+Unknown. The PDF text states no licence (checked 2026-10-03). Show the source and link only.
+
 ## Layout
 
 | Path | What it is |
