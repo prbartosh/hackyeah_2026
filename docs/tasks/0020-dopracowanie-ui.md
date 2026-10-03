@@ -1,8 +1,8 @@
 # 0020. Dopracowanie UI: spokojny wygląd i płynność
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR: 
+- PR: #48
 
 ## Cel
 
