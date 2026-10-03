@@ -1,15 +1,18 @@
-import type { ChatEvent, ChatRequest } from '@/types/chat'
+import type { ChatRequest, ServerEvent } from '@/types/chat'
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? '/api/v1'
 
-const EVENT_TYPES = new Set(['text', 'role', 'question', 'problem_update', 'summary', 'results', 'error'])
+const EVENT_NAMES = new Set(['text', 'role', 'problem_update', 'question', 'summary', 'results', 'done', 'error'])
+
+/** Błąd, który można pokazać użytkownikowi (komunikat po polsku). */
+export class ChatError extends Error {}
 
 /**
- * Wysyła pełną historię i stan problemu do backendu, odbiera strumień SSE.
- * Gdy backend nie udostępnia jeszcze /chat, przełącza się na tryb demonstracyjny.
+ * POST /chat → strumień SSE. fetch + ReadableStream, bo EventSource obsługuje tylko GET.
+ * Generator kończy się po zdarzeniu `done` lub `error`; zerwane połączenie rzuca ChatError.
  */
-export async function* streamChat(req: ChatRequest, signal?: AbortSignal): AsyncGenerator<ChatEvent> {
-  let res: Response | null = null
+export async function* streamChat(req: ChatRequest, signal?: AbortSignal): AsyncGenerator<ServerEvent> {
+  let res: Response
   try {
     res = await fetch(`${BASE_URL}/chat`, {
       method: 'POST',
@@ -19,42 +22,64 @@ export async function* streamChat(req: ChatRequest, signal?: AbortSignal): Async
     })
   } catch (e) {
     if (signal?.aborted) throw e
+    throw new ChatError('Nie udało się połączyć z serwerem. Sprawdź połączenie z internetem i spróbuj ponownie.')
   }
 
-  if (!res?.ok || !res.body || !res.headers.get('content-type')?.includes('text/event-stream')) {
-    const { runDemo } = await import('@/api/demoEngine')
-    yield { type: 'demo_mode' }
-    yield* runDemo(req)
-    return
-  }
+  if (!res.ok) throw new ChatError(await describeHttpError(res))
+  if (!res.body) throw new ChatError('Serwer nie zwrócił odpowiedzi.')
 
   const reader = res.body.pipeThrough(new TextDecoderStream()).getReader()
   let buffer = ''
-  for (;;) {
-    const { value, done } = await reader.read()
-    if (done) break
-    buffer += value
-    let sep: number
-    while ((sep = buffer.search(/\r?\n\r?\n/)) !== -1) {
-      const block = buffer.slice(0, sep)
-      buffer = buffer.slice(sep).replace(/^\r?\n\r?\n/, '')
-      const event = parseBlock(block)
-      if (event) yield event
+  try {
+    for (;;) {
+      const { value, done } = await reader.read()
+      if (done) break
+      buffer += value
+      let match: RegExpExecArray | null
+      while ((match = /\r?\n\r?\n/.exec(buffer))) {
+        const block = buffer.slice(0, match.index)
+        buffer = buffer.slice(match.index + match[0].length)
+        const event = parseBlock(block)
+        if (!event) continue
+        yield event
+        if (event.name === 'done' || event.name === 'error') return
+      }
     }
+  } catch (e) {
+    if (signal?.aborted) throw e
+    throw new ChatError('Połączenie z serwerem zostało przerwane. Spróbuj ponownie.')
   }
+  throw new ChatError('Połączenie z serwerem zostało przerwane. Spróbuj ponownie.')
 }
 
-function parseBlock(block: string): ChatEvent | null {
-  let type = 'message'
+function parseBlock(block: string): ServerEvent | null {
+  let name = 'message'
   const data: string[] = []
   for (const line of block.split(/\r?\n/)) {
-    if (line.startsWith('event:')) type = line.slice(6).trim()
-    else if (line.startsWith('data:')) data.push(line.slice(5).trimStart())
+    if (line.startsWith(':')) continue // komentarz / keep-alive
+    if (line.startsWith('event:')) name = line.slice(6).trim()
+    else if (line.startsWith('data:')) data.push(line.slice(5).replace(/^ /, ''))
   }
-  if (!EVENT_TYPES.has(type) || !data.length) return null
+  if (!EVENT_NAMES.has(name) || !data.length) return null
   try {
-    return { type, ...JSON.parse(data.join('\n')) } as ChatEvent
+    return { name, data: JSON.parse(data.join('\n')) } as ServerEvent
   } catch {
     return null
   }
+}
+
+async function describeHttpError(res: Response): Promise<string> {
+  if (res.status === 422) {
+    try {
+      const body = (await res.json()) as { detail?: unknown }
+      if (typeof body.detail === 'string') return `Nie można kontynuować tej rozmowy: ${body.detail}. Zacznij od nowa.`
+    } catch {
+      /* brak szczegółów */
+    }
+    return 'Nie można kontynuować tej rozmowy. Zacznij od nowa.'
+  }
+  if (res.status === 502 || res.status === 503 || res.status === 504) {
+    return 'Serwer jest chwilowo niedostępny. Spróbuj ponownie za chwilę.'
+  }
+  return `Serwer zwrócił błąd (${res.status}). Spróbuj ponownie.`
 }

@@ -21,12 +21,14 @@ function NewTab() {
 export default function InnovationPage() {
   const { slug = '' } = useParams()
   const { results } = useChat()
-  const [state, setState] = useState<{ slug: string; data: Innowacja | null } | null>(null)
+  const [state, setState] = useState<{ slug: string; data: Innowacja | null; failed?: boolean } | null>(null)
 
   useEffect(() => {
-    let active = true
-    void getInnovation(slug).then((data) => active && setState({ slug, data }))
-    return () => { active = false }
+    const controller = new AbortController()
+    getInnovation(slug, controller.signal)
+      .then((data) => setState({ slug, data }))
+      .catch((e) => { if (!controller.signal.aborted) setState({ slug, data: null, failed: e instanceof Error }) })
+    return () => controller.abort()
   }, [slug])
 
   const backLink = results ? (
@@ -39,6 +41,15 @@ export default function InnovationPage() {
     return <div className="container page"><p role="status">Wczytywanie opisu rozwiązania…</p></div>
   }
   const rec = state.data
+  if (state.failed) {
+    return (
+      <div className="container page">
+        <h1>Nie udało się wczytać rozwiązania</h1>
+        <p role="alert">Brak połączenia z serwerem. Odśwież stronę albo spróbuj za chwilę.</p>
+        <p>{backLink}</p>
+      </div>
+    )
+  }
   if (!rec) {
     return (
       <div className="container page">

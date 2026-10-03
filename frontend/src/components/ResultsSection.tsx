@@ -2,6 +2,48 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ExternalLink } from 'lucide-react'
 import { useChat } from '@/context/ChatContext'
+import type { ResultItem } from '@/types/chat'
+import { kategoriaNazwa } from '@/types/innowacja'
+
+function licenseLabel(licencja: string | null): string {
+  if (!licencja) return 'Zasady MIIS'
+  return /by\/4\.0/i.test(licencja) ? 'CC BY 4.0' : 'Licencja: zob. źródło'
+}
+
+function ResultCard({ item }: { item: ResultItem }) {
+  const detailsPath = `/innowacja/${item.slug}`
+  const kategoria = kategoriaNazwa(item.kategorie)
+  const isMain = item.match === 'main'
+  return (
+    <li className={`result-card${isMain ? ' is-main' : ''}`}>
+      <p className="result-kind">{isMain ? 'Najlepsze dopasowanie' : 'Uzupełniające'}</p>
+      <h3>
+        <Link to={detailsPath}>{item.nazwa}</Link>
+      </h3>
+      <p className="result-meta">
+        {kategoria && <span>{kategoria}</span>}
+        {item.organizacja && <span>{item.organizacja}</span>}
+        <span>{licenseLabel(item.licencja)}</span>
+      </p>
+      <p>{item.why_relevant}</p>
+      <p className="result-files">
+        <a href={item.materialy_url}>Materiały (ZIP)</a>
+        {item.pdf_url && <> · <a href={item.pdf_url} target="_blank" rel="noreferrer">Folder (PDF)<span className="visually-hidden"> (nowa karta)</span></a></>}
+        {item.youtube_url && <> · <a href={item.youtube_url} target="_blank" rel="noreferrer">Film<span className="visually-hidden"> (nowa karta)</span></a></>}
+      </p>
+      <div className="btn-row">
+        <Link to={detailsPath} className="btn btn-primary">
+          Szczegóły i kontakt<span className="visually-hidden">: {item.nazwa}</span>
+        </Link>
+        <a href={item.url_zrodlowy} className="btn btn-secondary" target="_blank" rel="noreferrer">
+          Strona ROPS
+          <ExternalLink size={16} aria-hidden="true" />
+          <span className="visually-hidden">(otwiera się w nowej karcie)</span>
+        </a>
+      </div>
+    </li>
+  )
+}
 
 export default function ResultsSection() {
   const { results } = useChat()
@@ -16,55 +58,32 @@ export default function ResultsSection() {
     const el = headingRef.current
     if (!el || (initial && window.location.hash !== '#wyniki')) return
     el.focus({ preventScroll: true })
-    el.scrollIntoView({ behavior: initial ? 'auto' : 'smooth', block: 'start' })
+    el.scrollIntoView({ behavior: initial || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' })
   }, [results])
 
   if (!results) return null
-  const { items, no_match } = results
+  const { items, no_good_match, note } = results
 
   return (
     <section id="wyniki" className="results" aria-labelledby="results-title">
       <h2 id="results-title" ref={headingRef} tabIndex={-1}>
-        {no_match ? 'Najbliższe rozwiązania' : 'Znalezione rozwiązania'} ({items.length})
+        {no_good_match ? 'Najbliższe rozwiązania' : 'Znalezione rozwiązania'} ({items.length})
       </h2>
 
-      {no_match && (
+      {no_good_match && (
         <div className="alert alert-warning">
           <p>
-            <strong>Nie znaleźliśmy rozwiązania, które dokładnie odpowiada Twojemu problemowi.</strong>{' '}
-            Pokazujemy pozycje najbardziej zbliżone. Przy każdej opisujemy, czym się różni od Twojej potrzeby.
+            <strong>Brak dokładnego dopasowania.</strong>
+            {items.length > 0 && ' Oto najbliższe pozycje.'}
           </p>
+          {note && <p className="alert-note">{note}</p>}
         </div>
       )}
 
       {items.length > 0 && (
         <ol className="result-list">
-          {items.map((item, i) => (
-            <li key={item.slug} className="result-card">
-              <p className="result-num" aria-hidden="true">{i + 1}</p>
-              <div className="result-body">
-                <h3>
-                  <Link to={`/innowacja/${item.slug}`}>{item.nazwa}</Link>
-                </h3>
-                <p className="result-meta">
-                  {item.kategoria && <span>{item.kategoria}</span>}
-                  {item.organizacja && <span>Autor: {item.organizacja}</span>}
-                  {item.wybrana_do_upowszechniania && <span className="badge">Polecana przez ROPS do upowszechniania</span>}
-                </p>
-                <h4>{no_match ? 'Czym się różni' : 'Dlaczego to pasuje'}</h4>
-                <p>{no_match && item.difference ? item.difference : item.why_relevant}</p>
-                <div className="btn-row">
-                  <Link to={`/innowacja/${item.slug}`} className="btn btn-primary">
-                    Zobacz szczegóły i kontakt<span className="visually-hidden">: {item.nazwa}</span>
-                  </Link>
-                  <a href={item.url_zrodlowy} className="btn btn-secondary" target="_blank" rel="noreferrer">
-                    Strona w bibliotece ROPS
-                    <ExternalLink size={18} aria-hidden="true" />
-                    <span className="visually-hidden">(otwiera się w nowej karcie)</span>
-                  </a>
-                </div>
-              </div>
-            </li>
+          {items.map((item) => (
+            <ResultCard key={item.slug} item={item} />
           ))}
         </ol>
       )}
