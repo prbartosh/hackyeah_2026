@@ -2,7 +2,7 @@
 
 - Status: w toku
 - Osoba: Bartłomiej (backend), Daniel, Kacper (frontend)
-- PR: #9
+- PR: #9, #35
 
 ## Cel
 

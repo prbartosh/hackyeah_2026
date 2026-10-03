@@ -1,8 +1,8 @@
 # 0004. Zapis potrzeb
 
-- Status: w toku
+- Status: review
 - Osoba: Bartłomiej (backend)
-- PR:
+- PR: #35
 
 ## Cel
 
