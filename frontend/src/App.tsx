@@ -7,6 +7,7 @@ import ImportReviewPage from '@/admin/ImportReviewPage'
 import ImportsPage from '@/admin/ImportsPage'
 import InboxPage from '@/admin/InboxPage'
 import NotificationsPage from '@/admin/NotificationsPage'
+import OpinionsPage from '@/admin/OpinionsPage'
 import RadarPage from '@/admin/RadarPage'
 import TicketPage from '@/admin/TicketPage'
 import Layout from '@/components/Layout'
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="radar" element={<RadarPage />} />
           <Route path="nabory" element={<NaboryPage />} />
           <Route path="nabory/:slug" element={<NaborEditPage />} />
+          <Route path="opinie" element={<OpinionsPage />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Route>

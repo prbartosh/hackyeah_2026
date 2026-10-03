@@ -8,13 +8,14 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy każdej odpowiedzi z wynikami (Bartłomiej): review w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35)
 - [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo (Bartłomiej): 503 przy braku klucza, ogólny komunikat błędu, `llm` w health, `organizacja` bez nazwisk, status etapu w czacie, review w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35)
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
-- [0015](tasks/0015-panel-administratora.md) Panel administratora, moduł VI (Kacper, do potwierdzenia): backend, UI, seed i testy gotowe, zostaje test z czytnikiem ekranu, prawdziwy Postgres i klucz DeepSeek ([jak uruchomić](panel-administratora.md))
+- [0015](tasks/0015-panel-administratora.md) Panel administratora, moduł VI (Kacper, do potwierdzenia): backend, UI, seed i testy gotowe, zostaje test z czytnikiem ekranu i klucz DeepSeek (Postgres sprawdzony) ([jak uruchomić](panel-administratora.md))
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
 - [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper): ADR 0009 i backend `POST /api/v1/innovations/{slug}/service-card` gotowe, front (Kacper) do zrobienia
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz): backend z narzędziem `gmina_stats` i blok „Dane gminy” w panelu gotowe, zostaje test na prawdziwym modelu
 - [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper): ADR 0009, backend i front (`/innowacja/:slug/wdrozenie`, druk, „Chcę to wdrożyć” do skrzynki panelu) gotowe, zostaje przejście z prawdziwym kluczem DeepSeek
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz): backend z narzędziem `gmina_stats` i zdarzeniem SSE gotowy, front (Daniel, Kacper) do zrobienia, test na prawdziwym modelu
-- [0018](tasks/0018-kreator-pomyslow.md) Kreator pomysłów, moduł III (Kacper): fiszka, nabory i generator wniosków, canvy, asystent gotowe, zostaje test z czytnikiem ekranu, DeepSeek i Postgres ([jak uruchomić](kreator-pomyslow.md))
+- [0018](tasks/0018-kreator-pomyslow.md) Kreator pomysłów, moduł III (Kacper): fiszka, nabory i generator wniosków, canvy, asystent gotowe, zostaje test z czytnikiem ekranu i DeepSeek (Postgres sprawdzony) ([jak uruchomić](kreator-pomyslow.md))
+- [0019](tasks/0019-tester-innowacji.md) Tester innowacji, moduł IV (Kacper): oceny, zgłoszenia do testów, poziom dowodu i moderacja w panelu gotowe ([ADR 0011](adr/0011-tester-innowacji.md), proponowany), zostaje NVDA i limit w nginx (osobny PR)
 
 ## Do zrobienia
 

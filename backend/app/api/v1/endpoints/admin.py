@@ -5,6 +5,7 @@ from app.api.v1.endpoints import (
     admin_cards,
     admin_imports,
     admin_nabory,
+    admin_opinions,
     admin_radar,
     admin_tickets,
 )
@@ -16,3 +17,4 @@ router.include_router(admin_tickets.router)
 router.include_router(admin_imports.router)
 router.include_router(admin_radar.router)
 router.include_router(admin_nabory.router)
+router.include_router(admin_opinions.router)

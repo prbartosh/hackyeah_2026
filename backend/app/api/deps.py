@@ -22,6 +22,7 @@ from app.services.innovation import InnovationService
 from app.services.knowledge import KnowledgeService
 from app.services.llm import LLMService
 from app.services.nabory import NaborService
+from app.services.opinions import OpinionService
 from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
 from app.services.token_budget import TokenBudget
@@ -140,6 +141,15 @@ def get_ticket_service(session: SessionDep, ai: AIGatewayDep) -> TicketService:
 
 
 TicketServiceDep = Annotated[TicketService, Depends(get_ticket_service)]
+
+
+def get_opinion_service(
+    session: SessionDep, innovations: InnovationRepositoryDep, tickets: TicketServiceDep
+) -> OpinionService:
+    return OpinionService(session, innovations, tickets)
+
+
+OpinionServiceDep = Annotated[OpinionService, Depends(get_opinion_service)]
 
 
 def get_today() -> date:

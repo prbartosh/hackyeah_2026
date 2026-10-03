@@ -2,8 +2,14 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, Query, status
 
-from app.api.deps import InnovationRepositoryDep, InnovationServiceDep, ServiceCardServiceDep
+from app.api.deps import (
+    InnovationRepositoryDep,
+    InnovationServiceDep,
+    OpinionServiceDep,
+    ServiceCardServiceDep,
+)
 from app.schemas.innovation import Innovation
+from app.schemas.opinion import OpiniaCreate, OpiniaCreated, OpinieSummary
 from app.schemas.service_card import ServiceCardRequest, ServiceCardResponse
 from app.services.service_card import (
     ServiceCardFailedError,
@@ -56,3 +62,24 @@ async def create_service_card(
             status.HTTP_502_BAD_GATEWAY,
             "Nie udało się przygotować karty. Spróbuj ponownie.",
         ) from None
+
+
+@router.get(
+    "/{slug}/opinie",
+    response_model=OpinieSummary,
+    summary="Testy i oceny innowacji zatwierdzone przez ROPS (moduł IV)",
+)
+async def get_opinions(slug: str, service: OpinionServiceDep) -> OpinieSummary:
+    return await service.summary(slug)
+
+
+@router.post(
+    "/{slug}/opinie",
+    response_model=OpiniaCreated,
+    status_code=status.HTTP_201_CREATED,
+    summary="Zgłoszenie do testów albo ocena; widoczne po zatwierdzeniu przez ROPS",
+)
+async def create_opinion(
+    slug: str, data: OpiniaCreate, service: OpinionServiceDep
+) -> OpiniaCreated:
+    return await service.create(slug, data)
