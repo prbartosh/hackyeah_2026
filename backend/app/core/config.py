@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = []
 
     openai_api_key: str | None = None
-    llm_model: str = "gpt-5.5"
+    llm_model: str = "gpt-5.6-sol"
     # Tylko dla modeli rozumujących (np. gpt-5.x); pusty = parametr nie jest wysyłany.
     llm_reasoning_effort: str | None = "low"
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH
