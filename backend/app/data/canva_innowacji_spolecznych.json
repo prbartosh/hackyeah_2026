@@ -1,0 +1,120 @@
+{
+  "slug": "innowacji-spolecznych",
+  "nazwa": "Canva innowacji społecznych",
+  "opis": "Plansza do opisania pomysłu: problem, osoby, rozwiązanie, wartość, koszty i pieniądze. Układ pól odtworzony z 3-stronicowej Social Innovation Canvas (INNO AGH, wersja 1.0), udostępnionej przez ROPS Kraków.",
+  "url_zrodlowy": "https://rops.krakow.pl/pliki-do-pobrania/wpis,social-canvas,1547",
+  "sekcje": [
+    {
+      "klucz": "problem_intensywnosc",
+      "grupa": "Problem",
+      "tytul": "Intensywność problemu",
+      "podpowiedz": "Jak bardzo źle jest bez Waszego rozwiązania?",
+      "pytania": ["Czy problem lekko przeszkadza, utrudnia działanie, mocno przeszkadza, czy jest bardzo poważny?", "Co konkretnie się dzieje: stres, wykluczenie, realna krzywda?"]
+    },
+    {
+      "klucz": "problem_czestotliwosc",
+      "grupa": "Problem",
+      "tytul": "Częstotliwość",
+      "podpowiedz": "Jak często występuje problem, na który odpowiada Wasze rozwiązanie?",
+      "pytania": ["Rzadko, czasami, często, a może codziennie?", "Kiedy najczęściej się pojawia?"]
+    },
+    {
+      "klucz": "problem_skala",
+      "grupa": "Problem",
+      "tytul": "Skala problemu",
+      "podpowiedz": "Ilu ludzi dotyka problem?",
+      "pytania": ["Pojedyncze osoby, wąska grupa, duża grupa czy bardzo szeroka grupa?", "Skąd o tym wiecie (rozmowy, obserwacje, dane)?"]
+    },
+    {
+      "klucz": "aktorzy_wspierajacy",
+      "grupa": "Aktorzy zmiany",
+      "tytul": "Kto wspiera zmianę",
+      "podpowiedz": "Osoby, grupy lub instytucje, które widzą potrzebę zmiany, wspierają pomysł lub mogą pomóc go wdrożyć.",
+      "pytania": ["Kto najbardziej potrzebuje tej zmiany?", "Kto może Was poprzeć, polecić albo otworzyć drzwi?", "Kto ma energię, wpływ lub zasoby, żeby pomóc?"]
+    },
+    {
+      "klucz": "aktorzy_utrudniajacy",
+      "grupa": "Aktorzy zmiany",
+      "tytul": "Kto utrudnia zmianę",
+      "podpowiedz": "Osoby, grupy lub instytucje, które mogą nie chcieć zmiany, bać się jej albo utrudniać wdrożenie.",
+      "pytania": ["Kto może się bać dodatkowej pracy, kosztów lub ryzyka?", "Kto może zablokować decyzję, finansowanie albo dostęp do odbiorców?"]
+    },
+    {
+      "klucz": "rozwiazanie_prostota",
+      "grupa": "Rozwiązanie",
+      "tytul": "Prostota i zrozumiałość",
+      "podpowiedz": "Czy osoba, która pierwszy raz widzi rozwiązanie, szybko rozumie, dla kogo jest, jak działa i co daje?",
+      "pytania": ["Czy trzeba długo tłumaczyć, o co chodzi?", "Co trzeba zrobić, żeby skorzystać z rozwiązania?"]
+    },
+    {
+      "klucz": "rozwiazanie_wartosc",
+      "grupa": "Rozwiązanie",
+      "tytul": "Przystępność i wartość rozwiązania",
+      "podpowiedz": "Czy korzyść jest większa niż koszt, czas i wysiłek odbiorców?",
+      "pytania": ["Co odbiorca zyskuje?", "Ile go to kosztuje (pieniądze, czas, wysiłek)?"]
+    },
+    {
+      "klucz": "rozwiazanie_gotowosc",
+      "grupa": "Rozwiązanie",
+      "tytul": "Gotowość do wdrożenia",
+      "podpowiedz": "Na jakim etapie jest pomysł: koncepcja, prototyp, test z odbiorcami, wdrożenie?",
+      "pytania": ["Czy rozwiązanie zostało już sprawdzone z odbiorcami?", "Co jeszcze trzeba przetestować?"]
+    },
+    {
+      "klucz": "koszty_stale",
+      "grupa": "Struktura kosztów",
+      "tytul": "Stałe koszty",
+      "podpowiedz": "Koszty, które trzeba ponieść niezależnie od liczby odbiorców.",
+      "pytania": ["Np. koordynator, wynajem sali, oprogramowanie, szkolenie zespołu.", "Co trzeba kupić lub zorganizować, zanim ruszycie?"]
+    },
+    {
+      "klucz": "koszty_zmienne",
+      "grupa": "Struktura kosztów",
+      "tytul": "Zmienne koszty",
+      "podpowiedz": "Rosną, gdy korzysta więcej osób lub gdy realizujecie więcej działań.",
+      "pytania": ["Np. materiały dla uczestników, czas specjalisty na jedną osobę, dojazdy, catering, wydruki.", "Co kosztuje za każdym razem, gdy pomagacie kolejnej osobie?"]
+    },
+    {
+      "klucz": "odbiorcy_uzytkownik",
+      "grupa": "Odbiorcy",
+      "tytul": "Główny użytkownik",
+      "podpowiedz": "Komu to rozwiązanie ma realnie pomóc?",
+      "pytania": ["Np. dzieci, młodzież, rodzice, seniorzy, osoby z niepełnosprawnościami, nauczyciele, osoby w kryzysie, mieszkańcy konkretnego miejsca.", "Jak wygląda typowy odbiorca?"]
+    },
+    {
+      "klucz": "wartosc_funkcjonalna",
+      "grupa": "Propozycja wartości",
+      "tytul": "Wartość funkcjonalna",
+      "podpowiedz": "Co rozwiązanie konkretnie poprawia?",
+      "pytania": ["Jaką czynność lub sprawę ułatwia?", "Co odbiorca może dzięki temu zrobić, czego wcześniej nie mógł?"]
+    },
+    {
+      "klucz": "wartosc_emocjonalna",
+      "grupa": "Propozycja wartości",
+      "tytul": "Wartość emocjonalna",
+      "podpowiedz": "Co odbiorcy poczują dzięki rozwiązaniu? Wybierzcie 2–3 najważniejsze.",
+      "pytania": ["Np. bezpieczeństwo, niezależność, spokój, motywacja, włączenie społeczne, mniejsza samotność, poczucie bycia widzianym, większa sprawczość."]
+    },
+    {
+      "klucz": "dochod_glowny",
+      "grupa": "Źródła dochodów",
+      "tytul": "Główny dochód",
+      "podpowiedz": "Co jest podstawowym źródłem pieniędzy? Za co będą najpewniej płacić w pierwszej kolejności?",
+      "pytania": ["Nie wiemy jeszcze, mamy pomysł, mamy konkretną propozycję czy mamy potwierdzenie?", "Czy sprawdziliście to z potencjalnym płatnikiem?"]
+    },
+    {
+      "klucz": "dochod_platnik",
+      "grupa": "Źródła dochodów",
+      "tytul": "Klient / płatnik",
+      "podpowiedz": "Kto uruchamia budżet, żeby Wasze rozwiązanie działało?",
+      "pytania": ["Np. sam użytkownik, rodzic lub opiekun, szkoła, firma, urząd miasta lub gminy, fundacja, grantodawca, sponsor, NFZ lub inna instytucja publiczna."]
+    },
+    {
+      "klucz": "dochod_skalowanie",
+      "grupa": "Źródła dochodów",
+      "tytul": "Skalowanie dochodu",
+      "podpowiedz": "Jakie dodatkowe rzeczy możecie sprzedawać lub finansować w przyszłości?",
+      "pytania": ["Czy widzicie inne źródła finansowania niż główne?", "Co by się musiało zmienić, żeby dochód mógł rosnąć?"]
+    }
+  ]
+}

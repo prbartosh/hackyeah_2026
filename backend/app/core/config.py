@@ -33,6 +33,8 @@ class Settings(BaseSettings):
     sla_hours: int = 48
     ai_daily_call_limit: int = 200
     ai_timeout_seconds: float = 45.0
+    # Kreator pomysłów jest publiczny: własny dzienny limit wywołań AI, osobny od panelu.
+    kreator_ai_daily_call_limit: int = 100
     max_upload_mb: int = 10
     email_backend: str = "log"
     email_from: str = "panel@splot.local"

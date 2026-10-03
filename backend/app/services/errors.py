@@ -1,0 +1,7 @@
+class KreatorError(Exception):
+    """Błąd biznesowy Kreatora; komunikat po polsku trafia do użytkownika (`detail`)."""
+
+    def __init__(self, message: str, status_code: int = 409) -> None:
+        super().__init__(message)
+        self.message = message
+        self.status_code = status_code

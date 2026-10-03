@@ -2,14 +2,17 @@ import logging
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 
 from app.api.deps import get_ai_gateway
 from app.api.v1.router import api_router
 from app.core.config import settings
 from app.db.session import SessionLocal
+from app.services.canvy import import_templates
 from app.services.cards import CardService
+from app.services.errors import KreatorError
 
 logger = logging.getLogger(__name__)
 
@@ -23,7 +26,16 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
             await service.refresh_snapshot()
     except Exception:
         logger.exception("Start bez kart z bazy (działają pliki JSON)")
+    try:
+        async with SessionLocal() as session:
+            await import_templates(session)
+    except Exception:
+        logger.exception("Start bez szablonów canvy")
     yield
+
+
+async def kreator_error_handler(_: Request, exc: KreatorError) -> JSONResponse:
+    return JSONResponse({"detail": exc.message}, status_code=exc.status_code)
 
 
 def configure_logging() -> None:
@@ -48,6 +60,7 @@ def create_app() -> FastAPI:
         allow_methods=["*"],
         allow_headers=["*"],
     )
+    app.add_exception_handler(KreatorError, kreator_error_handler)
     app.include_router(api_router, prefix="/api/v1")
     return app
 
