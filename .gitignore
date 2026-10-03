@@ -25,3 +25,6 @@ assets/innowacje-spoleczne/.cache/
 
 # Scraped PDFs (source URLs in assets/*/metadata.json, refetch with scrapers/run_all.py)
 assets/**/files/*.pdf
+
+# Lockfile uv (decyzja zespołu, na razie poza repo)
+backend/uv.lock

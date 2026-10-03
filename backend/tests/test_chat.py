@@ -128,6 +128,22 @@ async def test_problem_update_merges_with_state(client, fake_llm):
     assert dict(events)["summary"]["problem"]["miejsca"]["tekst"] == "Wieliczka"
 
 
+async def test_problem_update_keeps_only_vocabulary_slugs(client, fake_llm):
+    args = empty_problem()
+    args["grupy_docelowe"] = {
+        "tekst": "mama z demencją",
+        "slugi": ["osoby-z-demencja", "zmyslony-slug", "osoby-z-demencja", "seniorzy"],
+    }
+    # Slug z innej sekcji słownika też odpada (dom to miejsce, nie zasób).
+    args["zasoby"] = {"tekst": "sąsiedzi", "slugi": ["wolontariusze", "dom"], "poziom_kosztu": None}
+    fake_llm([[tool("update_problem", **args), tool("propose_summary", summary="Mama.")]])
+    events = await post(client, first_message())
+
+    problem = dict(events)["problem_update"]["problem"]
+    assert problem["grupy_docelowe"]["slugi"] == ["osoby-z-demencja", "seniorzy"]
+    assert problem["zasoby"]["slugi"] == ["wolontariusze"]
+
+
 async def test_question_rejected_after_round_limit(client, fake_llm):
     llm = fake_llm(
         [

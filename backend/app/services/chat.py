@@ -194,8 +194,10 @@ class ChatService:
             if tekst:
                 pole.tekst = tekst
                 changed.append(f"{name}: {tekst}")
-            # Slugi tylko ze słownika (ADR 0004 §5) - do czasu slownik.json zostają puste.
-            pole.slugi = []
+            # Slugi tylko ze słownika (ADR 0004 §5) - wymyślone przez model odpadają.
+            allowed = self.innovations.vocabulary_slugs(prompts.PROBLEM_SECTIONS[name])
+            slugi = update.get("slugi") or []
+            pole.slugi = [s for s in dict.fromkeys(slugi) if s in allowed][: prompts.MAX_SLUGS]
             if name == "zasoby" and update.get("poziom_kosztu"):
                 pole.poziom_kosztu = update["poziom_kosztu"]
         if changed:
