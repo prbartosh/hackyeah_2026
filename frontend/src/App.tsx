@@ -15,12 +15,14 @@ import InnovationPage from '@/pages/InnovationPage'
 import NotFoundPage from '@/pages/NotFoundPage'
 import ReportPage from '@/pages/ReportPage'
 import ThreadPage from '@/pages/ThreadPage'
+import ZasobnikPage from '@/pages/ZasobnikPage'
 
 export default function App() {
   return (
     <Routes>
       <Route element={<Layout />}>
         <Route index element={<HomePage />} />
+        <Route path="zasobnik" element={<ZasobnikPage />} />
         <Route path="innowacja/:slug" element={<InnovationPage />} />
         <Route path="zglos" element={<ReportPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />

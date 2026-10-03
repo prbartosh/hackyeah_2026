@@ -5,7 +5,7 @@ from fastapi.responses import StreamingResponse
 
 from app.api.deps import ChatServiceDep
 from app.schemas.chat import ChatRequest
-from app.services.chat import ChatService, InvalidConversationError
+from app.services.chat import ChatService, ChatUnavailableError, InvalidConversationError
 
 router = APIRouter()
 
@@ -23,6 +23,10 @@ async def _sse(service: ChatService, request: ChatRequest) -> AsyncIterator[str]
 )
 async def chat(request: ChatRequest, service: ChatServiceDep) -> StreamingResponse:
     """Zdarzenia: text, role, problem_update, question, summary, results, done, error."""
+    try:
+        service.ensure_available()
+    except ChatUnavailableError as e:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, str(e)) from None
     try:
         service.validate(request)
     except InvalidConversationError as e:

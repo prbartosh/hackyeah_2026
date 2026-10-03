@@ -1,6 +1,6 @@
 # Panel administratora (moduł VI)
 
-Decyzje: [ADR 0006](adr/0006-panel-administratora.md), zadanie: [0008](tasks/0008-panel-administratora.md).
+Decyzje: [ADR 0006](adr/0006-panel-administratora.md), zadanie: [0015](tasks/0015-panel-administratora.md).
 
 ## Uruchomienie
 

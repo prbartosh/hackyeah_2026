@@ -1,0 +1,21 @@
+# 0009. Ewaluacja dopasowania
+
+- Status: todo
+- Osoba: Bartosz (skrypt), Nikodem, Wiktor (ocena wyników, poprawki zestawu)
+
+## Cel
+
+Liczba, która mówi, jak dobrze czat dopasowuje innowacje: ile razy oczekiwany `slug` z [zestawu testowego](../zestaw-testowy.md) jest na pierwszym miejscu i ile razy w wynikach. Mierzymy przed i po każdej zmianie promptu lub nakładki ([0005](0005-slownik-i-nakladka.md)).
+
+## Kroki
+
+- [ ] Skrypt `backend/scripts/eval_matchmaking.py`: czyta tabelę z `docs/zestaw-testowy.md`, dla każdego zgłoszenia wysyła pierwszą wiadomość z rolą i akcję `show_results_now` (bez rund pytań), zbiera wyniki
+- [ ] Miary: trafienie na 1. miejscu, trafienie w wynikach (do 5), poprawne `no_good_match` dla zgłoszenia „brak”. Pozycje „niejednoznaczne” liczone także na 2. miejscu
+- [ ] Raport w markdown: tabela per zgłoszenie (oczekiwany, otrzymane, trafienie) i podsumowanie. Zapis wyniku z datą do sekcji „Wyniki” w `docs/zestaw-testowy.md`
+- [ ] Pierwszy pomiar na obecnym prompcie, bez nakładki
+- [ ] Przegląd chybionych przypadków (Nikodem, Wiktor): błąd modelu czy błąd zestawu. Poprawki w zestawie
+
+## Notatki
+
+- Jeden przebieg to 28 rozmów na prawdziwym modelu. Sprawdzić koszt na podstawie pomiaru z [0002](0002-smoke-test.md), zanim zaczniemy uruchamiać skrypt często.
+- Tryb bez pytań mierzy samo dopasowanie. Rozmowę z dopytaniem (symulowany użytkownik) można dodać później.

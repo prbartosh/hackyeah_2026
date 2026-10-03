@@ -1,0 +1,151 @@
+/* ──────────────────────────────────────────────
+   Zasobnik wiedzy: styl modułu (prefiks .zs-).
+   Spokojny wygląd: miękkie gradienty, zaokrąglone karty, dużo przestrzeni.
+   Kolory wyłącznie z tokenów, więc motywy (jasny, ciemny, wysoki kontrast) działają same.
+   Strona innowacji korzysta ze stylów .detail-* z index.css (wspólna z czatem).
+   ────────────────────────────────────────────── */
+
+/* Tokeny modułu: tylko gradient, poświata i lekki cień kart. Reszta z globalnych tokenów (--line, --shadow-float...). */
+.zs-root {
+  --zs-grad: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  --zs-glow-a: rgba(0, 82, 165, 0.16);
+  --zs-glow-b: rgba(110, 70, 200, 0.12);
+  --zs-glow-c: rgba(0, 160, 220, 0.10);
+  --zs-shadow-sm: 0 1px 2px rgba(24, 34, 80, 0.06), 0 2px 8px rgba(24, 34, 80, 0.05);
+}
+:root[data-theme="dark"] .zs-root {
+  --zs-glow-a: rgba(79, 124, 255, 0.24);
+  --zs-glow-b: rgba(150, 90, 255, 0.20);
+  --zs-glow-c: rgba(40, 170, 220, 0.12);
+  --zs-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+:root[data-theme="high-contrast"] .zs-root {
+  --zs-glow-a: transparent; --zs-glow-b: transparent; --zs-glow-c: transparent;
+  --zs-shadow-sm: none;
+}
+
+
+.zs-root { position: relative; isolation: isolate; padding-bottom: 1rem; }
+/* Poświata w tle: trzy rozmyte plamy, zanikają ku dołowi */
+.zs-root::before {
+  content: ""; position: absolute; inset: -6rem 0 auto 0; height: 38rem; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(40rem 22rem at 18% 30%, var(--zs-glow-a), transparent 70%),
+    radial-gradient(38rem 24rem at 82% 22%, var(--zs-glow-b), transparent 70%),
+    radial-gradient(30rem 18rem at 52% 70%, var(--zs-glow-c), transparent 70%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent);
+}
+
+/* ── Hero ── */
+.zs-hero { padding-block: 2.5rem 1rem; text-align: center; }
+.zs-title { font-size: clamp(1.6rem, 3.5vw, 2.1rem); font-weight: 650; letter-spacing: -0.02em; line-height: 1.2; color: var(--text); }
+
+/* ── Pole wyszukiwania w stylu „composera” czatu ── */
+.zs-composer {
+  max-width: 44rem; margin: 1.5rem auto 0; padding: 0.45rem;
+  background: var(--surface-float); border: 1.5px solid var(--field-border);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-float); text-align: left;
+}
+.zs-composer:has(.zs-composer-input:focus-visible) {
+  outline: 3px solid var(--focus); outline-offset: 2px; box-shadow: var(--shadow-float), 0 0 0 5px var(--focus-halo);
+}
+.zs-composer-row { display: flex; align-items: center; gap: 0.5rem; padding-left: 0.85rem; }
+.zs-composer-icon { color: var(--text-muted); flex-shrink: 0; }
+.zs-composer-input {
+  flex: 1 1 auto; min-width: 0; min-height: 3rem; padding: 0.5rem 0.25rem;
+  border: 0; background: transparent; color: var(--text); font: inherit; font-size: 1.1rem;
+}
+.zs-composer-input:focus-visible { outline: none; box-shadow: none; }
+.zs-composer-input::placeholder { color: var(--text-muted); opacity: 1; }
+.zs-composer-submit { flex-shrink: 0; min-height: 3rem; padding-inline: 1.5rem; }
+.zs-composer-tools { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 0.4rem 0.4rem 0.25rem; }
+
+/* ── Pigułki (kategorie i przełącznik) ── */
+.zs-chip {
+  display: inline-flex; align-items: center; gap: 0.5rem; min-height: 2.5rem; padding: 0.35rem 0.95rem;
+  font: inherit; font-size: 0.95rem; font-weight: 550; line-height: 1.25; color: var(--text); cursor: pointer;
+  background: var(--surface); border: 1.5px solid var(--line-strong); border-radius: 999px;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+.zs-chip:hover { background: var(--primary-soft); border-color: var(--primary); color: var(--on-primary-soft); }
+.zs-chip[aria-pressed="true"] { background: var(--zs-grad); border-color: transparent; color: var(--on-primary); }
+:root[data-theme="high-contrast"] .zs-chip[aria-pressed="true"] { border-color: var(--text); text-decoration: underline; }
+:root[data-theme="high-contrast"] .zs-chip:hover { background: var(--surface); color: var(--text); border-style: dashed; }
+.zs-chip-count {
+  min-width: 1.6rem; padding: 0 0.45rem; text-align: center; font-size: 0.8rem; font-weight: 650;
+  background: var(--surface-sunk); color: var(--text-muted); border-radius: 999px;
+}
+.zs-chip[aria-pressed="true"] .zs-chip-count { background: rgba(255, 255, 255, 0.22); color: inherit; }
+:root[data-theme="dark"] .zs-chip[aria-pressed="true"] .zs-chip-count { background: rgba(10, 16, 48, 0.2); }
+:root[data-theme="high-contrast"] .zs-chip[aria-pressed="true"] .zs-chip-count { background: var(--on-primary); color: var(--primary); }
+
+.zs-cats { margin-top: 1.75rem; }
+.zs-overline { margin-bottom: 0.75rem; font-size: 0.8rem; font-weight: 650; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); }
+.zs-chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; }
+
+/* ── Wyniki ── */
+.zs-results { padding-block: 1.5rem 2rem; }
+.zs-results-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 1.25rem; }
+.zs-h2 { font-size: clamp(1.4rem, 3vw, 1.75rem); }
+.zs-status { margin-top: 0.15rem; font-size: 0.95rem; color: var(--text-muted); }
+.zs-results .alert { margin-bottom: 1rem; }
+.zs-grid {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 1.1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(21rem, 100%), 1fr));
+}
+.zs-grid > li { display: flex; }
+
+.zs-card {
+  position: relative; width: 100%; padding: 1.25rem 1.35rem 1.35rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
+  box-shadow: var(--zs-shadow-sm);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+.zs-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-float); border-color: var(--line-strong); }
+.zs-card:focus-within { border-color: var(--primary); }
+:root[data-theme="high-contrast"] .zs-card { border-width: 2px; transform: none; }
+.zs-card-body { display: grid; gap: 0.6rem; align-content: start; min-width: 0; }
+.zs-card-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.zs-card-kicker {
+  display: inline-block; padding: 0.1rem 0.7rem; font-size: 0.8rem; font-weight: 600; line-height: 1.5;
+  background: var(--primary-soft); color: var(--on-primary-soft); border-radius: 999px;
+}
+:root[data-theme="high-contrast"] .zs-card-kicker { border: 1.5px solid var(--primary); }
+.zs-card-arrow { flex-shrink: 0; color: var(--text-muted); transition: transform 0.18s ease, color 0.18s ease; }
+.zs-card:hover .zs-card-arrow { color: var(--primary); transform: translate(2px, -2px); }
+.zs-card-title { font-size: 1.2rem; font-weight: 650; }
+.zs-card-title a { color: var(--text); text-decoration: none; }
+.zs-card-title a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+/* Cała karta jest klikalna, a w drzewie dostępności jest jeden link (w nagłówku) */
+.zs-card-title a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.zs-card-title a:focus-visible { outline-offset: 4px; }
+.zs-card-problem {
+  font-size: 0.95rem; color: var(--text-muted);
+  display: -webkit-box; -webkit-line-clamp: 4; line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden;
+}
+.zs-card .badge { justify-self: start; }
+.zs-source { margin-top: 2.5rem; text-align: center; }
+
+/* ── Film ── */
+.zs-video { display: grid; gap: 0.75rem; }
+.zs-video-frame { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: var(--radius-md); background: #000; }
+.zs-video-start {
+  width: 100%; aspect-ratio: 16 / 9; min-height: 12rem; padding: 1rem;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; text-align: center;
+  font: inherit; cursor: pointer; color: var(--on-primary-soft);
+  background: radial-gradient(30rem 14rem at 30% 20%, var(--zs-glow-a), transparent 70%), radial-gradient(26rem 14rem at 80% 80%, var(--zs-glow-b), transparent 70%), var(--primary-soft);
+  border: 1px solid var(--line-strong); border-radius: var(--radius-md);
+  transition: box-shadow 0.18s ease, transform 0.18s ease;
+}
+.zs-video-start:hover { box-shadow: var(--shadow-float); transform: translateY(-2px); }
+.zs-video-start .hint { color: inherit; }
+.zs-video-label { font-weight: 650; font-size: 1.1rem; }
+:root[data-theme="high-contrast"] .zs-video-start { color: var(--text); border-width: 2px; background: var(--surface); transform: none; }
+
+@media (max-width: 40rem) {
+  .zs-hero { padding-top: 2rem; }
+  .zs-composer-submit { padding-inline: 1.1rem; }
+  .zs-chips { justify-content: flex-start; }
+  .zs-hero { text-align: left; }
+  }

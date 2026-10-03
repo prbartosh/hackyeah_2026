@@ -81,8 +81,10 @@ export interface ApiMessage {
 }
 
 /** Limity z backendu (schemas/chat.py) */
-export const MAX_MESSAGES = 40
+export const MAX_MESSAGES = 30
+export const MAX_USER_MESSAGE_CHARS = 1500
 export const MAX_MESSAGE_CHARS = 4000
+export const MAX_HISTORY_CHARS = 20_000
 
 export interface ChatRequest {
   messages: ApiMessage[]

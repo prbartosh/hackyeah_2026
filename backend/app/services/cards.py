@@ -15,6 +15,7 @@ from app.repositories.card import CardRepository
 from app.repositories.innovation import (
     OVERLAY_FILE,
     OVERLAY_LISTS,
+    VOCABULARY_FILE,
     _load,
     _load_overlay,
     set_db_snapshot,
@@ -113,7 +114,9 @@ class CardService:
         if await self.repo.count():
             return 0
         records = _load(path)
-        overlays = _load_overlay(path.parent / OVERLAY_FILE, frozenset(records))
+        overlays = _load_overlay(
+            path.parent / OVERLAY_FILE, frozenset(records), path.parent / VOCABULARY_FILE
+        )
         cards: list[InnovationCard] = []
         for slug, r in records.items():
             overlay = overlays.get(slug, {})
