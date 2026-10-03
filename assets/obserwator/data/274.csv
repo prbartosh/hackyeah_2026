@@ -1,0 +1,604 @@
+indicator_id,indicator,year,level,area,powiat,value
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat bocheński,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Bochnia (miasto),powiat bocheński,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Bochnia (wieś),powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Drwinia,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Lipnica Murowana,powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Łapanów,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Nowy Wiśnicz,powiat bocheński,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Rzezawa,powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Trzciana,powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Żegocina,powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat brzeski,powiat brzeski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Borzęcin,powiat brzeski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Brzesko,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Czchów,powiat brzeski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Dębno,powiat brzeski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Gnojnik,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Iwkowa,powiat brzeski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Szczurowa,powiat brzeski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat chrzanowski,powiat chrzanowski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Alwernia,powiat chrzanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Babice,powiat chrzanowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Chrzanów,powiat chrzanowski,15
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Libiąż,powiat chrzanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Trzebinia,powiat chrzanowski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat dąbrowski,powiat dąbrowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Bolesław,powiat dąbrowski,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Dąbrowa Tarnowska,powiat dąbrowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Gręboszów,powiat dąbrowski,20
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Mędrzechów,powiat dąbrowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Olesno,powiat dąbrowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Radgoszcz,powiat dąbrowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Szczucin,powiat dąbrowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat gorlicki,powiat gorlicki,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Biecz,powiat gorlicki,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Bobowa,powiat gorlicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Gorlice (miasto),powiat gorlicki,15
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Gorlice (wieś),powiat gorlicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Lipinki,powiat gorlicki,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Łużna,powiat gorlicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Moszczenica,powiat gorlicki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Ropa,powiat gorlicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Sękowa,powiat gorlicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Uście Gorlickie,powiat gorlicki,8
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat krakowski,powiat krakowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Czernichów,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Igołomia-Wawrzeńczyce,powiat krakowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Iwanowice,powiat krakowski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Jerzmanowice-Przeginia,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Kocmyrzów-Luborzyca,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Krzeszowice,powiat krakowski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Liszki,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Michałowice,powiat krakowski,7
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Mogilany,powiat krakowski,7
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Skała,powiat krakowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Skawina,powiat krakowski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Słomniki,powiat krakowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Sułoszowa,powiat krakowski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Świątniki Górne,powiat krakowski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wielka Wieś,powiat krakowski,7
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Zabierzów,powiat krakowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Zielonki,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat limanowski,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Dobra,powiat limanowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Jodłownik,powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Kamienica,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Laskowa,powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Limanowa (miasto),powiat limanowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Limanowa (wieś),powiat limanowski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Łukowica,powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Mszana Dolna (miasto),powiat limanowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Mszana Dolna (wieś),powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Niedźwiedź,powiat limanowski,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Słopnice,powiat limanowski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Tymbark,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat m. Kraków,powiat m. Kraków,17
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat m. Nowy Sącz,powiat m. Nowy Sącz,13
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat m. Tarnów,powiat m. Tarnów,16
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat miechowski,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Charsznica,powiat miechowski,15
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Gołcza,powiat miechowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Kozłów,powiat miechowski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Książ Wielki,powiat miechowski,16
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Miechów,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Racławice,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Słaboszów,powiat miechowski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat myślenicki,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Dobczyce,powiat myślenicki,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Lubień,powiat myślenicki,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Myślenice,powiat myślenicki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Pcim,powiat myślenicki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Raciechowice,powiat myślenicki,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Siepraw,powiat myślenicki,7
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Sułkowice,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Tokarnia,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wiśniowa,powiat myślenicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat nowosądecki,powiat nowosądecki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Podegrodzie,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Rytro,powiat nowosądecki,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Stary Sącz,powiat nowosądecki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Chełmiec,powiat nowosądecki,7
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Gródek nad Dunajcem,powiat nowosądecki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Grybów (miasto),powiat nowosądecki,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Grybów (wieś),powiat nowosądecki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Kamionka Wielka,powiat nowosądecki,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Korzenna,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Krynica-Zdrój,powiat nowosądecki,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Łabowa,powiat nowosądecki,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Łącko,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Łososina Dolna,powiat nowosądecki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Muszyna,powiat nowosądecki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Nawojowa,powiat nowosądecki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Piwniczna-Zdrój,powiat nowosądecki,14
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat nowotarski,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Czarny Dunajec,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Czorsztyn,powiat nowotarski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Jabłonka,powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Krościenko nad Dunajcem,powiat nowotarski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Lipnica Wielka,powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Łapsze Niżne,powiat nowotarski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Nowy Targ (miasto),powiat nowotarski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Nowy Targ (wieś),powiat nowotarski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Ochotnica Dolna,powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Raba Wyżna,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Rabka-Zdrój,powiat nowotarski,15
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Spytkowice,powiat nowotarski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Szaflary,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Szczawnica,powiat nowotarski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat olkuski,powiat olkuski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Bolesław,powiat olkuski,17
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Bukowno,powiat olkuski,16
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Klucze,powiat olkuski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Olkusz,powiat olkuski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Trzyciąż,powiat olkuski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wolbrom,powiat olkuski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat oświęcimski,powiat oświęcimski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Brzeszcze,powiat oświęcimski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Chełmek,powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Kęty,powiat oświęcimski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Osiek,powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Oświęcim (miasto),powiat oświęcimski,18
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Oświęcim (wieś),powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Polanka Wielka,powiat oświęcimski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Przeciszów,powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Zator,powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat proszowicki,powiat proszowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Koniusza,powiat proszowicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Koszyce,powiat proszowicki,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Nowe Brzesko,powiat proszowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Pałecznica,powiat proszowicki,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Proszowice,powiat proszowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Radziemice,powiat proszowicki,13
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat suski,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Budzów,powiat suski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Bystra-Sidzina,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Jordanów (miasto),powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Jordanów (wieś),powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Maków Podhalański,powiat suski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Stryszawa,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Sucha Beskidzka,powiat suski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Zawoja,powiat suski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Zembrzyce,powiat suski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat tarnowski,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Ciężkowice,powiat tarnowski,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Gromnik,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Lisia Góra,powiat tarnowski,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Pleśna,powiat tarnowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Radłów,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Ryglice,powiat tarnowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Rzepiennik Strzyżewski,powiat tarnowski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Skrzyszów,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Szerzyny,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Tarnów (wieś),powiat tarnowski,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Tuchów,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wierzchosławice,powiat tarnowski,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wietrzychowice,powiat tarnowski,15
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wojnicz,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Zakliczyn,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Żabno,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat tatrzański,powiat tatrzański,13
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Biały Dunajec,powiat tatrzański,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Bukowina Tatrzańska,powiat tatrzański,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Kościelisko,powiat tatrzański,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Poronin,powiat tatrzański,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Zakopane,powiat tatrzański,17
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat wadowicki,powiat wadowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Andrychów,powiat wadowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Brzeźnica,powiat wadowicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Kalwaria Zebrzydowska,powiat wadowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Lanckorona,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Mucharz,powiat wadowicki,14
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Spytkowice,powiat wadowicki,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Stryszów,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Tomice,powiat wadowicki,7
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wadowice,powiat wadowicki,12
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wieprz,powiat wadowicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,powiat,powiat wielicki,powiat wielicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Biskupice,powiat wielicki,9
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Gdów,powiat wielicki,7
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Kłaj,powiat wielicki,10
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Niepołomice,powiat wielicki,8
+274,Wskaźnik wsparcia osób najstarszych,2024,gmina,Wieliczka,powiat wielicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat bocheński,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Bochnia (miasto),powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Bochnia (wieś),powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Drwinia,powiat bocheński,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Lipnica Murowana,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Łapanów,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Nowy Wiśnicz,powiat bocheński,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Rzezawa,powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Trzciana,powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Żegocina,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat brzeski,powiat brzeski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Borzęcin,powiat brzeski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Brzesko,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Czchów,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Dębno,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Gnojnik,powiat brzeski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Iwkowa,powiat brzeski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Szczurowa,powiat brzeski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat chrzanowski,powiat chrzanowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Alwernia,powiat chrzanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Babice,powiat chrzanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Chrzanów,powiat chrzanowski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Libiąż,powiat chrzanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Trzebinia,powiat chrzanowski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat dąbrowski,powiat dąbrowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Bolesław,powiat dąbrowski,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Dąbrowa Tarnowska,powiat dąbrowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Gręboszów,powiat dąbrowski,18
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Mędrzechów,powiat dąbrowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Olesno,powiat dąbrowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Radgoszcz,powiat dąbrowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Szczucin,powiat dąbrowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat gorlicki,powiat gorlicki,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Biecz,powiat gorlicki,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Bobowa,powiat gorlicki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Gorlice (miasto),powiat gorlicki,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Gorlice (wieś),powiat gorlicki,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Lipinki,powiat gorlicki,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Łużna,powiat gorlicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Moszczenica,powiat gorlicki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Ropa,powiat gorlicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Sękowa,powiat gorlicki,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Uście Gorlickie,powiat gorlicki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat krakowski,powiat krakowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Czernichów,powiat krakowski,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Igołomia-Wawrzeńczyce,powiat krakowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Iwanowice,powiat krakowski,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Jerzmanowice-Przeginia,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Kocmyrzów-Luborzyca,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Krzeszowice,powiat krakowski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Liszki,powiat krakowski,7
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Michałowice,powiat krakowski,7
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Mogilany,powiat krakowski,6
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Skała,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Skawina,powiat krakowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Słomniki,powiat krakowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Sułoszowa,powiat krakowski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Świątniki Górne,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wielka Wieś,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Zabierzów,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Zielonki,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat limanowski,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Dobra,powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Jodłownik,powiat limanowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Kamienica,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Laskowa,powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Limanowa (miasto),powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Limanowa (wieś),powiat limanowski,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Łukowica,powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Mszana Dolna (miasto),powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Mszana Dolna (wieś),powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Niedźwiedź,powiat limanowski,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Słopnice,powiat limanowski,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Tymbark,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat m. Kraków,powiat m. Kraków,17
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat m. Nowy Sącz,powiat m. Nowy Sącz,12
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat m. Tarnów,powiat m. Tarnów,15
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat miechowski,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Charsznica,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Gołcza,powiat miechowski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Kozłów,powiat miechowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Książ Wielki,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Miechów,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Racławice,powiat miechowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Słaboszów,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat myślenicki,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Dobczyce,powiat myślenicki,7
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Lubień,powiat myślenicki,7
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Myślenice,powiat myślenicki,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Pcim,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Raciechowice,powiat myślenicki,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Siepraw,powiat myślenicki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Sułkowice,powiat myślenicki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Tokarnia,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wiśniowa,powiat myślenicki,12
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat nowosądecki,powiat nowosądecki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Podegrodzie,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Rytro,powiat nowosądecki,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Stary Sącz,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Chełmiec,powiat nowosądecki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Gródek nad Dunajcem,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Grybów (miasto),powiat nowosądecki,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Grybów (wieś),powiat nowosądecki,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Kamionka Wielka,powiat nowosądecki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Korzenna,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Krynica-Zdrój,powiat nowosądecki,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Łabowa,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Łącko,powiat nowosądecki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Łososina Dolna,powiat nowosądecki,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Muszyna,powiat nowosądecki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Nawojowa,powiat nowosądecki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Piwniczna-Zdrój,powiat nowosądecki,13
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat nowotarski,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Czarny Dunajec,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Czorsztyn,powiat nowotarski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Jabłonka,powiat nowotarski,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Krościenko nad Dunajcem,powiat nowotarski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Lipnica Wielka,powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Łapsze Niżne,powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Nowy Targ (miasto),powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Nowy Targ (wieś),powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Ochotnica Dolna,powiat nowotarski,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Raba Wyżna,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Rabka-Zdrój,powiat nowotarski,15
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Spytkowice,powiat nowotarski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Szaflary,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Szczawnica,powiat nowotarski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat olkuski,powiat olkuski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Bolesław,powiat olkuski,20
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Bukowno,powiat olkuski,17
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Klucze,powiat olkuski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Olkusz,powiat olkuski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Trzyciąż,powiat olkuski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wolbrom,powiat olkuski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat oświęcimski,powiat oświęcimski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Brzeszcze,powiat oświęcimski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Chełmek,powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Kęty,powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Osiek,powiat oświęcimski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Oświęcim (miasto),powiat oświęcimski,17
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Oświęcim (wieś),powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Polanka Wielka,powiat oświęcimski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Przeciszów,powiat oświęcimski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Zator,powiat oświęcimski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat proszowicki,powiat proszowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Koniusza,powiat proszowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Koszyce,powiat proszowicki,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Nowe Brzesko,powiat proszowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Pałecznica,powiat proszowicki,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Proszowice,powiat proszowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Radziemice,powiat proszowicki,13
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat suski,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Budzów,powiat suski,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Bystra-Sidzina,powiat suski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Jordanów (miasto),powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Jordanów (wieś),powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Maków Podhalański,powiat suski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Stryszawa,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Sucha Beskidzka,powiat suski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Zawoja,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Zembrzyce,powiat suski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat tarnowski,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Ciężkowice,powiat tarnowski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Gromnik,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Lisia Góra,powiat tarnowski,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Pleśna,powiat tarnowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Radłów,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Ryglice,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Rzepiennik Strzyżewski,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Skrzyszów,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Szerzyny,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Tarnów (wieś),powiat tarnowski,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Tuchów,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wierzchosławice,powiat tarnowski,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wietrzychowice,powiat tarnowski,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wojnicz,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Zakliczyn,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Żabno,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat tatrzański,powiat tatrzański,13
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Biały Dunajec,powiat tatrzański,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Bukowina Tatrzańska,powiat tatrzański,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Kościelisko,powiat tatrzański,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Poronin,powiat tatrzański,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Zakopane,powiat tatrzański,16
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat wadowicki,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Andrychów,powiat wadowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Brzeźnica,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Kalwaria Zebrzydowska,powiat wadowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Lanckorona,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Mucharz,powiat wadowicki,14
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Spytkowice,powiat wadowicki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Stryszów,powiat wadowicki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Tomice,powiat wadowicki,7
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wadowice,powiat wadowicki,12
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wieprz,powiat wadowicki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,powiat,powiat wielicki,powiat wielicki,9
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Biskupice,powiat wielicki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Gdów,powiat wielicki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Kłaj,powiat wielicki,10
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Niepołomice,powiat wielicki,8
+274,Wskaźnik wsparcia osób najstarszych,2023,gmina,Wieliczka,powiat wielicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat bocheński,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Bochnia (miasto),powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Bochnia (wieś),powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Drwinia,powiat bocheński,15
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Lipnica Murowana,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Łapanów,powiat bocheński,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Nowy Wiśnicz,powiat bocheński,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Rzezawa,powiat bocheński,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Trzciana,powiat bocheński,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Żegocina,powiat bocheński,9
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat brzeski,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Borzęcin,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Brzesko,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Czchów,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Dębno,powiat brzeski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Gnojnik,powiat brzeski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Iwkowa,powiat brzeski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Szczurowa,powiat brzeski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat chrzanowski,powiat chrzanowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Alwernia,powiat chrzanowski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Babice,powiat chrzanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Chrzanów,powiat chrzanowski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Libiąż,powiat chrzanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Trzebinia,powiat chrzanowski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat dąbrowski,powiat dąbrowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Bolesław,powiat dąbrowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Dąbrowa Tarnowska,powiat dąbrowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Gręboszów,powiat dąbrowski,17
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Mędrzechów,powiat dąbrowski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Olesno,powiat dąbrowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Radgoszcz,powiat dąbrowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Szczucin,powiat dąbrowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat gorlicki,powiat gorlicki,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Biecz,powiat gorlicki,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Bobowa,powiat gorlicki,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Gorlice (miasto),powiat gorlicki,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Gorlice (wieś),powiat gorlicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Lipinki,powiat gorlicki,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Łużna,powiat gorlicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Moszczenica,powiat gorlicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Ropa,powiat gorlicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Sękowa,powiat gorlicki,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Uście Gorlickie,powiat gorlicki,8
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat krakowski,powiat krakowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Czernichów,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Igołomia-Wawrzeńczyce,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Iwanowice,powiat krakowski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Jerzmanowice-Przeginia,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Kocmyrzów-Luborzyca,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Krzeszowice,powiat krakowski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Liszki,powiat krakowski,7
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Michałowice,powiat krakowski,7
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Mogilany,powiat krakowski,6
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Skała,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Skawina,powiat krakowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Słomniki,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Sułoszowa,powiat krakowski,14
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Świątniki Górne,powiat krakowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wielka Wieś,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Zabierzów,powiat krakowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Zielonki,powiat krakowski,8
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat limanowski,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Dobra,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Jodłownik,powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Kamienica,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Laskowa,powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Limanowa (miasto),powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Limanowa (wieś),powiat limanowski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Łukowica,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Mszana Dolna (miasto),powiat limanowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Mszana Dolna (wieś),powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Niedźwiedź,powiat limanowski,7
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Słopnice,powiat limanowski,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Tymbark,powiat limanowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat m. Kraków,powiat m. Kraków,16
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat m. Nowy Sącz,powiat m. Nowy Sącz,11
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat m. Tarnów,powiat m. Tarnów,14
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat miechowski,powiat miechowski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Charsznica,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Gołcza,powiat miechowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Kozłów,powiat miechowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Książ Wielki,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Miechów,powiat miechowski,14
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Racławice,powiat miechowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Słaboszów,powiat miechowski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat myślenicki,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Dobczyce,powiat myślenicki,7
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Lubień,powiat myślenicki,7
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Myślenice,powiat myślenicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Pcim,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Raciechowice,powiat myślenicki,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Siepraw,powiat myślenicki,7
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Sułkowice,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Tokarnia,powiat myślenicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wiśniowa,powiat myślenicki,11
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat nowosądecki,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Podegrodzie,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Rytro,powiat nowosądecki,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Stary Sącz,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Chełmiec,powiat nowosądecki,7
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Gródek nad Dunajcem,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Grybów (miasto),powiat nowosądecki,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Grybów (wieś),powiat nowosądecki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Kamionka Wielka,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Korzenna,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Krynica-Zdrój,powiat nowosądecki,14
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Łabowa,powiat nowosądecki,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Łącko,powiat nowosądecki,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Łososina Dolna,powiat nowosądecki,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Muszyna,powiat nowosądecki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Nawojowa,powiat nowosądecki,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Piwniczna-Zdrój,powiat nowosądecki,12
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat nowotarski,powiat nowotarski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Czarny Dunajec,powiat nowotarski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Czorsztyn,powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Jabłonka,powiat nowotarski,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Krościenko nad Dunajcem,powiat nowotarski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Lipnica Wielka,powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Łapsze Niżne,powiat nowotarski,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Nowy Targ (miasto),powiat nowotarski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Nowy Targ (wieś),powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Ochotnica Dolna,powiat nowotarski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Raba Wyżna,powiat nowotarski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Rabka-Zdrój,powiat nowotarski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Spytkowice,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Szaflary,powiat nowotarski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Szczawnica,powiat nowotarski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat olkuski,powiat olkuski,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Bolesław,powiat olkuski,18
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Bukowno,powiat olkuski,16
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Klucze,powiat olkuski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Olkusz,powiat olkuski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Trzyciąż,powiat olkuski,14
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wolbrom,powiat olkuski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat oświęcimski,powiat oświęcimski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Brzeszcze,powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Chełmek,powiat oświęcimski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Kęty,powiat oświęcimski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Osiek,powiat oświęcimski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Oświęcim (miasto),powiat oświęcimski,16
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Oświęcim (wieś),powiat oświęcimski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Polanka Wielka,powiat oświęcimski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Przeciszów,powiat oświęcimski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Zator,powiat oświęcimski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat proszowicki,powiat proszowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Koniusza,powiat proszowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Koszyce,powiat proszowicki,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Nowe Brzesko,powiat proszowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Pałecznica,powiat proszowicki,14
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Proszowice,powiat proszowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Radziemice,powiat proszowicki,13
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat suski,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Budzów,powiat suski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Bystra-Sidzina,powiat suski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Jordanów (miasto),powiat suski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Jordanów (wieś),powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Maków Podhalański,powiat suski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Stryszawa,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Sucha Beskidzka,powiat suski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Zawoja,powiat suski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Zembrzyce,powiat suski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat tarnowski,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Ciężkowice,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Gromnik,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Lisia Góra,powiat tarnowski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Pleśna,powiat tarnowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Radłów,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Ryglice,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Rzepiennik Strzyżewski,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Skrzyszów,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Szerzyny,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Tarnów (wieś),powiat tarnowski,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Tuchów,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wierzchosławice,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wietrzychowice,powiat tarnowski,15
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wojnicz,powiat tarnowski,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Zakliczyn,powiat tarnowski,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Żabno,powiat tarnowski,12
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat tatrzański,powiat tatrzański,12
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Biały Dunajec,powiat tatrzański,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Bukowina Tatrzańska,powiat tatrzański,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Kościelisko,powiat tatrzański,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Poronin,powiat tatrzański,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Zakopane,powiat tatrzański,15
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat wadowicki,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Andrychów,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Brzeźnica,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Kalwaria Zebrzydowska,powiat wadowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Lanckorona,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Mucharz,powiat wadowicki,13
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Spytkowice,powiat wadowicki,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Stryszów,powiat wadowicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Tomice,powiat wadowicki,7
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wadowice,powiat wadowicki,11
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wieprz,powiat wadowicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,powiat,powiat wielicki,powiat wielicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Biskupice,powiat wielicki,9
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Gdów,powiat wielicki,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Kłaj,powiat wielicki,10
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Niepołomice,powiat wielicki,8
+274,Wskaźnik wsparcia osób najstarszych,2022,gmina,Wieliczka,powiat wielicki,10
