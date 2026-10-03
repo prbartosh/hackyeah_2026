@@ -44,7 +44,7 @@ Linki względne (`/mpliki/...`) działają pod `https://rops.krakow.pl`. Strona 
 ## Wnioski dla produktu
 
 - Wejście: pole tekstowe "opisz problem własnymi słowami". Nazwy innowacji nie przychodzą użytkownikom do głowy.
-- Wyszukiwanie po sekcjach "Na czym polega" i "Jakich problemów dotyczy" (patrz [docs/innovation-model.md](docs/innovation-model.md)).
+- Wyszukiwanie po sekcjach "Na czym polega" i "Jakich problemów dotyczy" (patrz [ADR 0004](docs/adr/0004-obiekt-innowacji.md)).
 - Pole "dla kogo szukasz" (dla siebie / dla bliskiej osoby / jako organizacja): część innowacji jest dla placówek, część dla osób prywatnych.
 - Historia 2: prosty polski, rozważyć PJM i audio w samej aplikacji.
 - Każdy wynik pokazuje licencję. Warunki są różne: CC BY 4.0 albo zasady MIIS.

@@ -5,7 +5,7 @@
 
 ## Kontekst
 
-Użytkownik opisuje problem w czacie ([DEMO.md](../DEMO.md)). Agent AI wypełnia panel „Twój problem” (kogo dotyczy, gdzie, skala, przyczyna, co próbowano, zasoby), a orkiestrator zwraca do 5 najlepiej dopasowanych innowacji. Dokumenty ROPS (raporty, statystyki) mogą być częścią innowacji, ale bezpośrednio wyszukują je tylko pracownicy ROPS (patrz punkt 9). Model ocenia kandydatów na podstawie ich pól, a `why_relevant` może opierać się wyłącznie na danych z bazy.
+Użytkownik opisuje problem w czacie ([DEMO.md](../DEMO.md)). Agent AI wypełnia panel „Twój problem” (kogo dotyczy, gdzie, skala, przyczyna, co próbowano, zasoby), a orkiestrator zwraca do 5 najlepiej dopasowanych innowacji. Dokumenty ROPS (raporty, statystyki) są publiczne, mogą być powiązane z innowacjami i dostępne bezpośrednio (patrz punkt 9). Model ocenia kandydatów na podstawie ich pól, a `why_relevant` może opierać się wyłącznie na danych z bazy.
 
 Baza już istnieje: 115 innowacji z biblioteki ROPS w `assets/innowacje-spoleczne/innowacje.json`, pobranych scraperem ([baza-innowacji.md](../baza-innowacji.md)). Scraper nadpisuje plik przy odświeżeniu, więc nie wolno go edytować ręcznie. Strona ROPS nie podaje kosztu, czasu ani wymagań wdrożenia. Kreator innowacji jest poza zakresem pierwszego demo.
 
@@ -152,21 +152,22 @@ Skala: na demo 115 innowacji, docelowo do 200.
 
 - **Wariant podstawowy:** model dostaje cały katalog i stan problemu, wybiera do 5 pozycji i pisze `why_relevant`. Katalog to dla każdej innowacji: `slug`, `nazwa`, `problem`, `grupa_docelowa`, `kto_moze_skorzystac`, `czy_dziala`, `wybrana_do_upowszechniania` i zatwierdzona nakładka. Szacunkowo 150–250 tokenów na innowację, czyli 17–29 tys. na 115 innowacji (do zmierzenia). Katalog zmienia się rzadko, więc stoi na początku promptu i korzysta z cache'owania promptu, jeśli dostawca modelu je obsługuje.
 - **Wariant zapasowy:** jeśli czas odpowiedzi lub koszt okażą się za duże, prefiltr po listach nakładki (wspólne `grupy_docelowe` lub `problemy`), ranking po liczbie wspólnych wartości, rola i `wybrana_do_upowszechniania` jako podbicie kolejności (nie filtr), potem rerank LLM na 15–20 kandydatach.
-- **Brak dopasowania:** model mówi to wprost i pokazuje najbliższe wyniki z informacją, czym się różnią. Dodatkowo backend zapisuje potrzebę: same slugi ze stanu problemu, rolę i datę, bez tekstu rozmowy i podsumowania. Zapis trafia do tabeli `potrzeby` w PostgreSQL. To jedyny zapis po stronie backendu i nie łamie zasady „nie zapisujemy rozmów”.
+- **Brak dopasowania:** model mówi to wprost i pokazuje najbliższe wyniki z informacją, czym się różnią.
+- **Zapis potrzeby:** przy każdej odpowiedzi z wynikami (`show_results`) backend zapisuje potrzebę: same slugi ze stanu problemu, rolę, slugi pokazanych innowacji, flagę `brak_dopasowania` i datę, bez tekstu rozmowy i podsumowania. Zapis trafia do tabeli `potrzeby` w PostgreSQL i jest podstawą trendów dla administratora. To jedyny zapis po stronie backendu i nie łamie zasady „nie zapisujemy rozmów”.
 - Treść innowacji to dane, nie instrukcje. Prompt traktuje ją jako dane (ochrona przed prompt injection, ważne od chwili, gdy dojdzie kreator).
 
-### 9. Dokumenty ROPS i dostęp
+### 9. Dokumenty ROPS
 
-Skala: na demo do 100 dokumentów, docelowo dużo więcej niż innowacji.
+Dane w repo (scrapery z publicznej strony ROPS): 51 raportów (`assets/raporty/`), 3 publikacje (`assets/publikacje/`), Mapa Wyzwań Społecznych (`assets/mapa-wyzwan/`), 184 wskaźniki Obserwatora Statystyk Społecznych (`assets/obserwator/`). Docelowo dokumentów będzie dużo więcej niż innowacji.
 
-- Dokument (raport, statystyki) to osobny obiekt, poza rekordem innowacji i poza jej materiałami.
-- Powiązanie z innowacją jest częste i typu wiele do wielu: jeden raport statystyczny może dotyczyć kilku innowacji, a innowacja może mieć kilka raportów. Dokument może też istnieć bez powiązania. Na demo: osobny plik, w którym każdy dokument ma listę slugów powiązanych innowacji.
+- Dokument (raport, publikacja, wskaźnik) to osobny obiekt, poza rekordem innowacji i poza jej materiałami.
+- Dokumenty są publiczne i dostępne dla wszystkich ról, bez logowania.
+- Powiązanie z innowacją jest częste i typu wiele do wielu: jeden raport może dotyczyć kilku innowacji, a innowacja może mieć kilka raportów. Dokument może też istnieć bez powiązania. Na demo: osobny plik, w którym każdy dokument ma listę slugów powiązanych innowacji. Powiązania proponuje AI, zatwierdza człowiek (jak przy nakładce).
 - **Przez innowację:** powiązane dokumenty pojawiają się na stronie szczegółów innowacji, w osobnej sekcji obok materiałów.
-- **Bezpośrednio:** wyszukiwanie po samych dokumentach (także tych bez powiązania) mają tylko pracownicy ROPS.
-- Uprawnienia wynikają z uwierzytelnienia (logowanie pracownika ROPS), nigdy z roli nadanej przez AI w czacie. Rola z czatu wpływa tylko na sposób zadawania pytań i kolejność wyników. Inaczej wystarczyłoby napisać „jestem z ROPS”, żeby dostać wyszukiwarkę dokumentów.
-- Publiczne narzędzie `search` przeszukuje wyłącznie innowacje. Treść dokumentów nie trafia do katalogu w prompcie ani nie jest podstawą `why_relevant`.
-- Wyszukiwanie dokumentów nie zmieści się w prompcie (docelowo za dużo pozycji). Wymaga innego podejścia (filtry po metadanych, embeddingi lub wyszukiwanie pełnotekstowe).
-- Logowanie i panel ROPS są poza zakresem pierwszego demo ([DEMO.md](../DEMO.md)). Na demo dokumenty są widoczne tylko przez powiązane innowacje. Schemat dokumentu, wyszukiwanie dla pracowników i model uprawnień opisze osobny ADR.
+- **Bezpośrednio:** przeglądanie i wyszukiwanie dokumentów w Zasobniku wiedzy ([zadanie 0003](../tasks/0003-zasobnik-wiedzy.md)).
+- Narzędzie `search` w czacie przeszukuje wyłącznie innowacje. Treść dokumentów nie trafia do katalogu w prompcie ani nie jest podstawą `why_relevant`.
+- Wyszukiwanie po treści dokumentów nie zmieści się w prompcie. Na demo: filtry po metadanych (rok, tytuł, kategoria). Wyszukiwanie po treści (embeddingi lub pełnotekstowe) to osobna decyzja.
+- Przy każdym dokumencie pokazujemy źródło (link ROPS) i licencję, jeśli jest podana.
 
 ### 10. Docelowo: kreator i PostgreSQL
 
@@ -207,6 +208,4 @@ Tracimy:
 
 ## Otwarte kwestie
 
-1. Słownik startowy: kto zatwierdza wartości.
-2. Pracownik CUS/OPS: czy ma dostęp do dokumentów, czy tak jak mieszkaniec i partner tylko do innowacji.
-3. Widoczność powiązanych dokumentów: czy każdy dokument powiązany z innowacją jest publiczny na jej stronie, czy dokument potrzebuje flagi (`publiczny` / `wewnetrzny`) i wewnętrzne powiązania widzą tylko pracownicy ROPS.
+1. Słownik startowy: kto zatwierdza wartości ([zadanie 0005](../tasks/0005-slownik-i-nakladka.md)).
