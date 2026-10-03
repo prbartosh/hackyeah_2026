@@ -5,7 +5,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 ## W toku
 
 - [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): innowacje (backend i frontend) w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), dokumenty nie zaczęte, brakuje testu z czytnikiem ekranu
-- [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz): stack, strony i axe sprawdzone, czat i pomiar tokenów do zrobienia na DeepSeek
+- [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz): stack, strony i axe sprawdzone, scenariusze i pytest zrobione, limit 300 tys. tokenów, brakuje testu czatu przez proxy i pełnego pomiaru
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
 - [0015](tasks/0015-panel-administratora.md) Panel administratora, moduł VI (Kacper, do potwierdzenia): backend, UI, seed i testy gotowe, zostaje test z czytnikiem ekranu, prawdziwy Postgres i klucz DeepSeek ([jak uruchomić](panel-administratora.md))
 - [0009](tasks/0009-ewaluacja-dopasowania.md) Ewaluacja dopasowania (Bartosz, Nikodem, Wiktor): skrypt jest, pierwszy pomiar do zrobienia na DeepSeek
@@ -17,7 +17,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo: błąd przy braku klucza, pole `organizacja` (Bartłomiej)
 - [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper)
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz)
-- [0016](tasks/0016-adaptery-llm.md) Port LLM i adaptery dostawców: logika czatu i panelu niezależna od dostawcy, wybór przez `LLM_PROVIDER` (Bartłomiej, Bartosz)
+- [0016](tasks/0016-adaptery-llm.md) Port LLM i adaptery dostawców: logika czatu i panelu niezależna od dostawcy, wybór przez `LLM_PROVIDER` (Bartłomiej)
 - [0017](tasks/0017-dopasowanie-deterministyczne-panel.md) Deterministyczne dopasowanie w panelu zamiast embeddingów, czeka na 5 decyzji (Kacper)
 
 ## Do zaprojektowania
