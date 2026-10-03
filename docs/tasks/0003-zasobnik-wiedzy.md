@@ -1,8 +1,8 @@
 # 0003. Zasobnik wiedzy (moduł II)
 
-- Status: w toku
+- Status: review
 - Osoba: Bartłomiej (backend), Daniel, Kacper (frontend)
-- PR: #9, #35
+- PR: #9, #35, #42
 
 ## Cel
 
