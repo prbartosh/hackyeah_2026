@@ -10,7 +10,7 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 
 ## Do zrobienia
 
-- [0021](tasks/0021-koszt-rozmowy.md) Redukcja kosztu rozmowy, dziś ok. 297 tys. tokenów (Bartłomiej)
+- [0021](tasks/0021-koszt-rozmowy.md) Redukcja kosztu rozmowy (opcjonalne), dziś ok. 297 tys. tokenów (Bartłomiej)
 - [0022](tasks/0022-dostepnosc-nvda-klawiatura.md) Dostępność: axe i klawiatura zrobione (0 naruszeń), zostają testy NVDA i wejście głosowe w przeglądarkach (Daniel, Kacper)
 - [0026](tasks/0026-motyw-malopolska-tokeny.md) Motyw Małopolska: kolory, typografia, tokeny (podstawa dla 0027–0034)
 - [0027](tasks/0027-ornamenty-i-znak-splotu.md) Znak Splotu i ornamenty małopolskie
@@ -24,6 +24,7 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 
 ## Zrobione
 
+- 2026-10-04: Dzienny budżet tokenów czatu usunięty (#45); zostają limity nginx, `CHAT_ENABLED` i dzienne limity wywołań AI panelu i kreatora
 - 2026-10-04: „Podobne przypadki” w matchmakingu: zdarzenie SSE `similar_cases`, próg k = 5, blok pod wynikami ([ADR 0012](adr/0012-podobne-przypadki.md))
 - 2026-10-04: Deterministyczne dopasowanie w panelu zamiast embeddingów (`services/matching.py`, tagi ze słownika, powody w UI, migracja 0006), usunięte `embed`, `reindex` i `/reindeksuj` ([ADR 0006](adr/0006-panel-administratora.md))
 - 2026-10-04: Port LLM i adapter z profilami dostawców (`LLM_PROVIDER`), `ChatService`, panel, karta usługi i skrypt tagowania bez formatu Responses API ([ADR 0010](adr/0010-port-llm.md)); profil `openai` sprawdzony tylko testami jednostkowymi

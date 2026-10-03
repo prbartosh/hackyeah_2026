@@ -7,7 +7,6 @@ from typing import Any, Literal, Protocol
 import openai
 
 from app.core.config import Settings
-from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
 
@@ -99,13 +98,13 @@ PROFILES: dict[str, ProviderProfile] = {
 }
 
 
-def create_provider(settings: Settings, budget: TokenBudget | None = None) -> LLMProvider:
+def create_provider(settings: Settings) -> LLMProvider:
     profile = PROFILES.get(settings.llm_provider)
     if profile is None:
         raise ValueError(
             f"Nieznany LLM_PROVIDER: {settings.llm_provider!r} ({', '.join(PROFILES)})"
         )
-    return ResponsesProvider(settings, profile, budget)
+    return ResponsesProvider(settings, profile)
 
 
 def _to_input(history: list[HistoryItem]) -> list[dict[str, Any]]:
@@ -140,18 +139,12 @@ class ResponsesProvider:
         self,
         settings: Settings,
         profile: ProviderProfile | None = None,
-        budget: TokenBudget | None = None,
     ) -> None:
         self.settings = settings
         self.profile = profile or PROFILES["deepseek"]
-        self.budget = budget
         self.client = openai.AsyncOpenAI(
             api_key=settings.llm_api_key, base_url=settings.llm_base_url
         )
-
-    def _track(self, total_tokens: int) -> None:
-        if self.budget is not None:
-            self.budget.add(total_tokens)
 
     async def complete_json(
         self,
@@ -194,7 +187,6 @@ class ResponsesProvider:
             **extra,
         )
         if response.usage:
-            self._track(response.usage.total_tokens)
             logger.info(
                 "LLM json: in=%s out=%s",
                 response.usage.prompt_tokens,
@@ -217,8 +209,6 @@ class ResponsesProvider:
             timeout=timeout,
             **extra,
         )
-        if response.usage:
-            self._track(response.usage.total_tokens)
         return response.output_text
 
     async def stream(
@@ -239,7 +229,6 @@ class ResponsesProvider:
         try:
             stream = await self.client.responses.create(
                 model=self.settings.llm_model,
-                max_output_tokens=self.settings.llm_max_completion_tokens,
                 # System prompt z katalogiem jest stały i pierwszy - dostawca cache'uje prefiks.
                 instructions=system,
                 input=_to_input(history),
@@ -275,7 +264,6 @@ class ResponsesProvider:
             raise LLMError("Brak odpowiedzi modelu")
         usage = response.usage
         if usage:
-            self._track(usage.total_tokens)
             cached = usage.input_tokens_details.cached_tokens if usage.input_tokens_details else 0
             logger.info(
                 "LLM turn: status=%s in=%s cached=%s out=%s",

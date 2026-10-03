@@ -40,7 +40,6 @@ from app.services.llm import (
     TurnEnd,
 )
 from app.services.similar_cases import similar_cases
-from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
 
@@ -161,7 +160,6 @@ class ChatService:
         self,
         llm: LLMProvider | None,
         innovations: InnovationRepository,
-        budget: TokenBudget,
         enabled: bool = True,
         sessions: async_sessionmaker[AsyncSession] | None = None,
         obserwator: ObserwatorRepository | None = None,
@@ -169,24 +167,17 @@ class ChatService:
         self.llm = llm
         self.obserwator = obserwator
         self.innovations = innovations
-        self.budget = budget
         self.enabled = enabled
         # Fabryka, nie sesja z zależności - zapis jest w trakcie strumienia.
         self.sessions = sessions
         self.system_prompt = prompts.build_system_prompt(innovations)
 
     def ensure_available(self) -> None:
-        """Wyłącznik, klucz modelu i budżet dzienny - sprawdzane przed strumieniem (503)."""
+        """Wyłącznik i klucz modelu - sprawdzane przed strumieniem (503)."""
         if self.llm is None:
             raise ChatUnavailableError(LLM_UNAVAILABLE)
         if not self.enabled:
             raise ChatUnavailableError("Czat jest chwilowo wyłączony. Spróbuj później.")
-        if self.budget.exhausted():
-            logger.warning("Chat: wyczerpany dzienny limit tokenów (%s)", self.budget.daily_limit)
-            raise ChatUnavailableError(
-                "Asystent AI wykorzystał już dzienny limit rozmów. "
-                "Wróć jutro albo przejrzyj Bibliotekę Innowacji Społecznych ROPS Kraków."
-            )
 
     def validate(self, request: ChatRequest) -> None:
         """Wywoływane przed otwarciem strumienia, żeby zła historia dała 422."""

@@ -13,11 +13,10 @@ Moduł VII wyzwania (+5%, decyzja z 0007): pracownik CUS/OPS albo partner (JST, 
 - Odpowiedź to zwykły JSON, bez SSE: `{slug, nazwa, rola, karta}`, gdzie `karta = {cel, odbiorcy, kroki (3-7), zasoby, ryzyka, wskazniki_sukcesu}`. Jedno wywołanie modelu trwa kilka sekund, a front pokazuje w tym czasie stan ładowania. Strumień nic tu nie daje, bo karta ma sens dopiero w całości.
 - Jedno wywołanie `LLMService.complete_json` (DeepSeek, `json_object`), wynik sprawdzany schematem Pydantic. Gdy odpowiedź jest niepełna albo model zwróci błąd, endpoint odpowiada 502 z komunikatem dla użytkownika. Po wejściu portu z 0016 serwis przechodzi na port bez zmiany kontraktu.
 - Ugruntowanie jak `why_relevant` w ADR 0005: model dostaje tylko pola innowacji (z nakładką) i teksty stanu problemu. Nie podaje kosztów, liczb, kontaktów ani faktów spoza tych danych, a brakujące dane oznacza „do uzupełnienia”. Dane są w znacznikach `<innowacja>` i `<problem>`, prompt mówi, że to dane, nie polecenia. Każde pole problemu jest ucięte do 500 znaków.
-- Limity z 0006: nginx z tą samą strefą co czat (wspólny limit na IP), `CHAT_ENABLED` i dzienny budżet tokenów (503). `complete_json` dolicza swoje tokeny do budżetu, więc liczy się też panel administratora.
+- Limity z 0006: nginx z tą samą strefą co czat (wspólny limit na IP), `CHAT_ENABLED` (503). Dzienny budżet tokenów usunięto w #45. `complete_json` dolicza swoje tokeny do budżetu, więc liczy się też panel administratora.
 - Przycisk „Dostosuj do mojej instytucji” na `/innowacja/:slug` widzą wszyscy. Rolę bierzemy z czatu, a jeśli jej nie ma, użytkownik wybiera `cus-ops` albo `partner` przed wysłaniem. Wynik nie jest zapisywany na backendzie.
 
 ## Konsekwencje
 
 - Prosty kontrakt dla frontu, ten sam model i dane co czat, brak nowej bazy.
 - Karta jest ogólna, gdy użytkownik nie przyszedł z czatu. Dane gminy z 0013 można dołożyć później jako kolejne wejście.
-- Dzienny budżet tokenów jest wspólny dla czatu, karty i panelu: wyczerpanie przez jedną funkcję wyłącza pozostałe.

@@ -48,7 +48,7 @@ Serwisy używają portu `LLMProvider` (`services/llm.py`), nie SDK dostawcy ([AD
 
 ## Limity zapytań
 
-Płatne endpointy (czat, karta usługi) i publiczne zapisy (zgłoszenia, kreator, oceny, `/items`) mają limity w `frontend/nginx.conf`, a czat i panel także dzienny budżet w backendzie (`LLM_DAILY_TOKEN_LIMIT`, `AI_DAILY_CALL_LIMIT`). Nowy publiczny endpoint zapisu dodaj do odpowiedniej sekcji `location` w nginx.
+Płatne endpointy (czat, karta usługi) i publiczne zapisy (zgłoszenia, kreator, oceny, `/items`) mają limity w `frontend/nginx.conf`, a funkcje AI panelu i kreatora dzienny limit wywołań (`AI_DAILY_CALL_LIMIT`, `KREATOR_AI_DAILY_CALL_LIMIT`). Dziennego budżetu tokenów czatu nie ma (usunięty w #45). Nowy publiczny endpoint zapisu dodaj do odpowiedniej sekcji `location` w nginx.
 
 ## Start (Docker)
 

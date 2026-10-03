@@ -88,7 +88,7 @@ Na wąskim ekranie panel „Twój problem” zwija się nad czatem.
 
 ## Poza zakresem pierwszego demo
 
-Logowanie, zapis rozmów na backendzie, panel ROPS, kreator pomysłów, tester, komunikacja, PJM i audio. Karty wyników projektujemy tak, aby te moduły można było później podpiąć jako akcje.
+Logowanie, zapis rozmów na backendzie, PJM i audio. Pozostałe moduły (Zasobnik, Kreator, Tester, panel ROPS, Middleman) powstały osobno, patrz [status.md](status.md).
 
 ## Ustalenia o zakresie
 

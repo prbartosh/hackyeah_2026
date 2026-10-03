@@ -13,7 +13,6 @@ from app.schemas.service_card import (
     ServiceCardResponse,
 )
 from app.services.llm import LLMError, LLMProvider
-from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
 
@@ -77,12 +76,10 @@ class ServiceCardService:
         self,
         llm: LLMProvider | None,
         innovations: InnovationRepository,
-        budget: TokenBudget,
         enabled: bool = True,
     ) -> None:
         self.llm = llm
         self.innovations = innovations
-        self.budget = budget
         self.enabled = enabled
 
     async def create(self, slug: str, request: ServiceCardRequest) -> ServiceCardResponse:
@@ -90,7 +87,7 @@ class ServiceCardService:
         if innovation is None:
             raise ServiceCardNotFoundError("Nie ma takiej innowacji")
         # Te same wyłączniki co czat (zadanie 0006) i brak klucza modelu (zadanie 0008).
-        if self.llm is None or not self.enabled or self.budget.exhausted():
+        if self.llm is None or not self.enabled:
             raise ServiceCardUnavailableError("Asystent AI jest chwilowo niedostępny.")
 
         card = innovation.model_dump(include=CARD_FIELDS)
