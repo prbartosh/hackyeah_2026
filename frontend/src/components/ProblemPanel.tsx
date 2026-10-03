@@ -1,6 +1,9 @@
 import { useChat } from '@/context/ChatContext'
+import { useAccessibility } from '@/context/AccessibilityContext'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { PROBLEM_FIELDS } from '@/types/chat'
+
+const WIDE_FROM = { normal: 75, large: 62, xlarge: 72 } as const
 
 function PanelBody() {
   const { state, recentlyUpdated } = useChat()
@@ -33,7 +36,9 @@ function PanelBody() {
 /** Panel „Twój problem”: pojawia się po rozpoczęciu rozmowy; obok czatu na szerokim ekranie, zwijany nad czatem na wąskim. */
 export default function ProblemPanel() {
   const { state } = useChat()
-  const wide = useMediaQuery('(min-width: 75rem)')
+  const { fontSize } = useAccessibility()
+  // Próg musi zgadzać się z układem w index.css
+  const wide = useMediaQuery(`(min-width: ${WIDE_FROM[fontSize]}rem)`)
   const filled = PROBLEM_FIELDS.filter((f) => state[f.key].tekst).length
 
   if (wide) {
