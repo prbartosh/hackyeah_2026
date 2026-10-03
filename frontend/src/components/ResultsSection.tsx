@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { ExternalLink } from 'lucide-react'
+import { ExternalLink, Send } from 'lucide-react'
 import { useChat } from '@/context/ChatContext'
+import { problemAsText } from '@/lib/problem'
 import type { ResultItem } from '@/types/chat'
 import { kategoriaNazwa } from '@/types/innowacja'
 
@@ -61,6 +62,25 @@ function ResultCard({ item }: { item: ResultItem }) {
   )
 }
 
+function ReportBox({ noMatch }: { noMatch: boolean }) {
+  const { state } = useChat()
+  return (
+    <div className={`report-box${noMatch ? ' is-strong' : ''}`}>
+      {noMatch ? (
+        <p>
+          <strong>Nie mamy jeszcze takiego rozwiązania.</strong> Zapisaliśmy anonimowo, że ta potrzeba
+          nie ma odpowiedzi w bazie. Opisz ją pracownikowi ROPS, a odpowie Ci i poszuka rozwiązania.
+        </p>
+      ) : (
+        <p>Żadne rozwiązanie nie pasuje? Zapytaj pracownika ROPS.</p>
+      )}
+      <Link to="/zglos" state={{ tresc: problemAsText(state) }} className={`btn ${noMatch ? 'btn-primary' : 'btn-secondary'}`}>
+        <Send size={18} aria-hidden="true" /> Zgłoś potrzebę do ROPS
+      </Link>
+    </div>
+  )
+}
+
 export default function ResultsSection() {
   const { results } = useChat()
   const headingRef = useRef<HTMLHeadingElement>(null)
@@ -103,6 +123,8 @@ export default function ResultsSection() {
           ))}
         </ol>
       )}
+
+      <ReportBox noMatch={no_good_match || items.length === 0} />
     </section>
   )
 }

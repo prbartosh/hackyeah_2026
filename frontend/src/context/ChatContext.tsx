@@ -11,6 +11,7 @@ import {
   type ApiMessage,
   type ChatAction,
   type ChatState,
+  type GminaStats,
   type ProblemKey,
   type ProblemState,
   type Question,
@@ -41,6 +42,8 @@ interface ChatData {
   awaiting: 'question' | 'summary' | null
   summaryConfirmed: boolean
   results: Results | null
+  /** Ostatnie dane gminy z narzędzia `gmina_stats`, pokazywane w panelu pod „Gdzie” */
+  gmina: GminaStats | null
   streaming: boolean
   /** Etap tury od backendu (zdarzenie `status`), pokazywany przy wskaźniku pisania */
   status: string | null
@@ -55,6 +58,7 @@ const initialData = (): ChatData => ({
   awaiting: null,
   summaryConfirmed: false,
   results: null,
+  gmina: null,
   streaming: false,
   status: null,
   error: null,
@@ -196,6 +200,9 @@ function reducer(data: ChatData, action: Action): ChatData {
               text: m.text ? `${m.text}\n${resultsLine(e.data)}` : resultsLine(e.data),
             })),
           }
+
+        case 'gmina_stats':
+          return { ...data, gmina: e.data }
 
         case 'done':
           return {
