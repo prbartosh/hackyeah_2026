@@ -365,7 +365,10 @@ async def test_exhausted_budget_returns_503_without_model(client, fake_llm):
         app.dependency_overrides.pop(get_token_budget, None)
 
     assert response.status_code == 503
-    assert response.json()["detail"] == "Usługa chwilowo niedostępna, spróbuj jutro."
+    assert response.json()["detail"] == (
+        "Asystent AI wykorzystał już dzienny limit rozmów. "
+        "Wróć jutro albo przejrzyj Bibliotekę Innowacji Społecznych ROPS Kraków."
+    )
     assert llm.calls == []
 
 

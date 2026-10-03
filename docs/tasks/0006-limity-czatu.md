@@ -40,7 +40,7 @@ Najgorszy przypadek dziś: 40 × 4000 znaków historii (ok. 50 tys. tokenów) + 
 
 **3. Backend: budżet dzienny i wyłącznik:**
 - Licznik tokenów (wejście + wyjście) z `usage`, sumowany na dzień. Na demo w pamięci procesu (jeden worker), docelowo w Postgresie.
-- `LLM_DAILY_TOKEN_LIMIT` w `.env`. Po przekroczeniu czat zwraca HTTP 503 z komunikatem „Usługa chwilowo niedostępna, spróbuj jutro.” i nie woła modelu.
+- `LLM_DAILY_TOKEN_LIMIT` w `.env`. Po przekroczeniu czat zwraca HTTP 503 z komunikatem „Asystent AI wykorzystał już dzienny limit rozmów. Wróć jutro albo przejrzyj Bibliotekę Innowacji Społecznych ROPS Kraków.” i nie woła modelu.
 - `CHAT_ENABLED=false` wyłącza czat bez wdrożenia nowej wersji (też 503).
 
 **4. Dostawca modelu:**
