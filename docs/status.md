@@ -7,6 +7,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0001](tasks/0001-package-lock.md) package-lock.json i npm ci (Daniel, Kacper): lock jest, brakuje `npm ci` w Dockerfile
 - [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): innowacje (backend i frontend) w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), dokumenty nie zaczęte, brakuje testu z czytnikiem ekranu
 - [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz): stack, strony i axe sprawdzone, czat czeka na klucz i test z prawdziwym modelem
+- [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice mapowania, scenariusza i README w `docs/jury/`, reszta po działającym demo
 
 ## Do zrobienia
 
@@ -16,9 +17,9 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo: błąd przy braku klucza, pole `organizacja` (Bartłomiej)
 - [0009](tasks/0009-ewaluacja-dopasowania.md) Ewaluacja dopasowania na zestawie testowym (Bartosz, Nikodem, Wiktor)
 - [0010](tasks/0010-dostepnosc-mobile-i-glos.md) Pasek dostępności na mobile i wejście głosowe (Daniel)
-- [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor)
 - [0012](tasks/0012-middleman-innowacji.md) Moduł VII Middleman innowacji (Bartosz, Kacper)
 - [0013](tasks/0013-dane-gminy-w-czacie.md) Dane gminy z Obserwatora w czacie (Bartosz)
+- [0014](tasks/0014-licencje-danych-rops.md) Licencje danych ROPS: raporty, publikacje, Mapa Wyzwań, Obserwator (Wiktor)
 
 ## Do zaprojektowania
 
