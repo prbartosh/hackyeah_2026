@@ -19,9 +19,9 @@ Publiczny katalog wiedzy ROPS pod `/zasobnik`: Biblioteka Innowacji (przeglądan
 ## Kroki
 
 Backend: innowacje
-- [ ] `InnovationRepository`: dodać `list(kategoria, q, wybrane)` i `categories()` (z `kategorie.json`)
-- [ ] Service i endpointy: `GET /api/v1/innovations` (filtry: `kategoria`, `q`, `wybrane`), `GET /api/v1/categories`
-- [ ] Testy endpointów
+- [x] `InnovationRepository`: dodać `list(kategoria, q, wybrane)` i `categories()` (z `kategorie.json`)
+- [x] Service i endpointy: `GET /api/v1/innovations` (filtry: `kategoria`, `q`, `wybrane`), `GET /api/v1/categories`
+- [x] Testy endpointów
 
 Frontend: innowacje
 - [x] `/zasobnik`: kafle kategorii z liczbą innowacji, wyszukiwarka tekstowa, filtr „wybrane do upowszechniania”
@@ -48,7 +48,7 @@ Później (osobne zadania)
 
 ## Notatki
 
-- Frontend (PR #9): `/zasobnik` i film na `/innowacja/:slug`. Lista i kategorie wołają `GET /innovations?kategoria=&q=&wybrane=true` (tablica innowacji) i `GET /categories` (tablica `{slug, nazwa, liczba_innowacji}`). Front nie ma lokalnego fallbacku (po #12 dane idą tylko przez API), więc `/zasobnik` pokaże komunikat o błędzie z przyciskiem ponowienia, dopóki backend nie doda tych endpointów. Oczekiwane zachowanie `q`: filtr `q` bez wielkości liter i polskich znaków, wszystkie słowa muszą pasować, lekka odmiana (wózek → wózków), kolejność po nazwie.
+- Innowacje (PR #9): backend `GET /innovations?kategoria=&q=&wybrane=true` (lista innowacji, sort po nazwie) i `GET /categories` (`{slug, nazwa, liczba_innowacji}`), frontend `/zasobnik` i film na `/innowacja/:slug`. Wyszukiwanie `q` (`repositories/innovation_search.py`): bez wielkości liter i polskich znaków, wszystkie słowa muszą pasować, lekka odmiana (wózek → wózków, seniorów → senior), przeszukiwane są nazwa, problem, grupa docelowa, kto może skorzystać, opis i organizacja.
 - Pole `organizacja` w `sciezka-motosensoryczna` zawiera nazwiska autorów. Front tego nie poprawia, poprawka ma być w backendzie (`InnovationRepository`, np. po slugu albo przez nakładkę). Do tego czasu nazwiska widać na stronie innowacji i w wynikach czatu.
 - Pole `organizacja` może zawierać nazwisko. Przed demem sprawdzić je ręcznie.
 - PDF-y nie są w repo (`.gitignore`: `assets/**/files/*.pdf`). Linkujemy do `url` na stronie ROPS.
