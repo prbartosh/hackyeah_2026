@@ -1,0 +1,189 @@
+[
+  {
+    "slug": "dla-cudzoziemcow",
+    "nazwa": "Dla cudzoziemców",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-cudzoziemcow",
+    "liczba_innowacji": 6,
+    "innowacje": [
+      "bajkala",
+      "dialog-ponad-kulturami",
+      "wortal-informacyjny",
+      "dialog-ponad-kulturami-1",
+      "health-guide-pl",
+      "zrozum-moja-kulture-zrozum-mnie"
+    ]
+  },
+  {
+    "slug": "dla-dzieci-mlodziezy-i-rodziny",
+    "nazwa": "Dla dzieci, młodzieży i rodziny",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny",
+    "liczba_innowacji": 21,
+    "innowacje": [
+      "komix-zyciowy",
+      "patryk-i-kropka",
+      "edki-kredki-terapeutyczne",
+      "rodzina-adopcyjna-dorasta",
+      "puzzle-3d",
+      "hop-hop-mobilny-plac-zabaw",
+      "mobilny-pomocnik-dydaktyczno-sensoryczny-dla-uczniowstudentow-ze-spektrum-autyzmu",
+      "przewodnik-dla-osob-z-asd-moje-potrzeby-gdzie-i-jak-je-realizowac",
+      "bez-presji-z-depresji",
+      "bez-stresu-do-sukcesu-terapia-neurologiczna-przyjazna-dziecku",
+      "uwaznione-rodzienstwo",
+      "brzuszkole-brzuszek-zostaje-w-przedszkolu",
+      "to-nie-koniec-swiata-to-poczatek-swiata",
+      "jezykolamacz",
+      "piosenki-uczestniczace",
+      "moj-pomocny-virtual-world",
+      "mobilna-pomoc-terapeutyczna",
+      "marimbaza",
+      "nasz-wspolny-rodzinny-swiat-poznaje-ucze-reaguje",
+      "mpatyk",
+      "czas-na-aktywnosc"
+    ]
+  },
+  {
+    "slug": "dla-osob-o-ograniczonej-mobilnosci",
+    "nazwa": "Dla osób o ograniczonej mobilności",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci",
+    "liczba_innowacji": 18,
+    "innowacje": [
+      "uniodziez",
+      "zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+      "kompleksowa-pomoc-dla-osob-po-amputacji-konczyny-dolnej",
+      "puzzles-ramp",
+      "chlap-pro",
+      "marina-pai",
+      "zakupy-bez-barier",
+      "nakreceni-na-aktywnosc",
+      "moduly-niezaleznosci",
+      "biustspinka",
+      "szablony-piekna",
+      "ev-modul-do-wozkow-inwalidzkich",
+      "dostepny-stol-targowy",
+      "cloudleg",
+      "lekki-wozek-aktywny",
+      "wozek-szermierczy",
+      "dostepna-szermierka",
+      "innotextil"
+    ]
+  },
+  {
+    "slug": "dla-osob-w-kryzysie-bezdomnosci",
+    "nazwa": "Dla osób w kryzysie bezdomności",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-w-kryzysie-bezdomnosci",
+    "liczba_innowacji": 2,
+    "innowacje": [
+      "szlakiem-ludzi-bezdomnych",
+      "wiejski-program-pomocy-osobom-w-kryzysie-bezdomnosci-sciezka-feniksa"
+    ]
+  },
+  {
+    "slug": "dla-osob-z-niepelnosprawnoscia-intelektualna",
+    "nazwa": "Dla osób z niepełnosprawnością intelektualną",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna",
+    "liczba_innowacji": 14,
+    "innowacje": [
+      "urzedowy-ambaras",
+      "stop-otylosci-innowacyjna-metoda-pracy-z-osobami-niepelnosprawnymi-intelektualnie",
+      "pelna-wokanda",
+      "pelnia-zdrowia",
+      "niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "dostepna-polska",
+      "zalatw-to-sam",
+      "go-ahead-mow-smialo",
+      "autyzm-i-ja",
+      "podroz-poza-domem-w-wirtualnej-rzeczywistosci",
+      "ta-sciezka-terapeutyczna-sciezka-kulturowa-dla-dzieci-i-doroslych-z-autyzmem",
+      "osa-i-eco-puzzle",
+      "rodzinny-system-wzajemnej-pomocy",
+      "mix-ar-i-vr-dla-koordynacji-ruchowej"
+    ]
+  },
+  {
+    "slug": "dla-osob-z-niepelnosprawnoscia-sensoryczna",
+    "nazwa": "Dla osób z niepełnosprawnością sensoryczną",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna",
+    "liczba_innowacji": 20,
+    "innowacje": [
+      "straznik",
+      "wsparcie-imprez-masowych-dla-osob-z-niepelnosprawnoscia-wzroku",
+      "teleasystent",
+      "hear-it",
+      "gluchy-czytelnik-w-bibliotece",
+      "blue-sea-eye",
+      "osoby-niewidome-i-niedowidzace-jako-nauczyciele-jezyka-polskiego",
+      "ngoz-nawigacja-glosowa-osob-zaleznych",
+      "wibraap",
+      "my-way-to-culture",
+      "glucha-ankieta",
+      "dostepny-wniosek-dla-ggluchych",
+      "czytamoda",
+      "dostepny-transport-publiczny",
+      "turystyka-gorskawspinaczka-dostepna-dla-wszystkich",
+      "zdobadz-swoje-szczyty",
+      "spotkania-kulturlove",
+      "zmysly-w-ruchu-model-choreografii-dla-osob-niewidomych",
+      "kaski-binauralne",
+      "wielodziedzinowy-slownik-terminow-specjalistycznych-pl-pjm"
+    ]
+  },
+  {
+    "slug": "dla-rynku-pracy",
+    "nazwa": "Dla rynku pracy",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy",
+    "liczba_innowacji": 5,
+    "innowacje": [
+      "agencja-pracy-incydentalnej",
+      "niewypaleni",
+      "konsultant-etr",
+      "mobilna-gielda-pracy",
+      "oddawacze"
+    ]
+  },
+  {
+    "slug": "dla-seniorow",
+    "nazwa": "Dla seniorów",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow",
+    "liczba_innowacji": 20,
+    "innowacje": [
+      "bawita",
+      "senior-cuder",
+      "merkury",
+      "organizator-kompleksowej-opieki-w-miejscu-zamieszkania",
+      "przenosne-modularne-lazienki",
+      "terapeuta-przestrzeni",
+      "talerze-zdrowia",
+      "therapy-set",
+      "sciezka-treningu-umyslu",
+      "edu-gra-hahaha",
+      "obu-obuwie-po-domu",
+      "centrum-antydepresyjne",
+      "zeglowanie-w-wyobrazni-czyli-sposob-na-strachy-na-wodzie",
+      "stworzenie-narzedzia-ulatwiajacego-seniorom-prawidlowe-regulowanie-spraw-spadkowych",
+      "mobilne-centrum-pomocy-dla-osob-starszych",
+      "kody-qr-na-pomoc-seniorom",
+      "e-rzecznik-konsumenta-seniora",
+      "sciezka-motosensoryczna",
+      "korytarz-wspomnien",
+      "wirtualne-izby-pamieci"
+    ]
+  },
+  {
+    "slug": "dla-zdrowia-i-medycyny",
+    "nazwa": "Dla zdrowia i medycyny",
+    "url_zrodlowy": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny",
+    "liczba_innowacji": 9,
+    "innowacje": [
+      "paszport-pacjenta-z-choroba-rzadka",
+      "himalaje-autyzmu",
+      "gra-o-zdrowie",
+      "telerehabilitacja-oddechowa",
+      "inteligentny-organizer-do-lekow",
+      "drogowskazy-ajkum",
+      "cold-box",
+      "pacjent-pro",
+      "oncotriada"
+    ]
+  }
+]
