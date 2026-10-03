@@ -4,7 +4,7 @@ Przegląd w jednej linii na zadanie. Szczegóły i kroki w [tasks/](tasks/), dec
 
 ## W toku
 
-- [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy (moduł II): zostaje ręczny test klawiaturą i czytnikiem ekranu
+- [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy (moduł II): wykresy i mapa powiatów, czytnik raportów, Mapa Wyzwań w [PR #46](https://github.com/prbartosh/hackyeah_2026/pull/46), zostaje ręczny test klawiaturą i czytnikiem ekranu
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji: zostaje przegląd słownika i wyrywkowy przegląd nakładki
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury: szkice w [jury/](jury/), reszta po działającym demo
 - [0012](tasks/0012-middleman-innowacji.md) Middleman innowacji (moduł VII): zostaje przejście z prawdziwym kluczem DeepSeek
