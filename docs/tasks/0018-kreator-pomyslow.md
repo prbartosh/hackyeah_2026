@@ -1,8 +1,8 @@
 # 0018. Kreator pomysłów (moduł III)
 
-- Status: w toku
+- Status: review
 - Osoba: Kacper
-- PR: #34
+- PR: #34, #40
 
 ## Cel
 
@@ -29,4 +29,4 @@ Użytkownik opisuje pomysł, AI wypełnia fiszkę, użytkownik poprawia i wysył
 
 - Uruchomienie i demo: [kreator-pomyslow.md](../kreator-pomyslow.md).
 - Wysłana fiszka i wniosek to zwykłe zgłoszenie w skrzynce panelu (bez zmian modelu `Ticket`).
-- 2026-10-03: PR #34 scalony, zadanie wraca do `w toku` (zostały kroki sprawdzające). Limit POST w nginx: strefa `form_req`, 20 na minutę na IP, zapas 10, sprawdzone na obrazie frontendu (12. zapytanie z rzędu dostaje 429, PUT bez limitu).
+- 2026-10-03: Limit POST w nginx: strefa `form_req`, 20 na minutę na IP, zapas 10, sprawdzone na obrazie frontendu (12. zapytanie z rzędu dostaje 429, PUT bez limitu).
