@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Outlet, useLocation } from 'react-router-dom'
+import { Link, Outlet, useLocation } from 'react-router-dom'
 import Header from '@/components/Header'
 
 export default function Layout() {
@@ -18,7 +18,7 @@ export default function Layout() {
       </main>
       <footer className="site-footer">
         <div className="wide footer-inner">
-          <strong>Splot</strong> · Dane: <a href="https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie">Biblioteka Innowacji Społecznych ROPS Kraków</a> (CC BY 4.0) · <a href="mailto:iws@rops.krakow.pl">iws@rops.krakow.pl</a>
+          <strong>Splot</strong> · Dane: <a href="https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie">Biblioteka Innowacji Społecznych ROPS Kraków</a> (CC BY 4.0) · <a href="mailto:iws@rops.krakow.pl">iws@rops.krakow.pl</a> · <Link to="/zglos">Zgłoś potrzebę</Link> · <Link to="/admin">Panel pracownika</Link>
         </div>
       </footer>
     </div>
