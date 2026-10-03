@@ -18,7 +18,7 @@ Na karcie innowacji instytucja zgłasza się do testów albo ocenia rozwiązanie
 - [x] Strona moderacji w panelu (`/admin/opinie`)
 - [x] Seed demo (`scripts/seed_tester.py`, też w `dev_panel.py`), testy backendu
 - [x] axe: strona innowacji z formularzem i strona moderacji, 0 naruszeń
-- [ ] Migracja `0005` na prawdziwym PostgreSQL
+- [x] Migracja `0005` na prawdziwym PostgreSQL
 - [ ] Test z czytnikiem ekranu (NVDA)
 - [ ] Limit zapytań dla publicznego `POST /innovations/{slug}/opinie` (nginx)
 
@@ -27,3 +27,4 @@ Na karcie innowacji instytucja zgłasza się do testów albo ocenia rozwiązanie
 - Zadanie spoza pierwotnego podziału (moduł IV nie miał właściciela). Zakres celowo cienki: bez kont, bez cyklu życia testu, bez AI.
 - Seed: oceny dla „Kody QR na pomoc seniorom” (poziom „Sprawdzone”) i zgłoszenie do testów dla „Lekki wózek aktywny” (poziom „W testach”), jedna ocena czeka na moderację. Wszystko oznaczone jako dane demo.
 - Na SQLite (`dev_panel.py`) godziny w panelu są przesunięte o strefę czasową, bo SQLite zapisuje czas bez strefy. Na PostgreSQL tego nie ma.
+- 2026-10-03: migracje `0001`–`0005` sprawdzone na PostgreSQL 16 (obraz `postgres:16-alpine`): `upgrade head`, import 115 kart przy starcie, seedy (`seed_demo`, `seed_kreator`, `seed_tester`, ponownie bez duplikatów), 14 endpointów (opinie, moderacja, skrzynka, radar, karty, nabory, fiszka: zapis, autozapis, wysyłka, zgłoszenie) i `downgrade base` z ponownym `upgrade head`.
