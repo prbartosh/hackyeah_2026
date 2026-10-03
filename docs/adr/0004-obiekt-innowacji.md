@@ -208,4 +208,4 @@ Tracimy:
 
 ## Otwarte kwestie
 
-1. Słownik startowy: kto zatwierdza wartości ([zadanie 0005](../tasks/0005-slownik-i-nakladka.md)).
+1. Słownik startowy: kto zatwierdza wartości ([zadanie 0005](../tasks/0005-slownik-i-nakladka.md)). Słownik i nakładka dla 115 innowacji są w repo i czekają na przegląd.
