@@ -3,9 +3,22 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HackYeah 2026</title>
+    <meta name="description" content="Splot — opisz problem własnymi słowami i znajdź sprawdzone innowacje społeczne z Biblioteki Innowacji Społecznych ROPS Kraków." />
+    <title>Splot – opisz problem, znajdź rozwiązanie</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%230052a5%22/%3E%3Cpath d=%22M16 24s-8-4.6-8-10a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 24 14c0 5.4-8 10-8 10z%22 fill=%22%23fff%22/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
   </head>
   <body>
+    <script>
+      // Ustaw motyw i wielkość tekstu przed renderem, żeby strona nie mignęła jasnym motywem
+      try {
+        var d = document.documentElement
+        d.dataset.theme = localStorage.getItem("hubmi-theme") || "standard"
+        d.dataset.fontSize = localStorage.getItem("hubmi-font-size") || "normal"
+      } catch (e) {}
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
