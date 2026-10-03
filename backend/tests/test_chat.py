@@ -25,7 +25,19 @@ class FakeLLM:
             raise events
         for event in events:
             yield event
-        yield TurnEnd(content=[{"type": "text", "text": "x"}], stop_reason="tool_use")
+        tool_calls = [
+            {
+                "id": e.id,
+                "type": "function",
+                "function": {"name": e.name, "arguments": json.dumps(e.input)},
+            }
+            for e in events
+            if isinstance(e, ToolCall)
+        ]
+        message = {"role": "assistant", "content": None}
+        if tool_calls:
+            message["tool_calls"] = tool_calls
+        yield TurnEnd(message=message)
 
 
 def tool(name: str, **args) -> ToolCall:
@@ -125,8 +137,9 @@ async def test_question_rejected_after_round_limit(client, fake_llm):
 
     assert [n for n, _ in events] == ["summary", "done"]
     assert events[-1][1]["state"]["rounds"] == 4
-    tool_result = llm.calls[1][-1]["content"][0]
-    assert tool_result["is_error"] is True
+    tool_result = llm.calls[1][-1]
+    assert tool_result["role"] == "tool"
+    assert tool_result["content"].startswith("BŁĄD:")
     assert "Limit" in tool_result["content"]
     assert "Limit pytań wyczerpany" in llm.calls[0][-1]["content"][1]["text"]
 
@@ -173,7 +186,7 @@ async def test_show_results_now_searches_and_enriches(client, fake_llm):
     assert first_call[-1]["role"] == "user"
     assert "Pokaż wyniki teraz" in first_call[-1]["content"][0]["text"]
 
-    search_result = json.loads(llm.calls[1][-1]["content"][0]["content"])
+    search_result = json.loads(llm.calls[1][-1]["content"])
     assert {c["slug"] for c in search_result["karty"]} == {MAIN, OTHER}
     assert search_result["nieznane_slugi"] == ["nie-istnieje"]
 
@@ -208,7 +221,7 @@ async def test_show_results_requires_search(client, fake_llm):
     )
     events = await post(client, first_message() | {"action": "show_results_now"})
 
-    assert llm.calls[1][-1]["content"][0]["is_error"] is True
+    assert llm.calls[1][-1]["content"].startswith("BŁĄD:")
     assert [i["slug"] for i in dict(events)["results"]["items"]] == [MAIN]
 
 
@@ -229,7 +242,7 @@ async def test_question_rejected_when_user_wants_results(client, fake_llm):
     )
     events = await post(client, first_message() | {"action": "confirm_summary"})
 
-    assert llm.calls[1][-1]["content"][0]["is_error"] is True
+    assert llm.calls[1][-1]["content"].startswith("BŁĄD:")
     assert "question" not in [n for n, _ in events]
     assert "results" in [n for n, _ in events]
 

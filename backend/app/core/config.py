@@ -17,11 +17,10 @@ class Settings(BaseSettings):
     database_url: str
     cors_origins: list[str] = []
 
-    anthropic_api_key: str | None = None
-    llm_model: str = "claude-opus-5-5"
-    llm_effort: str = "low"
-    # Przy odmowie modelu API samo ponawia zapytanie na modelu zapasowym.
-    llm_refusal_fallback: bool = True
+    openai_api_key: str | None = None
+    llm_model: str = "gpt-5.5"
+    # Tylko dla modeli rozumujących (np. gpt-5.x); pusty = parametr nie jest wysyłany.
+    llm_reasoning_effort: str | None = "low"
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH
 
 

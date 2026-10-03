@@ -147,12 +147,12 @@ def _nullable_str(description: str) -> dict[str, Any]:
 
 
 # Zestaw narzędzi jest stały (limity egzekwuje backend), żeby nie psuć cache promptu.
+# Format neutralny: LLMService zamienia go na format API dostawcy.
 TOOLS: list[dict[str, Any]] = [
     {
         "name": "set_role",
         "description": "Ustala rolę użytkownika na podstawie jego wiadomości.",
-        "strict": True,
-        "input_schema": {
+        "parameters": {
             "type": "object",
             "properties": {"role": {"type": "string", "enum": list(ROLES)}},
             "required": ["role"],
@@ -165,8 +165,7 @@ TOOLS: list[dict[str, Any]] = [
             "Uzupełnia panel „Twój problem” nowymi informacjami z rozmowy. "
             "Pole null = bez zmian. Podawaj krótkie sformułowania (kilka słów do zdania)."
         ),
-        "strict": True,
-        "input_schema": {
+        "parameters": {
             "type": "object",
             "properties": {k: _nullable_str(v) for k, v in PROBLEM_FIELDS.items()},
             "required": list(PROBLEM_FIELDS),
@@ -179,8 +178,7 @@ TOOLS: list[dict[str, Any]] = [
             "Zadaje użytkownikowi jedno pytanie doprecyzowujące z 3-4 odpowiedziami do kliknięcia. "
             "Kończy turę - czekasz na odpowiedź."
         ),
-        "strict": True,
-        "input_schema": {
+        "parameters": {
             "type": "object",
             "properties": {
                 "text": {"type": "string", "description": "Treść pytania."},
@@ -200,8 +198,7 @@ TOOLS: list[dict[str, Any]] = [
             "Pokazuje podsumowanie „Twój problem w skrócie” do potwierdzenia lub poprawy. "
             "Kończy turę."
         ),
-        "strict": True,
-        "input_schema": {
+        "parameters": {
             "type": "object",
             "properties": {"summary": {"type": "string", "description": "2-4 zdania."}},
             "required": ["summary"],
@@ -214,8 +211,7 @@ TOOLS: list[dict[str, Any]] = [
             f"Zwraca pełne karty wybranych z katalogu innowacji (do {MAX_SEARCH}). "
             "Wywołaj przed `show_results` - uzasadnienia opierasz na tych kartach."
         ),
-        "strict": True,
-        "input_schema": {
+        "parameters": {
             "type": "object",
             "properties": {
                 "slugs": {
@@ -233,8 +229,7 @@ TOOLS: list[dict[str, Any]] = [
         "description": (
             f"Pokazuje użytkownikowi do {MAX_RESULTS} dopasowanych innowacji. Kończy turę."
         ),
-        "strict": True,
-        "input_schema": {
+        "parameters": {
             "type": "object",
             "properties": {
                 "items": {

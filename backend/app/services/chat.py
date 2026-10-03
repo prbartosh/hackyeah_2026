@@ -22,7 +22,14 @@ from app.schemas.chat import (
     TextEvent,
 )
 from app.services import prompts
-from app.services.llm import LLMError, LLMService, TextDelta, ToolCall, TurnEnd
+from app.services.llm import (
+    LLMError,
+    LLMService,
+    TextDelta,
+    ToolCall,
+    TurnEnd,
+    tool_result_message,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -94,7 +101,7 @@ class ChatService:
             for _ in range(MAX_LLM_CALLS):
                 tool_results: list[dict[str, Any]] = []
                 terminal = False
-                content: list[Any] = []
+                assistant: dict[str, Any] | None = None
 
                 async for event in self.llm.stream(
                     system=self.system_prompt, tools=prompts.TOOLS, messages=messages
@@ -108,21 +115,16 @@ class ChatService:
                             yield server_event
                         terminal = terminal or outcome.terminal
                         tool_results.append(
-                            {
-                                "type": "tool_result",
-                                "tool_use_id": event.id,
-                                "content": outcome.result,
-                                "is_error": outcome.is_error,
-                            }
+                            tool_result_message(event.id, outcome.result, outcome.is_error)
                         )
                     elif isinstance(event, TurnEnd):
-                        content = event.content
+                        assistant = event.message
 
-                if terminal:
+                if terminal or assistant is None:
                     break
-                messages.append({"role": "assistant", "content": content})
+                messages.append(assistant)
                 if tool_results:
-                    messages.append({"role": "user", "content": tool_results})
+                    messages.extend(tool_results)
                 elif not nudged:
                     nudged = True
                     messages.append({"role": "user", "content": NUDGE})

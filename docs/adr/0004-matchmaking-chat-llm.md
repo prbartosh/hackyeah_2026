@@ -10,11 +10,11 @@ Demo (DEMO.md) wymaga rozmowy, w której AI ustala rolę, dopytuje (max 4 rundy)
 ## Decyzja
 
 - `POST /api/v1/chat`, odpowiedź SSE. Front wysyła całą historię, stan (`role`, `role_locked`, `problem`, `rounds`) i opcjonalną akcję (`show_results_now`, `confirm_summary`). Backend niczego nie zapisuje.
-- Model (Claude, `LLM_MODEL`) działa przez narzędzia: `set_role`, `update_problem`, `ask_question`, `propose_summary`, `search`, `show_results`.
+- Model OpenAI (Chat Completions, `LLM_MODEL`, domyślnie `gpt-5.5`) działa przez narzędzia (function calling, `strict`): `set_role`, `update_problem`, `ask_question`, `propose_summary`, `search`, `show_results`.
 - `search(slugs)`: skrócony katalog jest w system prompcie (cache), model wybiera do 8 kandydatów, backend zwraca ich pełne karty. `show_results` przyjmuje tylko slugi pobrane przez `search`; linki i kontakt dokleja backend z bazy, model ich nie pisze.
 - Limity (4 rundy, 5 wyników, akcje użytkownika, zablokowana rola) egzekwuje backend: odrzuca niedozwolone wywołanie narzędzia błędem i model próbuje ponownie. Zestaw narzędzi jest stały, żeby nie psuć cache.
 - Historia dla modelu to tekst: zdarzenie `done` zwraca `assistant_message`, który front odsyła dosłownie. Front nie przechowuje bloków API.
-- Warstwy: `LLMService` (tylko API), `ChatService` (pętla narzędzi i reguły), `InnovationRepository` (JSON).
+- Warstwy: `LLMService` (tylko API; jedyne miejsce zależne od dostawcy - narzędzia w `prompts.py` są w formacie neutralnym), `ChatService` (pętla narzędzi i reguły), `InnovationRepository` (JSON).
 
 ## Konsekwencje
 
