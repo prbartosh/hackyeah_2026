@@ -6,6 +6,10 @@ Social and demographic statistics for the Małopolska voivodeship (Poland) by **
 - **Scraped:** 2026-10-03 with `scrapers/obserwator.py`. Language: Polish.
 - **Coverage:** 184 indicators in 15 categories, years 2007–2024 (coverage varies per indicator), 22 powiats and 179 gmina entries.
 
+## Licence
+
+Unknown. The site (home page, contact, footer) states no licence or terms of reuse (checked 2026-10-03). The data comes from GUS and other institutions whose own terms were **not** checked; show the indicator's source from `indicators.json` (`description.Źródło`) next to every value.
+
 ## Files
 
 | Path | What it is |

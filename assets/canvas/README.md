@@ -5,6 +5,10 @@ A 3-page "Social Innovation Canvas" template (INNO AGH), a worksheet for describ
 - **Source:** <https://rops.krakow.pl/mpliki/IS/Moj_folder/INNO_AGH_-_SOCIAL_CANVAS.pdf> (detail page: <https://rops.krakow.pl/pliki-do-pobrania/wpis,social-canvas,1547>)
 - **Scraped:** 2026-10-03 with `scrapers/publikacje.py` (same script as `../publikacje/`).
 
+## Licence
+
+Unknown. Neither the page nor the PDF text states a licence (checked 2026-10-03). Show the source and link only.
+
 ## Layout
 
 | Path | What it is |

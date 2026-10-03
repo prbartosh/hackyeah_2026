@@ -20,6 +20,7 @@ def main():
         desc = li.select_one("p")
         info = li.select_one(".files__info")
         url = BASE + a["href"]
+        description = desc.get_text("\n", strip=True) if desc else ""
         doc_id = a["href"].rsplit(",", 1)[-1]
         stem = f"{doc_id}-{slugify(title)}"
         pdf, md = OUT / "files" / f"{stem}.pdf", OUT / "text" / f"{stem}.md"
@@ -27,7 +28,8 @@ def main():
         pages = pdf_to_markdown(pdf, md) if not md.exists() else None
         items.append({
             "id": doc_id, "year": year, "title": title,
-            "description": desc.get_text("\n", strip=True) if desc else "",
+            "description": description,
+            "licencja": "CC BY 4.0" if "licencji CC BY 4.0" in description else None,
             "info": info.get_text(" ", strip=True) if info else "",
             "url": url, "file": pdf.relative_to(ASSETS.parent).as_posix(),
             "text": md.relative_to(ASSETS.parent).as_posix(), "pages": pages,
