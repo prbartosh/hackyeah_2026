@@ -4,7 +4,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## W toku
 
-- [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): innowacje (backend i frontend) w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), backend dokumentów (`/api/v1/documents`) w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35), front dokumentów do zrobienia, brakuje testu z czytnikiem ekranu
+- [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): innowacje (backend i frontend) w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), backend dokumentów (`/api/v1/documents`) w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35), front dokumentów (działy, filtry, strona dokumentu z wersją tekstową) gotowy, brakuje testu z czytnikiem ekranu
 - [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy każdej odpowiedzi z wynikami (Bartłomiej): review w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35)
 - [0008](tasks/0008-poprawki-backendu-przed-demo.md) Poprawki backendu przed demo (Bartłomiej): 503 przy braku klucza, ogólny komunikat błędu, `llm` w health, `organizacja` bez nazwisk, status etapu w czacie, review w [PR #35](https://github.com/prbartosh/hackyeah_2026/pull/35)
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
