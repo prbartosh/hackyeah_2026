@@ -1,0 +1,12 @@
+[
+  {"id": "186", "nazwa": "Liczba mieszkańców", "zrodlo": "GUS, Bank Danych Lokalnych"},
+  {"id": "257", "nazwa": "Mieszkańcy w wieku 60+ (udział w ludności)", "zrodlo": "GUS, Bank Danych Lokalnych"},
+  {"id": "273", "nazwa": "Osoby 80+ wśród osób 60+ (podwójne starzenie)", "zrodlo": "GUS, Bank Danych Lokalnych"},
+  {"id": "268", "nazwa": "Kobiety 45-64 lata na 100 osób w wieku 80+ (potencjał opieki rodzinnej)", "zrodlo": "GUS, Bank Danych Lokalnych"},
+  {"id": "17", "nazwa": "Mieszkańcy korzystający z pomocy społecznej (udział w ludności)", "zrodlo": "Sprawozdanie MRiPS-03"},
+  {"id": "31", "nazwa": "Klienci pomocy społecznej wspierani z powodu ubóstwa", "zrodlo": "Sprawozdanie MRiPS-03"},
+  {"id": "37", "nazwa": "Klienci pomocy społecznej wspierani z powodu niepełnosprawności", "zrodlo": "Sprawozdanie MRiPS-03"},
+  {"id": "34", "nazwa": "Klienci pomocy społecznej wspierani z powodu bezdomności", "zrodlo": "Sprawozdanie MRiPS-03"},
+  {"id": "36", "nazwa": "Klienci pomocy społecznej wspierani z powodu przemocy domowej", "zrodlo": "Sprawozdanie MRPiPS-03"},
+  {"id": "227", "nazwa": "Osoby korzystające z usług opiekuńczych (liczba)", "zrodlo": "Sprawozdanie MRiPS-03"}
+]

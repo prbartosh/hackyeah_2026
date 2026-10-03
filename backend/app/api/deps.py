@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import settings
 from app.db.session import SessionLocal
 from app.repositories.innovation import InnovationRepository
+from app.repositories.obserwator import ObserwatorRepository
 from app.services.ai import AIGateway
 from app.services.chat import ChatService
 from app.services.email import get_email_sender
@@ -30,6 +31,10 @@ def get_innovation_repository() -> InnovationRepository:
     return InnovationRepository(settings.innovations_path)
 
 
+def get_obserwator_repository() -> ObserwatorRepository:
+    return ObserwatorRepository(settings.obserwator_path)
+
+
 @lru_cache
 def get_token_budget() -> TokenBudget:
     return TokenBudget(settings.llm_daily_token_limit)
@@ -44,8 +49,11 @@ def get_chat_service(
     llm: Annotated[LLMService, Depends(get_llm_service)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
     budget: Annotated[TokenBudget, Depends(get_token_budget)],
+    obserwator: Annotated[ObserwatorRepository, Depends(get_obserwator_repository)],
 ) -> ChatService:
-    return ChatService(llm, innovations, budget, enabled=settings.chat_enabled)
+    return ChatService(
+        llm, innovations, budget, enabled=settings.chat_enabled, obserwator=obserwator
+    )
 
 
 def get_innovation_service(
