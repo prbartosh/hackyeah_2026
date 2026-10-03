@@ -160,9 +160,10 @@ class DocumentService:
         record = DocumentImport(nazwa_pliku=filename[:300], tekst=text, pola=empty_fields())
         try:
             sample = text[:MAX_TEXT_FOR_AI]
+            categories = json.dumps(self.category_names, ensure_ascii=False)
             user = (
                 f"<POLA>\n{json.dumps(FIELDS, ensure_ascii=False)}\n</POLA>\n"
-                f"<KATEGORIE>\n{json.dumps(self.category_names, ensure_ascii=False)}\n</KATEGORIE>\n"
+                f"<KATEGORIE>\n{categories}\n</KATEGORIE>\n"
                 f"<DOKUMENT>\n{sample}\n</DOKUMENT>"
             )
             raw = await self.ai.json(EXTRACT_SYSTEM, user)
