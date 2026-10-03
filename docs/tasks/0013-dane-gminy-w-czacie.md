@@ -1,8 +1,8 @@
 # 0013. Dane gminy z Obserwatora w czacie
 
-- Status: w toku
+- Status: review
 - Osoba: Bartosz (integracja)
-- PR:
+- PR: #31
 
 ## Cel
 
