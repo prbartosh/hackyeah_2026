@@ -1,6 +1,6 @@
 # 0007. Ustalenia otwarte
 
-- Status: done
+- Status: zrobione
 - Osoba: Nikodem, Wiktor
 
 ## Cel
