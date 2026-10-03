@@ -2,7 +2,7 @@
 
 - Status: zrobione
 - Osoba: Bartosz (integracja)
-- PR: #33
+- PR: #33, #36
 
 ## Cel
 
