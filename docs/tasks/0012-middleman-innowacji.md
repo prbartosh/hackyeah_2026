@@ -14,10 +14,11 @@ Na stronie innowacji pracownik CUS/OPS albo partner (JST, NGO, ekspert) dostaje 
 - [x] Karta usługi: cel, odbiorcy, kroki wdrożenia (3–7), potrzebne zasoby, ryzyka, wskaźniki sukcesu. Brakujące dane oznaczone „do uzupełnienia”
 - [x] Backend: endpoint (propozycja: `POST /api/v1/innovations/{slug}/service-card`) przez port LLM z [0016](0016-adaptery-llm.md) (`complete_json` albo jego następca), wyjście ustrukturyzowane (schemat Pydantic)
 - [x] Ugruntowanie: tylko pola innowacji i stan problemu. Bez kosztów, liczb, kontaktów i faktów spoza bazy, jak `why_relevant` w ADR 0005
-- [ ] Frontend: przycisk „Dostosuj do mojej instytucji” na `/innowacja/:slug`, wybór roli, jeśli nie przyszła z czatu, widok karty, wydruk
+- [x] Frontend: przycisk „Dostosuj do mojej instytucji” na `/innowacja/:slug`, wybór roli, jeśli nie przyszła z czatu, widok karty, wydruk
 - [x] Limity z [0006](0006-limity-czatu.md) obejmują też ten endpoint
 - [x] Testy backendu ze stubem modelu
-- [ ] axe dla widoku karty (z frontem)
+- [x] axe dla widoku karty (z frontem)
+- [ ] Przejście z prawdziwym `LLM_API_KEY` (DeepSeek)
 
 ## Notatki
 
@@ -25,4 +26,5 @@ Na stronie innowacji pracownik CUS/OPS albo partner (JST, NGO, ekspert) dostaje 
 - 2026-10-03: decyzje w [ADR 0009](../adr/0009-middleman-karta-uslugi.md), przyjęty przez Bartosza 2026-10-03, razem ze wspólnym dziennym budżetem tokenów dla czatu, karty i panelu. Backend używa `LLMService.complete_json`, bo portu z [0016](0016-adaptery-llm.md) jeszcze nie ma. Po 0016 trzeba przepiąć serwis, kontrakt się nie zmienia.
 - Kontrakt dla frontu (Kacper): `POST /api/v1/innovations/{slug}/service-card`, body `{"rola": "cus-ops" | "partner", "problem": <stan problemu z czatu> | null}`, odpowiedź `{slug, nazwa, rola, karta: {cel, odbiorcy, kroki, zasoby, ryzyka, wskazniki_sukcesu}}`. Kody błędów: 404 (brak innowacji), 422 (zła rola), 429 (nginx), 502 (model), 503 (wyłącznik albo budżet). Komunikat jest w `detail`.
 - Nie sprawdzone na prawdziwym modelu.
+- 2026-10-03, front (Kacper): strona `/innowacja/:slug/wdrozenie`. Rola z czatu (`cus-ops`, `partner`) albo wybór, stan problemu z czatu wysyłany, gdy ma choć jedno pole. Punkty z „do uzupełnienia” wyróżnione ikoną i tekstem, źródło (strona ROPS) pod kartą, druk tylko karty. „Chcę to wdrożyć” wysyła kartę jako zwykłe zgłoszenie do skrzynki panelu (prefiks „[Chcę wdrożyć]”, jak w Kreatorze), autor dostaje link do wątku. axe: 0 naruszeń (karta ze stubem odpowiedzi, bez klucza). Bez klucza strona pokazuje komunikat z 503.
 - Dane gminy z [0013](0013-dane-gminy-w-czacie.md) w karcie: później, po scaleniu obu PR (decyzja Bartosza).
