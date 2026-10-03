@@ -1,7 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { ExternalLink, FileText } from 'lucide-react'
 import { getDocument, splitPages, TYP_NAZWA, type DokumentSzczegoly } from '@/api/documents'
+import IndicatorExplorer from '@/components/IndicatorExplorer'
+import { parseIndicatorTable } from '@/lib/indicator'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { plural } from '@/lib/plural'
 import '@/styles/zasobnik.css'
@@ -14,6 +16,7 @@ export default function DocumentPage() {
   const { id = '' } = useParams()
   const [state, setState] = useState<{ id: string; data: DokumentSzczegoly | null; failed?: boolean } | null>(null)
   const doc = state?.id === id ? state.data : null
+  const table = useMemo(() => (doc?.typ === 'wskaznik' ? parseIndicatorTable(doc.tresc) : null), [doc])
   useDocumentTitle(`${doc ? doc.tytul : 'Dokument'} – Zasobnik wiedzy – Splot`)
 
   useEffect(() => {
@@ -47,7 +50,9 @@ export default function DocumentPage() {
     )
   }
 
-  const pages = doc.tresc ? splitPages(doc.tresc) : []
+  // Tabela powiat × rok jest w wykresach i tabeli powyżej, więc w wersji tekstowej zostaje sam opis wskaźnika
+  const tekst = table && doc.tresc ? doc.tresc.split(/^## Wartości według powiatów/m)[0] : doc.tresc
+  const pages = tekst ? splitPages(tekst) : []
   const isIndicator = doc.typ === 'wskaznik'
   return (
     <div className="container page zs-doc">
@@ -64,6 +69,13 @@ export default function DocumentPage() {
           <p className="detail-kicker">{TYP_NAZWA[doc.typ]}{doc.kategoria ? `: ${doc.kategoria.toLocaleLowerCase('pl-PL')}` : ''}</p>
           <h1>{doc.tytul}</h1>
           {doc.opis && <p className="zs-lead">{doc.opis}</p>}
+
+          {table && (
+            <section className="detail-section" aria-labelledby="doc-charts-h">
+              <h2 id="doc-charts-h">Dane i wykresy</h2>
+              <IndicatorExplorer key={doc.id} table={table} name={doc.tytul} />
+            </section>
+          )}
 
           <section className="detail-section" aria-labelledby="doc-text-h">
             <h2 id="doc-text-h">Wersja tekstowa</h2>

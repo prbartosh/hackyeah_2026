@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { ArrowUpRight, Star } from 'lucide-react'
+import { ArrowUpRight, Building2, Star, Target } from 'lucide-react'
 import type { Innowacja } from '@/types/innowacja'
 
 interface Props {
@@ -25,6 +25,16 @@ export default function InnowacjaCard({ innowacja: r, kategoria }: Props) {
           <p className="badge"><Star size={14} aria-hidden="true" /> Polecana przez ROPS</p>
         )}
         {r.problem && <p className="zs-card-problem">{r.problem}</p>}
+        {(r.grupa_docelowa || r.organizacja) && (
+          <dl className="zs-card-meta">
+            {r.grupa_docelowa && (
+              <div><dt><Target size={14} aria-hidden="true" /><span className="visually-hidden">Grupa docelowa</span></dt><dd>{r.grupa_docelowa}</dd></div>
+            )}
+            {r.organizacja && (
+              <div><dt><Building2 size={14} aria-hidden="true" /><span className="visually-hidden">Organizacja</span></dt><dd>{r.organizacja}</dd></div>
+            )}
+          </dl>
+        )}
       </div>
     </article>
   )

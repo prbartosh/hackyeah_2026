@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { Search, Sparkles, X } from 'lucide-react'
+import { ArrowUpDown, Search, Sparkles, X } from 'lucide-react'
 import InnowacjaCard from '@/components/InnowacjaCard'
 import Kategorie from '@/components/Kategorie'
+import ZasobnikStats from '@/components/ZasobnikStats'
 import ZasobnikWskazniki from '@/components/ZasobnikWskazniki'
 import ZasobnikWyzwania from '@/components/ZasobnikWyzwania'
 import { getCategories, listInnovations } from '@/api/innovations'
@@ -18,6 +19,7 @@ export default function ZasobnikPage() {
   const kategoria = params.get('kategoria')
   const q = params.get('q') ?? ''
   const wybrane = params.get('wybrane') === '1'
+  const sort = params.get('sort') === 'polecane' ? 'polecane' : 'nazwa'
 
   const [kategorie, setKategorie] = useState<Kategoria[]>([])
   const [razem, setRazem] = useState(0)
@@ -87,6 +89,7 @@ export default function ZasobnikPage() {
     return (
       <div className="zs-root">
         <section className="zs-hero container" aria-labelledby="zs-h1">
+          <p className="zs-eyebrow">Biblioteka ROPS Kraków</p>
           <h1 id="zs-h1" className="zs-title">Zasobnik wiedzy</h1>
           {nav}
         </section>
@@ -95,6 +98,9 @@ export default function ZasobnikPage() {
     )
   }
 
+  const posortowane = wyniki && sort === 'polecane'
+    ? [...wyniki].sort((a, b) => Number(b.wybrana_do_upowszechniania) - Number(a.wybrana_do_upowszechniania))
+    : wyniki
   const aktywneFiltry = Boolean(kategoria || q || wybrane)
   const nazwaWybranej = kategoria ? (kategorie.find((k) => k.slug === kategoria)?.nazwa ?? kategoria) : null
   const komunikat =
@@ -109,7 +115,10 @@ export default function ZasobnikPage() {
   return (
     <div className="zs-root">
       <section className="zs-hero container" aria-labelledby="zs-h1">
+        <p className="zs-eyebrow">Biblioteka ROPS Kraków</p>
         <h1 id="zs-h1" className="zs-title">Zasobnik wiedzy</h1>
+        <p className="zs-sub">Sprawdzone innowacje społeczne, raporty i dane o Małopolsce w jednym miejscu. Znajdź rozwiązanie, które już działa.</p>
+        <ZasobnikStats innowacje={razem} kategorie={kategorie.length} />
         {nav}
 
         <form
@@ -159,11 +168,20 @@ export default function ZasobnikPage() {
               {nazwaWybranej && wyniki && wyniki.length > 0 ? ` w kategorii „${nazwaWybranej}”` : ''}
             </p>
           </div>
-          {aktywneFiltry && (
-            <button type="button" className="btn btn-secondary" onClick={wyczysc}>
-              <X size={18} aria-hidden="true" /> Wyczyść filtry
-            </button>
-          )}
+          <div className="zs-results-tools">
+            <div className="zs-filter zs-sort">
+              <label htmlFor="zs-sort"><ArrowUpDown size={16} aria-hidden="true" /> Sortuj</label>
+              <select id="zs-sort" className="select" value={sort} onChange={(e) => ustaw({ sort: e.target.value === 'nazwa' ? null : e.target.value }, true)}>
+                <option value="nazwa">Alfabetycznie</option>
+                <option value="polecane">Polecane przez ROPS najpierw</option>
+              </select>
+            </div>
+            {aktywneFiltry && (
+              <button type="button" className="btn btn-secondary" onClick={wyczysc}>
+                <X size={18} aria-hidden="true" /> Wyczyść filtry
+              </button>
+            )}
+          </div>
         </div>
 
         {blad && (
@@ -179,9 +197,14 @@ export default function ZasobnikPage() {
             <p>Nie znaleziono innowacji dla tych filtrów. Spróbuj innego słowa, krótszej frazy albo wyczyść filtry.</p>
           </div>
         )}
-        {!blad && wyniki && wyniki.length > 0 && (
+        {!blad && posortowane === null && (
+          <ul className="zs-grid" aria-hidden="true">
+            {Array.from({ length: 6 }, (_, i) => <li key={i}><div className="zs-card zs-skeleton" /></li>)}
+          </ul>
+        )}
+        {!blad && posortowane && posortowane.length > 0 && (
           <ul className="zs-grid">
-            {wyniki.map((r) => (
+            {posortowane.map((r) => (
               <li key={r.slug}>
                 <InnowacjaCard innowacja={r} kategoria={kategoriaNazwa(r.kategorie)} />
               </li>
