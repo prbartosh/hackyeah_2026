@@ -11,14 +11,14 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 - [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz)
 - [0004](tasks/0004-zapis-potrzeb.md) Zapis potrzeb przy każdej odpowiedzi z wynikami (Bartłomiej)
-- [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (do ustalenia)
-- [0006](tasks/0006-limity-czatu.md) Limity i kontrola kosztu czatu (Bartłomiej, Bartosz), wartości do zatwierdzenia
-- [0007](tasks/0007-ustalenia-otwarte.md) Ustalenia otwarte: obszary, zakres demo, limity, retencja, zestaw testowy (Nikodem, Wiktor)
+- [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej)
+- [0006](tasks/0006-limity-czatu.md) Limity i kontrola kosztu czatu (Bartłomiej, Bartosz, Nikodem: panel OpenAI), wartości zatwierdzone
 
 ## Do zaprojektowania
 
 - „Podobne przypadki” w matchmakingu (moduł I): osobny ADR, korzysta z zapisu potrzeb
-- Dodatkowy moduł wyzwania (+5%): decyzja w 0007
+- Dodatkowy moduł wyzwania (+5%): VII Middleman innowacji, do zaprojektowania
+- Dane gminy z Obserwatora Statystyk w czacie (zakres demo): mapowanie gminy na wskaźniki i narzędzie modelu
 
 ## Zrobione
 
@@ -28,4 +28,5 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - 2026-10-03: Obiekt innowacji, nakładka i słownik ([ADR 0004](adr/0004-obiekt-innowacji.md))
 - 2026-10-03: Backend rozmowy matchmakingu: `POST /api/v1/chat` (SSE), `GET /api/v1/innovations/{slug}` ([ADR 0005](adr/0005-matchmaking-chat-llm.md))
 - 2026-10-03: Mockup frontendu, strona innowacji `/innowacja/:slug`
+- 2026-10-03: Ustalenia otwarte ([0007](tasks/0007-ustalenia-otwarte.md)): obszary zespołu, zakres demo, limity, retencja, [zestaw testowy](zestaw-testowy.md)
 - 2026-10-03: Kryteria oceny ([kryteria-oceny.md](kryteria-oceny.md)), [GLOSSARY.md](../GLOSSARY.md)
