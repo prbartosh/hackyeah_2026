@@ -24,6 +24,7 @@ import uvicorn  # noqa: E402
 
 import app.models  # noqa: E402,F401
 import seed_demo  # noqa: E402
+import seed_kreator  # noqa: E402
 from app.db.base import Base  # noqa: E402
 from app.db.session import engine  # noqa: E402
 
@@ -32,6 +33,7 @@ async def prepare() -> None:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     await seed_demo.main()
+    await seed_kreator.main()
 
 
 if __name__ == "__main__":

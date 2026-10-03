@@ -41,7 +41,7 @@ function friendly(status: number, detail: unknown): string {
   return 'Nie udało się wykonać operacji.'
 }
 
-async function call<T>(path: string, init: RequestInit = {}, auth = true): Promise<T> {
+export async function call<T>(path: string, init: RequestInit = {}, auth = true): Promise<T> {
   const headers = new Headers(init.headers)
   if (init.body && !(init.body instanceof FormData)) headers.set('Content-Type', 'application/json')
   const token = getToken()

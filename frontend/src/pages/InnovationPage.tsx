@@ -140,6 +140,9 @@ export default function InnovationPage() {
                 <a href="mailto:iws@rops.krakow.pl">iws@rops.krakow.pl</a>
               </dd>
             </dl>
+            <Link to={`/kreator/finansowanie?karta=${rec.slug}`} className="btn btn-primary btn-block">
+              Znajdź finansowanie
+            </Link>
             <a href={rec.url_zrodlowy} className="btn btn-secondary btn-block" target="_blank" rel="noreferrer">
               Strona źródłowa ROPS <ExternalLink size={18} aria-hidden="true" /><NewTab />
             </a>

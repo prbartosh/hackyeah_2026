@@ -93,6 +93,7 @@ export default function AdminLayout() {
           <NavLink to="/admin/importy">Wgraj dokument</NavLink>
           <NavLink to="/admin/karty">Karty innowacji</NavLink>
           <NavLink to="/admin/radar">Radar trendów</NavLink>
+          <NavLink to="/admin/nabory">Nabory grantowe</NavLink>
         </nav>
         <button
           type="button" className="btn btn-ghost"
