@@ -16,6 +16,7 @@ import FiszkaPage from '@/kreator/FiszkaPage'
 import FinansowaniePage from '@/kreator/FinansowaniePage'
 import KreatorHome from '@/kreator/KreatorHome'
 import WniosekPage from '@/kreator/WniosekPage'
+import DocumentPage from '@/pages/DocumentPage'
 import HomePage from '@/pages/HomePage'
 import InnovationPage from '@/pages/InnovationPage'
 import NotFoundPage from '@/pages/NotFoundPage'
@@ -30,6 +31,7 @@ export default function App() {
         <Route index element={<HomePage />} />
         <Route path="zasobnik" element={<ZasobnikPage />} />
         <Route path="innowacja/:slug" element={<InnovationPage />} />
+        <Route path="dokument/:id" element={<DocumentPage />} />
         <Route path="zglos" element={<ReportPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
         <Route path="kreator" element={<KreatorHome />} />

@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { Search, Sparkles, X } from 'lucide-react'
 import InnowacjaCard from '@/components/InnowacjaCard'
 import Kategorie from '@/components/Kategorie'
+import ZasobnikWskazniki from '@/components/ZasobnikWskazniki'
+import ZasobnikWyzwania from '@/components/ZasobnikWyzwania'
 import { getCategories, listInnovations } from '@/api/innovations'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { liczbaInnowacji } from '@/lib/plural'
@@ -73,6 +75,26 @@ export default function ZasobnikPage() {
     setParams({}, { replace: true })
   }
 
+  const dzial = params.get('dzial')
+  const nav = (
+    <nav aria-label="Działy zasobnika" className="zs-sections">
+      <Link to="/zasobnik" aria-current={!dzial ? 'page' : undefined}>Innowacje</Link>
+      <Link to="/zasobnik?dzial=wyzwania" aria-current={dzial === 'wyzwania' ? 'page' : undefined}>Wyzwania i raporty</Link>
+      <Link to="/zasobnik?dzial=wskazniki" aria-current={dzial === 'wskazniki' ? 'page' : undefined}>Wskaźniki</Link>
+    </nav>
+  )
+  if (dzial === 'wyzwania' || dzial === 'wskazniki') {
+    return (
+      <div className="zs-root">
+        <section className="zs-hero container" aria-labelledby="zs-h1">
+          <h1 id="zs-h1" className="zs-title">Zasobnik wiedzy</h1>
+          {nav}
+        </section>
+        {dzial === 'wyzwania' ? <ZasobnikWyzwania /> : <ZasobnikWskazniki />}
+      </div>
+    )
+  }
+
   const aktywneFiltry = Boolean(kategoria || q || wybrane)
   const nazwaWybranej = kategoria ? (kategorie.find((k) => k.slug === kategoria)?.nazwa ?? kategoria) : null
   const komunikat =
@@ -88,6 +110,7 @@ export default function ZasobnikPage() {
     <div className="zs-root">
       <section className="zs-hero container" aria-labelledby="zs-h1">
         <h1 id="zs-h1" className="zs-title">Zasobnik wiedzy</h1>
+        {nav}
 
         <form
           role="search"
