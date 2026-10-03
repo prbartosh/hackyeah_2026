@@ -1,7 +1,8 @@
 # 0010. Pasek dostępności na mobile i wejście głosowe
 
-- Status: w toku (brakuje testu dyktowania w przeglądarkach)
+- Status: w toku
 - Osoba: Daniel (frontend)
+- PR: #20
 
 ## Cel
 

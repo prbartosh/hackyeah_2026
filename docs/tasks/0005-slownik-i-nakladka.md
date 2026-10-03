@@ -1,7 +1,8 @@
 # 0005. Słownik i nakładka innowacji
 
-- Status: w toku (czeka na przegląd)
+- Status: w toku
 - Osoba: Bartłomiej (backend)
+- PR: #15
 
 ## Cel
 
@@ -19,6 +20,7 @@ Typowane listy dla 115 innowacji, zgodnie z [ADR 0004](../adr/0004-obiekt-innowa
 
 ## Notatki
 
+- Kod w PR #15, zostało zatwierdzenie słownika i przegląd nakładki przez człowieka.
 - Pole panelu -> sekcja słownika: `zasoby` -> `wymagane_zasoby`, `proby` -> `typy_rozwiazan`, pozostałe 1:1 (`PROBLEM_SECTIONS` w `prompts.py`).
 - Wartości użyte tylko raz albo wcale (`przemoc`, `osoby-doswiadczajace-przemocy`, `wzor-dokumentu`, `powiat`, `region`, `wymagane_zasoby`) zostają, bo są potrzebne w scenariuszach (ADR 0004 §5).
 

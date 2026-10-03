@@ -2,6 +2,7 @@
 
 - Status: zrobione
 - Osoba: Nikodem, Wiktor
+- PR: #11, #13
 
 ## Cel
 
