@@ -1,6 +1,6 @@
 # Splot – pierwsze demo: matchmaking w rozmowie
 
-Cel: użytkownik bez logowania opisuje problem w czacie. AI ustala jego rolę, doprecyzowuje problem i zwraca do 5 dopasowanych innowacji lub dokumentów ROPS z wyjaśnieniem, jak każdy wynik ma się do problemu.
+Cel: użytkownik bez logowania opisuje problem w czacie. AI ustala jego rolę, doprecyzowuje problem i zwraca do 5 dopasowanych innowacji z wyjaśnieniem, jak każdy wynik ma się do problemu.
 
 ## Przepływ
 
