@@ -45,15 +45,17 @@ def tool_result_message(tool_call_id: str, content: str, is_error: bool) -> dict
 
 
 class LLMService:
-    """Tylko komunikacja z API modelu (OpenAI Responses): jedno wywołanie = jeden strumień zdarzeń.
-
-    Responses API, bo Chat Completions nie pozwala łączyć narzędzi z reasoning_effort.
+    """Tylko komunikacja z API modelu (DeepSeek przez Responses API): jedno wywołanie = jeden
+    strumień zdarzeń. DeepSeek zwraca rozumowanie jako zwykły tekst w elemencie `reasoning`
+    i scala go z wiadomością asystenta, gdy odsyłamy go w historii.
     """
 
     def __init__(self, settings: Settings, budget: TokenBudget | None = None) -> None:
         self.settings = settings
         self.budget = budget
-        self.client = openai.AsyncOpenAI(api_key=settings.openai_api_key)
+        self.client = openai.AsyncOpenAI(
+            api_key=settings.llm_api_key, base_url=settings.llm_base_url
+        )
 
     async def stream(
         self,
@@ -65,19 +67,16 @@ class LLMService:
         extra: dict[str, Any] = {}
         if self.settings.llm_reasoning_effort:
             extra["reasoning"] = {"effort": self.settings.llm_reasoning_effort}
-            # store=False: rozumowanie wraca zaszyfrowane i odsyłamy je w historii.
-            extra["include"] = ["reasoning.encrypted_content"]
 
         response = None
         try:
             stream = await self.client.responses.create(
                 model=self.settings.llm_model,
                 max_output_tokens=self.settings.llm_max_completion_tokens,
-                # System prompt z katalogiem jest stały i pierwszy - OpenAI cache'uje prefiks sam.
+                # System prompt z katalogiem jest stały i pierwszy - DeepSeek cache'uje prefiks sam.
                 instructions=system,
                 input=messages,
                 tools=[_to_openai_tool(t) for t in tools],
-                store=False,
                 stream=True,
                 **extra,
             )
@@ -131,7 +130,6 @@ def _to_openai_tool(tool: dict[str, Any]) -> dict[str, Any]:
         "name": tool["name"],
         "description": tool["description"],
         "parameters": tool["parameters"],
-        "strict": True,
     }
 
 

@@ -8,7 +8,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy, moduł II (Bartłomiej, Daniel, Kacper): innowacje (backend i frontend) w [PR #9](https://github.com/prbartosh/hackyeah_2026/pull/9), dokumenty nie zaczęte, brakuje testu z czytnikiem ekranu
 - [0002](tasks/0002-smoke-test.md) Pierwsze uruchomienie stacku (Bartosz): stack, strony i axe sprawdzone, czat czeka na klucz i test z prawdziwym modelem
 - [0005](tasks/0005-slownik-i-nakladka.md) Słownik i nakładka innowacji (Bartłomiej): dane i kod są, czeka na przegląd słownika i wyrywkowy przegląd nakładki
-- [0006](tasks/0006-limity-czatu.md) Limity i kontrola kosztu czatu (Bartłomiej, Bartosz, Nikodem: panel OpenAI): nginx, backend i frontend gotowe, brakuje limitu w panelu OpenAI, testu 429 na stacku i ustawienia `LLM_DAILY_TOKEN_LIMIT`
+- [0006](tasks/0006-limity-czatu.md) Limity i kontrola kosztu czatu (Bartłomiej, Bartosz, Nikodem: panel DeepSeek): nginx, backend i frontend gotowe, brakuje limitu w panelu DeepSeek, testu 429 na stacku i ustawienia `LLM_DAILY_TOKEN_LIMIT`
 
 ## Do zrobienia
 
@@ -36,3 +36,4 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - 2026-10-03: Kryteria oceny ([kryteria-oceny.md](kryteria-oceny.md)), [GLOSSARY.md](../GLOSSARY.md)
 - 2026-10-03: Czat we froncie podłączony do `POST /api/v1/chat` (SSE) zgodnie z kontraktem z ADR 0005, nowy układ, obsługa błędów, tryb demo usunięty
 - 2026-10-03: Czat przez Responses API: narzędzia razem z `reasoning_effort` (błąd 400 w Chat Completions), sprawdzone na prawdziwym modelu
+- 2026-10-03: Czat i tagowanie innowacji na DeepSeek (`deepseek-flash`, Responses API) ([ADR 0006](adr/0006-deepseek.md)), do sprawdzenia na prawdziwym kluczu

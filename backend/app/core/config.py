@@ -17,9 +17,11 @@ class Settings(BaseSettings):
     database_url: str
     cors_origins: list[str] = []
 
-    openai_api_key: str | None = None
-    llm_model: str = "gpt-5.6-sol"
-    # Tylko dla modeli rozumujących (np. gpt-5.x); pusty = parametr nie jest wysyłany.
+    llm_api_key: str | None = None
+    # DeepSeek przez SDK openai (Responses API).
+    llm_base_url: str = "https://api.deepseek.com"
+    llm_model: str = "deepseek-flash"
+    # low / high / max; pusty = domyślny wysiłek modelu (high).
     llm_reasoning_effort: str | None = "low"
     # Obejmuje też tokeny rozumowania - za mało = ucięta odpowiedź (finish=length).
     llm_max_completion_tokens: int = 8000

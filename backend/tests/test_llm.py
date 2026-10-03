@@ -48,7 +48,7 @@ class FakeResponses:
 
 
 def service(events, **settings) -> tuple[LLMService, FakeResponses]:
-    llm = LLMService(Settings(database_url="x", openai_api_key="test", **settings))
+    llm = LLMService(Settings(database_url="x", llm_api_key="test", **settings))
     responses = FakeResponses(events)
     llm.client.responses = responses
     return llm, responses
@@ -62,7 +62,9 @@ async def collect(llm: LLMService):
 async def test_streams_text_and_tool_calls():
     args_a = json.dumps({"rola": "partner"})
     args_b = json.dumps({"text": "Ile osób?", "options": ["1", "2", "3"]})
-    reasoning = Item(type="reasoning", id="rs", encrypted_content="enc", summary=[])
+    reasoning = Item(
+        type="reasoning", id="rs", content=[{"type": "reasoning_text", "text": "myślę"}]
+    )
     call_a = function_call("a", "set_role", args_a)
     call_b = function_call("b", "ask_question", args_b)
     llm, responses = service(
@@ -82,27 +84,23 @@ async def test_streams_text_and_tool_calls():
     assert isinstance(end, TurnEnd)
     # Rozumowanie wraca do historii razem z wywołaniami narzędzi.
     assert [i["type"] for i in end.items] == ["reasoning", "function_call", "function_call"]
-    assert end.items[0]["encrypted_content"] == "enc"
+    assert end.items[0]["content"][0]["text"] == "myślę"
 
     sent = responses.kwargs
     assert sent["instructions"] == "SYS"
-    assert sent["store"] is False
     assert sent["tools"][0] == {
         "type": "function",
         "name": "set_role",
         "description": "d",
         "parameters": {"type": "object"},
-        "strict": True,
     }
     assert sent["reasoning"] == {"effort": "low"}
-    assert sent["include"] == ["reasoning.encrypted_content"]
 
 
 async def test_reasoning_effort_can_be_disabled():
     llm, responses = service([done([])], llm_reasoning_effort="")
     await collect(llm)
     assert "reasoning" not in responses.kwargs
-    assert "include" not in responses.kwargs
 
 
 @pytest.mark.parametrize("reason", ["max_output_tokens", "content_filter"])
