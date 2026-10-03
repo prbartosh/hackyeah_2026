@@ -129,18 +129,38 @@ def _load_haystacks(path: Path) -> dict[str, str]:
     return {slug: haystack(r) for slug, r in _load(path).items()}
 
 
+# Migawka kart z bazy (panel administratora, ADR 0006): slug -> (opublikowana, karta, nakładka).
+# Karty z bazy przesłaniają te z plików; nieopublikowane znikają z katalogu.
+_db_snapshot: dict[str, tuple[bool, Innovation, dict[str, Any] | None]] = {}
+
+
+def set_db_snapshot(cards: dict[str, tuple[bool, Innovation, dict[str, Any] | None]]) -> None:
+    global _db_snapshot
+    _db_snapshot = cards
+
+
 class InnovationRepository:
-    """Baza innowacji ROPS z plików JSON (tylko odczyt, wczytywana raz na proces)."""
+    """Baza innowacji ROPS: pliki JSON plus migawka kart z bazy (tylko odczyt)."""
 
     def __init__(self, path: Path) -> None:
-        self._by_slug = _load(path)
+        self._by_slug = dict(_load(path))
         vocabulary_path = path.parent / VOCABULARY_FILE
         self._vocabulary = _load_vocabulary(vocabulary_path)
-        self._overlay = _load_overlay(
-            path.parent / OVERLAY_FILE, frozenset(self._by_slug), vocabulary_path
+        self._overlay = dict(
+            _load_overlay(path.parent / OVERLAY_FILE, frozenset(self._by_slug), vocabulary_path)
         )
         self._category_names = _load_category_names(path.parent / CATEGORIES_FILE)
-        self._haystacks = _load_haystacks(path)
+        self._haystacks = dict(_load_haystacks(path))
+        for slug, (published, card, overlay) in _db_snapshot.items():
+            self._overlay.pop(slug, None)
+            if not published:
+                self._by_slug.pop(slug, None)
+                self._haystacks.pop(slug, None)
+                continue
+            self._by_slug[slug] = card
+            self._haystacks[slug] = haystack(card)
+            if overlay:
+                self._overlay[slug] = overlay
 
     def get(self, slug: str) -> Innovation | None:
         return self._by_slug.get(slug)
