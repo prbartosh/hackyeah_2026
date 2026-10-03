@@ -12,7 +12,7 @@ Na stronie innowacji pracownik CUS/OPS albo partner (JST, NGO, ekspert) dostaje 
 
 - [ ] Krótki ADR: wejście (slug innowacji, rola, opcjonalnie stan problemu z czatu trzymany w przeglądarce), wyjście (karta usługi), endpoint, odpowiedź zwykła czy strumień SSE, komu pokazujemy przycisk
 - [ ] Karta usługi: cel, odbiorcy, kroki wdrożenia (3–7), potrzebne zasoby, ryzyka, wskaźniki sukcesu. Brakujące dane oznaczone „do uzupełnienia”
-- [ ] Backend: endpoint (propozycja: `POST /api/v1/innovations/{slug}/service-card`) w `LLMService`, wyjście ustrukturyzowane (schemat Pydantic)
+- [ ] Backend: endpoint (propozycja: `POST /api/v1/innovations/{slug}/service-card`) przez port LLM z [0016](0016-adaptery-llm.md) (`complete_json` albo jego następca), wyjście ustrukturyzowane (schemat Pydantic)
 - [ ] Ugruntowanie: tylko pola innowacji i stan problemu. Bez kosztów, liczb, kontaktów i faktów spoza bazy, jak `why_relevant` w ADR 0005
 - [ ] Frontend: przycisk „Dostosuj do mojej instytucji” na `/innowacja/:slug`, wybór roli, jeśli nie przyszła z czatu, widok karty, wydruk
 - [ ] Limity z [0006](0006-limity-czatu.md) obejmują też ten endpoint

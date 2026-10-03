@@ -15,14 +15,14 @@
 | Bartłomiej | backend |
 | Daniel | frontend |
 | Kacper | frontend |
-| Nikodem | produkt i demo (razem z Wiktorem) |
-| Wiktor | produkt i demo (razem z Nikodemem) |
+| Nikodem | produkt i demo (z Wiktorem) |
+| Wiktor | produkt i demo (z Nikodemem) |
 
-Każde zadanie w `docs/tasks/` ma w polu „Osoba” imię osoby, która się nim zajmuje.
+Zadanie w `docs/tasks/`: pole „Osoba” = imię odpowiedzialnego.
 
 ## Zadania
 
-Nagłówek zadania w `docs/tasks/` to jedyne źródło prawdy o jego stanie. Stałe pola, stałe wartości:
+Nagłówek zadania w `docs/tasks/` = jedyne źródło prawdy o stanie. Stałe pola, stałe wartości:
 
 ```
 - Status: todo | w toku | review | zablokowane | zrobione
@@ -31,21 +31,21 @@ Nagłówek zadania w `docs/tasks/` to jedyne źródło prawdy o jego stanie. Sta
 - Blokada: brak LLM_API_KEY
 ```
 
-- `Status`: tylko jedna z wartości powyżej, bez dopisków. Postęp opisują checkboxy w „Kroki”, komentarze idą do „Notatki”.
-- `PR`: numery PR-ów zadania, po przecinku. Puste, dopóki nie ma PR.
+- `Status`: tylko jedna wartość z listy, bez dopisków. Postęp: checkboxy w „Kroki”. Komentarze: „Notatki”.
+- `PR`: numery PR-ów zadania, po przecinku. Puste do pierwszego PR.
 - `Blokada`: tylko przy `zablokowane`, krótko na co czekamy.
 
 ## Zasady
 
-- Pisz prosty, czytelny i bezpieczny kod. Bez przerostu formy.
-- Nie masz 100% pewności: pytaj. Nie zgaduj.
-- Python: `uv`, instalacja przez `uv pip install`.
+- Kod prosty, czytelny, bezpieczny. Bez przerostu formy.
+- Brak 100% pewności: pytaj, nie zgaduj.
+- Python: `uv`, instalacja `uv pip install`.
 - Backend: endpoint -> service -> repository -> model.
-- Stan prac: `docs/status.md`. Zadania: `docs/tasks/`, decyzje: `docs/adr/` (nowy plik z `0000-template.md`, kolejny numer).
+- Stan prac: `docs/status.md`. Zadania: `docs/tasks/`. Decyzje: `docs/adr/` (nowy plik z `0000-template.md`, kolejny numer).
 
 ## Pull requesty
 
-- Tytuł i opis PR piszemy po polsku.
-- Branch zaczyna się od numeru zadania: `0012-middleman`. Tytuł PR też: `[0012] Middleman innowacji`. PR do kilku zadań: `[0003, 0005] ...`. PR bez zadania (np. drobne porządki): bez prefiksu.
-- Po otwarciu PR wpisz jego numer w pole `PR` zadania i ustaw `Status: review`.
-- Przed każdym PR aktualizujemy stan zadań: status i checkboxy w `docs/tasks/`, listy w `docs/status.md`. Aktualizacja wchodzi do tego samego PR.
+- Tytuł i opis PR po polsku.
+- Branch od numeru zadania: `0012-middleman`. Tytuł PR też: `[0012] Middleman innowacji`. Kilka zadań: `[0003, 0005] ...`. PR bez zadania (np. drobne porządki): bez prefiksu.
+- Po otwarciu PR: numer do pola `PR` zadania, `Status: review`.
+- Przed każdym PR aktualizacja stanu: status i checkboxy w `docs/tasks/`, listy w `docs/status.md`. Aktualizacja w tym samym PR.
