@@ -5,8 +5,11 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from pydantic import BaseModel
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
+from app.models import Potrzeba
 from app.repositories.innovation import InnovationRepository
+from app.repositories.need import PotrzebaRepository
 from app.repositories.obserwator import ObserwatorRepository
 from app.schemas.chat import (
     ChatRequest,
@@ -21,6 +24,7 @@ from app.schemas.chat import (
     ResultItem,
     ResultsEvent,
     RoleEvent,
+    StatusEvent,
     SummaryEvent,
     TextEvent,
 )
@@ -39,10 +43,35 @@ logger = logging.getLogger(__name__)
 
 MAX_LLM_CALLS = 6
 
+LLM_UNAVAILABLE = "Asystent jest chwilowo niedostępny. Spróbuj ponownie za chwilę."
+
 ACTION_MESSAGES = {
     "show_results_now": "[Użytkownik kliknął „Pokaż wyniki teraz”]",
     "confirm_summary": "[Użytkownik potwierdził podsumowanie]",
 }
+
+# Statusy etapów tury. Teksty ustala backend, nie model.
+STATUS_START = "Analizuję Twoją wiadomość…"
+STATUS_START_RESULTS = "Szukam pasujących rozwiązań…"
+# Po narzędziu, na czas kolejnego wywołania modelu.
+STATUS_AFTER_TOOL = {
+    "update_problem": "Uzupełniam opis problemu…",
+    "search": "Porównuję rozwiązania z Twoim problemem…",
+    "gmina_stats": "Analizuję dane o gminie…",
+}
+
+# Początki linii zapisu tury (`_Turn.transcript`, ACTION_MESSAGES). Model widzi je w historii
+# i potrafi je naśladować w tekście - takie linie nie trafiają do użytkownika.
+NOTE_PREFIXES = (
+    "[Rola:",
+    "[Panel:",
+    "[Pytanie:",
+    "[Podsumowanie",
+    "[Wyniki:",
+    "[Dane gminy:",
+    "[Użytkownik",
+    "[brak odpowiedzi]",
+)
 
 NUDGE = (
     "Nie wywołano narzędzia kończącego turę. Wywołaj teraz `ask_question`, "
@@ -70,6 +99,50 @@ class ToolOutcome:
     is_error: bool = False
     terminal: bool = False
     events: list[ServerEvent] = field(default_factory=list)
+    need: Potrzeba | None = None
+
+
+def _is_note(line: str) -> bool:
+    return line.strip().startswith(NOTE_PREFIXES)
+
+
+def _may_be_note(start: str) -> bool:
+    """Początek linii, który może jeszcze okazać się notatką."""
+    start = start.lstrip()
+    return any(start.startswith(p) or p.startswith(start) for p in NOTE_PREFIXES)
+
+
+class NoteFilter:
+    """Usuwa z tekstu modelu linie zapisu tury. Tekst przychodzi kawałkami, więc linię
+    zaczynającą się jak notatka wstrzymujemy do końca linii; zwykły tekst idzie od razu.
+    """
+
+    def __init__(self) -> None:
+        self._held = ""
+        self._passing = False
+
+    def feed(self, text: str) -> str:
+        out: list[str] = []
+        for part in text.splitlines(keepends=True):
+            complete = part.endswith("\n")
+            if self._passing:
+                out.append(part)
+                self._passing = not complete
+                continue
+            self._held += part
+            if self._held.strip() and not _may_be_note(self._held):
+                out.append(self._held)
+                self._held = ""
+                self._passing = not complete
+            elif complete:
+                if not _is_note(self._held):
+                    out.append(self._held)
+                self._held = ""
+        return "".join(out)
+
+    def flush(self) -> str:
+        held, self._held, self._passing = self._held, "", False
+        return "" if _is_note(held) else held
 
 
 @dataclass
@@ -83,10 +156,11 @@ class _Turn:
 class ChatService:
     def __init__(
         self,
-        llm: LLMService,
+        llm: LLMService | None,
         innovations: InnovationRepository,
         budget: TokenBudget,
         enabled: bool = True,
+        sessions: async_sessionmaker[AsyncSession] | None = None,
         obserwator: ObserwatorRepository | None = None,
     ) -> None:
         self.llm = llm
@@ -94,10 +168,14 @@ class ChatService:
         self.innovations = innovations
         self.budget = budget
         self.enabled = enabled
+        # Fabryka, nie sesja z zależności - zapis jest w trakcie strumienia.
+        self.sessions = sessions
         self.system_prompt = prompts.build_system_prompt(innovations)
 
     def ensure_available(self) -> None:
-        """Wyłącznik i budżet dzienny - sprawdzane przed otwarciem strumienia (503)."""
+        """Wyłącznik, klucz modelu i budżet dzienny - sprawdzane przed strumieniem (503)."""
+        if self.llm is None:
+            raise ChatUnavailableError(LLM_UNAVAILABLE)
         if not self.enabled:
             raise ChatUnavailableError("Czat jest chwilowo wyłączony. Spróbuj później.")
         if self.budget.exhausted():
@@ -119,9 +197,14 @@ class ChatService:
             raise InvalidConversationError("Ostatnia wiadomość musi być od użytkownika")
 
     async def run(self, request: ChatRequest) -> AsyncIterator[ServerEvent]:
+        assert self.llm is not None, "ensure_available() przed run()"
         turn = _Turn(state=request.state.model_copy(deep=True))
         messages = self._build_messages(request)
         nudged = False
+        notes = NoteFilter()
+        yield ServerEvent(
+            "status", StatusEvent(text=STATUS_START_RESULTS if request.action else STATUS_START)
+        )
 
         try:
             for _ in range(MAX_LLM_CALLS):
@@ -133,12 +216,22 @@ class ChatService:
                     system=self.system_prompt, tools=prompts.TOOLS, messages=messages
                 ):
                     if isinstance(event, TextDelta):
-                        turn.text.append(event.text)
-                        yield ServerEvent("text", TextEvent(text=event.text))
-                    elif isinstance(event, ToolCall):
+                        text = notes.feed(event.text)
+                    else:
+                        # Wstrzymana linia idzie przed zdarzeniami narzędzi i końcem tury.
+                        text = notes.flush()
+                    if text:
+                        turn.text.append(text)
+                        yield ServerEvent("text", TextEvent(text=text))
+
+                    if isinstance(event, ToolCall):
                         outcome = self._run_tool(turn, request, event)
+                        if outcome.need is not None:
+                            await self._save_need(outcome.need)
                         for server_event in outcome.events:
                             yield server_event
+                        if not outcome.is_error and (status := STATUS_AFTER_TOOL.get(event.name)):
+                            yield ServerEvent("status", StatusEvent(text=status))
                         terminal = terminal or outcome.terminal
                         tool_results.append(
                             tool_result_message(event.id, outcome.result, outcome.is_error)
@@ -159,12 +252,25 @@ class ChatService:
             else:
                 logger.warning("Chat: przekroczono limit %s wywołań modelu", MAX_LLM_CALLS)
         except LLMError as e:
-            yield ServerEvent("error", ErrorEvent(message=str(e)))
+            # Szczegóły tylko w logu - użytkownik dostaje ogólny komunikat.
+            logger.error("Chat: błąd modelu: %s", e)
+            yield ServerEvent("error", ErrorEvent(message=LLM_UNAVAILABLE))
             return
 
         yield ServerEvent(
             "done", DoneEvent(assistant_message=self._assistant_message(turn), state=turn.state)
         )
+
+    async def _save_need(self, need: Potrzeba) -> None:
+        """Błąd zapisu nie przerywa rozmowy - tylko log."""
+        if self.sessions is None:
+            return
+        try:
+            async with self.sessions() as session:
+                await PotrzebaRepository(session).add(need)
+                await session.commit()
+        except Exception:
+            logger.exception("Chat: nie udało się zapisać potrzeby")
 
     def _build_messages(self, request: ChatRequest) -> list[dict[str, Any]]:
         messages: list[dict[str, Any]] = [
@@ -329,7 +435,22 @@ class ChatService:
             items=items,
         )
         turn.transcript.append("[Wyniki: " + (", ".join(i.slug for i in items) or "brak") + "]")
-        return ToolOutcome("ok", terminal=True, events=[ServerEvent("results", results)])
+        # Stan przychodzi z frontu - do zapisu tylko slugi ze słownika.
+        slugs = {
+            name: [
+                s
+                for s in getattr(turn.state, name).slugi
+                if s in self.innovations.vocabulary_slugs(section)
+            ]
+            for name, section in prompts.PROBLEM_SECTIONS.items()
+        }
+        need = Potrzeba(
+            rola=turn.state.rola,
+            **slugs,
+            innowacje=[i.slug for i in items],
+            brak_dopasowania=results.no_good_match,
+        )
+        return ToolOutcome("ok", terminal=True, events=[ServerEvent("results", results)], need=need)
 
     def _tool_gmina_stats(self, turn: _Turn, request: ChatRequest, args: dict) -> ToolOutcome:
         gmina = args["gmina"].strip()

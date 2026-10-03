@@ -19,6 +19,8 @@ logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(_: FastAPI) -> AsyncIterator[None]:
+    if not settings.llm_api_key:
+        logger.warning("Brak LLM_API_KEY - czat odpowiada 503, panel działa bez AI")
     try:
         async with SessionLocal() as session:
             service = CardService(session, get_ai_gateway(session))

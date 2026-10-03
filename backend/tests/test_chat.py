@@ -2,10 +2,13 @@ import json
 from typing import Any
 
 import pytest
+from sqlalchemy import select
 
-from app.api.deps import get_llm_service, get_token_budget
+from app.api.deps import get_llm_service, get_session_factory, get_token_budget
 from app.core.config import settings
 from app.main import app
+from app.models import Potrzeba
+from app.services.chat import LLM_UNAVAILABLE, NoteFilter
 from app.services.llm import LLMError, TextDelta, ToolCall, TurnEnd
 from app.services.token_budget import TokenBudget
 
@@ -61,6 +64,13 @@ def fake_llm():
     app.dependency_overrides.pop(get_llm_service, None)
 
 
+@pytest.fixture(autouse=True)
+def sessions(session_factory):
+    app.dependency_overrides[get_session_factory] = lambda: session_factory
+    yield session_factory
+    app.dependency_overrides.pop(get_session_factory, None)
+
+
 def parse_sse(body: str) -> list[tuple[str, dict]]:
     events = []
     for chunk in body.strip().split("\n\n"):
@@ -69,11 +79,12 @@ def parse_sse(body: str) -> list[tuple[str, dict]]:
     return events
 
 
-async def post(client, payload) -> list[tuple[str, dict]]:
+async def post(client, payload, with_status: bool = False) -> list[tuple[str, dict]]:
     response = await client.post("/api/v1/chat", json=payload)
     assert response.status_code == 200, response.text
     assert response.headers["content-type"].startswith("text/event-stream")
-    return parse_sse(response.text)
+    events = parse_sse(response.text)
+    return events if with_status else [e for e in events if e[0] != "status"]
 
 
 def first_message(text="Mama ma demencję i dzwoni do mnie 10 razy dziennie"):
@@ -307,7 +318,42 @@ async def test_llm_error_becomes_error_event(client, fake_llm):
     fake_llm([LLMError("Błąd API modelu (529)")])
     events = await post(client, first_message())
 
-    assert events == [("error", {"message": "Błąd API modelu (529)"})]
+    # Szczegóły techniczne zostają w logu.
+    assert events == [("error", {"message": LLM_UNAVAILABLE})]
+
+
+async def test_missing_api_key_returns_503(client, monkeypatch):
+    monkeypatch.setattr(settings, "llm_api_key", None)
+    response = await client.post("/api/v1/chat", json=first_message())
+    assert response.status_code == 503
+    assert response.json()["detail"] == LLM_UNAVAILABLE
+
+
+@pytest.mark.parametrize(
+    "slug, organizacja",
+    [
+        ("sciezka-motosensoryczna", "Politechnika Krakowska"),
+        ("bez-presji-z-depresji", "Instytut HR"),
+    ],
+)
+async def test_organization_without_names(client, fake_llm, slug, organizacja):
+    response = await client.get(f"/api/v1/innovations/{slug}")
+    assert response.json()["organizacja"] == organizacja
+
+    fake_llm(
+        [
+            [tool("search", slugs=[slug])],
+            [
+                tool(
+                    "show_results",
+                    items=[{"slug": slug, "match": "main", "why_relevant": "x"}],
+                    no_good_match=False,
+                )
+            ],
+        ]
+    )
+    events = await post(client, first_message() | {"action": "show_results_now"})
+    assert dict(events)["results"]["items"][0]["organizacja"] == organizacja
 
 
 @pytest.mark.parametrize(
@@ -409,3 +455,140 @@ async def test_confirmed_summary_goes_to_model(client, fake_llm):
     context = llm.calls[0][-1]["content"][1]["text"]
     assert "Poprawione: 50 seniorów w gminie wiejskiej." in context
     assert dict(events)["problem_update"]["problem"]["problemy"]["tekst"] == "samotność"
+
+
+def results_turns(*slugs: str, no_good_match: bool = False) -> list:
+    return [
+        [tool("search", slugs=list(slugs))],
+        [
+            tool(
+                "show_results",
+                items=[{"slug": s, "match": "main", "why_relevant": "x"} for s in slugs],
+                no_good_match=no_good_match,
+            )
+        ],
+    ]
+
+
+async def test_show_results_saves_need(client, fake_llm, sessions):
+    fake_llm(results_turns(MAIN, OTHER))
+    state = {
+        "rola": "mieszkaniec",
+        "grupy_docelowe": {"tekst": "mama", "slugi": ["seniorzy", "zmyslony-slug"]},
+        "problemy": {"tekst": "samotność", "slugi": ["samotnosc"]},
+    }
+    events = await post(client, first_message() | {"action": "show_results_now", "state": state})
+    assert events[-1][0] == "done"
+
+    async with sessions() as session:
+        needs = (await session.scalars(select(Potrzeba))).all()
+    assert len(needs) == 1
+    need = needs[0]
+    assert need.rola == "mieszkaniec"
+    assert need.grupy_docelowe == ["seniorzy"]
+    assert need.problemy == ["samotnosc"]
+    assert need.miejsca == []
+    assert need.innowacje == [MAIN, OTHER]
+    assert need.brak_dopasowania is False
+    assert need.created_at is not None
+
+
+async def test_need_without_results_is_saved_as_no_match(client, fake_llm, sessions):
+    fake_llm([[tool("show_results", items=[], no_good_match=False)]])
+    await post(client, first_message() | {"action": "show_results_now"})
+
+    async with sessions() as session:
+        need = (await session.scalars(select(Potrzeba))).one()
+    assert need.innowacje == []
+    assert need.brak_dopasowania is True
+
+
+async def test_need_save_error_does_not_break_stream(client, fake_llm):
+    def broken():
+        raise RuntimeError("baza leży")
+
+    app.dependency_overrides[get_session_factory] = lambda: broken
+    fake_llm(results_turns(MAIN))
+    events = await post(client, first_message() | {"action": "show_results_now"})
+
+    assert [n for n, _ in events] == ["results", "done"]
+
+
+async def test_question_does_not_save_need(client, fake_llm, sessions):
+    fake_llm([[tool("ask_question", text="Gdzie?", options=["a", "b", "c"])]])
+    await post(client, first_message())
+
+    async with sessions() as session:
+        assert (await session.scalars(select(Potrzeba))).all() == []
+
+
+def filtered(*chunks: str) -> str:
+    notes = NoteFilter()
+    return "".join(notes.feed(c) for c in chunks) + notes.flush()
+
+
+@pytest.mark.parametrize(
+    "chunks, expected",
+    [
+        (["Rozumiem."], "Rozumiem."),
+        (["Rozumiem.\n[Pytanie: Gdzie? | Opcje: a; b]"], "Rozumiem.\n"),
+        # notatka pocięta na kawałki strumienia
+        (["Dobrze.\n[Py", "tanie: Gdzie?", " | Opcje: a]\nDalej."], "Dobrze.\nDalej."),
+        (["[Rola: mieszkaniec]\n[Panel: problemy: x]\nJasne."], "Jasne."),
+        (["[Wyniki: a, b]"], ""),
+        # zwykły nawias zostaje
+        (["[uwaga] to nie notatka"], "[uwaga] to nie notatka"),
+        (["[P", "rzykład]"], "[Przykład]"),
+        (["Linia 1\n", "Linia 2"], "Linia 1\nLinia 2"),
+    ],
+)
+def test_note_filter(chunks, expected):
+    assert filtered(*chunks) == expected
+
+
+async def test_model_notes_are_not_shown(client, fake_llm):
+    fake_llm(
+        [
+            [
+                TextDelta("Rozumiem.\n[Pyt"),
+                TextDelta("anie: Gdzie? | Opcje: a; b]"),
+                tool("ask_question", text="Gdzie mieszka mama?", options=["sama", "ze mną", "DPS"]),
+            ]
+        ]
+    )
+    events = await post(client, first_message())
+
+    shown = "".join(e["text"] for n, e in events if n == "text")
+    assert shown == "Rozumiem.\n"
+    done = events[-1][1]["assistant_message"]
+    # w historii zostaje tylko zapis tury z backendu, bez kopii z tekstu modelu
+    assert done.count("[Pytanie:") == 1
+
+
+async def test_status_events_describe_turn(client, fake_llm):
+    fake_llm(
+        [
+            [tool("update_problem", **empty_problem(problemy="samotność"))],
+            [tool("ask_question", text="Gdzie?", options=["a", "b", "c"])],
+        ]
+    )
+    events = await post(client, first_message(), with_status=True)
+
+    assert [n for n, _ in events] == ["status", "problem_update", "status", "question", "done"]
+    assert events[0][1] == {"text": "Analizuję Twoją wiadomość…"}
+    assert events[2][1] == {"text": "Uzupełniam opis problemu…"}
+
+
+async def test_status_events_for_results(client, fake_llm):
+    fake_llm(results_turns(MAIN))
+    events = await post(client, first_message() | {"action": "show_results_now"}, with_status=True)
+
+    statuses = [e["text"] for n, e in events if n == "status"]
+    assert statuses == ["Szukam pasujących rozwiązań…", "Porównuję rozwiązania z Twoim problemem…"]
+
+
+async def test_no_status_after_failed_tool(client, fake_llm):
+    fake_llm([[tool("search", slugs=["nie-ma"])], [tool("propose_summary", summary="x")]])
+    events = await post(client, first_message(), with_status=True)
+
+    assert [e["text"] for n, e in events if n == "status"] == ["Analizuję Twoją wiadomość…"]

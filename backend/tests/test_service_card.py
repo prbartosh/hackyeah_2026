@@ -112,3 +112,9 @@ async def test_limits_from_chat(client, llm, monkeypatch):
     response = await client.post(URL, json={"rola": "partner"})
     assert response.status_code == 503
     assert fake.calls == []
+
+
+async def test_missing_api_key_returns_503(client, monkeypatch):
+    monkeypatch.setattr(settings, "llm_api_key", None)
+    response = await client.post(URL, json={"rola": "partner"})
+    assert response.status_code == 503

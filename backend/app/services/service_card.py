@@ -75,7 +75,7 @@ class ServiceCardFailedError(Exception):
 class ServiceCardService:
     def __init__(
         self,
-        llm: LLMService,
+        llm: LLMService | None,
         innovations: InnovationRepository,
         budget: TokenBudget,
         enabled: bool = True,
@@ -89,8 +89,8 @@ class ServiceCardService:
         innovation = self.innovations.get(slug)
         if innovation is None:
             raise ServiceCardNotFoundError("Nie ma takiej innowacji")
-        # Te same wyłączniki co czat (zadanie 0006).
-        if not self.enabled or self.budget.exhausted():
+        # Te same wyłączniki co czat (zadanie 0006) i brak klucza modelu (zadanie 0008).
+        if self.llm is None or not self.enabled or self.budget.exhausted():
             raise ServiceCardUnavailableError("Asystent AI jest chwilowo niedostępny.")
 
         card = innovation.model_dump(include=CARD_FIELDS)

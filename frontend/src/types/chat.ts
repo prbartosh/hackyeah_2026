@@ -123,6 +123,7 @@ export interface Results {
 
 export type ServerEvent =
   | { name: 'text'; data: { text: string } }
+  | { name: 'status'; data: { text: string } }
   | { name: 'role'; data: { rola: Role } }
   | { name: 'problem_update'; data: { problem: ProblemState } }
   | { name: 'question'; data: Question }
