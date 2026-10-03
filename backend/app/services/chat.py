@@ -30,6 +30,7 @@ from app.services.llm import (
     TurnEnd,
     tool_result_message,
 )
+from app.services.token_budget import TokenBudget
 
 logger = logging.getLogger(__name__)
 
@@ -48,6 +49,10 @@ NUDGE = (
 
 
 class InvalidConversationError(Exception):
+    pass
+
+
+class ChatUnavailableError(Exception):
     pass
 
 
@@ -76,10 +81,26 @@ class _Turn:
 
 
 class ChatService:
-    def __init__(self, llm: LLMService, innovations: InnovationRepository) -> None:
+    def __init__(
+        self,
+        llm: LLMService,
+        innovations: InnovationRepository,
+        budget: TokenBudget,
+        enabled: bool = True,
+    ) -> None:
         self.llm = llm
         self.innovations = innovations
+        self.budget = budget
+        self.enabled = enabled
         self.system_prompt = prompts.build_system_prompt(innovations)
+
+    def ensure_available(self) -> None:
+        """Wyłącznik i budżet dzienny - sprawdzane przed otwarciem strumienia (503)."""
+        if not self.enabled:
+            raise ChatUnavailableError("Czat jest chwilowo wyłączony. Spróbuj później.")
+        if self.budget.exhausted():
+            logger.warning("Chat: wyczerpany dzienny limit tokenów (%s)", self.budget.daily_limit)
+            raise ChatUnavailableError("Usługa chwilowo niedostępna, spróbuj jutro.")
 
     def validate(self, request: ChatRequest) -> None:
         """Wywoływane przed otwarciem strumienia, żeby zła historia dała 422."""

@@ -3,9 +3,11 @@ from typing import Any
 
 import pytest
 
-from app.api.deps import get_llm_service
+from app.api.deps import get_llm_service, get_token_budget
+from app.core.config import settings
 from app.main import app
 from app.services.llm import LLMError, TextDelta, ToolCall, TurnEnd
+from app.services.token_budget import TokenBudget
 
 MAIN = "kody-qr-na-pomoc-seniorom"
 OTHER = "bawita"
@@ -323,6 +325,56 @@ async def test_invalid_history_is_rejected(client, fake_llm, messages):
     fake_llm([])
     response = await client.post("/api/v1/chat", json={"messages": messages})
     assert response.status_code == 422
+
+
+@pytest.mark.parametrize(
+    "messages",
+    [
+        [{"role": "user", "content": "x" * 1501}],
+        # 7 par po 1500 + 1500 znaków = 22 500 > 20 000
+        [{"role": r, "content": "x" * 1500} for r in ["user", "assistant"] * 7 + ["user"]],
+        [{"role": r, "content": "x"} for r in ["user", "assistant"] * 15 + ["user"]],
+    ],
+)
+async def test_too_long_history_is_rejected(client, fake_llm, messages):
+    llm = fake_llm([])
+    response = await client.post("/api/v1/chat", json={"messages": messages})
+    assert response.status_code == 422
+    assert llm.calls == []
+
+
+async def test_long_assistant_message_is_allowed(client, fake_llm):
+    fake_llm([[tool("ask_question", text="Ile osób?", options=["1", "2", "3"])]])
+    messages = [
+        {"role": "user", "content": "a"},
+        {"role": "assistant", "content": "x" * 4000},
+        {"role": "user", "content": "b"},
+    ]
+    events = await post(client, {"messages": messages})
+    assert events[-1][0] == "done"
+
+
+async def test_exhausted_budget_returns_503_without_model(client, fake_llm):
+    llm = fake_llm([])
+    budget = TokenBudget(daily_limit=100)
+    budget.add(100)
+    app.dependency_overrides[get_token_budget] = lambda: budget
+    try:
+        response = await client.post("/api/v1/chat", json=first_message())
+    finally:
+        app.dependency_overrides.pop(get_token_budget, None)
+
+    assert response.status_code == 503
+    assert response.json()["detail"] == "Usługa chwilowo niedostępna, spróbuj jutro."
+    assert llm.calls == []
+
+
+async def test_disabled_chat_returns_503(client, fake_llm, monkeypatch):
+    llm = fake_llm([])
+    monkeypatch.setattr(settings, "chat_enabled", False)
+    response = await client.post("/api/v1/chat", json=first_message())
+    assert response.status_code == 503
+    assert llm.calls == []
 
 
 async def test_get_innovation(client):
