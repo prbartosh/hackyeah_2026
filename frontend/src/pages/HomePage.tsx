@@ -1,4 +1,5 @@
 import ChatPanel from '@/components/ChatPanel'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import ProblemPanel from '@/components/ProblemPanel'
 import ResultsSection from '@/components/ResultsSection'
 import { useChat } from '@/context/ChatContext'
@@ -15,7 +16,9 @@ export default function HomePage() {
       </div>
 
       <div className="wide">
-        <ResultsSection />
+        <ErrorBoundary label="wyniki">
+          <ResultsSection />
+        </ErrorBoundary>
       </div>
     </>
   )

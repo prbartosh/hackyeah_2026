@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
+import ErrorBoundary from '@/components/ErrorBoundary'
 import Header from '@/components/Header'
 
 export default function Layout() {
@@ -14,7 +15,9 @@ export default function Layout() {
     <div className="app">
       <Header />
       <main id="main-content" tabIndex={-1}>
-        <Outlet />
+        <ErrorBoundary resetKey={pathname} label="ta strona">
+          <Outlet />
+        </ErrorBoundary>
       </main>
       <footer className="site-footer">
         <div className="wide footer-inner">

@@ -13,8 +13,8 @@ export function useItems() {
     try {
       setItems(await itemsApi.list())
       setError(null)
-    } catch (e) {
-      setError(e instanceof Error ? e.message : 'Unknown error')
+    } catch {
+      setError('Nie udało się pobrać listy. Spróbuj ponownie za chwilę.')
     } finally {
       setLoading(false)
     }
