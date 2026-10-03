@@ -29,3 +29,4 @@ Użytkownik opisuje pomysł, AI wypełnia fiszkę, użytkownik poprawia i wysył
 
 - Uruchomienie i demo: [kreator-pomyslow.md](../kreator-pomyslow.md).
 - Wysłana fiszka i wniosek to zwykłe zgłoszenie w skrzynce panelu (bez zmian modelu `Ticket`).
+- 2026-10-03: „Znajdź finansowanie” z karty nie tworzy już kolejnej fiszki po odświeżeniu albo powrocie z wniosku: token nowej fiszki trafia do adresu (`?fiszka=`) i do „Twoje szkice”. axe w trzech motywach na `/kreator`, `/kreator/fiszka`, `/kreator/canva` i canvie demo: 0 naruszeń (bez NVDA).

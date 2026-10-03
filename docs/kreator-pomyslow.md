@@ -32,4 +32,3 @@ Konfiguracja: `KREATOR_AI_DAILY_CALL_LIMIT`, `LLM_API_KEY` (bez klucza formularz
 - Nabory w demo są wymyślone. Prawdziwe wpisuje admin.
 - Wizualizacja pomysłu nie jest zrobiona (brak dostawcy obrazów).
 - Brak testu z czytnikiem ekranu i axe, brak przejścia z prawdziwym kluczem DeepSeek, migracja `0003` niesprawdzona na Postgresie (testy na SQLite).
-- „Znajdź finansowanie” z karty tworzy nową fiszkę po każdym odświeżeniu strony.
