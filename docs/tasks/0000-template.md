@@ -1,7 +1,8 @@
 # NNNN. Tytuł
 
-- Status: todo | w toku | zrobione
+- Status: todo | w toku | review | zablokowane | zrobione
 - Osoba: 
+- PR: 
 
 ## Cel
 

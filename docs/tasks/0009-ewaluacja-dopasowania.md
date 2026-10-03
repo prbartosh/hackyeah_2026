@@ -1,7 +1,8 @@
 # 0009. Ewaluacja dopasowania
 
-- Status: todo
+- Status: w toku
 - Osoba: Bartosz (skrypt), Nikodem, Wiktor (ocena wyników, poprawki zestawu)
+- PR:
 
 ## Cel
 
@@ -9,10 +10,10 @@ Liczba, która mówi, jak dobrze czat dopasowuje innowacje: ile razy oczekiwany 
 
 ## Kroki
 
-- [ ] Skrypt `backend/scripts/eval_matchmaking.py`: czyta tabelę z `docs/zestaw-testowy.md`, dla każdego zgłoszenia wysyła pierwszą wiadomość z rolą i akcję `show_results_now` (bez rund pytań), zbiera wyniki
-- [ ] Miary: trafienie na 1. miejscu, trafienie w wynikach (do 5), poprawne `no_good_match` dla zgłoszenia „brak”. Pozycje „niejednoznaczne” liczone także na 2. miejscu
-- [ ] Raport w markdown: tabela per zgłoszenie (oczekiwany, otrzymane, trafienie) i podsumowanie. Zapis wyniku z datą do sekcji „Wyniki” w `docs/zestaw-testowy.md`
-- [ ] Pierwszy pomiar na obecnym prompcie, bez nakładki
+- [x] Skrypt `backend/scripts/eval_matchmaking.py`: czyta tabelę z `docs/zestaw-testowy.md`, dla każdego zgłoszenia wysyła pierwszą wiadomość z rolą i akcję `show_results_now` (bez rund pytań), zbiera wyniki
+- [x] Miary: trafienie na 1. miejscu, trafienie w wynikach (do 5), poprawne `no_good_match` dla zgłoszenia „brak”. Pozycje „niejednoznaczne” liczone także na 2. miejscu
+- [x] Raport w markdown: tabela per zgłoszenie (oczekiwany, otrzymane, trafienie) i podsumowanie. Zapis wyniku z datą do sekcji „Wyniki” w `docs/zestaw-testowy.md`
+- [x] Pierwszy pomiar na obecnym prompcie, z nakładką (nakładka z [0005](0005-slownik-i-nakladka.md) weszła do main przed pomiarem, decyzja Bartosza)
 - [ ] Przegląd chybionych przypadków (Nikodem, Wiktor): błąd modelu czy błąd zestawu. Poprawki w zestawie
 
 ## Notatki

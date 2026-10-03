@@ -2,6 +2,7 @@
 
 - Status: todo
 - Osoba: Daniel (frontend)
+- PR:
 
 ## Cel
 

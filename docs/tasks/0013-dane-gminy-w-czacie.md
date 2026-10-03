@@ -2,6 +2,7 @@
 
 - Status: todo
 - Osoba: Bartosz (integracja)
+- PR:
 
 ## Cel
 

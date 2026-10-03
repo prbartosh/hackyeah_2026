@@ -2,6 +2,7 @@
 
 - Status: todo
 - Osoba: Bartłomiej (backend)
+- PR:
 
 ## Cel
 

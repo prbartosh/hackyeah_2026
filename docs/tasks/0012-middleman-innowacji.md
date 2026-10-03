@@ -2,6 +2,7 @@
 
 - Status: todo
 - Osoba: Bartosz (ADR, backend), Kacper (frontend)
+- PR:
 
 ## Cel
 
