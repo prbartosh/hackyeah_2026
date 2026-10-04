@@ -134,6 +134,31 @@ class TicketService:
         )
         return ticket, list(rows)
 
+    async def author_reply(self, token: str, text: str) -> ThreadMessage | None:
+        """Autor dopisuje do wątku; sprawa wraca do zespołu (status, powiadomienie, e-mail)."""
+        ticket = await self.session.scalar(select(Ticket).where(Ticket.token_watku == token))
+        if ticket is None:
+            return None
+        message = ThreadMessage(token_watku=token, autor_rola="uzytkownik", tresc=text.strip())
+        self.session.add(message)
+        if ticket.status == "odpowiedziane":
+            ticket.status = "w_trakcie"
+        if not ticket.syntetyczne:
+            self.session.add(
+                Notification(
+                    tekst=f"Nowa wiadomość w zgłoszeniu #{ticket.id}", zgloszenie_id=ticket.id
+                )
+            )
+        await self.session.commit()
+        if not ticket.syntetyczne and self.settings.admin_notify_email:
+            await self.email.send(
+                self.settings.admin_notify_email,
+                f"Nowa wiadomość w zgłoszeniu #{ticket.id}",
+                f"{message.tresc[:300]}\n\n"
+                f"{self.settings.public_base_url}/admin/zgloszenia/{ticket.id}",
+            )
+        return message
+
     async def list_tickets(
         self,
         *,

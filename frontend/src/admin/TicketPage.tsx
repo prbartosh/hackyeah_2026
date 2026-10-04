@@ -7,6 +7,9 @@ import {
   categoryName, errorText, formatDate, useLoad, useTitle,
 } from '@/admin/ui'
 import type { Ticket } from '@/admin/types'
+import MentorAssign from '@/admin/MentorAssign'
+
+const ROLE_LABEL: Record<string, string> = { admin: 'Odpowiedź ROPS', mentor: 'Mentor', system: 'Informacja' }
 
 function Thread({ ticket }: { ticket: Ticket }) {
   return (
@@ -14,9 +17,9 @@ function Thread({ ticket }: { ticket: Ticket }) {
       <h2 id="thread-h">Rozmowa z autorem</h2>
       <ol className="thread">
         {ticket.wiadomosci.map((m, i) => (
-          <li key={i} className={m.autor_rola === 'admin' ? 'msg-admin' : 'msg-author'}>
+          <li key={i} className={m.autor_rola === 'uzytkownik' ? 'msg-author' : 'msg-admin'}>
             <p className="hint">
-              {m.autor_rola === 'admin' ? 'Odpowiedź ROPS' : ticket.autor_nazwa || 'Autor zgłoszenia'} · {formatDate(m.created_at)}
+              {ROLE_LABEL[m.autor_rola] ?? ticket.autor_nazwa ?? 'Autor zgłoszenia'} · {formatDate(m.created_at)}
             </p>
             <p className="pre">{m.tresc}</p>
             {m.zrodla && m.zrodla.length > 0 && (
@@ -262,7 +265,10 @@ export default function TicketPage() {
           )}
           <Thread ticket={data} />
         </div>
-        <div>{data.triaz_wykonany && <Triage ticket={data} />}</div>
+        <div>
+          <MentorAssign ticketId={data.id} kategoria={data.kategoria} onChange={reload} />
+          {data.triaz_wykonany && <Triage ticket={data} />}
+        </div>
       </div>
     </>
   )

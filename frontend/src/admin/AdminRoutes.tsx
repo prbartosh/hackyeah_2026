@@ -6,9 +6,11 @@ import CardsPage from '@/admin/CardsPage'
 import ImportReviewPage from '@/admin/ImportReviewPage'
 import ImportsPage from '@/admin/ImportsPage'
 import InboxPage from '@/admin/InboxPage'
+import MentorsPage from '@/admin/MentorsPage'
 import NotificationsPage from '@/admin/NotificationsPage'
 import OpinionsPage from '@/admin/OpinionsPage'
 import PartnershipsPage from '@/admin/PartnershipsPage'
+import QuestionsPage from '@/admin/QuestionsPage'
 import RadarPage from '@/admin/RadarPage'
 import TicketPage from '@/admin/TicketPage'
 import { NaborEditPage, NaboryPage } from '@/kreator/AdminNabory'
@@ -31,6 +33,8 @@ export default function AdminRoutes() {
         <Route path="nabory/:slug" element={<NaborEditPage />} />
         <Route path="opinie" element={<OpinionsPage />} />
         <Route path="partnerstwa" element={<PartnershipsPage />} />
+        <Route path="mentorzy" element={<MentorsPage />} />
+        <Route path="pytania" element={<QuestionsPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

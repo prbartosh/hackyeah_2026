@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { SEKTORY, TYPY, partnerships, type StatusOgloszenia } from '@/api/partnerships'
 import { Empty, ErrorBox, Loading, Pagination, SyntheticTag, errorText, formatDate, useLoad, useTitle } from '@/admin/ui'
+import PartnershipConversations from '@/admin/PartnershipConversations'
 
 const LIMIT = 25
 
@@ -87,6 +88,7 @@ export default function PartnershipsPage() {
         </ul>
       )}
       {data && <Pagination offset={offset} limit={LIMIT} total={data.total} onChange={setOffset} />}
+      <PartnershipConversations />
     </>
   )
 }

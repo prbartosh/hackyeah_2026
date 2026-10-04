@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { api } from '@/admin/api'
 import { errorText } from '@/admin/ui'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { saveThread } from '@/lib/myThreads'
 import '@/styles/admin.css'
 
 /** Publiczny formularz: zgłoszenie potrzeby do zespołu ROPS (bez konta). */
@@ -31,6 +32,7 @@ export default function ReportPage() {
         autor_nazwa: name.trim() || undefined,
         autor_email: email.trim() || undefined,
       })
+      saveThread(r.token_watku, text)
       setToken(r.token_watku)
     } catch (err) {
       setError(errorText(err))

@@ -35,6 +35,9 @@ class Ticket(TimestampMixin, Base):
     najlepsze_dopasowanie: Mapped[float | None] = mapped_column(Float)
     # Tagi ze słownika (sekcja -> slugi): z fraz w treści, po triażu AI zwalidowane tagi modelu.
     tagi: Mapped[dict[str, list[str]] | None] = mapped_column(JSON)
+    # Mentor przydzielony przez ROPS i prośba autora o mentora (ADR 0014).
+    mentor_id: Mapped[int | None] = mapped_column(ForeignKey("mentorzy.id", ondelete="SET NULL"))
+    mentor_prosba: Mapped[bool] = mapped_column(Boolean, default=False)
     # Nieużywane od ADR 0006 (embeddingi zastąpiło matching.py); kolumny zostają do czasu migracji.
     embedding: Mapped[list[float] | None] = mapped_column(JSON)
     embedding_model: Mapped[str | None] = mapped_column(String(80))
@@ -47,7 +50,7 @@ class ThreadMessage(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     token_watku: Mapped[str] = mapped_column(String(64), index=True)
-    autor_rola: Mapped[str] = mapped_column(String(10))  # "uzytkownik" | "admin"
+    autor_rola: Mapped[str] = mapped_column(String(10))  # "uzytkownik" | "admin" | "mentor"
     tresc: Mapped[str] = mapped_column(Text)
     zrodla: Mapped[list[dict[str, Any]] | None] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
