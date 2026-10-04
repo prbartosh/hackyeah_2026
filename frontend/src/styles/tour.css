@@ -34,6 +34,8 @@
   top: auto; left: 0; right: 0; bottom: 0; transform: none; width: auto; max-height: 52dvh;
   border-radius: 1.25rem 1.25rem 0 0; border-bottom-width: 0;
 }
+/* Na telefonie panel dolny zasłania treść: zostaw miejsce, żeby element dało się przewinąć nad panel */
+body:has(.tour-bubble--sheet) { padding-bottom: 55dvh; }
 @keyframes tour-in { from { opacity: 0; } to { opacity: 1; } }
 
 .tour-arrow {
@@ -101,6 +103,7 @@
 
 /* Okna: ekran startowy, rozdział ukończony, podsumowanie */
 .tour-modal {
+  position: fixed; inset: 0; margin: auto; height: fit-content;
   width: min(46rem, calc(100vw - 1.5rem)); max-width: none; max-height: calc(100dvh - 1.5rem); padding: 0; overflow: hidden;
   background: var(--surface-float); color: var(--text);
   border: var(--border-width) solid var(--primary); border-radius: 1.5rem; box-shadow: var(--shadow-float);

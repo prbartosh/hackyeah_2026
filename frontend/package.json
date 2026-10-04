@@ -10,7 +10,8 @@
     "lint": "eslint .",
     "test": "vitest run",
     "a11y": "node scripts/a11y-audit.mjs",
-    "a11y:keys": "node scripts/a11y-keyboard.mjs"
+    "a11y:keys": "node scripts/a11y-keyboard.mjs",
+    "tour:check": "node scripts/tour-check.mjs"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.8.0",
