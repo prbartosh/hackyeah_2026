@@ -80,7 +80,7 @@ function QuestionOptions({ question }: { question: Question }) {
   }
 
   return (
-    <div className="question" data-tour="czat-pytanie czat-gotowe" role="group" aria-label={question.text} tabIndex={-1}>
+    <div className="question" data-tour="czat-pytanie czat-gotowe czat-tura" role="group" aria-label={question.text} tabIndex={-1}>
       <div className="option-list">
         {question.options.map((opt, i) => (
           <button key={opt} type="button" className="btn btn-option" data-tour={i === 0 ? 'czat-odpowiedz' : undefined} disabled={streaming} onClick={() => sendMessage(opt)}>
@@ -158,7 +158,7 @@ function SummaryBlock({ text, pending, confirmed }: { text: string; pending: boo
             </>
           ) : (
             <>
-              <button type="button" className="btn btn-primary" data-tour="czat-potwierdz czat-gotowe" disabled={streaming} onClick={() => confirmSummary()}>
+              <button type="button" className="btn btn-primary" data-tour="czat-potwierdz czat-gotowe czat-tura" disabled={streaming} onClick={() => confirmSummary()}>
                 Potwierdzam
               </button>
               <button type="button" className="btn btn-ghost" onClick={() => setEditing(true)}>

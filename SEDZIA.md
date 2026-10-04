@@ -8,7 +8,7 @@ Splot pomaga mieszkańcom, pracownikom OPS i gminom znaleźć sprawdzone rozwią
 
 1. Otwórz demo.
 2. Kliknij w nagłówku **„Dla sędziego (2 min)”**.
-3. Klikaj **„Zrób to za mnie”** w każdej chmurce. Przewodnik sam wpisze przykładowy problem, wyśle go do AI i pokaże wyniki z uzasadnieniem.
+3. Klikaj **„Zrób to za mnie”** albo **„Dalej”** w chmurce. Przewodnik sam wpisze przykładowy problem, odpowie na pytanie AI, pokaże wyniki z uzasadnieniem i kartę innowacji. Klikać można tylko podświetlony element, więc nie da się zgubić.
 
 Wszystko dzieje się na żywo: prawdziwy model AI, prawdziwa baza innowacji ROPS. Odpowiedź modelu trwa kilka sekund.
 

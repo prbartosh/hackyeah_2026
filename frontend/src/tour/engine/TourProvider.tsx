@@ -138,6 +138,40 @@ export default function TourProvider({ children, chapters: chaptersProp }: { chi
   const anchorName = phase.kind === 'login' ? LOGIN_TARGET : phase.kind === 'ready' ? step?.target ?? null : null
   const anchor = useLiveTarget(isStep ? anchorName : null)
 
+  // Rozdział bez pomijania: gdy to, na co czeka krok, już jest na stronie (i nie jest samym celem kroku),
+  // pokazujemy „Dalej”, żeby nie było martwego punktu.
+  const strictChapter = !!chapter?.strict
+  const appearTarget = strictChapter && step?.advanceOn?.kind === 'appear' ? step.advanceOn.target : null
+  const appearEl = useLiveTarget(isStep && phase.kind === 'ready' ? appearTarget : null)
+  const advanceDone = !!appearEl && !!anchor && appearEl !== anchor && !anchor.contains(appearEl)
+
+  // Rozdział bez pomijania: klikać można tylko omawiany element (cel kroku i cele akcji) i samą chmurkę.
+  useEffect(() => {
+    if (!strictChapter || !isStep || state.minimized || !step) return
+    const allowed = (t: EventTarget | null) => {
+      if (!(t instanceof Node)) return false
+      if (t instanceof Element && t.closest('.tour-root, .tour-bubble')) return true
+      if (phase.kind !== 'ready') return false
+      const names = [step.target, ...(step.actions ?? []).map((a) => a.target)].filter((n): n is string => !!n)
+      return names.some((n) => findAllTargets(n).some((el) => el.contains(t)))
+    }
+    const block = (e: Event) => {
+      if (e instanceof KeyboardEvent && e.key !== 'Enter' && e.key !== ' ') return
+      // Wysłanie formularza: liczy się przycisk (albo pole z Enterem), a nie sam formularz poza celem.
+      const source = e instanceof SubmitEvent ? e.submitter ?? document.activeElement : e.target
+      if (allowed(source)) return
+      e.preventDefault()
+      e.stopPropagation()
+    }
+    const events = ['pointerdown', 'mousedown', 'mouseup', 'click', 'dblclick', 'touchstart', 'keydown', 'submit'] as const
+    events.forEach((ev) => window.addEventListener(ev, block, { capture: true, passive: false }))
+    document.documentElement.dataset.tourLocked = ''
+    return () => {
+      events.forEach((ev) => window.removeEventListener(ev, block, { capture: true }))
+      delete document.documentElement.dataset.tourLocked
+    }
+  }, [strictChapter, isStep, state.minimized, step, phase.kind])
+
   // Cel pod linią przewijania (np. wynik AI pojawia się niżej) albo zmieniający rozmiar: przewiń do niego ponownie.
   useEffect(() => {
     if (!anchor || phase.kind !== 'ready' || state.minimized) return
@@ -252,7 +286,7 @@ export default function TourProvider({ children, chapters: chaptersProp }: { chi
   // Klawiatura: Esc minimalizuje, Alt+strzałki przechodzą między krokami.
   // W rozdziale bez pomijania (strict) klawiatura nie omija kroków: tylko „dalej” w gotowym kroku bez advanceOn.
   const strict = !!chapter?.strict
-  const canKeyNext = !strict || (phase.kind === 'ready' && !step?.advanceOn)
+  const canKeyNext = !strict || (phase.kind === 'ready' && (!step?.advanceOn || advanceDone)) || phase.kind === 'missing' || phase.kind === 'error'
   useEffect(() => {
     if (!isStep || state.minimized || state.menuOpen) return
     const onKey = (e: KeyboardEvent) => {
@@ -327,6 +361,7 @@ export default function TourProvider({ children, chapters: chaptersProp }: { chi
               phone={phone}
               acting={acting}
               actionError={actionError}
+              advanceDone={advanceDone}
               onNext={next}
               onBack={back}
               onRetry={() => setRunId((n) => n + 1)}
