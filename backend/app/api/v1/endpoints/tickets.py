@@ -26,7 +26,9 @@ async def get_thread(token: str, service: TicketServiceDep) -> ThreadRead:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Nie znaleziono rozmowy")
     ticket, messages = found
     return ThreadRead(
-        status=ticket.status, wiadomosci=[ThreadMessageRead.model_validate(m) for m in messages]
+        status=ticket.status,
+        wiadomosci=[ThreadMessageRead.model_validate(m) for m in messages],
+        obserwuje=ticket.obserwuje,
     )
 
 

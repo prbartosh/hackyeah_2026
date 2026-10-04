@@ -14,10 +14,11 @@ from app.repositories.opinion import OpiniaRepository
 from app.schemas.ticket import SlaInfo, TesterContact, TicketCreate
 from app.services.ai import AIGateway, AIUnavailableError
 from app.services.app_settings import PanelSettings, load_settings
-from app.services.cards import CardService, category_names
+from app.services.cards import CardService, category_names, match_text
 from app.services.email import EmailSender
 from app.services.matching import (
     CardMatch,
+    card_score,
     labels,
     load_vocabulary,
     similar_text,
@@ -106,6 +107,7 @@ class TicketService:
             token_watku=secrets.token_urlsafe(24),
             status="nowe",
             innowacja_slug=innowacja_slug,
+            obserwuje=data.obserwuj,
         )
         self.session.add(ticket)
         await self.session.flush()
@@ -162,6 +164,55 @@ class TicketService:
                 f"{self.settings.public_base_url}/admin/zgloszenia/{ticket.id}",
             )
         return message
+
+    async def notify_watchers(self, card: InnovationCard) -> int:
+        """Nowa opublikowana karta: powiadom autorów obserwowanych zgłoszeń, do których pasuje.
+
+        Dopasowanie jak w triażu (matching.py, próg `prog_dopasowania`), bez AI. Stały tekst
+        z linkiem do karty trafia do wątku i na e-mail; każda karta najwyżej raz na zgłoszenie.
+        """
+        panel = await load_settings(self.session, self.settings)
+        vocabulary = load_vocabulary(self.settings.innovations_path.parent / "slownik.json")
+        label_map = labels(vocabulary)
+        watching = await self.session.scalars(select(Ticket).where(Ticket.obserwuje.is_(True)))
+        link = f"{self.settings.public_base_url}/innowacja/{card.slug}"
+        notified: list[Ticket] = []
+        for ticket in watching:
+            if card.slug in (ticket.powiadomiono_o or []):
+                continue
+            tags = ticket.tagi or tag_text(ticket.tresc, vocabulary)
+            match = card_score(tags, card.nakladka, label_map, ticket.tresc, match_text(card))
+            if match.score < panel.prog_dopasowania:
+                continue
+            ticket.powiadomiono_o = [*(ticket.powiadomiono_o or []), card.slug]
+            self.session.add(
+                ThreadMessage(
+                    token_watku=ticket.token_watku,
+                    autor_rola="system",
+                    tresc=(
+                        "W bazie innowacji ROPS pojawiło się nowe rozwiązanie, które może pasować "
+                        f"do Twojego zgłoszenia: „{card.nazwa}”.\n\nZobacz: {link}\n\n"
+                        "To automatyczne powiadomienie. Jeśli chcesz o coś dopytać, odpisz "
+                        "w tej rozmowie."
+                    ),
+                    zrodla=[{"slug": card.slug, "nazwa": card.nazwa, "url": link}],
+                )
+            )
+            notified.append(ticket)
+        if notified:
+            numbers = ", ".join(str(t.id) for t in notified)
+            text = f"Nowa karta „{card.nazwa}” pasuje do obserwowanych zgłoszeń: {numbers}"
+            self.session.add(Notification(tekst=text[:500]))
+        await self.session.commit()
+        for ticket in notified:
+            if ticket.autor_email:
+                await self.email.send(
+                    ticket.autor_email,
+                    "Nowe rozwiązanie pasujące do Twojego zgłoszenia",
+                    f"„{card.nazwa}”: {link}\n\nCała rozmowa: "
+                    f"{self.settings.public_base_url}/watek/{ticket.token_watku}",
+                )
+        return len(notified)
 
     async def testers(self, ticket: Ticket) -> list[TesterContact]:
         """Instytucje testujące innowację z pytania; panel pokazuje je bez danych kontaktowych."""

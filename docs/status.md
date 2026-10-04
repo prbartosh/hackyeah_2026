@@ -18,6 +18,7 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 - [0042](tasks/0042-rozmowy-partnerskie.md) Rozmowa partnerska przez ROPS: dwustronna korespondencja w Giełdzie partnerstw bez ujawniania e-maili (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
 
 - [0044](tasks/0044-zapytaj-testujacych.md) Zapytaj instytucję, która to testuje: pytanie przez ROPS do wątku instytucji testującej (Wiktor)
+- [0045](tasks/0045-obserwuj-potrzebe.md) Obserwuj potrzebę: powiadomienie autora, gdy ROPS opublikuje pasującą kartę (Wiktor)
 
 ## Do zrobienia
 

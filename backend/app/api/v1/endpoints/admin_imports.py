@@ -3,9 +3,10 @@ from typing import Annotated
 from fastapi import APIRouter, File, HTTPException, Query, UploadFile, status
 from sqlalchemy import func, select
 
-from app.api.deps import AIGatewayDep, SessionDep
+from app.api.deps import AIGatewayDep, SessionDep, TicketServiceDep
 from app.core.config import settings
 from app.models import DocumentImport
+from app.repositories.card import CardRepository
 from app.schemas.admin_import import (
     ImportApprove,
     ImportField,
@@ -121,15 +122,26 @@ async def edit_import(import_id: int, data: ImportUpdate, session: SessionDep, a
 
 @router.post("/importy/{import_id}/zatwierdz", response_model=ImportRead)
 async def approve_import(
-    import_id: int, data: ImportApprove, session: SessionDep, ai: AIGatewayDep
+    import_id: int,
+    data: ImportApprove,
+    session: SessionDep,
+    ai: AIGatewayDep,
+    tickets: TicketServiceDep,
 ):
     record = await _get(session, import_id)
     if record.status != "szkic":
         raise HTTPException(status.HTTP_409_CONFLICT, "Ten import jest już zamknięty")
+    cards = CardRepository(session)
+    before = await cards.get(data.aktualizuj_slug) if data.aktualizuj_slug else None
+    was_published = before is not None and before.status == "opublikowana"
     try:
-        await _service(session, ai).approve(record, data.aktualizuj_slug)
+        slug = await _service(session, ai).approve(record, data.aktualizuj_slug)
     except DocumentError as e:
         raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(e)) from None
+    card = await cards.get(slug)
+    if card is not None and card.status == "opublikowana" and not was_published:
+        # Obserwuj potrzebę (zadanie 0045): autorzy pasujących zgłoszeń dostają powiadomienie.
+        await tickets.notify_watchers(card)
     return _read(record)
 
 
