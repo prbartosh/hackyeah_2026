@@ -93,3 +93,70 @@ def test_poziom_dowodu():
     assert evidence_level([5, 5], 0).kod == "pilotaz"
     assert evidence_level([5, 4, 3], 0).kod == "sprawdzone"
     assert evidence_level([5, 3, 3], 0).kod == "pilotaz"
+
+
+QUESTION = {
+    "tresc": "Jak przekonaliście seniorów do noszenia kodów? Ile to trwało?",
+    "instytucja": "OPS w mieście",
+    "autor_email": "pyta@example.org",
+}
+
+
+async def test_pytanie_wymaga_testujacej_instytucji(admin_client):
+    response = await admin_client.post(f"{URL}/pytanie", json=QUESTION)
+    assert response.status_code == 409
+    assert not (await admin_client.get(URL)).json()["mozna_zapytac"]
+
+
+async def test_pytanie_przekazane_do_watku_testujacych(admin_client):
+    tester_token = (await admin_client.post(URL, json=TEST)).json()["token_watku"]
+    await publish_all(admin_client)
+    assert (await admin_client.get(URL)).json()["mozna_zapytac"]
+
+    response = await admin_client.post(f"{URL}/pytanie", json=QUESTION)
+    assert response.status_code == 201, response.text
+    asker_token = response.json()["token_watku"]
+
+    tickets = await admin_client.get(f"{API}/admin/zgloszenia", params={"sort": "najnowsze"})
+    ticket_id = tickets.json()["items"][0]["id"]
+    ticket = (await admin_client.get(f"{API}/admin/zgloszenia/{ticket_id}")).json()
+    assert ticket["innowacja_slug"] == SLUG
+    [tester] = ticket["testujacy"]
+    assert tester["instytucja"] == TEST["instytucja"]
+    assert "email" not in tester
+
+    forwarded = await admin_client.post(
+        f"{API}/admin/zgloszenia/{ticket_id}/przekaz",
+        json={"opinia_id": tester["opinia_id"], "tresc": "Dzień dobry, ktoś pyta o kody QR."},
+    )
+    assert forwarded.status_code == 200, forwarded.text
+    assert forwarded.json()["status"] == "w_trakcie"
+
+    thread = (await admin_client.get(f"{API}/zgloszenia/watek/{tester_token}")).json()
+    assert thread["wiadomosci"][-1] == {
+        **thread["wiadomosci"][-1],
+        "autor_rola": "admin",
+        "tresc": "Dzień dobry, ktoś pyta o kody QR.",
+    }
+    # Instytucja odpowiada w swoim wątku, a pytający nie widzi jej danych.
+    reply = await admin_client.post(
+        f"{API}/zgloszenia/watek/{tester_token}/wiadomosci",
+        json={"tresc": "Pomogły spotkania w klubie seniora."},
+    )
+    assert reply.status_code == 201, reply.text
+    asker = (await admin_client.get(f"{API}/zgloszenia/watek/{asker_token}")).json()
+    assert len(asker["wiadomosci"]) == 1
+
+
+async def test_przekazanie_tylko_do_testujacych_te_innowacje(admin_client):
+    await admin_client.post(URL, json=TEST)
+    await publish_all(admin_client)
+    await admin_client.post(f"{URL}/pytanie", json=QUESTION)
+    tickets = await admin_client.get(f"{API}/admin/zgloszenia", params={"sort": "najnowsze"})
+    ticket_id = tickets.json()["items"][0]["id"]
+
+    response = await admin_client.post(
+        f"{API}/admin/zgloszenia/{ticket_id}/przekaz",
+        json={"opinia_id": 999, "tresc": "Dzień dobry, ktoś pyta o kody QR."},
+    )
+    assert response.status_code == 422
