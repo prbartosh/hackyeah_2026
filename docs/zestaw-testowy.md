@@ -60,3 +60,7 @@ Najpewniejsze do testu (jedna oczywista innowacja): #1, #2, #3, #6, #7, #8, #17,
 
 - Oczekiwany `slug` ma się znaleźć wśród wyników, najlepiej jako pierwszy. Pozycje z uwagą „niejednoznaczne” mogą zająć drugie miejsce.
 - Po zmianie promptu lub nakładki: `python scripts/eval_matchmaking.py --note "..."` (z `backend/`). Wynik: ile razy `slug` był pierwszy, w top-3 i top-5.
+
+## Wyniki
+
+- 2026-10-04 01:39 (main): top 1: 31/35, top 3: 35/35, top 5: 35/35, brak dopasowania: 1/1, błędy: 0
