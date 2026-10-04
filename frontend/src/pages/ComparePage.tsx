@@ -111,7 +111,7 @@ export default function ComparePage() {
     <div className="container page compare-page">
       <div className="compare-head">
         {head}
-        <button type="button" className="btn btn-secondary no-print" onClick={() => window.print()}>
+        <button type="button" className="btn btn-secondary no-print" onClick={() => window.print()} data-tour="innowacja-porownanie-druk">
           <Printer size={18} aria-hidden="true" /> Drukuj
         </button>
       </div>
@@ -122,7 +122,7 @@ export default function ComparePage() {
       {found.length === 0 ? (
         <p><Link to="/zasobnik">Wróć do Zasobnika wiedzy</Link></p>
       ) : narrow ? (
-        <div className="compare-cards">
+        <div className="compare-cards" data-tour="innowacja-porownanie-tabela">
           {found.map((r) => (
             <section key={r.slug} className="compare-card" aria-labelledby={`cmp-${r.slug}`}>
               <h2 id={`cmp-${r.slug}`}>{r.nazwa}</h2>
@@ -136,7 +136,7 @@ export default function ComparePage() {
           ))}
         </div>
       ) : (
-        <table className="compare-table">
+        <table className="compare-table" data-tour="innowacja-porownanie-tabela">
           <caption className="visually-hidden">Porównanie wybranych innowacji</caption>
           <thead>
             <tr>

@@ -11,9 +11,9 @@ import { useChat } from '@/context/ChatContext'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { kategoriaNazwa, type Innowacja } from '@/types/innowacja'
 
-function Section({ title, text }: { title: string; text: string | null }) {
+function Section({ title, text, tour }: { title: string; text: string | null; tour?: string }) {
   return (
-    <section className="detail-section">
+    <section className="detail-section" data-tour={tour}>
       <h2>{title}</h2>
       <p>{text ?? <span className="empty">Brak danych w bazie.</span>}</p>
     </section>
@@ -93,13 +93,14 @@ export default function InnovationPage() {
       <div className="detail-layout">
         <article className="detail-main">
           {kategoria && <p className="detail-kicker">{kategoria}</p>}
-          <h1>{rec.nazwa}</h1>
+          <h1 data-tour="innowacja-tytul">{rec.nazwa}</h1>
           {rec.wybrana_do_upowszechniania && <p className="badge">Polecana przez ROPS do upowszechniania</p>}
 
           <div className="btn-row detail-tools">
             <ReadAloudButton
               text={[rec.nazwa, rec.opis, rec.problem && `Jakich problemów dotyczy. ${rec.problem}`, rec.grupa_docelowa && `Dla kogo. ${rec.grupa_docelowa}`].filter(Boolean).join('. ')}
               label="Przeczytaj opis"
+              tour="innowacja-przeczytaj"
             />
           </div>
           <PlainLanguageSection key={rec.slug} slug={rec.slug} />
@@ -111,13 +112,13 @@ export default function InnovationPage() {
             </section>
           )}
 
-          <Section title="Na czym polega rozwiązanie" text={rec.opis} />
-          <Section title="Jakich problemów dotyczy" text={rec.problem} />
-          <Section title="Dla kogo" text={rec.grupa_docelowa} />
+          <Section title="Na czym polega rozwiązanie" text={rec.opis} tour="innowacja-opis" />
+          <Section title="Jakich problemów dotyczy" text={rec.problem} tour="innowacja-problem" />
+          <Section title="Dla kogo" text={rec.grupa_docelowa} tour="innowacja-dla-kogo" />
           <Section title="Kto może wdrożyć" text={rec.kto_moze_skorzystac} />
-          <Section title="Czy to działa — ocena ROPS" text={rec.czy_dziala} />
+          <Section title="Czy to działa — ocena ROPS" text={rec.czy_dziala} tour="innowacja-czy-dziala" />
 
-          <section className="detail-section">
+          <section className="detail-section" data-tour="innowacja-koszt">
             <h2>Koszt i czas wdrożenia</h2>
             <p><span className="empty">Brak danych.</span> Biblioteka ROPS nie podaje kosztu ani czasu wdrożenia. Mogą być opisane w materiałach do pobrania.</p>
           </section>
@@ -159,7 +160,7 @@ export default function InnovationPage() {
                 <a href="mailto:iws@rops.krakow.pl">iws@rops.krakow.pl</a>
               </dd>
             </dl>
-            <Link to={`/innowacja/${rec.slug}/wdrozenie`} className="btn btn-primary btn-block">
+            <Link to={`/innowacja/${rec.slug}/wdrozenie`} className="btn btn-primary btn-block" data-tour="middleman-dostosuj">
               Dostosuj do mojej instytucji
             </Link>
             <Link to={`/kreator/finansowanie?karta=${rec.slug}`} className="btn btn-secondary btn-block">
@@ -168,7 +169,7 @@ export default function InnovationPage() {
             <a href={rec.url_zrodlowy} className="btn btn-secondary btn-block" target="_blank" rel="noreferrer">
               Strona źródłowa ROPS <ExternalLink size={18} aria-hidden="true" /><NewTab />
             </a>
-            <CompareToggle slug={rec.slug} nazwa={rec.nazwa} />
+            <CompareToggle slug={rec.slug} nazwa={rec.nazwa} tour="innowacja-porownaj-dodaj" />
           </section>
 
           <section className="side-box">
