@@ -114,6 +114,8 @@ export default function FiszkaPage() {
       })
     return () => {
       cancelled = true
+      // StrictMode (dev) uruchamia efekt dwa razy; bez tego drugie wczytanie by pominięto
+      if (loadedFor.current === urlToken) loadedFor.current = null
     }
   }, [urlToken])
 
