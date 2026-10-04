@@ -1,4 +1,4 @@
-import { Compass } from 'lucide-react'
+import { Compass, Timer } from 'lucide-react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import AccessibilityBar from '@/components/AccessibilityBar'
 import { useTour } from '@/tour/engine/tourReact'
@@ -8,7 +8,7 @@ const COOPERATION_PATHS = ['/wspolpraca', '/partnerstwa', '/pytania', '/mentorzy
 
 export default function Header() {
   const { pathname } = useLocation()
-  const { openMenu } = useTour()
+  const { openMenu, startChapter } = useTour()
   const coopActive = COOPERATION_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
   return (
     <header className="topbar">
@@ -36,6 +36,10 @@ export default function Header() {
         <button type="button" className="a11y-btn tour-launch" onClick={openMenu} data-tour="przewodnik-przycisk">
           <Compass size={18} aria-hidden="true" />
           Przewodnik
+        </button>
+        <button type="button" className="a11y-btn tour-launch tour-launch-judge" onClick={() => startChapter('sedzia')} data-tour="przewodnik-dla-sedziego">
+          <Timer size={18} aria-hidden="true" />
+          Dla sędziego (2 min)
         </button>
         <AccessibilityBar />
       </div>

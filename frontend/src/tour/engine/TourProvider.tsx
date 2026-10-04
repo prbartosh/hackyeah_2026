@@ -289,7 +289,10 @@ export default function TourProvider({ children, chapters: chaptersProp }: { chi
     return () => { delete (window as unknown as DebugWindow).__splotTour }
   }, [store, chapters])
 
-  const api = useMemo<TourApi>(() => ({ chapters, state, openMenu: () => store.openMenu() }), [chapters, state, store])
+  const api = useMemo<TourApi>(
+    () => ({ chapters, state, openMenu: () => store.openMenu(), startChapter: (id: string) => store.start(id) }),
+    [chapters, state, store],
+  )
 
   let mode: BubbleMode = 'center'
   if (phase.kind === 'loading' || phase.kind === 'waiting') mode = 'dock'

@@ -2,7 +2,7 @@
 
 Monorepo: `backend/` (FastAPI + PostgreSQL) i `frontend/` (React + Vite + TypeScript).
 
-Jury: [docs/jury/README.md](docs/jury/README.md). Stan prac: [docs/status.md](docs/status.md). Decyzje: [docs/adr/](docs/adr/).
+Sędzia (kilka minut): [SEDZIA.md](SEDZIA.md). Jury: [docs/jury/README.md](docs/jury/README.md). Stan prac: [docs/status.md](docs/status.md). Decyzje: [docs/adr/](docs/adr/).
 
 ## Struktura
 

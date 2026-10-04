@@ -9,6 +9,7 @@ import kreatorChapter from '@/tour/chapters/kreator'
 import wspolpracaChapter from '@/tour/chapters/wspolpraca'
 import siecChapter from '@/tour/chapters/siec'
 import panelChapter from '@/tour/chapters/panel'
+import sedziaChapter from '@/tour/chapters/sedzia'
 import type { TourChapter } from '@/tour/types'
 
 export const chapters: TourChapter[] = [
@@ -22,4 +23,6 @@ export const chapters: TourChapter[] = [
   wspolpracaChapter,
   siecChapter,
   panelChapter,
+  // Osobny, 2-minutowy: przycisk „Dla sędziego” w nagłówku lub ?przewodnik=sedzia.
+  sedziaChapter,
 ]
