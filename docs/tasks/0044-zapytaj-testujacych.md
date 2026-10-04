@@ -1,8 +1,8 @@
 # 0044. Zapytaj instytucję, która to testuje (moduł V)
 
-- Status: w toku
+- Status: review
 - Osoba: Wiktor
-- PR: 
+- PR: #69
 
 ## Cel
 
