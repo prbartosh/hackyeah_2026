@@ -15,7 +15,7 @@ Jedna strona `/wspolpraca`, z której użytkownik trafia do pytań, zgłoszenia 
 - [x] Nagłówek: „Współpraca” aktywna także na `/partnerstwa`, `/pytania`, `/mentorzy`, `/watek/*`, `/rozmowa/*`
 - [x] Link w stopce, na stronie głównej i na ekranie podziękowania po zgłoszeniu
 - [x] Opis modułu V w `docs/jury/mapowanie-na-kryteria.md`
-- [ ] Po zmergowaniu 0039: podmienić sprawy z wątków na `MyThreadsList`
+- [x] Po zmergowaniu 0039: podmienić sprawy z wątków na `MyThreadsList`
 - [ ] Kontrola axe i przejście klawiaturą na działającej aplikacji, widok 320 px
 
 ## Notatki

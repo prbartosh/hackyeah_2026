@@ -10,6 +10,7 @@ import {
 } from '@/api/serviceCard'
 import { useChat } from '@/context/ChatContext'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { saveThread } from '@/lib/myThreads'
 import { ROLE_LABELS } from '@/types/chat'
 import type { Innowacja } from '@/types/innowacja'
 import '@/styles/service-card.css'
@@ -53,6 +54,7 @@ function ImplementForm({ card }: { card: ServiceCardResponse }) {
         tresc: implementationRequestText(card, url, note),
         autor_email: email.trim() || undefined,
       })
+      saveThread(r.token_watku, `Wdrożenie: ${card.nazwa}`)
       setToken(r.token_watku)
     } catch (err) {
       setError(errorText(err))

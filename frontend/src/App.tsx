@@ -10,15 +10,19 @@ import ZasobnikPage from '@/pages/ZasobnikPage'
 // Obszary i rzadziej odwiedzane strony ładują się dopiero po wejściu na trasę (Suspense w Layout)
 const AccessibilityStatementPage = lazy(() => import('@/pages/AccessibilityStatementPage'))
 const AdminRoutes = lazy(() => import('@/admin/AdminRoutes'))
+const MentorsPage = lazy(() => import('@/pages/MentorsPage'))
+const MentorThreadPage = lazy(() => import('@/pages/MentorThreadPage'))
 const KreatorRoutes = lazy(() => import('@/kreator/KreatorRoutes'))
 const CooperationPage = lazy(() => import('@/pages/CooperationPage'))
 const ComparePage =lazy(() => import('@/pages/ComparePage'))
 const DocumentPage = lazy(() => import('@/pages/DocumentPage'))
 const OpenDataPage = lazy(() => import('@/pages/OpenDataPage'))
 const PartnershipsPage = lazy(() => import('@/pages/PartnershipsPage'))
+const PytaniaPage = lazy(() => import('@/pages/PytaniaPage'))
 const ReportPage = lazy(() => import('@/pages/ReportPage'))
 const ServiceCardPage = lazy(() => import('@/pages/ServiceCardPage'))
 const ThreadPage = lazy(() => import('@/pages/ThreadPage'))
+const ConversationPage = lazy(() => import('@/pages/ConversationPage'))
 
 export default function App() {
   return (
@@ -34,7 +38,11 @@ export default function App() {
         <Route path="zglos" element={<ReportPage />} />
         <Route path="wspolpraca" element={<CooperationPage />} />
         <Route path="partnerstwa" element={<PartnershipsPage />} />
+        <Route path="mentorzy" element={<MentorsPage />} />
+        <Route path="mentor/:mentorToken/:threadToken" element={<MentorThreadPage />} />
+        <Route path="pytania" element={<PytaniaPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
+        <Route path="rozmowa/:token" element={<ConversationPage />} />
         <Route path="dostepnosc" element={<AccessibilityStatementPage />} />
         <Route path="kreator/*" element={<KreatorRoutes />} />
         <Route path="admin/*" element={<AdminRoutes />} />

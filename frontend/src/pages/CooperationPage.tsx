@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Handshake, HelpCircle, MessageSquareText, UserRound, UsersRound, type LucideIcon } from 'lucide-react'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
-import { readRozmowy } from '@/lib/rozmowy'
+import MyThreadsList from '@/components/MyThreadsList'
+import { readRozmowy, rozmowaPath } from '@/lib/rozmowy'
 import '@/styles/cooperation.css'
 
 interface Tile {
@@ -71,7 +72,7 @@ export default function CooperationPage() {
 
       <section id="moje-sprawy" aria-labelledby="coop-sprawy" tabIndex={-1}>
         <h2 id="coop-sprawy">Moje sprawy</h2>
-        <p>Linki do zgłoszeń znajdziesz w e-mailu.</p>
+        <MyThreadsList title="Zgłoszenia" heading="h3" />
         <h3>Rozmowy partnerskie</h3>
         {rozmowy.length === 0 ? (
           <p className="hint">
@@ -81,7 +82,7 @@ export default function CooperationPage() {
           <ul className="coop-list">
             {rozmowy.map((r) => (
               <li key={r.token}>
-                <Link to={`/rozmowa/${encodeURIComponent(r.token)}`}>{r.tytul}</Link>
+                <Link to={rozmowaPath(r.token)}>{r.tytul}</Link>
                 <span className="hint"> · {r.data}</span>
               </li>
             ))}

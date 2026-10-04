@@ -15,6 +15,7 @@ import '@fontsource/open-sans/latin-ext-700.css'
 import '@fontsource/open-sans/latin-800.css'
 import '@fontsource/open-sans/latin-ext-800.css'
 import '@/styles/index.css'
+import '@/styles/malopolska.css'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
