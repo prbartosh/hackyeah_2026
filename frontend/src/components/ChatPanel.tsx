@@ -34,12 +34,12 @@ function RoleBar() {
   if (!role) return <div />
 
   return (
-    <div className="role-bar">
+    <div className="role-bar" data-tour="czat-rola">
       <p className="role-pill">
         Piszesz jako: <strong>{ROLE_LABELS[role]}</strong>
       </p>
       {!editing ? (
-        <button type="button" className="btn btn-link" onClick={() => setEditing(true)} aria-expanded={false}>
+        <button type="button" className="btn btn-link" data-tour="czat-rola-zmien" onClick={() => setEditing(true)} aria-expanded={false}>
           Zmień
         </button>
       ) : (
@@ -80,10 +80,10 @@ function QuestionOptions({ question }: { question: Question }) {
   }
 
   return (
-    <div className="question" role="group" aria-label={question.text} tabIndex={-1}>
+    <div className="question" data-tour="czat-pytanie" role="group" aria-label={question.text} tabIndex={-1}>
       <div className="option-list">
-        {question.options.map((opt) => (
-          <button key={opt} type="button" className="btn btn-option" disabled={streaming} onClick={() => sendMessage(opt)}>
+        {question.options.map((opt, i) => (
+          <button key={opt} type="button" className="btn btn-option" data-tour={i === 0 ? 'czat-odpowiedz' : undefined} disabled={streaming} onClick={() => sendMessage(opt)}>
             {opt}
           </button>
         ))}
@@ -122,7 +122,7 @@ function SummaryBlock({ text, pending, confirmed }: { text: string; pending: boo
   const id = useId()
 
   return (
-    <div className="summary-block" role="group" aria-labelledby={`${id}-title`}>
+    <div className="summary-block" data-tour="czat-podsumowanie" role="group" aria-labelledby={`${id}-title`}>
       <h2 id={`${id}-title`}>Twój problem w skrócie</h2>
       {editing && pending ? (
         <>
@@ -158,7 +158,7 @@ function SummaryBlock({ text, pending, confirmed }: { text: string; pending: boo
             </>
           ) : (
             <>
-              <button type="button" className="btn btn-primary" disabled={streaming} onClick={() => confirmSummary()}>
+              <button type="button" className="btn btn-primary" data-tour="czat-potwierdz" disabled={streaming} onClick={() => confirmSummary()}>
                 Potwierdzam
               </button>
               <button type="button" className="btn btn-ghost" onClick={() => setEditing(true)}>
@@ -214,7 +214,7 @@ function MessageItem({ message, isLast, lastSummaryId }: { message: DisplayMessa
           </>
         )}
         {(message.text || message.question) && !(isLast && streaming) && (
-          <div className="msg-tools">
+          <div className="msg-tools" data-tour="czat-przeczytaj">
             <ReadAloudButton text={[message.text, message.question?.text].filter(Boolean).join(' ')} />
           </div>
         )}
@@ -429,10 +429,11 @@ export default function ChatPanel() {
         <p id="chat-hint" className="visually-hidden">
           Enter wysyła wiadomość, Shift+Enter dodaje nową linię.
         </p>
-        <div className="composer-box">
+        <div className="composer-box" data-tour="czat-ramka">
           <textarea
             ref={textareaRef}
             id="chat-input"
+            data-tour="czat-pole"
             className="composer-input"
             rows={1}
             maxLength={MAX_USER_MESSAGE_CHARS}
@@ -447,11 +448,11 @@ export default function ChatPanel() {
             <VoiceButton onText={(t) => setDraft((d) => (d ? `${d} ${t}` : t))} />
             <span className="composer-spacer" />
             {started && (
-              <button type="button" className="btn btn-ghost" onClick={showResultsNow} aria-disabled={streaming}>
+              <button type="button" className="btn btn-ghost" data-tour="czat-wyniki-teraz" onClick={showResultsNow} aria-disabled={streaming}>
                 {results ? 'Odśwież wyniki' : 'Pokaż wyniki teraz'}
               </button>
             )}
-            <button type="submit" className="btn btn-primary" aria-disabled={streaming}>
+            <button type="submit" className="btn btn-primary" data-tour="czat-wyslij" aria-disabled={streaming}>
               Wyślij
               <ArrowUp size={18} aria-hidden="true" />
             </button>
@@ -462,14 +463,14 @@ export default function ChatPanel() {
             Wpisz kilka słów, żeby wysłać.
           </p>
         )}
-        <p id="chat-privacy" className="hint">
+        <p id="chat-privacy" className="hint" data-tour="czat-prywatnosc">
           Nie wpisuj danych wrażliwych. Treść rozmowy jest przekazywana zewnętrznemu
           dostawcy modelu AI, ale nie jest zapisywana w bazie Splotu.
         </p>
       </form>
 
       {!started && (
-        <ul ref={chipsRef} className="chips" aria-label="Przykłady do wypróbowania">
+        <ul ref={chipsRef} className="chips" data-tour="czat-przyklady" aria-label="Przykłady do wypróbowania">
           {EXAMPLES.map((ex) => (
             <li key={ex.label}>
               <button type="button" className="chip" onClick={() => send(ex.text)}>

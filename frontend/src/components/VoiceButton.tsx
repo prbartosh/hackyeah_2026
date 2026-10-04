@@ -56,7 +56,7 @@ export default function VoiceButton({ onText }: { onText: (text: string) => void
 
   return (
     <>
-      <button type="button" className="btn btn-ghost" onClick={toggle}>
+      <button type="button" className="btn btn-ghost" data-tour="czat-glos" onClick={toggle}>
         {listening ? <MicOff size={18} aria-hidden="true" /> : <Mic size={18} aria-hidden="true" />}
         {listening ? 'Zakończ' : 'Podyktuj'}
       </button>
