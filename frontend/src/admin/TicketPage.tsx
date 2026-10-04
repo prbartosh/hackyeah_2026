@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Sparkles } from 'lucide-react'
 import { api } from '@/admin/api'
@@ -96,10 +96,31 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
   const [error, setError] = useState('')
   const [saved, setSaved] = useState(false)
   const confirmRef = useRef<HTMLButtonElement>(null)
+  const approveRef = useRef<HTMLButtonElement>(null)
+  const wasConfirming = useRef(false)
 
+  // Po otwarciu potwierdzenia fokus idzie na jego przycisk, po zamknięciu wraca na „Zatwierdź odpowiedź”
   useEffect(() => {
     if (confirming) confirmRef.current?.focus()
+    else if (wasConfirming.current) approveRef.current?.focus()
+    wasConfirming.current = confirming
   }, [confirming])
+
+  // Esc zamyka potwierdzenie, a Tab krąży tylko po jego przyciskach
+  function onConfirmKeyDown(e: KeyboardEvent<HTMLDivElement>) {
+    if (e.key === 'Escape') {
+      e.stopPropagation()
+      setConfirming(false)
+      return
+    }
+    if (e.key !== 'Tab') return
+    const items = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('button:not(:disabled)'))
+    if (!items.length) return
+    const first = items[0]
+    const last = items[items.length - 1]
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus() }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus() }
+  }
 
   async function run(action: () => Promise<Ticket>, after?: () => void) {
     setBusy(true)
@@ -151,7 +172,7 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
 
       {!confirming ? (
         <div className="btn-row">
-          <button type="button" className="btn btn-primary" disabled={busy || !text.trim()} onClick={() => setConfirming(true)}>
+          <button ref={approveRef} type="button" className="btn btn-primary" disabled={busy || !text.trim()} onClick={() => setConfirming(true)}>
             Zatwierdź odpowiedź
           </button>
           <button type="button" className="btn btn-secondary" disabled={busy}
@@ -164,7 +185,7 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
           </button>
         </div>
       ) : (
-        <div className="confirm" role="alertdialog" aria-labelledby="confirm-h" aria-describedby="confirm-d">
+        <div className="confirm" role="alertdialog" aria-labelledby="confirm-h" aria-describedby="confirm-d" onKeyDown={onConfirmKeyDown}>
           <h3 id="confirm-h">Wysłać tę odpowiedź?</h3>
           <p id="confirm-d">
             Odpowiedź trafi do autora zgłoszenia{ticket.autor_email ? ` (${ticket.autor_email})` : ' i będzie widoczna pod jego linkiem do rozmowy'}. Tego nie da się cofnąć.

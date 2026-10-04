@@ -8,6 +8,7 @@ import NotFoundPage from '@/pages/NotFoundPage'
 import ZasobnikPage from '@/pages/ZasobnikPage'
 
 // Obszary i rzadziej odwiedzane strony ładują się dopiero po wejściu na trasę (Suspense w Layout)
+const AccessibilityStatementPage = lazy(() => import('@/pages/AccessibilityStatementPage'))
 const AdminRoutes = lazy(() => import('@/admin/AdminRoutes'))
 const KreatorRoutes = lazy(() => import('@/kreator/KreatorRoutes'))
 const DocumentPage = lazy(() => import('@/pages/DocumentPage'))
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="otwarte-dane" element={<OpenDataPage />} />
         <Route path="zglos"element={<ReportPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
+        <Route path="dostepnosc" element={<AccessibilityStatementPage />} />
         <Route path="kreator/*" element={<KreatorRoutes />} />
         <Route path="admin/*" element={<AdminRoutes />} />
         <Route path="*" element={<NotFoundPage />} />
