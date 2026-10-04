@@ -119,7 +119,7 @@ body {
 h1, h2, h3, h4 { line-height: 1.25; margin: 0; font-weight: 700; }
 p, dl, dd { margin: 0; }
 
-a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+a { color: var(--link); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 0.18em; overflow-wrap: anywhere; }
 a:hover { text-decoration-thickness: 3px; }
 
 :focus-visible {

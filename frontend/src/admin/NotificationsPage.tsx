@@ -21,7 +21,7 @@ export default function NotificationsPage() {
 
   return (
     <>
-      <h1>Powiadomienia</h1>
+      <h1 data-tour="panel-powiadomienia">Powiadomienia</h1>
       <p className="lead">
         {data ? `Nieprzeczytane: ${data.nieprzeczytane}.` : 'Informacje o nowych zgłoszeniach.'}
       </p>

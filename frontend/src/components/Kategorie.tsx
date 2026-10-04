@@ -25,7 +25,7 @@ const IKONY: Record<string, LucideIcon> = {
 export default function Kategorie({ kategorie, razem, wybrana, onSelect }: Props) {
   const najwiecej = Math.max(1, ...kategorie.map((k) => k.liczba_innowacji))
   return (
-    <section aria-labelledby="zs-kategorie-h" className="zs-cats">
+    <section aria-labelledby="zs-kategorie-h" className="zs-cats" data-tour="zasobnik-kategorie">
       <h2 id="zs-kategorie-h" className="zs-overline">Dla kogo szukasz rozwiązania?</h2>
       <ul className="zs-tiles">
         <li>

@@ -12,7 +12,7 @@ function licenseLabel(licencja: string | null): string {
   return /by\/4\.0/i.test(licencja) ? 'CC BY 4.0' : 'Licencja: zob. źródło'
 }
 
-function ResultCard({ item }: { item: ResultItem }) {
+function ResultCard({ item, first }: { item: ResultItem; first: boolean }) {
   const detailsPath = `/innowacja/${item.slug}`
   const kategoria = kategoriaNazwa(item.kategorie)
   const isMain = item.match === 'main'
@@ -21,21 +21,23 @@ function ResultCard({ item }: { item: ResultItem }) {
     item.pdf_url && { label: 'Folder (PDF)', href: item.pdf_url, external: true },
     item.youtube_url && { label: 'Film', href: item.youtube_url, external: true },
   ].filter((l): l is { label: string; href: string; external: boolean } => !!l)
+  // data-tour tylko na pierwszej karcie: przewodnik pokazuje jedną, typową kartę
+  const tour = (name: string) => (first ? name : undefined)
   return (
-    <li className={`result-card${isMain ? ' is-main' : ''}`}>
+    <li className={`result-card${isMain ? ' is-main' : ''}`} data-tour={tour('czat-wynik')}>
       <p className="result-kinds">
         <span className="result-kind">{isMain ? 'Najlepsze dopasowanie' : 'Uzupełniające'}</span>
         {item.wybrana_do_upowszechniania && <span className="result-kind result-kind-rops">Polecana przez ROPS</span>}
       </p>
       <h3>
-        <Link to={detailsPath}>{item.nazwa}</Link>
+        <Link to={detailsPath} data-tour={tour('czat-wynik-link')}>{item.nazwa}</Link>
       </h3>
       <p className="result-meta">
         {kategoria && <span>{kategoria}</span>}
         {item.organizacja && <span>{item.organizacja}</span>}
         <span>{licenseLabel(item.licencja)}</span>
       </p>
-      <p>{item.why_relevant}</p>
+      <p data-tour={tour('czat-dlaczego')}>{item.why_relevant}</p>
       {links.length > 0 && (
         <p className="result-files">
           {links.map((l, i) => (
@@ -49,7 +51,7 @@ function ResultCard({ item }: { item: ResultItem }) {
           ))}
         </p>
       )}
-      <div className="btn-row">
+      <div className="btn-row" data-tour={tour('czat-wynik-akcje')}>
         <Link to={detailsPath} className="btn btn-primary">
           Szczegóły i kontakt<span className="visually-hidden">: {item.nazwa}</span>
         </Link>
@@ -67,7 +69,7 @@ function ResultCard({ item }: { item: ResultItem }) {
 function ReportBox({ noMatch }: { noMatch: boolean }) {
   const { state } = useChat()
   return (
-    <div className={`report-box${noMatch ? ' is-strong' : ''}`}>
+    <div className={`report-box${noMatch ? ' is-strong' : ''}`} data-tour="czat-zglos">
       {noMatch ? (
         <p>
           <strong>Nie mamy jeszcze takiego rozwiązania.</strong> Zapisaliśmy anonimowo, że ta potrzeba
@@ -103,7 +105,7 @@ export default function ResultsSection() {
   const { items, no_good_match, note } = results
 
   return (
-    <section id="wyniki" className="results" aria-labelledby="results-title">
+    <section id="wyniki" className="results" data-tour="czat-wyniki" aria-labelledby="results-title">
       <h2 id="results-title" ref={headingRef} tabIndex={-1}>
         {no_good_match ? 'Najbliższe rozwiązania' : 'Znalezione rozwiązania'} ({items.length})
       </h2>
@@ -120,14 +122,14 @@ export default function ResultsSection() {
 
       {items.length > 0 && (
         <ol className="result-list">
-          {items.map((item) => (
-            <ResultCard key={item.slug} item={item} />
+          {items.map((item, i) => (
+            <ResultCard key={item.slug} item={item} first={i === 0} />
           ))}
         </ol>
       )}
 
       {podobne && (
-        <aside className="similar-cases" aria-labelledby="similar-cases-title">
+        <aside className="similar-cases" data-tour="czat-podobne" aria-labelledby="similar-cases-title">
           <h3 id="similar-cases-title">Podobne przypadki</h3>
           <p>
             Podobną potrzebę (problem: {podobne.problem}) zgłoszono już {podobne.liczba} razy. Pokazujemy

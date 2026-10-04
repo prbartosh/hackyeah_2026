@@ -38,7 +38,7 @@ export default function AccessibilityStatementPage() {
         </ul>
       </section>
 
-      <section aria-labelledby="st-features">
+      <section aria-labelledby="st-features" data-tour="start-deklaracja">
         <h2 id="st-features">Ułatwienia w aplikacji</h2>
         <ul>
           <li>Trzy wielkości tekstu i trzy motywy: jasny, ciemny i wysoki kontrast (pasek „Wielkość tekstu i wygląd” na górze strony).</li>

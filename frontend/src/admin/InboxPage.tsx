@@ -99,10 +99,10 @@ export default function InboxPage() {
 
   return (
     <>
-      <h1>Skrzynka zgłoszeń</h1>
+      <h1 data-tour="panel-skrzynka-tytul">Skrzynka zgłoszeń</h1>
       <p className="lead">Zgłoszenia od użytkowników. Najpilniejsze i najdłużej czekające są na górze.</p>
 
-      <form className="filters" role="search" aria-label="Filtry zgłoszeń" onSubmit={(e) => e.preventDefault()}>
+      <form className="filters" data-tour="panel-skrzynka-filtry" role="search" aria-label="Filtry zgłoszeń" onSubmit={(e) => e.preventDefault()}>
         <div className="field">
           <label htmlFor="f-q">Szukaj w treści</label>
           <input id="f-q" className="input" type="search" defaultValue={q} key={q}
@@ -120,7 +120,7 @@ export default function InboxPage() {
         </div>
         <div className="field">
           <label htmlFor="f-pilnosc">Pilność</label>
-          <select id="f-pilnosc" className="select" value={pilnosc} onChange={(e) => update({ pilnosc: e.target.value })}>
+          <select id="f-pilnosc" data-tour="panel-filtr-pilnosc" className="select" value={pilnosc} onChange={(e) => update({ pilnosc: e.target.value })}>
             <option value="">Wszystkie</option>
             <option value="wysoka">Wysoka</option>
             <option value="srednia">Średnia</option>
@@ -155,7 +155,7 @@ export default function InboxPage() {
         <Empty>{hasFilters ? 'Żadne zgłoszenie nie pasuje do filtrów.' : 'Skrzynka jest pusta. Nowe zgłoszenia pojawią się tutaj.'}</Empty>
       )}
       {data && data.items.length > 0 && (
-        <div className="table-wrap" tabIndex={0} role="region" aria-label="Tabela zgłoszeń">
+        <div className="table-wrap" data-tour="panel-skrzynka-tabela" tabIndex={0} role="region" aria-label="Tabela zgłoszeń">
           <table className="admin-table">
             <caption className="visually-hidden">Zgłoszenia od użytkowników, {data.total} łącznie</caption>
             <thead>

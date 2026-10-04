@@ -13,7 +13,7 @@ const ROLE_LABEL: Record<string, string> = { admin: 'Odpowiedź ROPS', mentor: '
 
 function Thread({ ticket }: { ticket: Ticket }) {
   return (
-    <section aria-labelledby="thread-h" className="panel">
+    <section aria-labelledby="thread-h" className="panel" data-tour="panel-rozmowa">
       <h2 id="thread-h">Rozmowa z autorem</h2>
       <ol className="thread">
         {ticket.wiadomosci.map((m, i) => (
@@ -38,7 +38,7 @@ function Thread({ ticket }: { ticket: Ticket }) {
 
 function Triage({ ticket }: { ticket: Ticket }) {
   return (
-    <section aria-labelledby="triage-h" className="panel">
+    <section aria-labelledby="triage-h" className="panel" data-tour="panel-analiza">
       <h2 id="triage-h"><Sparkles size={20} aria-hidden="true" /> Analiza zgłoszenia</h2>
       <p className="hint">
         {ticket.triaz_zrodlo === 'ai'
@@ -74,9 +74,9 @@ function Triage({ ticket }: { ticket: Ticket }) {
 
       <h3>Pasujące karty z bazy ROPS</h3>
       {ticket.proponowane_karty.length === 0 ? (
-        <p className="empty-state">W bazie nie ma kart, które pasują do tego zgłoszenia.</p>
+        <p className="empty-state" data-tour="panel-analiza-karty">W bazie nie ma kart, które pasują do tego zgłoszenia.</p>
       ) : (
-        <ul className="plain-list">
+        <ul className="plain-list" data-tour="panel-analiza-karty">
           {ticket.proponowane_karty.map((c) => (
             <li key={c.slug}>
               <Link to={`/innowacja/${c.slug}`}>{c.nazwa}</Link> — dopasowanie {Math.round(c.score * 100)}%
@@ -200,14 +200,14 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
   }
 
   return (
-    <section aria-labelledby="reply-h" className="panel panel-main">
+    <section aria-labelledby="reply-h" className="panel panel-main" data-tour="panel-odpowiedz">
       <h2 id="reply-h">Odpowiedź do autora</h2>
       <p className="hint">
         Szkic jest tylko propozycją. Nic nie zostanie wysłane, dopóki nie zatwierdzisz odpowiedzi.
       </p>
       <div className="field">
         <label htmlFor="reply-text">Treść odpowiedzi (możesz ją dowolnie zmienić)</label>
-        <textarea id="reply-text" className="textarea" rows={12} value={text} onChange={(e) => { setText(e.target.value); setSaved(false) }} />
+        <textarea id="reply-text" data-tour="panel-odpowiedz-tekst" className="textarea" rows={12} value={text} onChange={(e) => { setText(e.target.value); setSaved(false) }} />
       </div>
       {ticket.proponowane_karty.length > 0 && (
         <fieldset className="field">
@@ -233,7 +233,7 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
 
       {!confirming ? (
         <div className="btn-row">
-          <button ref={approveRef} type="button" className="btn btn-primary" disabled={busy || !text.trim()} onClick={() => setConfirming(true)}>
+          <button ref={approveRef} data-tour="panel-odpowiedz-zatwierdz" type="button" className="btn btn-primary" disabled={busy || !text.trim()} onClick={() => setConfirming(true)}>
             Zatwierdź odpowiedź
           </button>
           <button type="button" className="btn btn-secondary" disabled={busy}
@@ -252,7 +252,7 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
             Odpowiedź trafi do autora zgłoszenia{ticket.autor_email ? ` (${ticket.autor_email})` : ' i będzie widoczna pod jego linkiem do rozmowy'}. Tego nie da się cofnąć.
           </p>
           <div className="btn-row">
-            <button ref={confirmRef} type="button" className="btn btn-primary" disabled={busy}
+            <button ref={confirmRef} data-tour="panel-odpowiedz-potwierdz" type="button" className="btn btn-primary" disabled={busy}
               onClick={() => run(() => api.approveReply(ticket.id, text.trim(), [...sources]))}>
               Tak, wyślij odpowiedź
             </button>
@@ -306,7 +306,7 @@ export default function TicketPage() {
         {data.autor_nazwa && <> · {data.autor_nazwa}</>}
         {data.obserwuje && <> <span className="tag" title="Autor dostanie powiadomienie, gdy opublikujesz pasującą kartę">obserwuje potrzebę</span></>}
       </p>
-      <blockquote className="ticket-text pre">{data.tresc}</blockquote>
+      <blockquote className="ticket-text pre" data-tour="panel-zgloszenie-tresc">{data.tresc}</blockquote>
 
       {analysing && <Loading text="AI analizuje zgłoszenie…" />}
       {triageError && <ErrorBox message={`${triageError} Możesz odpowiedzieć ręcznie.`} onRetry={() => { started.current = null; setTriageError(''); reload() }} />}

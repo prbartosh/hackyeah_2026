@@ -1,11 +1,14 @@
+import { Compass } from 'lucide-react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import AccessibilityBar from '@/components/AccessibilityBar'
+import { useTour } from '@/tour/engine/tourReact'
 
 // Strony modułu „Współpraca”: link w nawigacji ma być aktywny na każdej z nich
 const COOPERATION_PATHS = ['/wspolpraca', '/partnerstwa', '/pytania', '/mentorzy', '/watek', '/rozmowa']
 
 export default function Header() {
   const { pathname } = useLocation()
+  const { openMenu } = useTour()
   const coopActive = COOPERATION_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
   return (
     <header className="topbar">
@@ -13,7 +16,7 @@ export default function Header() {
         Przejdź do głównej treści
       </a>
       <div className="topbar-inner">
-        <Link to="/" className="brand" aria-label="Splot — strona główna">
+        <Link to="/" className="brand" aria-label="Splot — strona główna" data-tour="logo">
           <svg className="brand-mark" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true">
             <rect width="40" height="40" fill="currentColor" />
             <path d="M8 14c8 0 8 12 16 12s8-12 8-12M8 26c8 0 8-12 16-12s8 12 8 12" fill="none" stroke="var(--on-primary)" strokeWidth="3.5" strokeLinecap="square" />
@@ -24,12 +27,16 @@ export default function Header() {
           </span>
         </Link>
         <nav aria-label="Główna" className="site-nav">
-          <NavLink to="/" end>Wyszukiwarka</NavLink>
-          <NavLink to="/zasobnik">Zasobnik wiedzy</NavLink>
-          <NavLink to="/kreator">Kreator pomysłów</NavLink>
-          <NavLink to="/zglos">Zgłoś potrzebę</NavLink>
-          <Link to="/wspolpraca" aria-current={coopActive ? 'page' : undefined}>Współpraca</Link>
+          <NavLink to="/" end data-tour="nav-wyszukiwarka">Wyszukiwarka</NavLink>
+          <NavLink to="/zasobnik" data-tour="nav-zasobnik">Zasobnik wiedzy</NavLink>
+          <NavLink to="/kreator" data-tour="nav-kreator">Kreator pomysłów</NavLink>
+          <NavLink to="/zglos" data-tour="nav-zglos">Zgłoś potrzebę</NavLink>
+          <Link to="/wspolpraca" aria-current={coopActive ? 'page' : undefined} data-tour="nav-wspolpraca">Współpraca</Link>
         </nav>
+        <button type="button" className="a11y-btn tour-launch" onClick={openMenu} data-tour="przewodnik-przycisk">
+          <Compass size={18} aria-hidden="true" />
+          Przewodnik
+        </button>
         <AccessibilityBar />
       </div>
     </header>

@@ -39,16 +39,16 @@ export default function ImportsPage() {
         i zdecydujesz, czy go opublikować. Pola, których nie ma w dokumencie, zostają puste.
       </p>
 
-      <form onSubmit={upload} className="panel stack" noValidate>
+      <form onSubmit={upload} className="panel stack" data-tour="panel-import-formularz" noValidate>
         <div className="field">
           <label htmlFor="doc-file">Plik dokumentu (PDF lub DOCX)</label>
-          <input id="doc-file" ref={input} className="input" type="file"
+          <input id="doc-file" ref={input} className="input" type="file" data-tour="panel-import-plik"
             accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
             aria-describedby={failure ? 'upload-error' : undefined} />
         </div>
         {failure && <p id="upload-error" className="field-error" role="alert">{failure}</p>}
         <div className="btn-row">
-          <button type="submit" className="btn btn-primary" disabled={busy}>
+          <button type="submit" className="btn btn-primary" disabled={busy} data-tour="panel-import-wyslij">
             {busy ? 'Analizowanie dokumentu…' : 'Wgraj i przygotuj szkic karty'}
           </button>
         </div>

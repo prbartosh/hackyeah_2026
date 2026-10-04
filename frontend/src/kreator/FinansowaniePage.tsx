@@ -58,7 +58,7 @@ export default function FinansowaniePage() {
       {data && data.aktywne.length > 0 && (
         <>
           <p className="lead">Te nabory trwają teraz. {needsIdea ? 'Najpierw opisz pomysł w fiszce, wtedy przygotujemy szkic wniosku.' : 'Wybierz nabór, a przygotujemy szkic wniosku z Twoich danych.'}</p>
-          <ul className="plain-list">
+          <ul className="plain-list" data-tour="kreator-nabory">
             {data.aktywne.map((a) => (
               <NaborCard key={a.nabor.slug} item={a} busy={busy === a.nabor.slug} canPrepare={!needsIdea} onPrepare={() => prepare(a.nabor.slug)} />
             ))}
@@ -68,9 +68,9 @@ export default function FinansowaniePage() {
       )}
 
       {data && data.aktywne.length === 0 && (
-        <div className="panel" role="status">
+        <div className="panel" role="status" data-tour="kreator-nabory">
           <h2><CalendarDays size={22} aria-hidden="true" /> Teraz nie trwa żaden nabór</h2>
-          <p>
+          <p data-tour="kreator-wniosek-eksport">
             {data.kolejny
               ? <>Najbliższy nabór: <strong>{data.kolejny.nazwa}</strong>, od {formatDay(data.kolejny.termin_od)} do {formatDay(data.kolejny.termin_do)}. Generator wniosków włączy się wtedy automatycznie.</>
               : 'Nie ogłoszono jeszcze kolejnego naboru. Zajrzyj tu później.'}
@@ -106,7 +106,7 @@ function NaborCard({ item, busy, canPrepare, onPrepare }: { item: NaborDopasowan
       </p>
       {canPrepare && (
         <div className="btn-row">
-          <button type="button" className="btn btn-primary" onClick={onPrepare} disabled={busy}>
+          <button type="button" className="btn btn-primary" onClick={onPrepare} disabled={busy} data-tour="kreator-nabor-przygotuj">
             {busy ? 'Przygotowywanie…' : 'Przygotuj szkic wniosku'}
           </button>
         </div>

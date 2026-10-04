@@ -7,7 +7,7 @@ const supported = () => typeof window !== 'undefined' && 'speechSynthesis' in wi
 let stopCurrent: (() => void) | null = null
 
 /** Czytanie na głos przez Web Speech API (w przeglądarce, bez serwera). */
-export default function ReadAloudButton({ text, label = 'Przeczytaj' }: { text: string; label?: string }) {
+export default function ReadAloudButton({ text, label = 'Przeczytaj', tour }: { text: string; label?: string; tour?: string }) {
   const [speaking, setSpeaking] = useState(false)
   const stopRef = useRef(() => {
     setSpeaking(false)
@@ -47,7 +47,7 @@ export default function ReadAloudButton({ text, label = 'Przeczytaj' }: { text: 
   if (!supported() || !text.trim()) return null
 
   return (
-    <button type="button" className="btn btn-ghost btn-read" onClick={toggle}>
+    <button type="button" className="btn btn-ghost btn-read" onClick={toggle} data-tour={tour}>
       {speaking ? <Square size={16} aria-hidden="true" /> : <Volume2 size={18} aria-hidden="true" />}
       {speaking ? 'Zatrzymaj' : label}
     </button>

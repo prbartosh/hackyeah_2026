@@ -19,7 +19,7 @@ function DocCard({ doc, trafienie }: { doc: Dokument; trafienie?: TrafienieDokum
         <h3 className="zs-card-title"><Link to={`/dokument/${doc.id}`}>{doc.tytul}</Link></h3>
         {doc.opis && <p className="zs-card-problem">{doc.opis}</p>}
         {trafienie?.fragment && (
-          <p className="zs-doc-snippet">
+          <p className="zs-doc-snippet" data-tour="zasobnik-fragment">
             {podswietl(trafienie.fragment, trafienie.trafienia).map((c, i) =>
               c.trafienie ? <mark key={i}>{c.tekst}</mark> : c.tekst,
             )}{' '}
@@ -29,7 +29,7 @@ function DocCard({ doc, trafienie }: { doc: Dokument; trafienie?: TrafienieDokum
             </Link>
           </p>
         )}
-        <p className="zs-doc-meta">
+        <p className="zs-doc-meta" data-tour="zasobnik-doc-meta">
           {doc.strony && <span>{plural(doc.strony, 'strona', 'strony', 'stron')}</span>}
           {doc.licencja && <span>{doc.licencja}</span>}
         </p>
@@ -99,7 +99,7 @@ export default function ZasobnikWyzwania() {
       </p>
 
       {mapa && !q && (
-        <div className="zs-feature">
+        <div className="zs-feature" data-tour="zasobnik-mapa-blok">
           <MapIcon size={28} aria-hidden="true" className="zs-feature-icon" />
           <div>
             <h3 className="zs-card-title"><Link to={`/dokument/${mapa.id}`}>{mapa.tytul}</Link></h3>
@@ -109,11 +109,11 @@ export default function ZasobnikWyzwania() {
       )}
 
       <div className="zs-filters">
-        <div className="zs-filter zs-filter-q">
+        <div className="zs-filter zs-filter-q" data-tour="zasobnik-doc-szukaj">
           <label htmlFor="zs-doc-q">Szukaj w dokumentach, wskaźnikach i innowacjach</label>
           <div className="zs-input-icon">
             <Search size={18} aria-hidden="true" />
-            <input id="zs-doc-q" type="search" className="input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
+            <input id="zs-doc-q" data-tour="zasobnik-doc-szukaj-pole" type="search" className="input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
           </div>
         </div>
         <div className="zs-filter">
@@ -146,7 +146,7 @@ export default function ZasobnikWyzwania() {
         <div className="alert alert-warning"><p>Brak dokumentów dla tych filtrów. Spróbuj innego słowa albo wybierz „Wszystkie lata”.</p></div>
       )}
       {filtered.length > 0 && (
-        <ul className="zs-grid">
+        <ul className="zs-grid" data-tour="zasobnik-doc-wyniki">
           {filtered.slice(0, shown).map((d) => <li key={d.id}><DocCard doc={d} trafienie={trafienia.get(d.id)} /></li>)}
         </ul>
       )}
@@ -166,7 +166,7 @@ export default function ZasobnikWyzwania() {
           </button>
         </div>
       )}
-      <p className="hint zs-source">
+      <p className="hint zs-source" data-tour="zasobnik-doc-zrodlo">
         Źródło: <a href="https://rops.krakow.pl">Regionalny Ośrodek Polityki Społecznej w Krakowie</a>. Licencja
         podana tylko przy dokumentach, dla których ROPS ją określa.
       </p>

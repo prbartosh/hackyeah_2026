@@ -20,7 +20,7 @@ export default function MyThreadsList({ title = 'Moje sprawy', exclude, hideWhen
   if (items.length === 0 && hideWhenEmpty) return null
 
   return (
-    <section aria-labelledby="my-threads-h" className="my-threads">
+    <section aria-labelledby="my-threads-h" className="my-threads" data-tour="wspolpraca-lista-spraw">
       <Heading id="my-threads-h">{title}</Heading>
       {items.length === 0 ? (
         <p className="hint">Nie masz jeszcze zapisanych spraw. Po wysłaniu zgłoszenia pojawi się tu link do rozmowy.</p>

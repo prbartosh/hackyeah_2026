@@ -19,7 +19,7 @@ export default function KreatorHome() {
       <h1>Kreator pomysłów</h1>
       <p className="lead">Masz pomysł na rozwiązanie społeczne? Opisz go krok po kroku. Nie musisz niczego umieć, wystarczy kilka zdań. Zespół ROPS odpowie na zgłoszenie.</p>
 
-      <ul className="tile-list">
+      <ul className="tile-list" data-tour="kreator-sciezki">
         <li className="tile">
           <h2><Lightbulb size={22} aria-hidden="true" /> Fiszka pomysłu</h2>
           <p>Opisz, na czym polega pomysł, dla kogo jest i na jakim jest etapie. AI może wstępnie wypełnić pola z Twojego opisu.</p>

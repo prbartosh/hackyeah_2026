@@ -174,7 +174,7 @@ export default function CardEditPage() {
           <div className="grid-fields">
             <div className="field">
               <label htmlFor="c-status">Status</label>
-              <select id="c-status" className="select" value={form.status} onChange={(e) => set('status', e.target.value)}>
+              <select id="c-status" data-tour="panel-karta-status" className="select" value={form.status} onChange={(e) => set('status', e.target.value)}>
                 <option value="szkic">Szkic (niewidoczna dla użytkowników)</option>
                 <option value="opublikowana">Opublikowana (widoczna w wyszukiwarce)</option>
                 <option value="zarchiwizowana">Zarchiwizowana (ukryta)</option>

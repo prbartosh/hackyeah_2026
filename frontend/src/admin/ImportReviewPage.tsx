@@ -80,7 +80,7 @@ export default function ImportReviewPage() {
   return (
     <>
       <p><Link to="/admin/importy">← Wróć do dokumentów</Link></p>
-      <h1>Szkic karty z dokumentu: {data.nazwa_pliku}</h1>
+      <h1 data-tour="panel-import-szkic">Szkic karty z dokumentu: {data.nazwa_pliku}</h1>
       {data.ekstrakcja_zrodlo === 'ai'
         ? <p className="hint">Szkic przygotowało AI. Obok każdego pola widać fragment dokumentu, z którego pochodzi. Pola bez fragmentu zostały puste.</p>
         : <p className="hint">Szkic nie został wypełniony automatycznie. Uzupełnij pola ręcznie, korzystając z tekstu dokumentu na dole strony.</p>}

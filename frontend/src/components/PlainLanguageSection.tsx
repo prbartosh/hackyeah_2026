@@ -30,13 +30,13 @@ export default function PlainLanguageSection({ slug }: { slug: string }) {
   if (state.kind === 'done') {
     const { zdania, zrodlo } = state.data
     return (
-      <section className="plain-box" aria-labelledby="plain-title">
+      <section className="plain-box" aria-labelledby="plain-title" data-tour="innowacja-prosty-wynik">
         <h2 id="plain-title" ref={headingRef} tabIndex={-1}>W prostych słowach</h2>
         <ul className="plain-list">
           {zdania.map((z, i) => <li key={i}>{z}</li>)}
         </ul>
         <div className="btn-row">
-          <ReadAloudButton text={zdania.join(' ')} label="Przeczytaj na głos" />
+          <ReadAloudButton text={zdania.join(' ')} label="Przeczytaj na głos" tour="innowacja-prosty-czytaj" />
         </div>
         <p className="hint">
           Tekst uproszczony przez AI na podstawie <a href={zrodlo} target="_blank" rel="noreferrer">opisu w Bibliotece ROPS<span className="visually-hidden"> (otwiera się w nowej karcie)</span></a>. Szczegóły i pełny opis są niżej.
@@ -47,7 +47,7 @@ export default function PlainLanguageSection({ slug }: { slug: string }) {
 
   return (
     <div className="plain-cta">
-      <button type="button" className="btn btn-secondary" onClick={load} disabled={state.kind === 'loading'}>
+      <button type="button" className="btn btn-secondary" onClick={load} disabled={state.kind === 'loading'} data-tour="innowacja-prosty-przycisk">
         <BookOpenText size={18} aria-hidden="true" />
         {state.kind === 'loading' ? 'Upraszczam opis…' : 'Powiedz prościej'}
       </button>
