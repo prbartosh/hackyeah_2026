@@ -1,5 +1,6 @@
 /* ──────────────────────────────────────────────
-   Kolory marki Małopolski jako akcenty: cienki wielokolorowy pasek nad nagłówkiem i nad stopką.
+   Kolory marki Małopolski jako akcenty: cienki wielokolorowy pasek nad nagłówkiem i nad stopką,
+   cienki pasek na dole głównych przycisków i pod aktywną pozycją menu.
    Czysto dekoracyjne (pseudo-elementy, bez markupu), nie zmienia układu ani kontrastu tekstu.
    ────────────────────────────────────────────── */
 
@@ -27,6 +28,18 @@
   content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; pointer-events: none;
   background: var(--mp-stripe); opacity: 0.8;
 }
+
+/* Przyciski: kolor i tekst bez zmian, tylko cienki pasek na dolnej krawędzi (też na :hover, bo ten ma skrót `background`) */
+.btn-primary, .btn-primary:hover,
+.btn-option[aria-pressed="true"], .btn-option[aria-pressed="true"]:hover {
+  background-image: var(--mp-stripe); background-size: 100% 3px; background-position: bottom; background-repeat: no-repeat;
+}
+.btn-secondary:hover, .btn-ghost:hover, .btn-option:hover, .chip:hover {
+  background-image: var(--mp-stripe); background-size: 100% 2px; background-position: bottom; background-repeat: no-repeat;
+}
+
+/* Menu: aktywna pozycja podkreślona paskiem */
+.site-nav a[aria-current="page"] { border-image: var(--mp-stripe) 1; }
 
 @media print {
   .topbar::before, .site-footer::before { display: none; }
