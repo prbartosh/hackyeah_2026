@@ -24,6 +24,12 @@ WEIGHTS = {"problemy": 3, "grupy_docelowe": 2, "miejsca": 1, "typy_rozwiazan": 1
 # z długim opisem karty rzadko przekracza ~0,25, więc VECTOR_SCALE rozciąga go do 0-1.
 VECTOR_WEIGHT = 0.6
 VECTOR_SCALE = 0.25
+# Karta bez żadnego wspólnego tagu (albo zgłoszenie bez tagów) pasuje tylko tekstem, a to słabszy
+# dowód: jej wynik mnożymy przez ten czynnik, więc potrzeba mocniejszego podobieństwa słów.
+TEXT_ONLY_FACTOR = 0.6
+# Same miejsce lub typ rozwiązania („Dom”, „Urządzenie”) to zbyt ogólny powód: tag liczy się jako
+# dowód dopiero, gdy wspólny jest problem albo grupa docelowa (waga >= tej wartości).
+STRONG_TAG_WEIGHT = 2
 # Słowa od tylu liter skracamy do tylu liter (fleksja: demencji/demencja, seniorów/senior).
 STEM_LEN = 6
 _TOKEN = re.compile(r"[^\W_]+\+?", re.UNICODE)
@@ -100,7 +106,8 @@ def card_score(
     Bez `vector`: samo pokrycie tagów, remis rozstrzyga trigram. Z `vector` (TF-IDF na korpusie
     kart, patrz `TfidfIndex`): 40% pokrycia tagów i 60% tekstu, żeby karta pasująca tylko
     ogólnym tagiem („Dzieci”) nie wygrywała z kartą o tych samych słowach. Karta bez nakładki
-    albo zgłoszenie bez tagów: sam tekst (bez `vector`: trigramy).
+    albo zgłoszenie bez tagów, a także karta bez żadnego wspólnego tagu: sam tekst razy
+    `TEXT_ONLY_FACTOR` (bez `vector`: trigramy).
     """
     trigram = similar_text(ticket_text, card_text)
     vector_given = vector is not None
@@ -110,18 +117,23 @@ def card_score(
         textual = min(1.0, vector / VECTOR_SCALE)
     overlay = overlay or {}
     total = sum(WEIGHTS[s] * len(slugs) for s, slugs in ticket_tags.items())
+    if vector_given:
+        textual *= TEXT_ONLY_FACTOR
     if not total or not any(overlay.get(s) for s in WEIGHTS):
         return CardMatch(score=textual, trigram=trigram, vector=vector)
-    covered, reasons = 0, []
+    covered, covered_strong, reasons = 0, 0, []
     for section, slugs in ticket_tags.items():
         have = set(overlay.get(section) or [])
         for slug in slugs:
             if slug in have:
                 covered += WEIGHTS[section]
+                covered_strong += WEIGHTS[section] >= STRONG_TAG_WEIGHT
                 reasons.append(label_map.get(section, {}).get(slug, slug))
     coverage = covered / total
     if vector_given:
-        coverage = (1 - VECTOR_WEIGHT) * coverage + VECTOR_WEIGHT * textual
+        if not covered or covered_strong == 0:
+            return CardMatch(score=textual, powody=reasons, trigram=trigram, vector=vector)
+        coverage = (1 - VECTOR_WEIGHT) * coverage + VECTOR_WEIGHT * textual / TEXT_ONLY_FACTOR
     return CardMatch(score=coverage, powody=reasons, trigram=trigram, vector=vector)
 
 
