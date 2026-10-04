@@ -1,8 +1,8 @@
 # 0041. Obserwuj potrzebę (moduł V)
 
-- Status: w toku
+- Status: review
 - Osoba: Wiktor
-- PR: 
+- PR: #68
 
 ## Cel
 
