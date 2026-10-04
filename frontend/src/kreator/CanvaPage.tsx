@@ -107,13 +107,18 @@ function CanvaEditor({ token }: { token: string }) {
   }, [data, token])
 
   const persist = useCallback(async () => {
-    const changes = Object.fromEntries([...dirty.current].map((k) => [k, valuesRef.current[k] ?? '']))
+    const keys = [...dirty.current]
+    const changes = Object.fromEntries(keys.map((k) => [k, valuesRef.current[k] ?? '']))
+    const savedTitle = titleRef.current
+    const saveTitle = titleDirty.current
     const body: { wartosci?: Record<string, string>; tytul?: string } = {}
-    if (dirty.current.size) body.wartosci = changes
-    if (titleDirty.current) body.tytul = titleRef.current
-    dirty.current.clear()
-    titleDirty.current = false
+    if (keys.length) body.wartosci = changes
+    if (saveTitle) body.tytul = savedTitle
     await kreator.saveCanva(token, body)
+    for (const key of keys) {
+      if ((valuesRef.current[key] ?? '') === changes[key]) dirty.current.delete(key)
+    }
+    if (saveTitle && titleRef.current === savedTitle) titleDirty.current = false
     rememberDraft({ typ: 'canva', token, tytul: titleRef.current || 'Canva bez tytułu' })
   }, [token])
   const autosave = useAutosave(persist)
@@ -158,7 +163,7 @@ function CanvaEditor({ token }: { token: string }) {
           </ol>
         </nav>
         <StepProgress current={step} titles={titles} />
-        <SaveStatus state={autosave.state} onRetry={() => void autosave.flush()} />
+        <SaveStatus state={autosave.state} onRetry={() => void autosave.flush().catch(() => undefined)} />
       </div>
 
       <h1 ref={heading} tabIndex={-1} className="step-title">{preview ? 'Podgląd i eksport' : groups[step].name}</h1>
@@ -215,7 +220,7 @@ function CanvaEditor({ token }: { token: string }) {
 
       <div className="btn-row step-nav no-print">
         {step > 0 && <button type="button" className="btn btn-secondary" onClick={() => goTo(step - 1)}>Wstecz</button>}
-        {!preview && <button type="button" className="btn btn-primary" onClick={() => { void autosave.flush(); goTo(step + 1) }}>{step === groups.length - 1 ? 'Podgląd i eksport' : 'Dalej'}</button>}
+        {!preview && <button type="button" className="btn btn-primary" onClick={() => { void autosave.flush().catch(() => undefined); goTo(step + 1) }}>{step === groups.length - 1 ? 'Podgląd i eksport' : 'Dalej'}</button>}
         {preview && (
           <>
             <button type="button" className="btn btn-primary" onClick={() => window.print()}><Printer size={18} aria-hidden="true" /> Drukuj</button>

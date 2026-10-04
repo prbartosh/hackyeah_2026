@@ -18,19 +18,28 @@ export function useAutosave(save: () => Promise<void>, delay = 900) {
   })
 
   const run = useCallback(async () => {
-    if (running.current) await running.current
+    if (running.current) {
+      try {
+        await running.current
+      } catch {
+        // Bieżący zapis ustawił `dirty` z powrotem. Ta próba zapisze dane ponownie.
+      }
+    }
     if (!dirty.current) return
     dirty.current = false
     setState('saving')
-    const job = saveRef.current()
-      .then(() => setState(dirty.current ? 'pending' : 'saved'))
-      .catch(() => {
+    const job = (async () => {
+      try {
+        await saveRef.current()
+        setState(dirty.current ? 'pending' : 'saved')
+      } catch (error) {
         dirty.current = true
         setState('error')
-      })
-      .finally(() => {
+        throw error
+      } finally {
         running.current = null
-      })
+      }
+    })()
     running.current = job
     await job
   }, [])
@@ -39,7 +48,7 @@ export function useAutosave(save: () => Promise<void>, delay = 900) {
     dirty.current = true
     setState('pending')
     window.clearTimeout(timer.current)
-    timer.current = window.setTimeout(() => void run(), delay)
+    timer.current = window.setTimeout(() => void run().catch(() => undefined), delay)
   }, [delay, run])
 
   const flush = useCallback(async () => {
@@ -50,7 +59,7 @@ export function useAutosave(save: () => Promise<void>, delay = 900) {
   useEffect(
     () => () => {
       window.clearTimeout(timer.current)
-      if (dirty.current) void saveRef.current()
+      if (dirty.current) void saveRef.current().catch(() => undefined)
     },
     [],
   )

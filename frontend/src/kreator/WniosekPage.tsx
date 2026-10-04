@@ -45,9 +45,12 @@ export default function WniosekPage() {
   }, [data, token])
 
   const persist = useCallback(async () => {
-    const changes = Object.fromEntries([...dirtyKeys.current].map((k) => [k, textsRef.current[k]]))
-    dirtyKeys.current.clear()
+    const keys = [...dirtyKeys.current]
+    const changes = Object.fromEntries(keys.map((k) => [k, textsRef.current[k]]))
     await kreator.saveWniosek(token, changes)
+    for (const key of keys) {
+      if (textsRef.current[key] === changes[key]) dirtyKeys.current.delete(key)
+    }
   }, [token])
   const autosave = useAutosave(persist)
 
@@ -113,7 +116,7 @@ export default function WniosekPage() {
       {!data.nabor_aktywny && <p className="alert alert-warning" role="status">Ten nabór już się zakończył. Możesz pobrać wniosek, ale nie wyślesz go przez platformę.</p>}
       {data.komunikat_ai && <p className="alert alert-note" role="status">{data.komunikat_ai}</p>}
       <p className="lead">Przejrzyj każde pole. Pod polem widać, z jakich danych fiszki powstał tekst. Niczego nie dopisaliśmy od siebie: braki oznaczyliśmy jako „Do uzupełnienia”.</p>
-      <SaveStatus state={autosave.state} onRetry={() => void autosave.flush()} />
+      <SaveStatus state={autosave.state} onRetry={() => void autosave.flush().catch(() => undefined)} />
 
       <div className="edit-layout">
         <form onSubmit={(e) => e.preventDefault()} className="stack" aria-label="Pola wniosku">
