@@ -39,7 +39,7 @@ export default function ImportsPage() {
         i zdecydujesz, czy go opublikować. Pola, których nie ma w dokumencie, zostają puste.
       </p>
 
-      <form onSubmit={upload} className="panel stack" noValidate>
+      <form onSubmit={upload} className="panel stack" data-tour="panel-import-formularz" noValidate>
         <div className="field">
           <label htmlFor="doc-file">Plik dokumentu (PDF lub DOCX)</label>
           <input id="doc-file" ref={input} className="input" type="file"

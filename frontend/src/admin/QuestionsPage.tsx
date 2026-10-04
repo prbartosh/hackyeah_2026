@@ -52,17 +52,17 @@ function QuestionItem({ item, onChange }: { item: PytanieAdmin; onChange: (messa
       </div>
       <div className="field">
         <label htmlFor={`odp-${item.id}`}>Odpowiedź ROPS</label>
-        <textarea id={`odp-${item.id}`} className="textarea" rows={4} maxLength={6000} value={text}
+        <textarea id={`odp-${item.id}`} data-tour="panel-pytania-odpowiedz" className="textarea" rows={4} maxLength={6000} value={text}
           onChange={(e) => setText(e.target.value)} />
       </div>
       {failure && <p className="field-error" role="alert">{failure}</p>}
       <div className="btn-row">
-        <button type="button" className="btn btn-primary" disabled={busy || text.trim().length < 5 || question.trim().length < 10}
+        <button type="button" data-tour="panel-pytania-zapisz" className="btn btn-primary" disabled={busy || text.trim().length < 5 || question.trim().length < 10}
           onClick={() => run(() => pytania.answer(item.id, text, question), 'Zapisano odpowiedź.')}>
           {item.odpowiedz ? 'Zapisz zmiany' : 'Odpowiedz'}
         </button>
         {canPublish && (
-          <button type="button" className="btn btn-secondary" disabled={busy}
+          <button type="button" data-tour="panel-pytania-publikuj" className="btn btn-secondary" disabled={busy}
             onClick={() => run(() => pytania.publish(item.id), 'Opublikowano pytanie.')}>Opublikuj</button>
         )}
         {item.status !== 'ukryte' && (
@@ -92,7 +92,7 @@ export default function QuestionsPage() {
       <div className="filters">
         <div className="field">
           <label htmlFor="pyt-status">Pokaż</label>
-          <select id="pyt-status" className="select" value={status}
+          <select id="pyt-status" data-tour="panel-pytania-filtr" className="select" value={status}
             onChange={(e) => { setStatus(e.target.value as StatusPytania | ''); setOffset(0) }}>
             <option value="nowe">Nowe</option>
             <option value="odpowiedziane">Odpowiedziane</option>
