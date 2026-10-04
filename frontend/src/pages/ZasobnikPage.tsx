@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { ArrowUpDown, Search, Sparkles, X } from 'lucide-react'
 import InnowacjaCard from '@/components/InnowacjaCard'
 import Kategorie from '@/components/Kategorie'
-import ZasobnikStats from '@/components/ZasobnikStats'
 import ZasobnikWskazniki from '@/components/ZasobnikWskazniki'
 import ZasobnikWyzwania from '@/components/ZasobnikWyzwania'
 import { getCategories, listInnovations } from '@/api/innovations'
@@ -117,8 +116,6 @@ export default function ZasobnikPage() {
       <section className="zs-hero container" aria-labelledby="zs-h1">
         <p className="zs-eyebrow">Biblioteka ROPS Kraków</p>
         <h1 id="zs-h1" className="zs-title">Zasobnik wiedzy</h1>
-        <p className="zs-sub">Sprawdzone innowacje społeczne, raporty i dane o Małopolsce w jednym miejscu. Znajdź rozwiązanie, które już działa.</p>
-        <ZasobnikStats innowacje={razem} kategorie={kategorie.length} />
         {nav}
 
         <form
@@ -131,7 +128,7 @@ export default function ZasobnikPage() {
         >
           <label htmlFor="zs-q" className="visually-hidden">Szukaj w nazwie, problemie i opisie innowacji</label>
           <div className="zs-composer-row">
-            <Search size={22} aria-hidden="true" className="zs-composer-icon" />
+            <Search size={26} aria-hidden="true" className="zs-composer-icon" />
             <input
               id="zs-q"
               type="search"
