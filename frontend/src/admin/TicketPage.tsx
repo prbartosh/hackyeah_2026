@@ -16,7 +16,7 @@ function Thread({ ticket }: { ticket: Ticket }) {
         {ticket.wiadomosci.map((m, i) => (
           <li key={i} className={m.autor_rola === 'admin' ? 'msg-admin' : 'msg-author'}>
             <p className="hint">
-              {m.autor_rola === 'admin' ? 'Odpowiedź ROPS' : ticket.autor_nazwa || 'Autor zgłoszenia'} · {formatDate(m.created_at)}
+              {m.autor_rola === 'admin' ? (m.podpis ? `Odpowiedź: ${m.podpis}` : 'Odpowiedź ROPS') : ticket.autor_nazwa || 'Autor zgłoszenia'} · {formatDate(m.created_at)}
             </p>
             <p className="pre">{m.tresc}</p>
             {m.zrodla && m.zrodla.length > 0 && (
@@ -82,6 +82,53 @@ function Triage({ ticket }: { ticket: Ticket }) {
           ))}
         </ul>
       )}
+    </section>
+  )
+}
+
+/** Dyżur eksperta: przypisany ekspert podpisuje odpowiedzi w wątku autora. */
+function Expert({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => void }) {
+  const { data: experts } = useLoad(() => api.experts(), [])
+  const [value, setValue] = useState(ticket.ekspert ?? '')
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+  const [saved, setSaved] = useState(false)
+
+  async function save() {
+    setBusy(true)
+    setError('')
+    setSaved(false)
+    try {
+      onChange(await api.assignExpert(ticket.id, value || null))
+      setSaved(true)
+    } catch (e) {
+      setError(errorText(e))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <section aria-labelledby="expert-h" className="panel">
+      <h2 id="expert-h">Dyżur eksperta</h2>
+      <p className="hint">
+        {ticket.prosba_o_eksperta ? 'Autor prosi o poradę eksperta.' : 'Autor nie prosił o eksperta, ale możesz go przypisać.'}
+        {' '}Odpowiedzi w rozmowie będą podpisane rolą eksperta.
+      </p>
+      <div className="field">
+        <label htmlFor="expert-select">Ekspert</label>
+        <select id="expert-select" className="select" value={value} onChange={(e) => { setValue(e.target.value); setSaved(false) }}>
+          <option value="">Bez eksperta (odpowiada ROPS)</option>
+          {(experts ?? []).map((x) => <option key={x} value={x}>{x}</option>)}
+        </select>
+      </div>
+      {error && <p className="field-error" role="alert">{error}</p>}
+      {saved && <p className="status-ok" role="status">Zapisano.</p>}
+      <div className="btn-row">
+        <button type="button" className="btn btn-secondary" disabled={busy || value === (ticket.ekspert ?? '')} onClick={save}>
+          {busy ? 'Zapisywanie…' : 'Przypisz'}
+        </button>
+      </div>
     </section>
   )
 }
@@ -301,6 +348,7 @@ export default function TicketPage() {
       <p className="meta-line">
         <StatusBadge status={data.status} /> Wpłynęło {formatDate(data.created_at)}
         {data.autor_nazwa && <> · {data.autor_nazwa}</>}
+        {data.prosba_o_eksperta && !data.ekspert && <> <span className="tag tag-warn">prośba o eksperta</span></>}
       </p>
       <blockquote className="ticket-text pre">{data.tresc}</blockquote>
 
@@ -321,6 +369,7 @@ export default function TicketPage() {
           <Thread ticket={data} />
         </div>
         <div>
+          <Expert ticket={data} onChange={setData} />
           {data.testujacy.length > 0 && <Testers ticket={data} onChange={setData} />}
           {data.triaz_wykonany && <Triage ticket={data} />}
         </div>

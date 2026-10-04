@@ -91,6 +91,11 @@ export const api = {
     call<Ticket>(`/admin/zgloszenia/${id}/szkic`, json('PUT', { szkic_odpowiedzi })),
   approveReply: (id: number, tresc: string, zrodla: string[]) =>
     call<Ticket>(`/admin/zgloszenia/${id}/odpowiedz`, json('POST', { tresc, zrodla })),
+  requestExpert: (token: string) =>
+    call<PublicThread>(`/zgloszenia/watek/${encodeURIComponent(token)}/ekspert`, { method: 'POST' }, false),
+  experts: () => call<string[]>('/admin/eksperci'),
+  assignExpert: (id: number, ekspert: string | null) =>
+    call<Ticket>(`/admin/zgloszenia/${id}/ekspert`, json('PUT', { ekspert })),
   forwardQuestion: (id: number, opinia_id: number, tresc: string) =>
     call<Ticket>(`/admin/zgloszenia/${id}/przekaz`, json('POST', { opinia_id, tresc })),
 

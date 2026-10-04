@@ -25,6 +25,8 @@ export interface TicketListItem {
   triaz_wykonany: boolean
   liczba_duplikatow: number
   sla: Sla
+  prosba_o_eksperta: boolean
+  ekspert: string | null
 }
 
 export interface ThreadMessage {
@@ -32,6 +34,8 @@ export interface ThreadMessage {
   tresc: string
   zrodla: { slug: string; nazwa: string; url: string }[] | null
   created_at: string
+  /** Kto odpowiada po stronie ROPS, np. przypisany ekspert; null = „ROPS”. */
+  podpis: string | null
 }
 
 export interface CardSuggestion {
@@ -186,4 +190,6 @@ export interface Note {
 export interface PublicThread {
   status: StatusZgloszenia
   wiadomosci: ThreadMessage[]
+  prosba_o_eksperta: boolean
+  ekspert: string | null
 }

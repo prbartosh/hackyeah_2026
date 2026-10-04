@@ -32,6 +32,14 @@ URGENT_WORDS = (
     "głod", "bezdomn", "samobój", "zagraża",
 )  # fmt: skip
 PILNOSCI = ("niska", "srednia", "wysoka")
+# Dyżur eksperta (zadanie 0040): role, nie osoby. Prawdziwą listę uzupełnia ROPS po wdrożeniu.
+EKSPERCI = (
+    "Ekspert ds. finansowania i naborów",
+    "Ekspert ds. ekonomii społecznej",
+    "Ekspert ds. usług dla seniorów",
+    "Ekspert ds. wsparcia rodzin i dzieci",
+    "Ekspert ds. osób z niepełnosprawnościami",
+)
 MAX_DUPLICATES = 5
 MAX_CANDIDATES = 5
 # Duplikaty szukamy wśród najnowszych zgłoszeń: trigramy liczymy w locie.
@@ -153,6 +161,29 @@ class TicketService:
                 tekst=f"Nowa wiadomość w zgłoszeniu nr {ticket.id}", zgloszenie_id=ticket.id
             )
         )
+        await self.session.commit()
+        return ticket
+
+    async def request_expert(self, token: str) -> Ticket | None:
+        """Autor prosi o eksperta; ROPS dostaje powiadomienie (raz na zgłoszenie)."""
+        ticket = await self.session.scalar(select(Ticket).where(Ticket.token_watku == token))
+        if ticket is None or ticket.prosba_o_eksperta:
+            return ticket
+        ticket.prosba_o_eksperta = True
+        if ticket.status == "odpowiedziane":
+            ticket.status = "w_trakcie"
+        self.session.add(
+            Notification(
+                tekst=f"Prośba o eksperta w zgłoszeniu nr {ticket.id}", zgloszenie_id=ticket.id
+            )
+        )
+        await self.session.commit()
+        return ticket
+
+    async def assign_expert(self, ticket: Ticket, expert: str | None) -> Ticket:
+        if expert is not None and expert not in EKSPERCI:
+            raise ValueError("Wybierz eksperta z listy.")
+        ticket.ekspert = expert
         await self.session.commit()
         return ticket
 
@@ -398,7 +429,11 @@ class TicketService:
                     }
                 )
         message = ThreadMessage(
-            token_watku=ticket.token_watku, autor_rola="admin", tresc=text.strip(), zrodla=sources
+            token_watku=ticket.token_watku,
+            autor_rola="admin",
+            tresc=text.strip(),
+            zrodla=sources,
+            podpis=ticket.ekspert,
         )
         self.session.add(message)
         ticket.status = "odpowiedziane"

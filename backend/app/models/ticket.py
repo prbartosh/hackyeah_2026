@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, String, Text, func
+from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, String, Text, false, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base, TimestampMixin
@@ -25,6 +25,9 @@ class Ticket(TimestampMixin, Base):
     odpowiedziano: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
     # Pytanie do instytucji testujących tę innowację (zadanie 0039); ROPS przekazuje je dalej.
     innowacja_slug: Mapped[str | None] = mapped_column(String(200), index=True)
+    # Dyżur eksperta (zadanie 0040): autor prosi w wątku, ROPS przypisuje eksperta z listy.
+    prosba_o_eksperta: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())
+    ekspert: Mapped[str | None] = mapped_column(String(150))
 
     kategoria: Mapped[str | None] = mapped_column(String(100), index=True)
     pilnosc: Mapped[str | None] = mapped_column(String(10))
@@ -52,6 +55,8 @@ class ThreadMessage(Base):
     autor_rola: Mapped[str] = mapped_column(String(10))  # "uzytkownik" | "admin"
     tresc: Mapped[str] = mapped_column(Text)
     zrodla: Mapped[list[dict[str, Any]] | None] = mapped_column(JSON)
+    # Kto odpowiada po stronie ROPS, np. przypisany ekspert; puste = „ROPS”.
+    podpis: Mapped[str | None] = mapped_column(String(150))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())
 
 

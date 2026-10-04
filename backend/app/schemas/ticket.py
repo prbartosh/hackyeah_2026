@@ -25,11 +25,20 @@ class ThreadMessageRead(BaseModel):
     tresc: str
     zrodla: list[dict] | None
     created_at: datetime
+    podpis: str | None = None
 
 
 class ThreadRead(BaseModel):
     status: Status
     wiadomosci: list[ThreadMessageRead]
+    prosba_o_eksperta: bool = False
+    ekspert: str | None = None
+
+
+class ExpertAssign(BaseModel):
+    """Ekspert z listy `EKSPERCI`; None zdejmuje przypisanie."""
+
+    ekspert: str | None = Field(default=None, max_length=150)
 
 
 class ThreadReply(BaseModel):
@@ -85,6 +94,8 @@ class TicketListItem(BaseModel):
     triaz_wykonany: bool
     liczba_duplikatow: int
     sla: SlaInfo
+    prosba_o_eksperta: bool = False
+    ekspert: str | None = None
 
 
 class TicketList(BaseModel):

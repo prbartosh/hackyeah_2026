@@ -33,10 +33,16 @@ def _thread_read(ticket: Ticket, messages: list[ThreadMessage]) -> ThreadRead:
         status=ticket.status,
         wiadomosci=[
             ThreadMessageRead(
-                autor_rola=m.autor_rola, tresc=m.tresc, zrodla=m.zrodla, created_at=m.created_at
+                autor_rola=m.autor_rola,
+                tresc=m.tresc,
+                zrodla=m.zrodla,
+                created_at=m.created_at,
+                podpis=m.podpis,
             )
             for m in messages
         ],
+        prosba_o_eksperta=ticket.prosba_o_eksperta,
+        ekspert=ticket.ekspert,
     )
 
 
@@ -48,6 +54,14 @@ def _thread_read(ticket: Ticket, messages: list[ThreadMessage]) -> ThreadRead:
 )
 async def reply_in_thread(token: str, data: ThreadReply, service: TicketServiceDep) -> ThreadRead:
     ticket = await service.reply_in_thread(token, data.tresc)
+    if ticket is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Nie znaleziono rozmowy")
+    return _thread_read(ticket, await service.messages(ticket))
+
+
+@router.post("/watek/{token}/ekspert", response_model=ThreadRead, summary="Prośba o eksperta")
+async def request_expert(token: str, service: TicketServiceDep) -> ThreadRead:
+    ticket = await service.request_expert(token)
     if ticket is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Nie znaleziono rozmowy")
     return _thread_read(ticket, await service.messages(ticket))

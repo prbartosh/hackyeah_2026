@@ -9,6 +9,7 @@ from app.schemas.ticket import (
     CardSuggestion,
     DraftUpdate,
     DuplicateRead,
+    ExpertAssign,
     ForwardQuestion,
     MarkRead,
     NotificationList,
@@ -27,7 +28,7 @@ from app.schemas.ticket import (
 )
 from app.services.ai import AIGateway
 from app.services.app_settings import PanelSettings, save_settings
-from app.services.tickets import TicketService, sla_info
+from app.services.tickets import EKSPERCI, TicketService, sla_info
 
 router = APIRouter()
 
@@ -44,6 +45,8 @@ def _item(ticket: Ticket, panel: PanelSettings) -> TicketListItem:
         triaz_wykonany=ticket.triaz_zrodlo is not None,
         liczba_duplikatow=len(ticket.duplikaty or []),
         sla=sla_info(ticket, panel),
+        prosba_o_eksperta=ticket.prosba_o_eksperta,
+        ekspert=ticket.ekspert,
     )
 
 
@@ -64,7 +67,11 @@ async def _read(service: TicketService, ticket: Ticket) -> TicketRead:
         najlepsze_dopasowanie=ticket.najlepsze_dopasowanie,
         wiadomosci=[
             ThreadMessageRead(
-                autor_rola=m.autor_rola, tresc=m.tresc, zrodla=m.zrodla, created_at=m.created_at
+                autor_rola=m.autor_rola,
+                tresc=m.tresc,
+                zrodla=m.zrodla,
+                created_at=m.created_at,
+                podpis=m.podpis,
             )
             for m in messages
         ],
@@ -145,6 +152,22 @@ async def forward_question(
     """Tekst zatwierdza pracownik ROPS; instytucja odpowiada w swoim wątku."""
     ticket = await _ticket_or_404(service, ticket_id)
     await opinions.forward(ticket, data.opinia_id, data.tresc)
+    return await _read(service, ticket)
+
+
+@router.get("/eksperci", response_model=list[str], summary="Lista ekspertów dyżuru")
+async def list_experts() -> list[str]:
+    return list(EKSPERCI)
+
+
+@router.put("/zgloszenia/{ticket_id}/ekspert", response_model=TicketRead)
+async def assign_expert(ticket_id: int, data: ExpertAssign, service: TicketServiceDep):
+    """Odpowiedzi w wątku są potem podpisane rolą eksperta."""
+    ticket = await _ticket_or_404(service, ticket_id)
+    try:
+        await service.assign_expert(ticket, data.ekspert)
+    except ValueError as e:
+        raise HTTPException(status.HTTP_422_UNPROCESSABLE_CONTENT, str(e)) from None
     return await _read(service, ticket)
 
 

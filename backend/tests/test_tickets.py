@@ -241,3 +241,37 @@ async def test_odpowiedz_w_nieistniejacym_watku(admin_client):
         f"{API}/zgloszenia/watek/nie-ma/wiadomosci", json={"tresc": "Halo?"}
     )
     assert response.status_code == 404
+
+
+async def test_prosba_o_eksperta_i_podpis_odpowiedzi(admin_client):
+    token = await submit(admin_client, "Nie wiemy, jak sfinansować klub seniora w gminie")
+    ticket_id = await first_ticket_id(admin_client)
+
+    response = await admin_client.post(f"{API}/zgloszenia/watek/{token}/ekspert")
+    assert response.status_code == 200, response.text
+    assert response.json()["prosba_o_eksperta"] is True
+    # Druga prośba nie dubluje powiadomienia.
+    await admin_client.post(f"{API}/zgloszenia/watek/{token}/ekspert")
+    notifications = (await admin_client.get(f"{API}/admin/powiadomienia")).json()["items"]
+    assert [n["tekst"] for n in notifications].count(
+        f"Prośba o eksperta w zgłoszeniu nr {ticket_id}"
+    ) == 1
+
+    experts = (await admin_client.get(f"{API}/admin/eksperci")).json()
+    wrong = await admin_client.put(
+        f"{API}/admin/zgloszenia/{ticket_id}/ekspert", json={"ekspert": "Jan Kowalski"}
+    )
+    assert wrong.status_code == 422
+    assigned = await admin_client.put(
+        f"{API}/admin/zgloszenia/{ticket_id}/ekspert", json={"ekspert": experts[0]}
+    )
+    assert assigned.json()["ekspert"] == experts[0]
+    assert assigned.json()["prosba_o_eksperta"] is True
+
+    await admin_client.post(
+        f"{API}/admin/zgloszenia/{ticket_id}/odpowiedz", json={"tresc": "Dzień dobry, pomogę."}
+    )
+    thread = (await admin_client.get(f"{API}/zgloszenia/watek/{token}")).json()
+    assert thread["ekspert"] == experts[0]
+    assert thread["wiadomosci"][-1]["podpis"] == experts[0]
+    assert thread["wiadomosci"][0]["podpis"] is None

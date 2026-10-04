@@ -52,6 +52,42 @@ function ReplyForm({ token, onSent }: { token: string; onSent: (data: PublicThre
   )
 }
 
+/** Dyżur eksperta: autor prosi, ROPS przypisuje eksperta, który odpowiada w tym samym wątku. */
+function ExpertBox({ token, thread, onChange }: { token: string; thread: PublicThread; onChange: (data: PublicThread) => void }) {
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
+
+  if (thread.ekspert) {
+    return <p className="alert alert-note" role="status">Twoją sprawę prowadzi: <strong>{thread.ekspert}</strong>. Odpowie w tej rozmowie.</p>
+  }
+  if (thread.prosba_o_eksperta) {
+    return <p className="alert alert-note" role="status">Prośba o eksperta dotarła do ROPS. Zespół wybierze osobę, która zna się na Twojej sprawie.</p>
+  }
+
+  async function ask() {
+    setBusy(true)
+    setError('')
+    try {
+      onChange(await api.requestExpert(token))
+    } catch (err) {
+      setError(errorText(err))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  return (
+    <section aria-labelledby="expert-h" className="stack">
+      <h2 id="expert-h">Potrzebujesz porady eksperta?</h2>
+      <p>ROPS ma ekspertów od finansowania, ekonomii społecznej i usług społecznych. Ekspert odpowie w tej rozmowie.</p>
+      {error && <p className="field-error" role="alert">{error}</p>}
+      <div className="btn-row">
+        <button type="button" className="btn btn-secondary" disabled={busy} onClick={ask}>{busy ? 'Wysyłanie…' : 'Poproś eksperta'}</button>
+      </div>
+    </section>
+  )
+}
+
 /** Publiczny widok rozmowy: autor zgłoszenia widzi swoje zgłoszenie, odpowiedź ROPS i może odpisać. */
 export default function ThreadPage() {
   const { token = '' } = useParams()
@@ -73,7 +109,7 @@ export default function ThreadPage() {
           <ol className="thread">
             {data.wiadomosci.map((m, i) => (
               <li key={i} className={m.autor_rola === 'admin' ? 'msg-admin' : 'msg-author'}>
-                <p className="hint">{m.autor_rola === 'admin' ? 'Wiadomość ROPS' : i === 0 ? 'Twoje zgłoszenie' : 'Twoja wiadomość'} · {formatDate(m.created_at)}</p>
+                <p className="hint">{m.autor_rola === 'admin' ? (m.podpis ? `${m.podpis}, ROPS` : 'Wiadomość ROPS') :i === 0 ? 'Twoje zgłoszenie' : 'Twoja wiadomość'} · {formatDate(m.created_at)}</p>
                 <p className="pre">{m.tresc}</p>
                 {m.zrodla && m.zrodla.length > 0 && (
                   <p className="hint">
@@ -86,6 +122,7 @@ export default function ThreadPage() {
             ))}
           </ol>
           <ReplyForm token={token} onSent={setData} />
+          <ExpertBox token={token} thread={data} onChange={setData} />
         </>
       )}
     </div>

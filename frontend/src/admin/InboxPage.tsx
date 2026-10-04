@@ -175,6 +175,7 @@ export default function InboxPage() {
                     <div className="hint">
                       Wpłynęło {formatDate(t.created_at)}
                       {t.syntetyczne && <> <SyntheticTag /></>}
+                      {t.prosba_o_eksperta && !t.ekspert && <> <span className="tag tag-warn">prośba o eksperta</span></>}
                       {t.liczba_duplikatow > 0 && <> · możliwe duplikaty: {t.liczba_duplikatow}</>}
                       {!t.triaz_wykonany && <> · czeka na analizę</>}
                     </div>
