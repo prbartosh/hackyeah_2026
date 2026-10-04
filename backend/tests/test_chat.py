@@ -521,6 +521,10 @@ def filtered(*chunks: str) -> str:
         (["[uwaga] to nie notatka"], "[uwaga] to nie notatka"),
         (["[P", "rzykład]"], "[Przykład]"),
         (["Linia 1\n", "Linia 2"], "Linia 1\nLinia 2"),
+        # notatka wymyślona przez model, spoza znanych prefiksów
+        (["Dziękuję.\n[Miejsca: wieś w Małopolsce, trudno wyjść z domu]"], "Dziękuję.\n"),
+        (["[Mie", "jsca: wieś]\nDalej."], "Dalej."),
+        (["[uwaga]", " to nie notatka"], "[uwaga] to nie notatka"),
     ],
 )
 def test_note_filter(chunks, expected):

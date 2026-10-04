@@ -72,7 +72,7 @@ const initialData = (): ChatData => ({
 })
 
 type Action =
-  | { type: 'send'; display: string; content: string; confirmSummary?: boolean }
+  | { type: 'send'; display: string; content: string; confirmSummary?: boolean; correctedSummary?: string }
   | { type: 'event'; event: ServerEvent }
   | { type: 'fail'; message: string; unavailable?: boolean }
   | { type: 'retry' }
@@ -128,12 +128,20 @@ function dropEmptyAssistant(display: DisplayMessage[]): DisplayMessage[] {
   return display
 }
 
+/** Poprawione przez użytkownika podsumowanie zastępuje w czacie wersję od asystenta, żeby „Zatwierdzone” stało przy tym, co wysłaliśmy. */
+function withCorrectedSummary(display: DisplayMessage[], summary: string | undefined): DisplayMessage[] {
+  if (!summary) return display
+  const last = [...display].reverse().find((m) => m.summary)
+  return last ? display.map((m) => (m.id === last.id ? { ...m, summary } : m)) : display
+}
+
 function reducer(data: ChatData, action: Action): ChatData {
   switch (action.type) {
-    case 'send':
+    case 'send': {
+      const display = withCorrectedSummary(data.display, action.correctedSummary)
       return {
         ...data,
-        display: [...data.display, { id: nextId(data.display), from: 'user', text: action.display }],
+        display: [...display, { id: nextId(display), from: 'user', text: action.display }],
         history: appendUser(data.history, action.content),
         awaiting: null,
         recentlyUpdated: [],
@@ -143,6 +151,7 @@ function reducer(data: ChatData, action: Action): ChatData {
         error: null,
         unavailable: false,
       }
+    }
 
     case 'fail':
       return { ...data, display: dropEmptyAssistant(data.display), streaming: false, error: action.message, unavailable: !!action.unavailable }
@@ -288,7 +297,13 @@ export function ChatProvider({ children }: { children: ReactNode }) {
   const send = useCallback(
     (display: string, content: string, action?: ChatAction, summary?: string) => {
       if (dataRef.current.streaming) return
-      dispatch({ type: 'send', display, content, confirmSummary: action === 'confirm_summary' })
+      dispatch({
+        type: 'send',
+        display,
+        content,
+        confirmSummary: action === 'confirm_summary',
+        correctedSummary: action === 'confirm_summary' ? summary : undefined,
+      })
       void stream(action, summary)
     },
     [dispatch, stream],
@@ -300,7 +315,8 @@ export function ChatProvider({ children }: { children: ReactNode }) {
       sendMessage: (text) => send(text, text),
       confirmSummary: (correctedSummary) =>
         send(
-          correctedSummary ? `Zatwierdzam poprawione podsumowanie:\n${correctedSummary}` : 'Potwierdzam podsumowanie.',
+          // Poprawiony tekst jest już w bloku podsumowania, więc w dymku bez powtórzenia
+          correctedSummary ? 'Zatwierdzam poprawione podsumowanie.' : 'Potwierdzam podsumowanie.',
           ACTION_HISTORY_TEXT.confirm_summary,
           'confirm_summary',
           correctedSummary,
