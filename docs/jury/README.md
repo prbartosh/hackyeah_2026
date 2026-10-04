@@ -20,7 +20,7 @@ Najszybszy sposób, żeby zobaczyć wszystko na żywo: przycisk **Przewodnik** w
 - Całość to 10 rozdziałów i ok. 120 kroków, ok. 40–50 minut z czytaniem (sama automatyczna ścieżka bez czytania: kilka minut, najdłużej czeka się na odpowiedź modelu, do ok. 20 s).
 - Rozdziały można wybierać w spisie (ikona listy w chmurce) albo otworzyć jeden adresem: `/?przewodnik=start`, `czat`, `zasobnik`, `innowacja`, `tester`, `middleman`, `kreator`, `wspolpraca`, `siec`, `panel`.
 - Postęp zapamiętuje przeglądarka, można zminimalizować chmurkę, wrócić i kontynuować. Telefon: chmurka jako panel u dołu ekranu.
-- Przy kroku panelu pracownika przewodnik prosi o zalogowanie zwykłym formularzem: wpisz token `ADMIN_TOKEN` z pliku `.env` i kliknij „Zaloguj”. Przewodnik poczeka i pójdzie dalej sam.
+- Do panelu pracownika przewodnik wchodzi sam, gdy w `.env` jest `DEMO_TOUR_ENABLED=true` (domyślnie w `.env.example`). Wtedy każdy, kto otworzy aplikację, ma dostęp do panelu, więc to ustawienie tylko na stack demo. Przy `false` przewodnik prosi o zalogowanie tokenem `ADMIN_TOKEN` z `.env` i czeka.
 - Przewodnik tworzy w bazie rekordy oznaczone [demo] (zgłoszenia, fiszkę, canvę, pytania, ogłoszenia, opinie). Po kilku przejściach warto uruchomić stack od nowa na czystej bazie (`docker compose down -v`).
 
 ### Przed pokazem
