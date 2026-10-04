@@ -250,21 +250,24 @@ export default function TourProvider({ children, chapters: chaptersProp }: { chi
   }, [location.pathname, step, phase.kind, store, leave])
 
   // Klawiatura: Esc minimalizuje, Alt+strzałki przechodzą między krokami.
+  // W rozdziale bez pomijania (strict) klawiatura nie omija kroków: tylko „dalej” w gotowym kroku bez advanceOn.
+  const strict = !!chapter?.strict
+  const canKeyNext = !strict || (phase.kind === 'ready' && !step?.advanceOn)
   useEffect(() => {
     if (!isStep || state.minimized || state.menuOpen) return
     const onKey = (e: KeyboardEvent) => {
       if (e.defaultPrevented) return
       if (e.key === 'Escape') {
-        store.minimize()
+        if (!strict) store.minimize()
       } else if (e.altKey && (e.key === 'ArrowRight' || e.key === 'ArrowLeft') && !isTextField(e.target)) {
         e.preventDefault()
-        if (e.key === 'ArrowRight') store.next()
-        else store.prev()
+        if (e.key === 'ArrowRight') { if (canKeyNext) store.next() }
+        else if (!strict) store.prev()
       }
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
-  }, [isStep, state.minimized, state.menuOpen, store])
+  }, [isStep, state.minimized, state.menuOpen, store, strict, canKeyNext])
 
   useEffect(() => {
     if (isStep && state.minimized) pillRef.current?.focus({ preventScroll: true })

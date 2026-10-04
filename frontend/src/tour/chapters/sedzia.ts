@@ -16,6 +16,7 @@ const chapter: TourChapter = {
   summary: 'Najważniejsza funkcja na żywo: opis problemu, pytania AI i dopasowane innowacje.',
   minutes: 2,
   standalone: true,
+  strict: true,
   steps: [
     {
       id: 'sedzia.witaj',
@@ -59,16 +60,17 @@ const chapter: TourChapter = {
     },
     {
       id: 'sedzia.pytanie',
-      target: 'czat-pytanie',
+      // Model kończy turę pytaniem albo podsumowaniem: oba mają cel „czat-gotowe”, więc krok nie utknie.
+      target: 'czat-gotowe',
       title: 'Krótkie pytanie zamiast ankiety',
       body: [
         'Gdy czegoś brakuje, AI dopytuje, najwyżej cztery razy. Odpowiada się jednym kliknięciem.',
         'Teraz pominiemy pytania i od razu poprosimy o wyniki.',
       ],
-      hint: 'Kliknij „Zrób to za mnie”, żeby pokazać wyniki teraz.',
+      hint: 'Kliknij „Zrób to za mnie” albo „Pokaż wyniki teraz” pod polem tekstowym.',
       tag: TAG,
       placement: 'top',
-      waitFor: { target: 'czat-pytanie', timeoutMs: MODEL, message: 'Model przygotowuje pytanie…' },
+      waitFor: { target: 'czat-gotowe', timeoutMs: MODEL, message: 'Model kończy odpowiedź…' },
       actions: [{ kind: 'click', target: 'czat-wyniki-teraz' }],
       advanceOn: { kind: 'appear', target: 'czat-wynik', timeoutMs: MODEL },
     },
