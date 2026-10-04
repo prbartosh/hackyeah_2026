@@ -47,6 +47,7 @@ export default function ReportPage() {
         <p role="status">Odpowiedź pojawi się pod tym adresem. Zapisz go lub dodaj do zakładek:</p>
         <p><Link to={link}>{window.location.origin}{link}</Link></p>
         <p className="hint">Jeśli podałeś e-mail, dostaniesz też wiadomość z odpowiedzią.</p>
+        <p><Link to="/wspolpraca">Co dalej? Współpraca z ROPS</Link></p>
       </div>
     )
   }

@@ -1,0 +1,13 @@
+.coop h2 { font-size: 1.4rem; margin-block: 2rem 0.75rem; }
+.coop h3 { font-size: 1.1rem; margin-block: 1rem 0.5rem; }
+.coop-lead { font-size: 1.1rem; max-width: 46rem; }
+.coop-tiles { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+.coop-tiles > li { display: flex; }
+.coop-tile { display: grid; align-content: start; gap: 0.5rem; width: 100%; padding: 1.25rem; background: var(--surface); color: var(--text); border: var(--border-width) solid var(--border-strong); border-radius: var(--radius-md); text-decoration: none; }
+.coop-tile svg { color: var(--primary); }
+.coop-tile-title { font-weight: 700; font-size: 1.15rem; color: var(--link); text-decoration: underline; text-underline-offset: 3px; }
+.coop-tile:hover { background: var(--primary-soft); }
+.coop-steps { padding-left: 1.5rem; display: grid; gap: 0.5rem; max-width: 46rem; }
+.coop-list { padding-left: 1.25rem; display: grid; gap: 0.4rem; overflow-wrap: anywhere; }
+#moje-sprawy { scroll-margin-top: 1rem; }
+.home-coop { margin-block: 1.5rem; }
