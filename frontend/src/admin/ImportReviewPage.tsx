@@ -60,7 +60,7 @@ export default function ImportReviewPage() {
   }, [data])
 
   if (loading && !data) return <Loading text="Wczytywanie szkicu…" />
-  if (error || !data) return <ErrorBox message={error ?? 'Nie znaleziono importu.'} onRetry={reload} />
+  if (error || !data) return <><h1>Szkic karty z dokumentu</h1><ErrorBox message={error ?? 'Nie znaleziono importu.'} onRetry={reload} /></>
 
   const closed = data.status !== 'szkic'
   const keys = ORDER.filter((k) => k in data.pola)

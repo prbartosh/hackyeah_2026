@@ -32,3 +32,6 @@ backend/uv.lock
 # Artefakty builda TypeScript
 *.tsbuildinfo
 .claude/worktrees/
+
+# Raport audytu axe (frontend: npm run a11y)
+frontend/a11y-report/
