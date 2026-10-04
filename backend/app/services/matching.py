@@ -80,6 +80,7 @@ class CardMatch:
     score: float
     powody: list[str] = field(default_factory=list)
     trigram: float = 0.0
+    vector: float = 0.0
 
 
 def card_score(
@@ -88,16 +89,19 @@ def card_score(
     label_map: dict[str, dict[str, str]],
     ticket_text: str,
     card_text: str,
+    vector: float = 0.0,
 ) -> CardMatch:
-    """Ważone pokrycie tagów zgłoszenia przez nakładkę karty; remis rozstrzyga trigram.
+    """Ważone pokrycie tagów zgłoszenia przez nakładkę karty; remis rozstrzyga tekst.
 
-    Karta bez nakładki albo zgłoszenie bez tagów: wynik to samo podobieństwo trigramów.
+    Karta bez nakładki albo zgłoszenie bez tagów: wynik to lepsze z dwóch podobieństw tekstu,
+    trigramów znaków i TF-IDF (`vector`, liczony na korpusie kart, patrz `TfidfIndex`).
     """
     trigram = similar_text(ticket_text, card_text)
+    textual = max(trigram, vector)
     overlay = overlay or {}
     total = sum(WEIGHTS[s] * len(slugs) for s, slugs in ticket_tags.items())
     if not total or not any(overlay.get(s) for s in WEIGHTS):
-        return CardMatch(score=trigram, trigram=trigram)
+        return CardMatch(score=textual, trigram=trigram, vector=vector)
     covered, reasons = 0, []
     for section, slugs in ticket_tags.items():
         have = set(overlay.get(section) or [])
@@ -105,11 +109,11 @@ def card_score(
             if slug in have:
                 covered += WEIGHTS[section]
                 reasons.append(label_map.get(section, {}).get(slug, slug))
-    return CardMatch(score=covered / total, powody=reasons, trigram=trigram)
+    return CardMatch(score=covered / total, powody=reasons, trigram=trigram, vector=vector)
 
 
 def rank_key(match: CardMatch) -> tuple[float, float]:
-    return (match.score, match.trigram)
+    return (match.score, max(match.trigram, match.vector))
 
 
 def tag_labels(tags: Tags, label_map: dict[str, dict[str, str]], section: str) -> list[str]:

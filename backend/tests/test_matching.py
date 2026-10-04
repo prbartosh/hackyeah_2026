@@ -1,6 +1,7 @@
 from pathlib import Path
 
 from app.core.config import settings
+from app.services.embeddings import TfidfIndex
 from app.services.matching import (
     card_score,
     labels,
@@ -68,3 +69,28 @@ def test_tagi_od_modelu_tylko_ze_slownika():
     }
     assert valid_tags(raw, VOCABULARY) == {"problemy": ["samotnosc"]}
     assert valid_tags("nie słownik", VOCABULARY) == {}
+
+
+def test_potoczny_opis_przemocy_dostaje_tag():
+    assert tag_text("Mama mnie bije", VOCABULARY)["problemy"] == ["przemoc"]
+    assert tag_text("Bicie w domu", VOCABULARY)["problemy"] == ["przemoc"]
+
+
+def test_tfidf_wybiera_dokument_o_rzadkich_slowach_zapytania():
+    docs = [
+        "Klub dla osób z demencją i ich opiekunów, spotkania w świetlicy",
+        "Autobus dla osób starszych dojeżdżający do przychodni w gminie",
+        "Warsztaty dla osób młodych w świetlicy",
+    ]
+    scores = TfidfIndex(docs).scores("opiekun osoby z demencja")
+    assert scores.index(max(scores)) == 0
+    assert scores[0] > scores[1] > 0 or scores[1] == 0
+
+
+def test_tfidf_zapytanie_bez_wspolnych_slow_daje_zero():
+    assert TfidfIndex(["klub seniora"]).scores("festiwal latawców") == [0.0]
+
+
+def test_wynik_tekstowy_to_lepsze_z_trigramu_i_tfidf():
+    match = card_score({}, None, LABELS, "abc", "xyz", vector=0.7)
+    assert match.score == 0.7 and match.vector == 0.7
