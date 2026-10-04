@@ -62,6 +62,7 @@
 
 /* Menu: aktywna pozycja podkreślona paskiem */
 .site-nav a[aria-current="page"] { border-image: var(--mp-stripe) 1; }
+.site-nav a[aria-current="page"]:hover { text-decoration: none; }
 
 @media print {
   .topbar::before, .site-footer::before { display: none; }
