@@ -110,6 +110,7 @@ fieldset.field > legend { padding-inline: 0.4rem; }
 
 .edit-layout { display: grid; gap: 1.5rem; grid-template-columns: minmax(0, 1fr); align-items: start; }
 @media (min-width: 75rem) { .edit-layout { grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); } .preview { position: sticky; top: 1rem; } }
+.preview { min-width: 0; overflow-wrap: anywhere; }
 .preview .detail-section { padding-block: 0.75rem; border-top: 1px solid var(--line-strong); }
 
 .review { display: grid; gap: 0.75rem; margin-block: 1rem; }

@@ -365,13 +365,13 @@
 .zs-read-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.25rem; }
 
 .zs-read-grid { display: grid; grid-template-columns: 19rem minmax(0, 1fr); gap: clamp(1.25rem, 3vw, 3rem); align-items: start; }
-.zs-read-nav { position: sticky; top: 1rem; display: grid; gap: 0.9rem; max-height: calc(100vh - 2rem); overflow-y: auto; padding: 0.25rem; }
+.zs-read-nav { position: sticky; top: 1rem; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0.9rem; max-height: calc(100vh - 2rem); overflow-y: auto; padding: 0.25rem; }
 .zs-read-source { font-size: 0.85rem; }
 
-.zs-r-search { display: flex; align-items: center; gap: 0.35rem; padding: 0.25rem 0.5rem 0.25rem 0.8rem; background: var(--surface); border: 1.5px solid var(--field-border); border-radius: 999px; }
+.zs-r-search { display: flex; min-width: 0; align-items: center; gap: 0.35rem; padding: 0.25rem 0.5rem 0.25rem 0.8rem; background: var(--surface); border: 1.5px solid var(--field-border); border-radius: 999px; }
 .zs-r-search:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
 .zs-r-search > svg { color: var(--text-muted); flex-shrink: 0; }
-.zs-r-search-input { flex: 1; min-width: 0; min-height: 2.5rem; border: 0; background: transparent; color: var(--text); font: inherit; }
+.zs-r-search-input { flex: 1 1 4rem; width: 0; min-width: 0; min-height: 2.5rem; border: 0; background: transparent; color: var(--text); font: inherit; }
 .zs-r-search-input:focus-visible { outline: none; box-shadow: none; }
 .zs-r-search-count { font-size: 0.8rem; color: var(--text-muted); white-space: nowrap; }
 .zs-icon-btn { display: inline-grid; place-items: center; width: 2.25rem; height: 2.25rem; padding: 0; color: var(--text); background: transparent; border: 0; border-radius: 999px; cursor: pointer; }

@@ -1,20 +1,21 @@
 import { Fragment, useEffect, useMemo, useRef } from 'react'
 import { Check, ChevronDown, ChevronUp, Search, X } from 'lucide-react'
-import type { Block, ParsedReport } from '@/lib/reportText'
+import { fold, type Block, type ParsedReport } from '@/lib/reportText'
 
 const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 /** Tekst z wyróżnieniem szukanej frazy i pogrubionymi wartościami procentowymi. */
 function Rich({ text, query }: { text: string; query: string }) {
   const parts = useMemo(() => {
-    const q = query.trim()
-    const re = new RegExp(`${q.length >= 2 ? `(${escapeRe(q)})|` : ''}(\\d+(?:[,.]\\d+)?\\s?%)`, 'gi')
+    const q = fold(query.trim())
+    const haystack = fold(text)
+    const re = new RegExp(`${q.length >= 2 ? `(${escapeRe(q)})|` : ''}(\\d+(?:[,.]\\d+)?\\s?%)`, 'g')
     const out: { s: string; kind: 'hit' | 'num' | null }[] = []
     let last = 0
-    for (const m of text.matchAll(re)) {
+    for (const m of haystack.matchAll(re)) {
       if (m.index > last) out.push({ s: text.slice(last, m.index), kind: null })
       const isHit = q.length >= 2 && m[1] !== undefined
-      out.push({ s: m[0], kind: isHit ? 'hit' : 'num' })
+      out.push({ s: text.slice(m.index, m.index + m[0].length), kind: isHit ? 'hit' : 'num' })
       last = m.index + m[0].length
     }
     if (last < text.length) out.push({ s: text.slice(last), kind: null })

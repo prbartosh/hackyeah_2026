@@ -320,3 +320,12 @@ function lensPrev(lines: string[], i: number, maxLen: number): boolean {
 }
 
 export const readingMinutes = (words: number) => Math.max(1, Math.round(words / 200))
+
+const FOLD_FROM = 'ąćęłńóśźżĄĆĘŁŃÓŚŹŻİ'
+const FOLD_TO = 'acelnoszzacelnoszzi'
+
+/** Małe litery bez polskich znaków, ta sama długość co wejście (pozycje trafień wskazują to samo miejsce w oryginale). */
+export function fold(text: string): string {
+  const mapped = Array.from(text, (ch) => { const i = FOLD_FROM.indexOf(ch); return i >= 0 ? FOLD_TO[i] : ch }).join('').toLowerCase()
+  return mapped.length === text.length ? mapped : text
+}

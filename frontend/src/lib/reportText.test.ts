@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { readdirSync, readFileSync } from 'node:fs'
-import { parseReport } from './reportText'
+import { fold, parseReport } from './reportText'
 
 const dir = '../assets/raporty/text'
 const load = (prefix: string) => readFileSync(`${dir}/${readdirSync(dir).find((f) => f.startsWith(prefix))!}`, 'utf8')
@@ -52,5 +52,12 @@ describe('parseReport', () => {
       const r = parseReport(readFileSync(`${dir}/${f}`, 'utf8'))
       expect(r.blocks.length).toBeGreaterThan(0)
     }
+  })
+})
+
+describe('fold', () => {
+  it('ignoruje wielkość liter i polskie znaki, zachowuje długość', () => {
+    expect(fold('Samotności ŁÓDŹ')).toBe('samotnosci lodz')
+    expect(fold('İstanbul')).toHaveLength('İstanbul'.length)
   })
 })

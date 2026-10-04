@@ -21,13 +21,15 @@ function TrendBars({ cluster }: { cluster: Cluster }) {
           </span>
         ))}
       </div>
-      <table className="visually-hidden">
-        <caption>Liczba zgłoszeń tygodniowo: {cluster.nazwa}</caption>
-        <thead><tr><th scope="col">Tydzień od</th><th scope="col">Zgłoszenia</th></tr></thead>
-        <tbody>
-          {cluster.trend.map((w) => <tr key={w.tydzien}><td>{weekLabel(w.tydzien)}</td><td>{w.liczba}</td></tr>)}
-        </tbody>
-      </table>
+      <div className="visually-hidden">
+        <table>
+          <caption>Liczba zgłoszeń tygodniowo: {cluster.nazwa}</caption>
+          <thead><tr><th scope="col">Tydzień od</th><th scope="col">Zgłoszenia</th></tr></thead>
+          <tbody>
+            {cluster.trend.map((w) => <tr key={w.tydzien}><td>{weekLabel(w.tydzien)}</td><td>{w.liczba}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
     </div>
   )
 }
