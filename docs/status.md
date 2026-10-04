@@ -27,6 +27,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
+- 2026-10-04: Dane demo w repo: `backend/scripts/demo-data.json` ładuje się przy starcie do pustej bazy (`DEMO_DATA=true`), pełny panel po `git clone` bez seedowania; `scripts/demo_data.py` (load/export), `scripts/seed_demo_extra.py` (powiadomienia, importy, radar, rozmowy partnerskie)
 - 2026-10-04: Test całości na main: `docker compose up --build` (w chmurze Claude potrzebne obrazy bazowe z CA proxy), migracje 0001–0013 na PostgreSQL 16 (up, down, up), seedy, pytest 238/238, lint, build i testy frontendu, smoke API modułu V, Playwright na wszystkich trasach i zakładkach panelu bez błędów konsoli i 4xx/5xx, limit nginx 20/min (429) sprawdzony, czat przez nginx na DeepSeek odpowiada. Niesprawdzone: e-mail.
 
 Moduł V (komunikacja z ROPS):
