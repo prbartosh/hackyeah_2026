@@ -1,8 +1,8 @@
 # 0035. Szybkie przewagi: prosty język, czytanie na głos, deklaracja dostępności, trafność
 
-- Status: w toku
+- Status: review
 - Osoba: Wiktor
-- PR: 
+- PR: #54
 
 ## Cel
 
