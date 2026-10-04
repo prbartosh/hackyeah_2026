@@ -128,10 +128,7 @@ function PowiatCard({ table, yearIdx, powiat }: { table: IndicatorTable; yearIdx
 
 export default function IndicatorExplorer({ table, name }: Props) {
   const [yearIdx, setYearIdx] = useState(() => lastYearWithData(table))
-  const [selected, setSelected] = useState<string[]>(() => {
-    const s = summarize(table, lastYearWithData(table))
-    return s ? [s.max.powiat, s.min.powiat] : []
-  })
+  const [selected, setSelected] = useState<string[]>([])
   const [active, setActive] = useState<string | null>(null)
   const [playing, setPlaying] = useState(false)
   const year = table.years[yearIdx]
