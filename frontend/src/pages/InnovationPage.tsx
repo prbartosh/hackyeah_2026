@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { Download, ExternalLink, FileText } from 'lucide-react'
 import { getInnovation } from '@/api/innovations'
+import PlainLanguageSection from '@/components/PlainLanguageSection'
+import ReadAloudButton from '@/components/ReadAloudButton'
 import TesterSection from '@/components/TesterSection'
 import VideoEmbed from '@/components/VideoEmbed'
 import { useChat } from '@/context/ChatContext'
@@ -92,6 +94,14 @@ export default function InnovationPage() {
           {kategoria && <p className="detail-kicker">{kategoria}</p>}
           <h1>{rec.nazwa}</h1>
           {rec.wybrana_do_upowszechniania && <p className="badge">Polecana przez ROPS do upowszechniania</p>}
+
+          <div className="btn-row detail-tools">
+            <ReadAloudButton
+              text={[rec.nazwa, rec.opis, rec.problem && `Jakich problemów dotyczy. ${rec.problem}`, rec.grupa_docelowa && `Dla kogo. ${rec.grupa_docelowa}`].filter(Boolean).join('. ')}
+              label="Przeczytaj opis"
+            />
+          </div>
+          <PlainLanguageSection key={rec.slug} slug={rec.slug} />
 
           {rec.youtube_url && (
             <section className="detail-section">

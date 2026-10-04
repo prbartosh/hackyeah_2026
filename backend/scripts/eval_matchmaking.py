@@ -59,6 +59,10 @@ class Outcome:
         return self.case.expected is not None and self.case.expected in top
 
     @property
+    def top3(self) -> bool:
+        return self.case.expected is not None and self.case.expected in self.slugs[:3]
+
+    @property
     def top5(self) -> bool:
         return self.case.expected is not None and self.case.expected in self.slugs[:5]
 
@@ -134,8 +138,8 @@ def run_case(client: httpx.Client, url: str, case: Case) -> Outcome:
 
 def report(outcomes: list[Outcome]) -> str:
     rows = [
-        "| # | Oczekiwany | Otrzymane | Top 1 | Top 5 |",
-        "|---|---|---|---|---|",
+        "| # | Oczekiwany | Otrzymane | Top 1 | Top 3 | Top 5 |",
+        "|---|---|---|---|---|---|",
     ]
     for o in outcomes:
         expected = o.case.expected or "brak"
@@ -146,10 +150,10 @@ def report(outcomes: list[Outcome]) -> str:
             if o.no_good_match:
                 got += " (no_good_match)"
         if o.case.expected is None:
-            top1 = top5 = "tak" if o.no_match_ok else "nie"
+            top1 = top3 = top5 = "tak" if o.no_match_ok else "nie"
         else:
-            top1, top5 = ("tak" if o.top1 else "nie"), ("tak" if o.top5 else "nie")
-        rows.append(f"| {o.case.number} | {expected} | {got} | {top1} | {top5} |")
+            top1, top3, top5 = (("tak" if hit else "nie") for hit in (o.top1, o.top3, o.top5))
+        rows.append(f"| {o.case.number} | {expected} | {got} | {top1} | {top3} | {top5} |")
     return "\n".join(rows) + "\n\n" + summary(outcomes)
 
 
@@ -159,6 +163,7 @@ def summary(outcomes: list[Outcome]) -> str:
     errors = sum(1 for o in outcomes if o.error)
     parts = [
         f"top 1: {sum(o.top1 for o in matched)}/{len(matched)}",
+        f"top 3: {sum(o.top3 for o in matched)}/{len(matched)}",
         f"top 5: {sum(o.top5 for o in matched)}/{len(matched)}",
     ]
     if no_match:
