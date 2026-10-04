@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
 import { AlertTriangle, CheckCircle2, Circle, CircleDot, Clock } from 'lucide-react'
 import { AdminApiError } from '@/admin/api'
 import type { Pilnosc, Sla, StatusKarty, StatusZgloszenia } from '@/admin/types'
@@ -16,25 +16,38 @@ export function errorText(e: unknown): string {
 
 /** Ładowanie danych z obsługą błędu i ponowieniem; stan ładowania jest czytelny dla czytnika ekranu. */
 export function useLoad<T>(loader: () => Promise<T>, deps: unknown[]) {
-  const [state, setState] = useState<{ data?: T; error?: string; loading: boolean }>({ loading: true })
+  type State = { loader?: () => Promise<T>; data?: T; error?: string; loading: boolean }
+  const [state, setState] = useState<State>({ loading: true })
+  const requestId = useRef(0)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const stableLoader = useCallback(loader, deps)
-  const reload = useCallback(() => {
-    setState((s) => ({ ...s, loading: true, error: undefined }))
+  const load = useCallback(() => {
+    const id = ++requestId.current
+    setState({ loader: stableLoader, loading: true })
     stableLoader()
-      .then((data) => setState({ data, loading: false }))
-      .catch((e) => setState((s) => ({ ...s, error: errorText(e), loading: false })))
+      .then((data) => {
+        if (requestId.current === id) setState({ loader: stableLoader, data, loading: false })
+      })
+      .catch((e) => {
+        if (requestId.current === id) {
+          setState({ loader: stableLoader, error: errorText(e), loading: false })
+        }
+      })
   }, [stableLoader])
+  const reload = useCallback(() => load(), [load])
   useEffect(() => {
-    let cancelled = false
-    stableLoader()
-      .then((data) => !cancelled && setState({ data, loading: false }))
-      .catch((e) => !cancelled && setState((s) => ({ ...s, error: errorText(e), loading: false })))
-    return () => {
-      cancelled = true
-    }
+    load()
+    return () => { requestId.current += 1 }
+  }, [load])
+
+  // `stableLoader` zmienia się już w renderze z nowymi parametrami routingu. Nie pokazuj
+  // danych należących do poprzedniego loadera w krótkim czasie przed uruchomieniem efektu.
+  const visible: State = state.loader === stableLoader ? state : { loading: true }
+  const setData = useCallback((data: T) => {
+    requestId.current += 1
+    setState({ loader: stableLoader, data, loading: false })
   }, [stableLoader])
-  return { ...state, reload, setData: (data: T) => setState({ data, loading: false }) }
+  return { ...visible, reload, setData }
 }
 
 export function Loading({ text = 'Wczytywanie…' }: { text?: string }) {

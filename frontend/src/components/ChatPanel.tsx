@@ -440,7 +440,7 @@ export default function ChatPanel() {
             placeholder={started ? 'Napisz odpowiedź…' : 'Np. mama zapomina o lekach, a nie mogę być przy niej cały dzień'}
             onChange={(e) => { setDraft(e.target.value); if (showError) setShowError(false) }}
             onKeyDown={onKeyDown}
-            aria-describedby={showError ? 'chat-hint chat-error' : 'chat-hint'}
+            aria-describedby={showError ? 'chat-hint chat-privacy chat-error' : 'chat-hint chat-privacy'}
             aria-invalid={showError}
           />
           <div className="composer-actions">
@@ -462,6 +462,10 @@ export default function ChatPanel() {
             Wpisz kilka słów, żeby wysłać.
           </p>
         )}
+        <p id="chat-privacy" className="hint">
+          Nie wpisuj danych wrażliwych. Treść rozmowy jest przekazywana zewnętrznemu
+          dostawcy modelu AI, ale nie jest zapisywana w bazie Splotu.
+        </p>
       </form>
 
       {!started && (

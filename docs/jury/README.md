@@ -39,7 +39,9 @@ Dane pobrano 2026-10-03 scraperami z `scrapers/`. „Licencja nieustalona”: ź
 
 ## Prywatność
 
-Czat nie zapisuje rozmów. Zapisujemy anonimowe potrzeby (rola, slugi, pokazane innowacje, bez treści rozmowy). Adresów IP nie zapisujemy. Zgłoszenia, fiszki i oceny trafiają do bazy i skrzynki panelu.
+Czat nie zapisuje rozmów w bazie Splotu. Treść każdej rozmowy jest jednak przekazywana skonfigurowanemu zewnętrznemu dostawcy modelu AI w celu wygenerowania odpowiedzi; przed uruchomieniem publicznym trzeba opisać wybranego dostawcę, podstawę przetwarzania i jego okres retencji w polityce prywatności. Użytkownik widzi tę informację także bezpośrednio przy polu czatu i jest proszony o niewpisywanie danych wrażliwych.
+
+Zapisujemy anonimowe potrzeby (rola, slugi, pokazane innowacje, bez treści rozmowy) do końca demo. Proxy i backend nie zapisują adresów IP ani pełnych URI; log operacyjny zawiera tylko metodę, status, rozmiar odpowiedzi i czas obsługi. Zgłoszenia, fiszki i oceny świadomie wysłane przez użytkowników trafiają do bazy i skrzynki panelu.
 
 ## Zespół
 

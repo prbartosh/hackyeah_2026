@@ -6,12 +6,10 @@ Output: data/<id>.csv (resumable), indicators.json, observations.csv, text/<id>.
 """
 import csv
 import os
-import re
 import sys
 from concurrent.futures import ThreadPoolExecutor
 
 from bs4 import BeautifulSoup
-
 from common import ASSETS, get, slugify, write_json
 
 HOST = "https://obserwator.rops.krakow.pl"
@@ -19,6 +17,10 @@ OUT = ASSETS / "obserwator"
 WORKERS = 8
 PORTRAIT_YEARS = range(2007, 2025)
 FIELDS = ["indicator_id", "indicator", "year", "level", "area", "powiat", "value"]
+
+
+class ParseError(RuntimeError):
+    """Źródło nie ma struktury, której wymaga parser; wyniku nie wolno cache'ować."""
 
 
 def indicator_list():
@@ -32,7 +34,13 @@ def indicator_list():
             iid = a["href"].rsplit("/", 1)[-1]
             if iid.isdigit() and iid not in seen:
                 seen.add(iid)
-                out.append({"id": iid, "name": a.get_text(strip=True), "category": cat.get_text(strip=True)})
+                out.append(
+                    {
+                        "id": iid,
+                        "name": a.get_text(strip=True),
+                        "category": cat.get_text(strip=True),
+                    }
+                )
     return out
 
 
@@ -43,11 +51,15 @@ def num(cell):
     return t.replace("\xa0", "").replace(" ", "").replace(",", ".")
 
 
-def parse(html, iid, name, year):
+def parse(html, iid, name, year, *, table_required=True):
     soup = BeautifulSoup(html, "html.parser")
-    table = soup.select_one("#tabela table.with-child-tables") or soup.select_one("table.with-child-tables")
+    table = soup.select_one("#tabela table.with-child-tables") or soup.select_one(
+        "table.with-child-tables"
+    )
     rows = []
     if not table:
+        if table_required:
+            raise ParseError(f"Brak tabeli danych dla wskaźnika {iid}, rok {year}")
         return rows
     for tr in table.select("tbody > tr"):
         tds = tr.find_all("td", recursive=False)
@@ -55,13 +67,25 @@ def parse(html, iid, name, year):
             continue
         powiat = tds[0].get_text(strip=True)
         rows.append([iid, name, year, "powiat", powiat, powiat, num(tds[-1])])
-        child = soup.select_one(f"#{table['data-table-id']}_table_child_row_{tr.get('data-child-row')}")
+        child_id = f"#{table['data-table-id']}_table_child_row_{tr.get('data-child-row')}"
+        child = soup.select_one(child_id)
         if child:
             for ctr in child.select("tr"):
                 c = ctr.find_all("td")
                 if len(c) >= 2:
-                    rows.append([iid, name, year, "gmina", c[0].get_text(strip=True), powiat, num(c[-1])])
+                    rows.append(
+                        [iid, name, year, "gmina", c[0].get_text(strip=True), powiat, num(c[-1])]
+                    )
     return rows
+
+
+def csv_has_data(path):
+    """Sam nagłówek nie potwierdza poprawnego pobrania i nie kończy wznowienia."""
+    if not path.exists():
+        return False
+    with open(path, encoding="utf-8") as f:
+        reader = csv.reader(f)
+        return next(reader, None) == FIELDS and next(reader, None) is not None
 
 
 def describe(soup):
@@ -85,7 +109,7 @@ def scrape(ind):
     ind["description"] = describe(first)
     years = [o["value"] for o in first.select("#differenceanalysis_year option")]
     ind["years"] = years
-    if csv_path.exists():
+    if csv_has_data(csv_path):
         return
     rows = []
     if not years:
@@ -93,14 +117,23 @@ def scrape(ind):
         # "Portret powiatu" view (e.g. 172-174 for 2010-2012). Probe it for every year.
         for y in PORTRAIT_YEARS:
             r = get(f"{HOST}/portrait/ajax/district/1/year/{y}/pointer/{iid}")
-            rows += [x for x in parse(r.text, iid, name, str(y))]
+            rows += parse(r.text, iid, name, str(y), table_required=False)
         if not any(x[6] for x in rows):
             rows = []
         else:
             ind["years"] = sorted({x[2] for x in rows}, reverse=True)
     for y in years:
-        r = get(url, method="POST", data={"differenceanalysis[year]": y, "differenceanalysis[regions]": "-1"})
+        r = get(
+            url,
+            method="POST",
+            data={"differenceanalysis[year]": y, "differenceanalysis[regions]": "-1"},
+        )
         rows += parse(r.text, iid, name, y)
+    if not rows:
+        # Pustej odpowiedzi nie zapisujemy jako sukcesu. Przy kolejnym uruchomieniu źródło
+        # zostanie sprawdzone ponownie, zamiast wiecznie ufać plikowi z samym nagłówkiem.
+        print(iid, name, "no validated rows; cache unchanged", flush=True)
+        return
     tmp = csv_path.with_suffix(f".{os.getpid()}.tmp")
     with open(tmp, "w", newline="", encoding="utf-8") as f:
         w = csv.writer(f)
@@ -112,12 +145,16 @@ def scrape(ind):
 
 def main(limit=None):
     (OUT / "data").mkdir(parents=True, exist_ok=True)
-    inds = indicator_list()[:limit]
+    all_inds = indicator_list()
+    inds = all_inds[:limit] if limit is not None else all_inds
     print(len(inds), "indicators")
     with ThreadPoolExecutor(WORKERS) as ex:
         list(ex.map(scrape, inds))
-    write_json(OUT / "indicators.json", inds)
-    merge(inds)
+    if limit is not None:
+        print("limited run: global indicators.json and observations.csv left unchanged")
+        return
+    write_json(OUT / "indicators.json", all_inds)
+    merge(all_inds)
 
 
 def merge(inds):

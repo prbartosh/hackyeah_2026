@@ -1,3 +1,4 @@
+import logging
 import os
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://app:app@db:5432/app")
@@ -16,8 +17,22 @@ from app.db.base import Base
 from app.main import app
 from app.repositories.innovation import set_db_snapshot
 from app.services.ai import AIGateway
+from app.services.email import LogEmailSender
 
 ADMIN_TOKEN = "test-admin-token"
+
+
+@pytest.fixture(autouse=True)
+def email_outbox_in_log(request, monkeypatch):
+    """Testy czytają e-maile z logu; prawdziwy stub nie loguje payloadu (test_security)."""
+    if request.module.__name__.endswith("test_security"):
+        return
+    logger = logging.getLogger("app.services.email")
+
+    async def send(self, to, subject, body):
+        logger.info("E-mail (stub) od %s do %s: %s\n%s", self.sender, to, subject, body)
+
+    monkeypatch.setattr(LogEmailSender, "send", send)
 
 
 @pytest.fixture

@@ -9,6 +9,8 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu: zostaje sesja NVDA i raport (Daniel)
 - [0022](tasks/0022-dostepnosc-nvda-klawiatura.md) Dostępność: axe i klawiatura gotowe (0 naruszeń), zostają testy NVDA i wejście głosowe (Daniel, Kacper)
 - [0035](tasks/0035-szybkie-przewagi.md) Szybkie przewagi: funkcje zmergowane (#54), zostaje pełna ewaluacja na DeepSeek (liczba na slajd) (Wiktor)
+- [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: zmergowany (#62), zostaje znacznik „nowa odpowiedź autora” w skrzynce i sprawdzenie w przeglądarce (Nikodem)
+- [0043](tasks/0043-wspolpraca-z-rops.md) Strona „Współpraca z ROPS” `/wspolpraca`: zmergowana (#61), zostaje axe, klawiatura i widok 320 px (Nikodem)
 
 ## Do zrobienia
 
@@ -30,11 +32,9 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 Moduł V (komunikacja z ROPS):
 
 - 2026-10-04: Giełda partnerstw: ogłoszenia z moderacją ROPS, kontakt przez ROPS bez ujawniania adresów, migracja 0008 (0036, #58, [ADR 0013](adr/0013-gielda-partnerstw.md))
-- 2026-10-04: Dwustronny wątek zgłoszenia i „Moje sprawy” (0039, #62); brak oznaczenia „nowa odpowiedź autora” w skrzynce i sprawdzenia axe/klawiatury
 - 2026-10-04: Mentorzy: lista, prośba autora, przydział przez ROPS, odpowiedź linkiem bez konta, migracja 0009 (0040, #65, [ADR 0014](adr/0014-mentorzy.md))
 - 2026-10-04: Pytania do ROPS i publiczne FAQ za zgodą pytającego, migracja 0010 (0041, #63, [ADR 0015](adr/0015-pytania-do-rops.md))
 - 2026-10-04: Rozmowy partnerskie przez ROPS, migracja 0011 (0042, #64, [ADR 0013](adr/0013-gielda-partnerstw.md))
-- 2026-10-04: Strona `/wspolpraca`, hub modułu V (0043, #61); brak kontroli axe i klawiatury (320 px)
 - 2026-10-04: „Zapytaj instytucję, która to testuje”, migracja 0012 (0044, #69); na istniejącej bazie raz `scripts/seed_tester.py`
 - 2026-10-04: „Obserwuj potrzebę”: powiadomienie autora o nowej pasującej karcie, migracja 0013 (0045, #70)
 
@@ -43,10 +43,11 @@ Pozostałe:
 - 2026-10-04: Porównanie do 3 innowacji obok siebie, `/porownaj` (0037, #56)
 - 2026-10-04: Otwarte dane: eksport CSV i JSON, `/otwarte-dane` (0038, #57); na produkcji ustawić `PUBLIC_BASE_URL`
 - 2026-10-04: Motywy kolorystyczne Małopolski: pasek barw i tło (#60), filtr notatek modelu i fokus w czacie (#71), kontrast obramowań i Esc w oknie potwierdzenia (#53)
-- 2026-10-04: Dzienny budżet tokenów czatu usunięty (#45); zostają limity nginx, `CHAT_ENABLED` i dzienne limity wywołań AI panelu i kreatora
+- 2026-10-04: Dzienny budżet tokenów czatu usunięty (#45); zostają limity nginx i `CHAT_ENABLED`
 - 2026-10-04: „Podobne przypadki” w matchmakingu ([ADR 0012](adr/0012-podobne-przypadki.md))
 - 2026-10-04: Deterministyczne dopasowanie w panelu zamiast embeddingów (`services/matching.py`, migracja 0007) ([ADR 0006](adr/0006-panel-administratora.md))
 - 2026-10-04: Port LLM i adapter z profilami dostawców (`LLM_PROVIDER`) ([ADR 0010](adr/0010-port-llm.md)); profil `openai` sprawdzony tylko testami jednostkowymi
+- 2026-10-04: Poprawki bezpieczeństwa (#73): logi bez IP, URI i danych osobowych, nagłówki bezpieczeństwa w nginx, wyłączony szablonowy endpoint `/items`, informacja o dostawcy AI przy czacie
 - 2026-10-04: Limity nginx dla publicznych zapisów, migracje sprawdzone na PostgreSQL 16 (up, down, up)
 - 2026-10-04: Testy na prawdziwym modelu (DeepSeek) przeszły ([ADR 0007](adr/0007-deepseek.md))
 - 2026-10-03: Backend czatu: `POST /api/v1/chat` (SSE), `GET /api/v1/innovations/{slug}` ([ADR 0005](adr/0005-matchmaking-chat-llm.md)); czat we froncie

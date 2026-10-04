@@ -17,7 +17,9 @@ class LogEmailSender:
         self.sender = sender
 
     async def send(self, to: str, subject: str, body: str) -> None:
-        logger.info("E-mail (stub) od %s do %s: %s\n%s", self.sender, to, subject, body)
+        # Adres odbiorcy, treść i link do wątku mogą zawierać dane osobowe lub token dostępu.
+        # Adapter demonstracyjny potwierdza wyłącznie zdarzenie, nigdy payload wiadomości.
+        logger.info("E-mail (stub) przyjęty do wysłania")
 
 
 def get_email_sender(settings: Settings) -> EmailSender:
