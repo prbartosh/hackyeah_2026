@@ -30,7 +30,7 @@ export default function ZasobnikStats({ innowacje, kategorie }: Props) {
     { icon: Map, n: 22, label: 'powiatów w danych' },
   ]
   return (
-    <ul className="zs-stats" aria-label="Zawartość zasobnika">
+    <ul className="zs-stats" aria-label="Zawartość zasobnika" data-tour="zasobnik-liczby">
       {items.filter((i) => i.n).map(({ icon: Icon, n, label }) => (
         <li key={label}>
           <Icon size={20} aria-hidden="true" />

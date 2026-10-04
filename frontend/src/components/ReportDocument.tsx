@@ -97,7 +97,7 @@ export default function ReportDocument({ doc }: { doc: DokumentSzczegoly }) {
         </ol>
       </nav>
 
-      <header className="zs-read-hero">
+      <header className="zs-read-hero" data-tour="zasobnik-raport-naglowek">
         <p className="zs-read-kicker"><BookOpen size={16} aria-hidden="true" /> {TYP_NAZWA[doc.typ]}</p>
         <h1>{title}</h1>
         {opis && (
@@ -112,7 +112,7 @@ export default function ReportDocument({ doc }: { doc: DokumentSzczegoly }) {
           {hasText && <li><Clock size={16} aria-hidden="true" /> ok. {minutes} min czytania</li>}
           {doc.licencja && <li><Scale size={16} aria-hidden="true" /> {doc.licencja}</li>}
         </ul>
-        <div className="zs-read-actions">
+        <div className="zs-read-actions" data-tour="zasobnik-raport-pdf">
           <a href={doc.url_zrodlowy} className="btn btn-primary" target="_blank" rel="noreferrer">
             <FileText size={18} aria-hidden="true" /> Otwórz PDF{doc.rozmiar ? ` (${doc.rozmiar})` : ''}<NewTab />
           </a>
@@ -131,19 +131,19 @@ export default function ReportDocument({ doc }: { doc: DokumentSzczegoly }) {
           <aside className="zs-read-nav" aria-label="Nawigacja po dokumencie">
             <ReportSearch query={query} setQuery={setQuery} onStep={step} current={hit} total={hits} />
             {report.headings.length > 0 && (
-              <details className="zs-toc-wrap" open={wide}>
+              <details className="zs-toc-wrap" open={wide} data-tour="zasobnik-raport-spis">
                 <summary>Spis treści ({report.headings.length})</summary>
                 {toc}
               </details>
             )}
-            <p className="hint zs-read-source">
+            <p className="hint zs-read-source" data-tour="zasobnik-raport-licencja">
               {doc.licencja ? (
                 <>Licencja: <a href="https://creativecommons.org/licenses/by/4.0/deed.pl" target="_blank" rel="noreferrer">{doc.licencja}<NewTab /></a>. </>
               ) : 'Źródło: ROPS Kraków. '}
               Tekst wyciągnięty automatycznie z PDF, tabele i rysunki mogą wyglądać inaczej niż w oryginale.
             </p>
           </aside>
-          <article className="zs-read-main" aria-label="Treść dokumentu">
+          <article className="zs-read-main" aria-label="Treść dokumentu" data-tour="zasobnik-raport-tresc">
             <ReportReader report={report} query={query} hitIndex={hit} />
           </article>
         </div>
