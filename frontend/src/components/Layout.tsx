@@ -62,7 +62,7 @@ export default function Layout() {
       <CompareBar />
       <footer className="site-footer">
         <div className="wide footer-inner">
-          <strong>Splot</strong> · Dane: <a href="https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie">Biblioteka Innowacji Społecznych ROPS Kraków</a> (CC BY 4.0) · <a href="mailto:iws@rops.krakow.pl">iws@rops.krakow.pl</a> · <Link to="/zglos">Zgłoś potrzebę</Link> · <Link to="/kreator">Kreator pomysłów</Link> · <Link to="/partnerstwa">Giełda partnerstw</Link> · <Link to="/otwarte-dane">Otwarte dane</Link> · <Link to="/dostepnosc">Deklaracja dostępności</Link> · <Link to="/admin">Panel pracownika</Link>
+          <strong>Splot</strong> · Dane: <a href="https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie">Biblioteka Innowacji Społecznych ROPS Kraków</a> (CC BY 4.0) · <a href="mailto:iws@rops.krakow.pl">iws@rops.krakow.pl</a> · <Link to="/zglos">Zgłoś potrzebę</Link> · <Link to="/kreator">Kreator pomysłów</Link> · <Link to="/wspolpraca">Współpraca z ROPS</Link> · <Link to="/partnerstwa">Giełda partnerstw</Link> · <Link to="/otwarte-dane">Otwarte dane</Link> · <Link to="/dostepnosc">Deklaracja dostępności</Link> · <Link to="/admin">Panel pracownika</Link>
         </div>
       </footer>
     </div>

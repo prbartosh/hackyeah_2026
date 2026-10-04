@@ -13,7 +13,8 @@ const AdminRoutes = lazy(() => import('@/admin/AdminRoutes'))
 const MentorsPage = lazy(() => import('@/pages/MentorsPage'))
 const MentorThreadPage = lazy(() => import('@/pages/MentorThreadPage'))
 const KreatorRoutes = lazy(() => import('@/kreator/KreatorRoutes'))
-const ComparePage = lazy(() => import('@/pages/ComparePage'))
+const CooperationPage = lazy(() => import('@/pages/CooperationPage'))
+const ComparePage =lazy(() => import('@/pages/ComparePage'))
 const DocumentPage = lazy(() => import('@/pages/DocumentPage'))
 const OpenDataPage = lazy(() => import('@/pages/OpenDataPage'))
 const PartnershipsPage = lazy(() => import('@/pages/PartnershipsPage'))
@@ -35,6 +36,7 @@ export default function App() {
         <Route path="dokument/:id" element={<DocumentPage />} />
         <Route path="otwarte-dane" element={<OpenDataPage />} />
         <Route path="zglos" element={<ReportPage />} />
+        <Route path="wspolpraca" element={<CooperationPage />} />
         <Route path="partnerstwa" element={<PartnershipsPage />} />
         <Route path="mentorzy" element={<MentorsPage />} />
         <Route path="mentor/:mentorToken/:threadToken" element={<MentorThreadPage />} />

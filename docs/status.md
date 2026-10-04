@@ -34,6 +34,8 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 - [0037](tasks/0037-porownaj-innowacje.md) Porównaj innowacje obok siebie: przełącznik, pasek, strona `/porownaj` (Nikodem)
 - [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: odpowiedź autora, „Moje sprawy” (Nikodem)
 
+- [0043](tasks/0043-wspolpraca-z-rops.md) Strona „Współpraca z ROPS” `/wspolpraca`: hub modułu V i nawigacja (Nikodem)
+
 ## Zrobione
 
 - 2026-10-04: Dzienny budżet tokenów czatu usunięty (#45); zostają limity nginx, `CHAT_ENABLED` i dzienne limity wywołań AI panelu i kreatora

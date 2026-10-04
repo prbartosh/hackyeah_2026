@@ -1,7 +1,12 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useLocation } from 'react-router-dom'
 import AccessibilityBar from '@/components/AccessibilityBar'
 
+// Strony modułu „Współpraca”: link w nawigacji ma być aktywny na każdej z nich
+const COOPERATION_PATHS = ['/wspolpraca', '/partnerstwa', '/pytania', '/mentorzy', '/watek', '/rozmowa']
+
 export default function Header() {
+  const { pathname } = useLocation()
+  const coopActive = COOPERATION_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))
   return (
     <header className="topbar">
       <a href="#main-content" className="skip-link">
@@ -23,7 +28,7 @@ export default function Header() {
           <NavLink to="/zasobnik">Zasobnik wiedzy</NavLink>
           <NavLink to="/kreator">Kreator pomysłów</NavLink>
           <NavLink to="/zglos">Zgłoś potrzebę</NavLink>
-          <NavLink to="/partnerstwa">Partnerstwa</NavLink>
+          <Link to="/wspolpraca" aria-current={coopActive ? 'page' : undefined}>Współpraca</Link>
         </nav>
         <AccessibilityBar />
       </div>
