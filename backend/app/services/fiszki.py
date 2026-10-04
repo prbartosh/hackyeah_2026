@@ -26,6 +26,8 @@ from app.services.tickets import TicketService
 EDITABLE = ("opis_wlasny", "istota", "odbiorca", "etap", "obszar", "lokalizacja", "potrzeby")
 REQUIRED = ("istota", "odbiorca", "etap")
 MAX_SIMILAR = 3
+# Tyle co minimalny opis w backendzie: krótkie „Mama mnie bije” (14 znaków) też szuka podobnych.
+MIN_QUERY_CHARS = 10
 SOURCE_NAME = "Biblioteka Innowacji Społecznych ROPS Kraków"
 TICKET_LIMIT = 4000
 
@@ -130,7 +132,7 @@ class FiszkaService:
     async def similar_to_text(
         self, text: str, *, exclude: str | None = None
     ) -> list[PodobnaInnowacja]:
-        if len(text.strip()) < 15:
+        if len(text.strip()) < MIN_QUERY_CHARS:
             return []
         panel = await load_settings(self.session, self.settings)
         vocabulary = load_vocabulary(self.settings.innovations_path.parent / "slownik.json")

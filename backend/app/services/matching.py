@@ -22,7 +22,7 @@ Tags = dict[str, list[str]]
 WEIGHTS = {"problemy": 3, "grupy_docelowe": 2, "miejsca": 1, "typy_rozwiazan": 1}
 # Wynik tekstowy (TF-IDF) ma w wyniku końcowym wagę VECTOR_WEIGHT; kosinus krótkiego zgłoszenia
 # z długim opisem karty rzadko przekracza ~0,25, więc VECTOR_SCALE rozciąga go do 0-1.
-VECTOR_WEIGHT = 0.7
+VECTOR_WEIGHT = 0.6
 VECTOR_SCALE = 0.25
 # Słowa od tylu liter skracamy do tylu liter (fleksja: demencji/demencja, seniorów/senior).
 STEM_LEN = 6
@@ -98,7 +98,7 @@ def card_score(
     """Ważone pokrycie tagów zgłoszenia przez nakładkę karty, z podobieństwem tekstu.
 
     Bez `vector`: samo pokrycie tagów, remis rozstrzyga trigram. Z `vector` (TF-IDF na korpusie
-    kart, patrz `TfidfIndex`): 30% pokrycia tagów i 70% tekstu, żeby karta pasująca tylko
+    kart, patrz `TfidfIndex`): 40% pokrycia tagów i 60% tekstu, żeby karta pasująca tylko
     ogólnym tagiem („Dzieci”) nie wygrywała z kartą o tych samych słowach. Karta bez nakładki
     albo zgłoszenie bez tagów: sam tekst (bez `vector`: trigramy).
     """
