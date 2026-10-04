@@ -18,9 +18,9 @@ export function findStep(chapters: TourChapter[], stepId: string): StepRef | und
   return flatSteps(chapters).find((r) => r.step.id === stepId)
 }
 
-/** Rozdziały, które mają kroki (puste są w spisie jako „wkrótce”). */
+/** Rozdziały pełnego przewodnika, które mają kroki (puste są w spisie jako „wkrótce”, osobne są poza kolejką). */
 export function playable(chapters: TourChapter[]): TourChapter[] {
-  return chapters.filter((c) => c.steps.length > 0)
+  return chapters.filter((c) => c.steps.length > 0 && !c.standalone)
 }
 
 export function nextChapter(chapters: TourChapter[], chapterId: string): TourChapter | undefined {

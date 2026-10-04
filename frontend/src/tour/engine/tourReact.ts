@@ -7,6 +7,8 @@ export interface TourApi {
   state: TourState
   /** Otwiera ekran startowy (spis rozdziałów); jeśli przewodnik jest zminimalizowany, wraca do kroku. */
   openMenu(): void
+  /** Uruchamia rozdział od pierwszego kroku (też osobny, np. przewodnik dla sędziego). */
+  startChapter(chapterId: string): boolean
 }
 
 export const TourReactContext = createContext<TourApi | null>(null)

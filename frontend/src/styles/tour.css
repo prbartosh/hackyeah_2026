@@ -6,6 +6,7 @@
 :root[data-theme="high-contrast"] { --tour-dim: transparent; --tour-backdrop: #000000; }
 
 .tour-launch { border-color: var(--primary); }
+.tour-launch-judge { background: var(--primary); color: var(--on-primary); }
 
 [data-tour-acting] { outline: 4px solid var(--focus); outline-offset: 4px; }
 

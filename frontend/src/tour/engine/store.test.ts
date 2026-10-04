@@ -22,6 +22,16 @@ describe('kroki', () => {
     expect(isValidPosition(chapters, 'a', 2)).toBe(false)
   })
 
+  it('rozdział osobny: poza kolejką, po końcu otwiera spis', () => {
+    const withJudge: TourChapter[] = [...chapters, { id: 's', title: 'S', summary: '', minutes: 2, standalone: true, steps: [step('s.1')] }]
+    expect(nextChapter(withJudge, 'b')).toBeUndefined()
+    const store = createTourStore(withJudge)
+    expect(store.start('s')).toBe(true)
+    store.next()
+    expect(store.getState().screen).toBe('closed')
+    expect(store.getState().menuOpen).toBe(true)
+  })
+
   it('samePlace: ta sama trasa nie wymaga nawigacji', () => {
     expect(samePlace('/czat?x=1', '/czat')).toBe(true)
     expect(samePlace('/czat', '/czat?x=1')).toBe(false)

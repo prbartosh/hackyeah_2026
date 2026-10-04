@@ -70,4 +70,7 @@ export interface TourChapter {
   steps: TourStep[]
   /** Sprzątanie po rozdziale (np. wyczyszczenie porównania kart), wywoływane po „Zakończ rozdział”. */
   onFinish?: () => void
+  /** Rozdział osobny (np. 2-minutowy przewodnik dla sędziego): poza spisem i pełnym przejściem, uruchamiany własnym przyciskiem
+   * lub `?przewodnik=<id>`. Po ostatnim kroku otwiera się spis rozdziałów pełnego przewodnika. */
+  standalone?: boolean
 }

@@ -40,7 +40,8 @@ export interface MenuProps {
 export function MenuDialog({ chapters, progress, onStart, onFromBeginning, onContinue, onClose }: MenuProps) {
   const last = progress.last
   const lastChapter = last ? chapters.find((c) => c.id === last.chapterId) : undefined
-  const totalMinutes = chapters.filter((c) => c.steps.length > 0).reduce((s, c) => s + c.minutes, 0)
+  const list = chapters.filter((c) => !c.standalone)
+  const totalMinutes = list.filter((c) => c.steps.length > 0).reduce((s, c) => s + c.minutes, 0)
   return (
     <Modal labelId="tour-menu-title" onClose={onClose}>
       <p className="tour-modal-kicker"><Compass size={18} aria-hidden="true" /> Przewodnik po platformie</p>
@@ -59,7 +60,7 @@ export function MenuDialog({ chapters, progress, onStart, onFromBeginning, onCon
       </div>
       <h3 className="tour-modal-sub">Rozdziały</h3>
       <ul className="tour-cards">
-        {chapters.map((c) => {
+        {list.map((c) => {
           const done = progress.completed.includes(c.id)
           const empty = c.steps.length === 0
           return (
