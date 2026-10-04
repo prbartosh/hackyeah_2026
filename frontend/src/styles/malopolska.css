@@ -1,6 +1,6 @@
 /* ──────────────────────────────────────────────
    Kolory marki Małopolski jako akcenty: cienki wielokolorowy pasek nad nagłówkiem i nad stopką,
-   gradient z barw logo na głównych przyciskach i pasek pod aktywną pozycją menu.
+   pasek pod aktywną pozycją menu (przyciski zostają w pierwotnym niebieskim).
    Czysto dekoracyjne (pseudo-elementy, bez markupu), nie zmienia układu ani kontrastu tekstu.
    ────────────────────────────────────────────── */
 
@@ -27,37 +27,6 @@
 .site-footer::before {
   content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; pointer-events: none;
   background: var(--mp-stripe); opacity: 0.8;
-}
-
-/* Przyciski: zamiast niebieskiego, gradient z barw logo (magenta, fiolet, błękit).
-   Odcienie dobrane tak, żeby biały tekst miał kontrast co najmniej 4.5:1 na całej długości. Wysoki kontrast zostaje bez zmian. */
-:root {
-  --mp-btn-from: #c2006a; --mp-btn-via: #6c2c91; --mp-btn-to: #3b5fae;
-  --mp-btn-from-hover: #9d0054; --mp-btn-via-hover: #55227a; --mp-btn-to-hover: #2f4c8f;
-  --mp-btn-text: #ffffff;
-  --mp-btn-tint: color-mix(in srgb, var(--mp-purple) 9%, var(--surface));
-  --mp-btn-line: var(--mp-purple);
-}
-:root[data-theme="dark"] {
-  --mp-btn-from: #ff8cc3; --mp-btn-via: #c9a2ff; --mp-btn-to: #7fd0ff;
-  --mp-btn-from-hover: #ffb0d6; --mp-btn-via-hover: #dcc1ff; --mp-btn-to-hover: #a6e0ff;
-  --mp-btn-text: #1a1030;
-  --mp-btn-tint: color-mix(in srgb, #c9a2ff 14%, var(--surface));
-  --mp-btn-line: #c9a2ff;
-}
-:root:not([data-theme="high-contrast"]) {
-  .btn-primary, .btn-option[aria-pressed="true"] {
-    background: linear-gradient(100deg, var(--mp-btn-from), var(--mp-btn-via) 55%, var(--mp-btn-to));
-    border-color: transparent; color: var(--mp-btn-text);
-  }
-  .btn-primary:hover, .btn-option[aria-pressed="true"]:hover {
-    background: linear-gradient(100deg, var(--mp-btn-from-hover), var(--mp-btn-via-hover) 55%, var(--mp-btn-to-hover));
-    border-color: transparent;
-  }
-  .btn-secondary { color: var(--mp-btn-line); border-color: var(--mp-btn-line); }
-  .btn-secondary:hover, .btn-ghost:hover, .btn-option:hover, .chip:hover {
-    background: var(--mp-btn-tint); color: var(--text); border-color: var(--mp-btn-line);
-  }
 }
 
 /* Menu: pasek barw pod pozycją przy najechaniu, fokusie i na aktywnej. Bez podkreślenia tekstu. */
