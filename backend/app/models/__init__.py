@@ -5,6 +5,7 @@ from app.models.item import Item
 from app.models.kreator import Canva, Fiszka, Nabor, SzablonCanvy, Wniosek
 from app.models.need import Potrzeba
 from app.models.opinion import Opinia
+from app.models.partnership import PartnershipMessage, PartnershipOffer
 from app.models.ticket import AppSetting, Notification, ThreadMessage, Ticket
 
 __all__ = [
@@ -18,6 +19,8 @@ __all__ = [
     "Nabor",
     "Notification",
     "Opinia",
+    "PartnershipMessage",
+    "PartnershipOffer",
     "Potrzeba",
     "SzablonCanvy",
     "ThreadMessage",

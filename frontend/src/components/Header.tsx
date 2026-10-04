@@ -23,6 +23,7 @@ export default function Header() {
           <NavLink to="/zasobnik">Zasobnik wiedzy</NavLink>
           <NavLink to="/kreator">Kreator pomysłów</NavLink>
           <NavLink to="/zglos">Zgłoś potrzebę</NavLink>
+          <NavLink to="/partnerstwa">Partnerstwa</NavLink>
         </nav>
         <AccessibilityBar />
       </div>

@@ -14,6 +14,7 @@ const KreatorRoutes = lazy(() => import('@/kreator/KreatorRoutes'))
 const ComparePage = lazy(() => import('@/pages/ComparePage'))
 const DocumentPage = lazy(() => import('@/pages/DocumentPage'))
 const OpenDataPage = lazy(() => import('@/pages/OpenDataPage'))
+const PartnershipsPage = lazy(() => import('@/pages/PartnershipsPage'))
 const ReportPage = lazy(() => import('@/pages/ReportPage'))
 const ServiceCardPage = lazy(() => import('@/pages/ServiceCardPage'))
 const ThreadPage = lazy(() => import('@/pages/ThreadPage'))
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="dokument/:id" element={<DocumentPage />} />
         <Route path="otwarte-dane" element={<OpenDataPage />} />
         <Route path="zglos" element={<ReportPage />} />
+        <Route path="partnerstwa" element={<PartnershipsPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
         <Route path="dostepnosc" element={<AccessibilityStatementPage />} />
         <Route path="kreator/*" element={<KreatorRoutes />} />

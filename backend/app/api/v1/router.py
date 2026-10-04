@@ -10,6 +10,7 @@ from app.api.v1.endpoints import (
     items,
     kreator,
     otwarte_dane,
+    partnerships,
     tickets,
 )
 
@@ -24,3 +25,4 @@ api_router.include_router(admin.router, prefix="/admin", tags=["admin"])
 api_router.include_router(tickets.router, prefix="/zgloszenia", tags=["zgloszenia"])
 api_router.include_router(kreator.router, prefix="/kreator", tags=["kreator"])
 api_router.include_router(otwarte_dane.router, prefix="/otwarte-dane", tags=["otwarte-dane"])
+api_router.include_router(partnerships.router, prefix="/partnerstwa", tags=["partnerstwa"])
