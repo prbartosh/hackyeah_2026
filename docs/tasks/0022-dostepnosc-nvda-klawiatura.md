@@ -24,3 +24,4 @@ Każdy moduł przeszedł ręczny test czytnikiem ekranu (NVDA), a wejście głos
 
 - axe i test klawiaturą uruchomione skryptami Playwright poza repo (Chromium z Playwrighta, `axe-core`). Nie ma ich w CI. Warto je dodać (np. `npm run a11y`), jeśli zespół chce powtarzać pomiar.
 - axe nie sprawdza treści ani kolejności czytania. Testy NVDA i wejścia głosowego wymagają człowieka z odpowiednim sprzętem.
+- Audyt WCAG AA z kodu (2026-10-04): podniesiony kontrast obramowań kontrolek (`--line-strong` do min. 3:1) i obsługa Esc/Tab w oknie potwierdzenia odpowiedzi w panelu. Zostaje bez ostrzeżenia o wygaśnięciu sesji panelu (token statyczny, do potwierdzenia z backendem).
