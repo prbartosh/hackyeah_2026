@@ -13,7 +13,6 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Do zrobienia
 
-- [0021](tasks/0021-koszt-rozmowy.md) Redukcja kosztu rozmowy (opcjonalne), dziś ok. 297 tys. tokenów (Bartłomiej)
 - [0026](tasks/0026-motyw-malopolska-tokeny.md) Motyw Małopolska: kolory, typografia, tokeny (podstawa dla 0027–0034; częściowo #60)
 - [0027](tasks/0027-ornamenty-i-znak-splotu.md) Znak Splotu i ornamenty małopolskie
 - [0028](tasks/0028-wspolne-komponenty-ui.md) Wspólne komponenty i spójność między modułami
@@ -26,6 +25,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
+- 2026-10-04: Koszt rozmowy zmierzony na DeepSeek (0021): ok. 48 tys. tokenów wejścia na wywołanie, z czego 97% z cache promptu (prefiks stały, pilnuje test). Skrót katalogu (`czy_dziala` 120/200 znaków) dawał 7–10% mniej tokenów, ale top 3 spadało do 34/35, więc zostaje 300. Niższy `reasoning_effort` niepotrzebny (już `low`)
 - 2026-10-04: „Takie rozwiązania już działają” w kreatorze: potoczne aliasy przemocy w słowniku („bije”, „bicie”) i dopasowanie TF-IDF po rdzeniach słów (`TfidfIndex`, 70% wyniku obok tagów), potoczne aliasy w słowniku; zestaw testowy bez modelu: top 1 28/35, top 3 34/35 (było 19 i 25), lokalnie bez API
 - 2026-10-04: Formularz „Zgłoś potrzebę”: walidacja pól jak w backendzie (opis 10–4000 znaków, e-mail), komunikat przy polu zamiast ogólnego „Sprawdź poprawność wpisanych danych”, licznik znaków i ostrzeżenie przed PESEL-em, testy `reportValidation.test.ts`
 - 2026-10-04: Dane demo w repo: `backend/scripts/demo-data.json` ładuje się przy starcie do pustej bazy (`DEMO_DATA=true`), pełny panel po `git clone` bez seedowania; `scripts/demo_data.py` (load/export), `scripts/seed_demo_extra.py` (powiadomienia, importy, radar, rozmowy partnerskie)
