@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { useChat, type DisplayMessage } from '@/context/ChatContext'
 import { MAX_MESSAGE_CHARS, MAX_USER_MESSAGE_CHARS, ROLE_LABELS, type Question, type Role } from '@/types/chat'
 import ErrorBoundary from '@/components/ErrorBoundary'
+import ReadAloudButton from '@/components/ReadAloudButton'
 import VoiceButton from '@/components/VoiceButton'
 
 // Krótkie podpowiedzi; kliknięcie wysyła pełny opis (scenariusze z user_scenario.md i docs/DEMO.md)
@@ -183,7 +184,7 @@ function Avatar() {
 }
 
 function MessageItem({ message, isLast, lastSummaryId }: { message: DisplayMessage; isLast: boolean; lastSummaryId: number | null }) {
-  const { awaiting, summaryConfirmed } = useChat()
+  const { awaiting, summaryConfirmed, streaming } = useChat()
 
   if (message.from === 'user') {
     return (
@@ -211,6 +212,11 @@ function MessageItem({ message, isLast, lastSummaryId }: { message: DisplayMessa
             <p className="msg-text msg-question">{message.question.text}</p>
             {isLast && awaiting === 'question' && <QuestionOptions question={message.question} />}
           </>
+        )}
+        {(message.text || message.question) && !(isLast && streaming) && (
+          <div className="msg-tools">
+            <ReadAloudButton text={[message.text, message.question?.text].filter(Boolean).join(' ')} />
+          </div>
         )}
         {message.summary && (
           <ErrorBoundary label="podsumowanie problemu">
