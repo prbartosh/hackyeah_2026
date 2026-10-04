@@ -28,7 +28,7 @@ export interface TicketListItem {
 }
 
 export interface ThreadMessage {
-  autor_rola: 'uzytkownik' | 'admin'
+  autor_rola: 'uzytkownik' | 'admin' | 'mentor' | 'system'
   tresc: string
   zrodla: { slug: string; nazwa: string; url: string }[] | null
   created_at: string

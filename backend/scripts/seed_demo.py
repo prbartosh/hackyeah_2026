@@ -6,6 +6,7 @@ e-mail są wymyślone (domena example.test). Skrypt jest idempotentny.
 """
 
 import asyncio
+import secrets
 from datetime import UTC, datetime, timedelta
 
 from sqlalchemy import select
@@ -13,7 +14,7 @@ from sqlalchemy import select
 from app.api.deps import get_llm_service
 from app.core.config import settings
 from app.db.session import SessionLocal
-from app.models import PartnershipOffer, Ticket
+from app.models import Mentor, PartnershipOffer, Ticket
 from app.schemas.ticket import TicketCreate
 from app.services.ai import AIGateway
 from app.services.cards import CardService
@@ -77,6 +78,56 @@ DEMO_OFFERS: list[tuple[str, str, str, str, str]] = [
 ]  # fmt: skip
 
 
+# Przykładowi mentorzy: (nazwa, sektor, powiat, obszary, opis). Bez prawdziwych nazwisk.
+DEMO_MENTORS: list[tuple[str, str, str, list[str], str]] = [
+    (
+        "Mentorka przykładowa A", "ngo", "m. Kraków", ["dla-seniorow", "dla-zdrowia-i-medycyny"],
+        "Przykładowy mentor demo. Wspiera pilotaże rozwiązań dla seniorów i opiekunów.",
+    ),
+    (
+        "Mentor przykładowy B", "publiczny", "tarnowski", ["dla-rynku-pracy"],
+        "Przykładowy mentor demo. Doradza przy aktywizacji zawodowej w małych gminach.",
+    ),
+    (
+        "Mentorka przykładowa C", "nauka", "m. Kraków",
+        ["dla-osob-z-niepelnosprawnoscia-sensoryczna", "dla-osob-o-ograniczonej-mobilnosci"],
+        "Przykładowy mentor demo. Pomaga w badaniu potrzeb i testach z użytkownikami.",
+    ),
+    (
+        "Mentor przykładowy D", "biznes", "nowosądecki", ["dla-osob-w-kryzysie-bezdomnosci"],
+        "Przykładowy mentor demo. Łączy organizacje z lokalnym biznesem i finansowaniem.",
+    ),
+    (
+        "Mentorka przykładowa E", "ngo", "m. Nowy Sącz",
+        ["dla-dzieci-mlodziezy-i-rodziny", "dla-cudzoziemcow"],
+        "Przykładowy mentor demo. Doświadczenie w pracy z rodzinami i cudzoziemcami.",
+    ),
+]  # fmt: skip
+
+
+async def seed_mentors(session) -> None:
+    if await session.scalar(select(Mentor.id).where(Mentor.syntetyczny.is_(True))):
+        print("Mentorzy demo już istnieją, pomijam.")
+        return
+    for nazwa, sektor, powiat, obszary, opis in DEMO_MENTORS:
+        session.add(
+            Mentor(
+                nazwa=nazwa,
+                instytucja="Instytucja przykładowa (demo)",
+                sektor=sektor,
+                obszary=obszary,
+                powiat=powiat,
+                opis=opis,
+                email="mentor-demo@example.test",
+                aktywny=True,
+                token_mentora=secrets.token_urlsafe(24),
+                syntetyczny=True,
+            )
+        )
+    await session.commit()
+    print(f"Dodano {len(DEMO_MENTORS)} mentorów demo (przykładowych).")
+
+
 async def seed_offers(session) -> None:
     if await session.scalar(
         select(PartnershipOffer.id).where(PartnershipOffer.syntetyczne.is_(True))
@@ -105,6 +156,7 @@ async def main() -> None:
     llm = get_llm_service() if settings.llm_api_key else None
     async with SessionLocal() as session:
         await seed_offers(session)
+        await seed_mentors(session)
         existing = await session.scalar(select(Ticket.id).where(Ticket.syntetyczne.is_(True)))
         if existing:
             print("Zgłoszenia demo już istnieją, nic nie robię.")
