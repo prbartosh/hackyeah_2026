@@ -18,7 +18,7 @@ Autor zgłoszenia może dopisać do rozmowy z ROPS (dziś odpowiada tylko zespó
 - [x] `MyThreadsList` + `lib/myThreads.ts` (localStorage w try/catch), „Inne Twoje sprawy” na `ThreadPage`
 - [x] Panel: wiadomości autora widać w wątku zgłoszenia, etykieta „Mentor”
 - [ ] Oznaczenie „nowa odpowiedź autora” w skrzynce zgłoszeń
-- [ ] Sprawdzenie w przeglądarce na działającym stacku (axe, klawiatura)
+- [x] Sprawdzenie w przeglądarce na działającym stacku (axe, klawiatura, 320 px)
 
 ## Notatki
 
@@ -26,3 +26,4 @@ Autor zgłoszenia może dopisać do rozmowy z ROPS (dziś odpowiada tylko zespó
 - Wiadomość autora do zgłoszenia syntetycznego nie tworzy powiadomienia ani e-maila.
 - Rola `mentor` jest tylko wyświetlana; zapis wiadomości mentora należy do 0040.
 - Lista „Moje sprawy” jest tylko w `localStorage` tej przeglądarki (brak kont).
+- `/watek/:token` sprawdzony 2026-10-04 (`npm run a11y`, `npm run a11y:keys`): 0 naruszeń axe w trzech motywach, 1280 i 320 px, bez poziomego scrolla; Tab: „Skopiuj link”, pole odpowiedzi, „Wyślij”, „Poproś mentora”, bez pułapek. NVDA zostaje ręczny (zadanie 0022).

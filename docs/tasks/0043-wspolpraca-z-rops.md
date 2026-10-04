@@ -1,6 +1,6 @@
 # 0043. Współpraca z ROPS (hub modułu V)
 
-- Status: w toku
+- Status: zrobione
 - Osoba: Nikodem
 - PR: #61
 
@@ -16,10 +16,11 @@ Jedna strona `/wspolpraca`, z której użytkownik trafia do pytań, zgłoszenia 
 - [x] Link w stopce, na stronie głównej i na ekranie podziękowania po zgłoszeniu
 - [x] Opis modułu V w `docs/jury/mapowanie-na-kryteria.md`
 - [x] Po zmergowaniu 0039: podmienić sprawy z wątków na `MyThreadsList`
-- [ ] Kontrola axe i przejście klawiaturą na działającej aplikacji, widok 320 px
+- [x] Kontrola axe i przejście klawiaturą na działającej aplikacji, widok 320 px
 
 ## Notatki
 
 - Trasy `/pytania`, `/mentorzy`, `/watek/:token`, `/rozmowa/:token` pochodzą z zadań 0039–0042 i w tym PR jeszcze nie istnieją (do czasu ich mergowania prowadzą na 404).
 - `MyThreadsList` (0039) jeszcze nie istnieje. Klucza `localStorage` wątków nie zgadujemy, więc sekcja „Moje sprawy” pokazuje tylko rozmowy partnerskie i tekst „Linki do zgłoszeń znajdziesz w e-mailu”. Po mergowaniu 0039 trzeba dodać `MyThreadsList` w sekcji „Moje sprawy” w `CooperationPage.tsx`.
 - Kafel „Moje sprawy” to kotwica `#moje-sprawy`.
+- Sprawdzone 2026-10-04 (`npm run a11y`, `npm run a11y:keys` w `frontend/`): `/wspolpraca` w trzech motywach, 1280 i 320 px: 0 naruszeń axe, brak poziomego scrolla, Tab w sensownej kolejności z widocznym fokusem, bez pułapek. NVDA zostaje ręczny (zadanie 0022).
