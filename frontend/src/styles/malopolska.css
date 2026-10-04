@@ -2,15 +2,16 @@
    Kolory marki Małopolski jako akcenty: cienki wielokolorowy pasek nad nagłówkiem i nad stopką,
    pasek pod aktywną pozycją menu (przyciski zostają w pierwotnym niebieskim).
    Czysto dekoracyjne (pseudo-elementy, bez markupu), nie zmienia układu ani kontrastu tekstu.
+   Wartości: RGB z księgi SIW Województwa Małopolskiego (2021, s. 7), przeliczone na HEX.
    ────────────────────────────────────────────── */
 
 :root {
-  --mp-magenta: #e6007e;
-  --mp-purple: #6c2c91;
-  --mp-blue: #4267b2;
-  --mp-cyan: #00b0ea;
+  --mp-magenta: #ec008c;
+  --mp-purple: #663399;
+  --mp-blue: #3366cc;
+  --mp-cyan: #00b9f2;
   --mp-green: #8dc63f;
-  --mp-yellow: #fdb913;
+  --mp-yellow: #ffc20e;
   --mp-stripe: linear-gradient(90deg,
     var(--mp-magenta) 0 16.66%, var(--mp-purple) 0 33.33%, var(--mp-blue) 0 50%,
     var(--mp-cyan) 0 66.66%, var(--mp-green) 0 83.33%, var(--mp-yellow) 0 100%);

@@ -53,17 +53,7 @@ Kontrast (WCAG 2.1, wartości liczone): tekst >= 4,5:1 na jasnym tle: fioletowy,
 
 Zgodność z `frontend/src/styles/malopolska.css`: żadna wartość `--mp-*` nie zgadza się z księgą.
 
-| zmienna | w kodzie | księga | różnica |
-|---|---|---|---|
-| `--mp-magenta` | #e6007e | #EC008C | inny |
-| `--mp-purple` | #6c2c91 | #663399 | inny |
-| `--mp-blue` | #4267b2 | #3366CC (jasny granat) | inny (#4267b2 to błękit Facebooka) |
-| `--mp-cyan` | #00b0ea | #00B9F2 | inny |
-| `--mp-green` | #8dc63f | #8DC63F (jasny zielony) | zgodny |
-| `--mp-yellow` | #fdb913 | #FFC20E | inny |
-| (brak) | | #00AA4F ciemny zielony, #336699 ciemny granat, #333333 | brakuje 3 barw; stripe ma 6 pól, księga paternu też 6 kolorów logo, ale z innymi wartościami |
-
-Źródło wartości `--mp-*` w kodzie jest nieudokumentowane (wyglądają na przybliżenia z logo). Do poprawy w osobnym zadaniu o kod (ten plik tylko opisuje).
+`--mp-*` w `malopolska.css` poprawione na wartości z księgi (dopasowanie po nazwie barwy: magenta, fioletowy, jasny granat, niebieski, jasny zielony, żółty). Do sprawdzenia, czy patern z księgi (s. 17–18) używa tych samych 6 barw. W kodzie brak ciemnego zielonego, ciemnego granatu i #333.
 
 Zasady użycia znaku (księga + strona „Akceptacja użycia logo Małopolski”, `malopolska.pl/marka-malopolska/system-identyfikacji-wizualnej-wojewodztwa-malopolskiego/akceptacja-uzycia-logo-malopolski.html`, kopia `bip.kamionka.iap.pl/www.malopolska.pl/...`):
 - Zgoda: każdy projekt graficzny z logo trzeba przesłać do akceptacji Zespołu ds. Marketingu Regionu w Kancelarii Zarządu UMWM (podmioty koordynowane i „pozostałe podmioty”, np. realizujące zadania przy wsparciu województwa). Kontakt: strona „Akceptacja użycia logo” na malopolska.pl. W razie wątpliwości co do reprodukcji pytać ten zespół (s. 9). Brak zgody = nie używamy logo.
