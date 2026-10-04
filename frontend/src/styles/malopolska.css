@@ -41,6 +41,22 @@
 :root[data-theme="high-contrast"] .site-nav a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 @media (prefers-reduced-motion: reduce) { .site-nav a::after { transition: none; } }
 
+/* Tło: abstrakcyjna grań w barwach marki, osobny obraz dla motywu jasnego i ciemnego.
+   Przypięte do okna, za treścią, wygaszane maską do brzegów, żeby nie obniżać czytelności tekstu. Wysoki kontrast: bez tła. */
+body { position: relative; }
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: url("../assets/tlo-jasne.webp") center 18% / cover no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse 80% 62% at 50% 42%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 62% at 50% 42%, #000 35%, transparent 100%);
+}
+:root[data-theme="dark"] body::before {
+  background-image: url("../assets/tlo-ciemne.webp");
+  opacity: 0.9;
+}
+:root[data-theme="high-contrast"] body::before { display: none; }
+
 @media print {
+  body::before { display: none; }
   .topbar::before, .site-footer::before { display: none; }
 }
