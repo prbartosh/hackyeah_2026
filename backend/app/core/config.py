@@ -13,6 +13,8 @@ class Settings(BaseSettings):
 
     app_name: str = "hackyeah-api"
     debug: bool = False
+    # true = przy starcie wczytaj przykładowe dane demo do pustej bazy (scripts/demo_data.py).
+    demo_data: bool = False
     database_url: str
     cors_origins: list[str] = []
 
