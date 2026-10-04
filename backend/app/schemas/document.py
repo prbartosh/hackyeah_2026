@@ -29,3 +29,13 @@ class DocumentDetail(Document):
     # Tekst wyciągnięty z PDF (Markdown, strony rozdziela `<!-- page N -->`); przy wskaźniku
     # opis i tabela powiatów. Dostępna alternatywa dla PDF.
     tresc: str | None
+
+
+class DocumentSearchHit(BaseModel):
+    dokument: Document
+    # Fragment treści z trafieniem (zwykły tekst); null, gdy słowa są tylko w tytule lub opisie.
+    fragment: str | None
+    # Pozycje trafień w `fragment`: [początek, koniec) w znakach.
+    trafienia: list[tuple[int, int]]
+    # Strona PDF, na której jest fragment; null bez znaczników stron.
+    strona: int | None

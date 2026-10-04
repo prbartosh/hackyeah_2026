@@ -24,7 +24,7 @@ Publiczny katalog wiedzy ROPS pod `/zasobnik`: Biblioteka Innowacji (przeglądan
 - [x] axe: `/zasobnik` i `/innowacja/:slug` w trzech motywach bez naruszeń
 - [ ] Ręczny test klawiaturą i czytnikiem ekranu (razem z 0022)
 - [ ] Powiązania dokument ↔ innowacja na stronie innowacji (ADR 0004 §9, zależy od zatwierdzonych powiązań)
-- [ ] Wyszukiwanie po treści dokumentów
+- [x] Wyszukiwanie po treści dokumentów
 
 ## Notatki
 
@@ -35,3 +35,4 @@ Publiczny katalog wiedzy ROPS pod `/zasobnik`: Biblioteka Innowacji (przeglądan
 - Wskaźniki: `IndicatorExplorer` (KPI, ranking, wykres SVG, tabela, CSV; parser `lib/indicator.ts`) i kartogram `IndicatorMap` (granice z `ppatrzyk/polska-geojson`). Do sprawdzenia licencja granic (repo bez jawnej licencji, dane z PRG) przed publicznym wdrożeniem.
 - Czytnik raportów: `lib/reportText.ts` porządkuje tekst z PDF (test na wszystkich 51 raportach); starsze raporty z nagłówkami małymi literami dostają mniej nagłówków.
 - Mapa Wyzwań: `MapaWyzwanDocument` i `lib/mapaWyzwan.ts`. Podział kolumn person to ręczna tabela `PERSONA_PODZIAL`, zależna od układu jednego pliku; przy niezgodności parser zwraca null i działa zwykły czytnik.
+- Wyszukiwanie w treści: `GET /documents/search?q=&limit=` (q 2-200 znaków, limit do 50) zwraca `{dokument, fragment, trafienia, strona}`. Indeks w pamięci (`repositories/document_search.py`) powstaje przy pierwszym zapytaniu (ok. 1 s, ~9 MB tekstu), bez migracji. Raporty, publikacje i Mapa Wyzwań: tytuł, opis i treść; wskaźniki tylko tytuł i opis (tabele mają dziesiątki MB). Normalizacja jak przy innowacjach (wielkość liter, ogonki, lekka odmiana), wszystkie słowa muszą wystąpić, fragment bierze miejsce, gdzie słowa są blisko siebie. `trafienia` to pozycje w `fragment` (frontend owija je w `<mark>`, bez HTML z backendu). Link ze strony: `/dokument/:id#strona-N`. Limit w `frontend/nginx.conf` (`search_req`, 60 zapytań/min na IP). Pole w sekcji „Wyzwania i raporty” używa tego endpointu od 2 znaków, krótsze zapytanie to zwykła lista.

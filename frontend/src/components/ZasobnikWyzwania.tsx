@@ -1,12 +1,12 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowUpRight, Map, Search } from 'lucide-react'
-import { listDocuments, TYP_NAZWA, type Dokument } from '@/api/documents'
+import { ArrowUpRight, Map as MapIcon, Search } from 'lucide-react'
+import { listDocuments, MIN_SZUKANIE, podswietl, searchDocuments, TYP_NAZWA, type Dokument, type TrafienieDokumentu } from '@/api/documents'
 import { plural } from '@/lib/plural'
 
 const PAGE = 12
 
-function DocCard({ doc }: { doc: Dokument }) {
+function DocCard({ doc, trafienie }: { doc: Dokument; trafienie?: TrafienieDokumentu }) {
   return (
     <article className="zs-card">
       <div className="zs-card-body">
@@ -16,6 +16,17 @@ function DocCard({ doc }: { doc: Dokument }) {
         </div>
         <h3 className="zs-card-title"><Link to={`/dokument/${doc.id}`}>{doc.tytul}</Link></h3>
         {doc.opis && <p className="zs-card-problem">{doc.opis}</p>}
+        {trafienie?.fragment && (
+          <p className="zs-doc-snippet">
+            {podswietl(trafienie.fragment, trafienie.trafienia).map((c, i) =>
+              c.trafienie ? <mark key={i}>{c.tekst}</mark> : c.tekst,
+            )}{' '}
+            <Link to={`/dokument/${doc.id}${trafienie.strona ? `#strona-${trafienie.strona}` : ''}`}>
+              {trafienie.strona ? `Otwórz stronę ${trafienie.strona}` : 'Otwórz dokument'}
+              <span className="visually-hidden">: {doc.tytul}</span>
+            </Link>
+          </p>
+        )}
         <p className="zs-doc-meta">
           {doc.strony && <span>{plural(doc.strony, 'strona', 'strony', 'stron')}</span>}
           {doc.licencja && <span>{doc.licencja}</span>}
@@ -28,6 +39,7 @@ function DocCard({ doc }: { doc: Dokument }) {
 /** Wyzwania Małopolski: Mapa Wyzwań Społecznych, publikacje i raporty ROPS z filtrem po roku. */
 export default function ZasobnikWyzwania() {
   const [docs, setDocs] = useState<Dokument[] | null>(null)
+  const [trafienia, setTrafienia] = useState<Map<string, TrafienieDokumentu>>(new Map())
   const [error, setError] = useState(false)
   const [attempt, setAttempt] = useState(0)
   const [typed, setTyped] = useState('')
@@ -44,15 +56,27 @@ export default function ZasobnikWyzwania() {
   useEffect(() => {
     const controller = new AbortController()
     setError(false)
-    listDocuments({ q }, controller.signal)
-      .then((all) => { setDocs(all.filter((d) => d.typ !== 'wskaznik')); setShown(PAGE) })
+    const szukanie = q.trim().length >= MIN_SZUKANIE
+    const pobierz = szukanie
+      ? searchDocuments(q, controller.signal).then((hits) => ({
+          lista: hits.map((h) => h.dokument),
+          trafienia: new Map(hits.map((h) => [h.dokument.id, h])),
+        }))
+      : listDocuments({ q }, controller.signal).then((lista) => ({ lista, trafienia: new Map<string, TrafienieDokumentu>() }))
+    pobierz
+      .then(({ lista, trafienia }) => {
+        setDocs(lista.filter((d) => d.typ !== 'wskaznik'))
+        setTrafienia(trafienia)
+        setShown(PAGE)
+      })
       .catch(() => { if (!controller.signal.aborted) setError(true) })
     return () => controller.abort()
   }, [q, attempt])
 
   const mapa = docs?.find((d) => d.typ === 'mapa-wyzwan')
   const years = useMemo(() => [...new Set((docs ?? []).map((d) => d.rok).filter((r): r is number => !!r))].sort((a, b) => b - a), [docs])
-  const filtered = (docs ?? []).filter((d) => d.typ !== 'mapa-wyzwan')
+  // Mapa Wyzwań ma własny blok, ale w wynikach szukania pojawia się jak każdy dokument
+  const filtered = (docs ?? []).filter((d) => d.typ !== 'mapa-wyzwan' || q.trim().length >= MIN_SZUKANIE)
     .filter((d) => !rok || d.rok === Number(rok))
     .filter((d) => !typ || d.typ === typ)
 
@@ -66,7 +90,7 @@ export default function ZasobnikWyzwania() {
 
       {mapa && !q && (
         <div className="zs-feature">
-          <Map size={28} aria-hidden="true" className="zs-feature-icon" />
+          <MapIcon size={28} aria-hidden="true" className="zs-feature-icon" />
           <div>
             <h3 className="zs-card-title"><Link to={`/dokument/${mapa.id}`}>{mapa.tytul}</Link></h3>
             <p>Najważniejsze wyzwania społeczne: rodzina, seniorzy, niepełnosprawność, ubóstwo i inne obszary, z danymi.</p>
@@ -76,7 +100,7 @@ export default function ZasobnikWyzwania() {
 
       <div className="zs-filters">
         <div className="zs-filter zs-filter-q">
-          <label htmlFor="zs-doc-q">Szukaj w tytule i opisie</label>
+          <label htmlFor="zs-doc-q">Szukaj w tytule, opisie i treści dokumentów</label>
           <div className="zs-input-icon">
             <Search size={18} aria-hidden="true" />
             <input id="zs-doc-q" type="search" className="input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
@@ -113,7 +137,7 @@ export default function ZasobnikWyzwania() {
       )}
       {filtered.length > 0 && (
         <ul className="zs-grid">
-          {filtered.slice(0, shown).map((d) => <li key={d.id}><DocCard doc={d} /></li>)}
+          {filtered.slice(0, shown).map((d) => <li key={d.id}><DocCard doc={d} trafienie={trafienia.get(d.id)} /></li>)}
         </ul>
       )}
       {filtered.length > shown && (
