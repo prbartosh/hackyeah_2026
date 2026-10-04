@@ -6,11 +6,18 @@ from app.api.deps import (
     InnovationRepositoryDep,
     InnovationServiceDep,
     OpinionServiceDep,
+    PlainLanguageServiceDep,
     ServiceCardServiceDep,
 )
 from app.schemas.innovation import Innovation
 from app.schemas.opinion import OpiniaCreate, OpiniaCreated, OpinieSummary
+from app.schemas.plain_language import PlainLanguageResponse
 from app.schemas.service_card import ServiceCardRequest, ServiceCardResponse
+from app.services.plain_language import (
+    PlainLanguageFailedError,
+    PlainLanguageNotFoundError,
+    PlainLanguageUnavailableError,
+)
 from app.services.service_card import (
     ServiceCardFailedError,
     ServiceCardNotFoundError,
@@ -61,6 +68,27 @@ async def create_service_card(
         raise HTTPException(
             status.HTTP_502_BAD_GATEWAY,
             "Nie udało się przygotować karty. Spróbuj ponownie.",
+        ) from None
+
+
+@router.post(
+    "/{slug}/prosty-jezyk",
+    response_model=PlainLanguageResponse,
+    summary="Opis innowacji w prostym języku (ETR)",
+)
+async def create_plain_language(
+    slug: str, service: PlainLanguageServiceDep
+) -> PlainLanguageResponse:
+    try:
+        return await service.create(slug)
+    except PlainLanguageNotFoundError as e:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, str(e)) from None
+    except PlainLanguageUnavailableError as e:
+        raise HTTPException(status.HTTP_503_SERVICE_UNAVAILABLE, str(e)) from None
+    except PlainLanguageFailedError:
+        raise HTTPException(
+            status.HTTP_502_BAD_GATEWAY,
+            "Nie udało się uprościć opisu. Spróbuj ponownie.",
         ) from None
 
 

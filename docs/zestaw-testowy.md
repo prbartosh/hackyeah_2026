@@ -34,6 +34,14 @@ Role: `mieszkaniec`, `cus-ops`, `partner` ([ADR 0004](adr/0004-obiekt-innowacji.
 | 26 | partner | Organizujemy koncerty i wiemy, że osoby głuche są z nich wykluczone. Jak sprawić, żeby mogły odczuć muzykę? | `wibraap` | niejednoznaczne: `straznik` też może się pojawić |
 | 27 | mieszkaniec | Właśnie dowiedziałem się, że mam raka. Jestem przerażony i nie wiem, gdzie szukać wsparcia na początku leczenia. | `oncotriada` | |
 | 28 | partner | Chcę założyć firmę produkującą drony rolnicze i szukam pomysłu na biznes. | brak (`brak_dopasowania`) | test uczciwego „brak dopasowania” |
+| 29 | mieszkaniec | mama zapomina wszystko leki klucze dzwoni co chwile co robic | `kody-qr-na-pomoc-seniorom` | potoczne, bez interpunkcji; wariant #1 |
+| 30 | mieszkaniec | jestem gluchy i nie umiem wypelnic wniosku o tlumacza migowego bo jest trudny | `dostepny-wniosek-dla-ggluchych` | bez polskich znaków; wariant #2 |
+| 31 | mieszkaniec | syn na wuzku a ja nie dam rady w sklepie pchac dwoch wuzkow naraz | `zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa` | literówki; wariant #3 |
+| 32 | cus-ops | ofiary przemocy na wsi do nas nie przychodzom, psycholog daleko | `mobilna-pomoc-terapeutyczna` | literówka, skrót myślowy; wariant #7 |
+| 33 | mieszkaniec | tata ma kupe lekow i sie myli ktore kiedy brac | `inteligentny-organizer-do-lekow` | potoczne, bez polskich znaków; wariant #13 |
+| 34 | mieszkaniec | babcia sie przewraca w domu juz 2 razy | `obu-obuwie-po-domu` | potoczne, krótko; wariant #17 |
+| 35 | mieszkaniec | jestem niewidomy chce sam chodzic po miescie z apką co mówi gdzie iść | `ngoz-nawigacja-glosowa-osob-zaleznych` | potoczne; wariant #12 |
+| 36 | mieszkaniec | babcia nie ogarnia smartfona i internetu, wszystko za nią załatwiam | `merkury` | potoczne; wariant #14 |
 
 ## Kandydaci na pokaz
 
@@ -44,9 +52,12 @@ Wybór z danych, przed pomiarem. Po pomiarze zostają tylko te, które trafiają
 - **Partner:** #4 (wójt, samotni seniorzy), bo to scenariusz z DEMO.md. Rezerwa: #6.
 - **Brak dopasowania:** #28.
 
+Zgłoszenia 29–36 to te same potrzeby co wcześniej, napisane potocznie, z literówkami albo bez polskich znaków: tak piszą prawdziwi użytkownicy.
+
 Najpewniejsze do testu (jedna oczywista innowacja): #1, #2, #3, #6, #7, #8, #17, #21. Z konkurencją: #4, #5, #9, #10, #23, #26.
 
 ## Sposób użycia
 
 - Oczekiwany `slug` ma się znaleźć wśród wyników, najlepiej jako pierwszy. Pozycje z uwagą „niejednoznaczne” mogą zająć drugie miejsce.
-- Wyniki zapisywać po każdej zmianie promptu lub nakładki: ile razy `slug` był pierwszy, ile w pierwszej piątce.
+- Wyniki zapisywać po każdej zmianie promptu lub nakładki: ile razy `slug` był pierwszy, ile w pierwszej trójce i piątce.
+- Liczba na slajd: „trafna innowacja w pierwszej trójce w X% zgłoszeń” = `top 3` z ostatniego pełnego przebiegu (`python scripts/eval_matchmaking.py --note "..."`).
