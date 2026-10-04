@@ -161,7 +161,7 @@ async def test_real_assets_load():
     repo = DocumentRepository(DEFAULT_ASSETS_PATH)
     documents = repo.list()
     counts = {t: sum(d.typ == t for d in documents) for t in ("raport", "publikacja", "wskaznik")}
-    assert counts == {"raport": 51, "publikacja": 3, "wskaznik": 184}
+    assert counts == {"raport": 51, "publikacja": 4, "wskaznik": 184}
     assert len({d.id for d in documents}) == len(documents)
     # licencja tylko tam, gdzie ROPS ją podaje (zadanie 0014)
     assert {d.id for d in documents if d.licencja} == {
@@ -217,3 +217,53 @@ async def test_search_real_assets():
     for h in hits:
         assert all(e <= len(h.fragment) for _, e in h.highlights)
     assert fold("ŁÓDŹ Żółć") == "lodz zolc"
+
+
+def test_rank_rzadkie_slowo_wazy_wiecej_niz_pospolite():
+    from app.repositories.document_search import rank
+
+    docs = [
+        [("senior senior senior senior senior", 1.0)],
+        [("senior demencja", 1.0)],
+        [("senior opieka", 1.0)],
+    ]
+    # „demencja” występuje w jednym dokumencie, więc wygrywa mimo mniejszej liczby słów „senior”.
+    assert rank(docs, ["senior", "demencja"])[0][0] == 1
+
+
+def test_rank_trzy_slowa_pozwalaja_pominac_jedno():
+    from app.repositories.document_search import rank
+
+    docs = [[("senior samotnosc dom", 1.0)], [("senior samotnosc", 1.0)], [("dom", 1.0)]]
+    ranked = rank(docs, ["senior", "samotnosc", "dom"])
+    assert [i for i, _ in ranked] == [0, 1]  # pełne dopasowanie pierwsze, bez trzeciego odpada
+    assert rank(docs, ["senior", "dom"]) == [(0, rank(docs, ["senior", "dom"])[0][1])]
+
+
+async def test_search_wskaznik_po_opisie_bez_tabeli(tmp_path):
+    write(tmp_path / "obserwator" / "indicators.json", [WSKAZNIK])
+    write(
+        tmp_path / "obserwator" / "text" / "186-ludnosc-ogolem.md",
+        "# Ludność ogółem\n## Opis\nLiczba mieszkańców w gminach\n"
+        "## Wartości według powiatów (Małopolska)\n| powiat bocheński | 123456 |",
+    )
+    repo = DocumentRepository(tmp_path)
+    assert [h.document.id for h in repo.search("mieszkancow gminach", 5)] == ["wskaznik-186"]
+    assert repo.search("bochenski", 5) == []  # tabela z liczbami nie jest indeksowana
+
+
+async def test_canvas_jest_publikacja(tmp_path):
+    write(
+        tmp_path / "canvas" / "metadata.json",
+        [{"title": "SOCIAL CANVAS", "url": "https://x/c.pdf", "text": "assets/canvas/text/c.md"}],
+    )
+    write(tmp_path / "canvas" / "text" / "c.md", "Problem, aktorzy zmiany, rozwiązanie")
+    repo = DocumentRepository(tmp_path)
+    assert [d.id for d in repo.list(typ="publikacja")] == ["publikacja-c"]
+    assert [h.document.id for h in repo.search("aktorzy zmiany", 5)] == ["publikacja-c"]
+
+
+def test_canvas_tekst_ma_poprawne_polskie_znaki():
+    canvas = DocumentRepository(DEFAULT_ASSETS_PATH).get("publikacja-inno-agh-social-canvas")
+    assert canvas and "Intensywność" in canvas.tresc and "rozwiązania" in canvas.tresc
+    assert not any(c in canvas.tresc for c in "[|ˇ")  # ślady zepsutego kodowania z pypdf

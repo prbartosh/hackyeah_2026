@@ -12,6 +12,7 @@ from app.api.v1.endpoints import (
     otwarte_dane,
     partnerships,
     pytania,
+    search,
     tickets,
 )
 
@@ -21,6 +22,7 @@ api_router.include_router(chat.router, prefix="/chat", tags=["chat"])
 api_router.include_router(innovations.router, prefix="/innovations", tags=["innovations"])
 api_router.include_router(categories.router, prefix="/categories", tags=["categories"])
 api_router.include_router(documents.router, prefix="/documents", tags=["documents"])
+api_router.include_router(search.router, prefix="/search", tags=["search"])
 api_router.include_router(admin.router, prefix="/admin", tags=["admin"])
 api_router.include_router(tickets.router, prefix="/zgloszenia", tags=["zgloszenia"])
 api_router.include_router(kreator.router, prefix="/kreator", tags=["kreator"])

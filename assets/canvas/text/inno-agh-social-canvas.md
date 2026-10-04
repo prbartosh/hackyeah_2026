@@ -1,562 +1,415 @@
-
-
 <!-- page 1 -->
 
 #01 SOCIAL INNOVATION CANVAS
+
 PROBLEM
-Intensywno[
-AKTORZY ZMIANY
-â Wspieraj zmianˇ
-ROZWIZANIE
-Przystˇpno[ i warto[ 
-rozwi zania
-STRUKTURA KOSZTÓW
-StaB e koszty
-Zaznaczcie, jak bardzo zle 
-jest bez Waszego rozwi zania:
-%
-Bardzo powa|ny problem(
-Powoduje stres, wykluczenie 
-albo realn krzywdˇ.
-Czˇstotliwo[
-Pokolorujcie, |eby zaznaczy - jak czˇsto wystˇpuje problem na który odpowiad
-a Wasze rozwi zanie:
-Bardzo czˇsto(
-Codziennie albo 
-prawie codziennie.
+Intensywność
+Zaznaczcie, jak bardzo źle jest bez Waszego rozwiązania:
+
+Bardzo poważny problem 
+Powoduje stres, wykluczenie albo realną krzywdę.
+
+Mocno przeszkadza 
+Problem regularnie blokuje ważne działania.
+
+Utrudnia działanie 
+Trzeba szukać alternatyw, traci się czas lub energię.
+
+Lekko przeszkadza 
+Da się żyć, problem raczej irytuje niż blokuje.
+
+Częstotliwość
+
+Pokolorujcie, żeby zaznaczyć - jak często występuje problem na który odpowiada Wasze rozwiązanie:
+
+Bardzo często  Codziennie albo prawie codziennie.
+
+Często  Co tydzień lub regularnie. Czasami  Kilka razy w roku lub miesiącu.
+
+Rzadko  Raz na jakiś czas - raz w roku lub rzadziej.
+
 Skala problemu
 Zaznaczcie, ilu ludzi dotyka problem:
-Pojedyncze osoby(
-Dotyczy kilku osób 
-lub maB ej grupy.
-˜
-Mocno przeszkadza(
-Problem regularnie blokuje 
-wa|ne dziaB ania.
-
-Utrudnia dziaBanie(
-Trzeba szuka alternatyw, 
-traci siˇ czas lub energiˇ.
-B
-Lekko przeszkadza(
-Da siˇ |y, problem 
-raczej irytuje ni| blokuje.
-Czˇsto(
-Co tydzieD lub 
-regularnie.
-Czasami(
-Kilka razy w roku 
-lub miesi cu.
-Rzadko(
-Raz na jaki[ czas - raz 
-w roku lub rzadziej.
-Wska grupa(
-Dotyczy konkretnej 
-spoBeczno[ci, np. 
-uczniów jednej 
-szkoBy, ludzi z jednej 
-okolicy, zaB ogi 
-konkretnej 
-instytucji.
-Du|a grupa(
-Dotyczy wielu osób 
-w mie[cie, regionie, 
-bran|y lub wiˇkszej 
-spoBeczno[ ci.
-Bardzo szeroka 
-grupa
-Dotyczy du|ej czˇ[ci 
-spoBeczeDstwa albo 
-wielu podobnyc
-h grup w ró|n nych 
-miejscach.
-%
-˜
-
-B
-Wypiszcie osoby, grupy lub instytucje, które widz potrzebˇ zmiany,
- wspieraj Wasz pomysB albo mog pomóc go wdro|y. .
+
+AKTORZY ZMIANY
+Wspierają zmianę
+Wypiszcie osoby, grupy lub instytucje, które widzą potrzebę zmiany, wspierają Wasz pomysł albo mogą pomóc go wdrożyć.
 Pytania pomocnicze:
- Kto najbardziej potrzebuje tej zmiany?
- Kto mo|e zyska na rozwizaniu?
- Kto ju| mówi, |e problem trzeba rozwiza?
- Kto mo|e Was poprze, poleci albo otworzy drzwi?
- Kto ma energiˇ, wpByw lub zasoby,
- |eby pomóc? ?
-4 Utrudniaj zmianˇ
-Wypiszcie osoby, grupy lub instytucje, które mog nie chcie zmiany, 
-ba siˇ jej, traci na niej albo utrudnia wdro|e enie.
+
+Kto najbardziej potrzebuje tej zmiany?
+Kto może zyskać na rozwiązaniu?
+Kto już mówi, że problem trzeba rozwiązać?
+Kto może Was poprzeć, polecić albo otworzyć drzwi?
+
+Kto ma energię, wpływ lub zasoby, żeby pomóc?
+
+ROZWIĄZANIE
+Przystępność i wartość rozwiązania
+Koszt jest większy niż korzyść 
+Rozwiązanie pochłania dużo pieniędzy, czasu lub wysiłku, a efekt jest mało widoczny.
+Korzyść i koszt są podobne  Rozwiązanie może pomagać, ale nie jest jasne, czy
+opłaca się z niego korzystać.
+
+Utrudniają zmianę
+Wypiszcie osoby, grupy lub instytucje, które mogą nie chcieć zmiany, bać się jej, tracić na niej albo utrudniać wdrożenie.
 Pytania pomocnicze:
- Kto mo|e nie rozumie potrzeby zmiany?
- Kto mo|e ba siˇ dodatkowej pracy, kosztów lub ryzyka?
- Kto mo|e traci wpByw, kontrolˇ albo dotychczasow rolˇ?
- Kto mo|e powiedzie ˚to siˇ nie uda˛?
- Kto mo|e zablokowa decyzjˇ, finansowanie albo dost
-ˇp do odbiorców?
-?
-Prostota i zrozumiaBo[
-Czy osoba, która pierwszy raz widzi Wasze rozwizanie, szybko rozumie: dla kogo jest, jak dziaBa i 
-co 
-daje? 
-Zaznacz najbardziej prawdziw opcjˇ: :
-Trzeba dBugo tBumaczy, o co chodzi. 
-Ludzie czˇsto zadaj podstawowe 
-pytania.
-S 
-Rozwi zanie 
-jest niejasne
-Ludzie rozumiej ogólny pomysB, ale 
-jeszcze nie wiedz dokBadnie, jak z 
-niego skorzysta .
-é Rozwizanie 
-jest czˇ[ciowo 
-jasne
-Wiˇkszo[ osób szybko rozumie, jaki 
-problem rozwizujemy, jak dziaBa 
-rozwizanie i co trzeba zrobi, |eby z 
-niego skorzysta .
-Gotowo[ do wdro|enia
-PomysB
-Mamy koncepcjˇ, ale rozwizanie nie zostaBo jeszcze 
-sprawdzone z odbiorcami.
- 
-Rozwi zanie 
-jest jasne
-Koszt jest wiˇkszy ni| korzy[(
-Rozwizanie pochBania du|o pieniˇdzy, czasu lub 
-wysiBku, a efekt jest maBo widoczny.
-Korzy[ i koszt s podobne(
-Rozwizanie mo|e pomaga, ale nie jest jasne, czy 
-opBaca siˇ z niego korzysta .
-Korzy[ jest wiˇksza ni| koszt(
-Rozwizanie oferuje zauwa|aln warto[ za rozsdn 
-cenˇ.
-Bardzo du|a warto[ przy maBym koszcie(
-Rozwizanie skutecznie pomaga, a bariera wej[cia jest 
-niska (niskie koszty, oszczˇdno[ czasu, Batwo[ u|ycia).
+
+Kto może nie rozumieć potrzeby zmiany?
+Kto może bać się dodatkowej pracy, kosztów lub ryzyka?
+Kto może tracić wpływ, kontrolę albo dotychczasową rolę?
+Kto może powiedzieć „to się nie uda”?
+
+Kto może zablokować decyzję, finansowanie albo dostęp do odbiorców?
+
+Korzyść jest większa niż koszt 
+Rozwiązanie oferuje zauważalną wartość za rozsądną cenę.
+Bardzo duża wartość przy małym koszcie 
+Rozwiązanie skutecznie pomaga, a bariera wejścia jest niska (niskie koszty, oszczędność czasu, łatwość użycia).
+Gotowość do wdrożenia
+Pomysł
+
+Mamy koncepcję, ale rozwiązanie nie zostało jeszcze sprawdzone z odbiorcami.
 Prototyp
-Mamy pierwsz wersjˇ rozwizania
-, jednak wci|  
-wymaga ona testów i dopracowania.
-Przetestowane rozwizanie
-Rozwizanie zostaBo sprawdzone z realnymi 
-u|ytkownikami i wiemy, co trzeba poprawi
-Gotowe do wdro|enia
-Rozwizanie mo|na uruc
-homi w rzeczywistym miejscu, 
-z prawdziwymi odbiorcami i znanymi zasobami.
-Osoba z grupy docelowej potrafi wyja[ni 
-rozwizanie wBasnymi sBowami po krótkim 
+
+Mamy pierwszą wersję rozwiązania, jednak wciąż wymaga ona testów i dopracowania.
+Przetestowane rozwiązanie
+
+Rozwiązanie zostało sprawdzone z realnymi użytkownikami i wiemy, co trzeba poprawić
+Gotowe do wdrożenia
+
+Rozwiązanie można uruchomić w rzeczywistym miejscu, z prawdziwymi odbiorcami i znanymi zasobami.
+
+Prostota i zrozumiałość
+Czy osoba, która pierwszy raz widzi Wasze rozwiązanie, szybko rozumie: dla kogo jest, jak działa i co daje?
+Zaznacz najbardziej prawdziwą opcję:
+
+Pojedyncze osoby 
+Dotyczy kilku osób lub małej grupy.
+
+Wąska grupa 
+Dotyczy konkretnej społeczności, np. uczniów jednej
+szkoły, ludzi z jednej okolicy, załogi konkretnej instytucji.
+
+Duża grupa 
+Dotyczy wielu osób w mieście, regionie, branży lub większej
+społeczności.
+
+Bardzo szeroka grupa
+
+Dotyczy dużej części społeczeństwa albo wielu podobnych grup w różnych miejscach.
+
+Rozwiązanie
+jest niejasne
+Trzeba długo tłumaczyć, o co chodzi. Ludzie często zadają podstawowe
+pytania.
+
+Rozwiązanie
+jest częściowo jasne
+Ludzie rozumieją ogólny pomysł, ale jeszcze nie wiedzą dokładnie, jak z
+niego skorzystać.
+
+Rozwiązanie
+jest jasne
+Większość osób szybko rozumie, jaki problem rozwiązujemy, jak działa
+rozwiązanie i co trzeba zrobić, żeby z niego skorzystać.
+
+Ludzie potrafią wyjaśnić sami
+Osoba z grupy docelowej potrafi wyjaśnić rozwiązanie własnymi słowami po krótkim
 kontakcie z nim / korzystaniu.
-ã Ludzie 
-potrafi 
-wyja[ni sami
-Ponosicie je niezale|nie od liczby u|ytkowników. Trzeba je opBaca nawet wtedy, gdy z rozwizania korzysta 
-maBo osób albo nikt jeszcze nie korzysta. 
--> Zaznaczcie / dopiszcie koszty, które ponosicie lub 
-powinni[cie ponosi, |eby rozwizanie mogBo dziaBa:
-ã   wynagrodzenie zespoBu,
 
-ã   czynsz / przestrzeD
-,
-ã   utrzymanie aplikacji lub stron
-y,
-ã   abonamenty narzˇd
-zi,
-ã   koordynacja proje
-ktu,
-ã   ksiˇgowo[ / administr
-acja,
-ã   promocja podst
-awowa,
-ã   sprzˇt potrzebny na
- start,
-ã   ........................................................................................................
-ã   ........................................................................................................
-ã   ........................................................................................................
-ã   ........................................................................................................
-ã   ........................................................................................................
-ã   ....... .......................................................................................................
+STRUKTURA KOSZTÓW
+Stałe koszty
+Ponosicie je niezależnie od liczby użytkowników. Trzeba je opłacać nawet wtedy, gdy z rozwiązania korzysta mało osób albo nikt jeszcze nie korzysta.
+-> Zaznaczcie / dopiszcie koszty, które ponosicie lub powinniście ponosić, żeby rozwiązanie mogło działać:
+wynagrodzenie zespołu,
+czynsz / przestrzeń,
+utrzymanie aplikacji lub strony,
+abonamenty narzędzi,
+koordynacja projektu,
+księgowość / administracja,
+promocja podstawowa,
+sprzęt potrzebny na start,
+
 Zmienne koszty
-Rosn, gdy korzysta wiˇcej osób lub gdy realizujecie wiˇcej dziaBaD. Co kosztuje za ka|dym razem, gdy 
-pomagacie kolejnej osobie, grupie lub organizujecie ko
-lejne dziaBanie ?
--> Zaznaczcie / dopiszcie zmienne koszty, które mog siˇ pojawi:
-ã   materiaBy dla uczestników,
+Rosną, gdy korzysta więcej osób lub gdy realizujecie więcej działań. Co kosztuje za każdym razem, gdy pomagacie kolejnej osobie, grupie lub organizujecie kolejne działanie?
+-> Zaznaczcie / dopiszcie zmienne koszty, które mogą się pojawić: materiały dla uczestników,
+czas specjalisty na jedną osobę,
+dojazdy,
+catering,
+wydruk materiałów,
+wsparcie techniczne dla kolejnej osoby,
 
-ã   czas specjalisty na jedn osobˇ
-,
-ã   dojazd
-y,
-ã   cateri
-ng,
-ã   wydruk materia
-Bów,
-ã    wsparcie techniczne dla kolejnej o
-soby,
-ã   ........................................................................................................
-ã   ........................................................................................................
-ã   ........................................................................................................
-ã   ........................................................................................................
-ã   ........................................................................................................
-ã   ....... .......................................................................................................
-Canvas stworzony w oparciu o Social Innovation 
-Canvas stworzony przez The New Global School.
+Canvas stworzony w oparciu o Social Innovation Canvas stworzony przez The New Global School.
+
 https://theglobal.school/social-innovation-canvas/
+
 wersja 1.0
+
 5 maja 2026
 
 <!-- page 2 -->
 
 #02 SOCIAL INNOVATION CANVAS
+
 ODBIORCY
-GBówny u| ytkownik
-yródBa dochodów
-GBów ówny dochód $$
-Emocjonalna: Co odbiorcy poczuj
- dziˇki rozwiz zaniu? 
-PROPOZYCJA WARTOZCI
-Komu to rozwiz zanie ma realnie pomóc?
-ã   dzieci,
+Główny użytkownik
+Komu to rozwiązanie ma realnie pomóc?
+dzieci,
+młodzież,
+rodzice,
+seniorzy,
+osoby z niepełnosprawnościami,
+nauczyciele,
+pracownicy instytucji,
+osoby w kryzysie,
+organizacje społeczne,
+mieszkańcy konkretnego miejsca,
+inna grupa:
+inna grupa:
+inna grupa:
+Klient / płatnik
+Kto wyciąga portfel albo uruchamia budżet, żeby wasze rozwiązanie działało?
+sam użytkownik,
+rodzic / opiekun,
+szkoła,
+firma,
+urząd miasta / gmina,
+fundacja / organizacja społeczna,
+grantodawca,
+sponsor,
+NFZ / instytucja publiczna,
+pracodawca.
 
-ã    mBodzie|
-,
-ã    rodzic
-e,
-ã    senior
-zy,
-ã    osoby z niepeBnosprawno[ci
-ami,
-ã    nauczyc
-iele,
-ã    pracownicy insty
-tucji,
-ã    osoby w kr
-yzysie,
-ã    organizacje sp
-oBeczne,
-ã    mieszkaDcy konkretnego
- miejsca,
-ã    inna grupa:..............................................................................
-ã    inna grupa:..............................................................................
-ã    inna grupa:... .............................................................................
-Co jest podstawowym zródBem pieniˇdzy? Za co klienci 
-bˇd  najpewniej pBaci 
-w pierwszej kolejno[ ci?
-Nie wiemy jeszcze
-Nie mamy jasnego pomysBu, k
-to i za co miaBby pBaci .
-Mamy pomysB
-Wiemy, co mogBoby by zródBem dochodu, ale nie 
-sprawdzili[my tego z potencjalnym klientem.
-Mamy konkretn propozycjˇ
-Wiemy, co oferujemy, komu i dlaczego kto[ miaBby za to 
-zapBaci lub zainwestowa w utrzymanie rozwizania.
-Mamy potwierdzenie
-Kto[ ju| nam zapBaciB, zadeklarowaB nam gotowo[ do 
-wspierania finansowego naszeg
-o rozwi zania.
-Zaznaczcie maksymalnie 23 najwa|niejsze warto[ci emocjonalne
- lub dopisz swoj wBasn .
-BezpieczeDstwo
-Niezale
-|no[
-Spokój
-Motywacja
-Pewno [
-WBczenie 
-spoBeczne
-Zmniejszenie
-samotno[ ci
-Poczucie 
-bycia widzianym
-Wiˇksza 
-sprawczo [
-Poprawa 
-nastroju
-Poprawa 
-stanu 
-zdrowia
-Wiˇksze 
-zadowolenie 
-z | ycia
-Je[li macie propozycjˇ / pomysB na gBówne zródBo 
-finansowania, wypisz je pon i| ej:
-Klient / pB atnik
-Kto wyciga portfel albo uruchamia bud|et, |eby wasze rozwizanie
- dziaBaB o?
-ã   sam u|ytkownik,
+inna grupa:
+inna grupa:
+inna grupa:
 
-ã   rodzic / opiekun
-,
-ã   szkoB
-a,
-ã   fir
-ma,
-ã   urzd miasta / gm
-ina,
-ã   fundacja / organizacja spoBe
-czna,
-ã   granto
-dawca,
-ã   s
-ponsor,
-ã   NFZ / instytucja pu
-bliczna,
-ã   pr
-acodawca.
-ã   inna grupa:..............................................................................
-ã    inna grupa:..............................................................................
-ã    inna grupa:... .............................................................................
-Skalowanie dochodu $$$
-Jakie dodatkowe rzeczy mo|ecie sprzedawa lu
-b finansowa w przyszBo[ ci?
-Brak jasnych dodatkowych zródeB
-Na razie widzimy tylko jedno zródBo finansowania (to 
-gBówne, powy|ej) i nie wiemy, jak dochód móg
-Bby rosn .
-Funkcjonalna: Co rozwi zanie konkretnie poprawia?
-Zaznaczcie maksymalnie 23 najwa|niejsze warto[ci funkcjonalne lub dopisz swoj
- wBasn .
-............................
-............................
-............................
-............................
-............................
-............................
 Autorytet / instytucja / decydent
-Czyja zgoda, rekomendacja albo decyzja jest potrzebna, 
-|eby rozwizanie zostaBo u| yte?
-ã   dyrektor szkoBy,
+Czyja zgoda, rekomendacja albo decyzja jest potrzebna, żeby rozwiązanie zostało użyte?
+dyrektor szkoły,
+nauczyciel,
+lekarz,
+terapeuta,
+pracownik socjalny,
+urząd,
+lider lokalny,
+organizacja społeczna,
+rodzic,
+opiekun,
+menedżer,
+ekspert
+instytucja finansująca.
+inna osoba/instytucja:
+inna osoba/instytucja:
+inna osoba/instytucja:
 
-ã   nauczyciel
-,
-ã   lekar
-z,
-ã   terapeu
-ta,
-ã   pracownik socja
-lny,
-ã   u
-rzd,
-ã   lider lo
-kalny,
-ã   organizacja spo
-Beczna,
-ã  
- rodzic,
-ã  
- opiekun,
-ã  
- mened|er,
-ã   ekspert
-ã   instytucja 
-finansujca.
-ã   inna osoba/instytucja:..................................................................
-ã   inna osoba/instytucja:..................................................................
-ã   inna osoba/instytucja:... .................................................................
-Canvas stworzony w oparciu o Social Innovation 
-Canvas stworzony przez The New Global School.
+Canvas stworzony w oparciu o Social Innovation Canvas stworzony przez The New Global School.
+
 https://theglobal.school/social-innovation-canvas/
+
 wersja 1.0
 5 maja 2026
-Je[li macie propozycjˇ / pomysB na gBówne zródBo 
-dodatkowego dochodu, wypiszcie je pon i| ej:
-S szanse na dodatkowe pienidze
-Mamy kilka pomysBów na dodatkowe zródBa
- dochodu, ale s jeszcze niesprawdzone.
-Widzimy realne [cie|ki rozwoju
-Wiemy, jakie dodatkowe usBugi, pakiety lub
- wdro|enia mo|na sprzedawa po pierwszym sukcesie.
-Nasz model dziaBania mo|na powiela
-Rozwizanie mo|na sprzedawa lub finansowa w wielu 
-miejscach, dla wielu grup albo przez wie
-le kanaBó ów.
-Obni|a 
-koszty
-Zwiˇksza 
-zasiˇg 
-pomocy
-............................
-Oszczˇdza 
-czas
-Zmniejsza 
-obci | enie
-............................
-Zwiˇksza 
-skuteczno [
-Poprawia 
-bezpieczeDstwo
-............................
-Poprawia 
-jako [
-Zwiˇksza 
-wpByw 
-spoB eczny
-............................
-Upraszcza 
-proces
-Ogranicza 
-negatywny wp
-Byw na [ rodowisko
-............................
-Zwiˇksza 
-dostˇpno [
-Pomaga 
-w podejmowaniu 
-lepszych decyzji
-............................
+
+Źródła dochodów
+Główny dochód $$ Co jest podstawowym źródłem pieniędzy? Za co klienci będą najpewniej płacić w pierwszej kolejności?
+Nie wiemy jeszcze
+
+Nie mamy jasnego pomysłu, kto i za co miałby płacić.
+Mamy pomysł
+
+Wiemy, co mogłoby być źródłem dochodu, ale nie sprawdziliśmy tego z potencjalnym klientem.
+Mamy konkretną propozycję
+
+Wiemy, co oferujemy, komu i dlaczego ktoś miałby za to zapłacić lub zainwestować w utrzymanie rozwiązania.
+Mamy potwierdzenie
+
+Ktoś już nam zapłacił, zadeklarował nam gotowość do wspierania finansowego naszego rozwiązania.
+Jeśli macie propozycję / pomysł na główne źródło finansowania, wypisz je poniżej:
+Skalowanie dochodu $$$ Jakie dodatkowe rzeczy możecie sprzedawać lub finansować w przyszłości?
+Brak jasnych dodatkowych źródeł
+
+Na razie widzimy tylko jedno źródło finansowania (to główne, powyżej) i nie wiemy, jak dochód mógłby rosnąć.
+Są szanse na dodatkowe pieniądze
+
+Mamy kilka pomysłów na dodatkowe źródła dochodu, ale są jeszcze niesprawdzone.
+Widzimy realne ścieżki rozwoju
+
+Wiemy, jakie dodatkowe usługi, pakiety lub wdrożenia można sprzedawać po pierwszym sukcesie.
+Nasz model działania można powielać
+
+Rozwiązanie można sprzedawać lub finansować w wielu miejscach, dla wielu grup albo przez wiele kanałów.
+Jeśli macie propozycję / pomysł na główne źródło dodatkowego dochodu, wypiszcie je poniżej:
+
+PROPOZYCJA WARTOŚCI
+Emocjonalna: Co odbiorcy poczują dzięki rozwiązaniu? Zaznaczcie maksymalnie 2–3 najważniejsze wartości emocjonalne lub dopisz swoją własną.
+
+Bezpieczeństwo
+
+Spokój
+
+Pewność
+
+Zmniejszenie
+samotności
+
+Większa sprawczość
+
+Poprawa stanu zdrowia
+
+Niezależność
+
+Motywacja
+
+Włączenie społeczne
+
+Poczucie bycia widzianym
+
+Poprawa nastroju
+
+Większe zadowolenie
+z życia
+
+Funkcjonalna: Co rozwiązanie konkretnie poprawia? Zaznaczcie maksymalnie 2–3 najważniejsze wartości funkcjonalne lub dopisz swoją własną.
+
+Obniża koszty
+
+Oszczędza czas
+
+Zwiększa skuteczność
+
+Poprawia jakość
+
+Upraszcza proces
+
+Zwiększa dostępność
+
+Zwiększa zasięg pomocy
+
+Zmniejsza obciążenie
+
+Poprawia bezpieczeństwo
+
+Zwiększa wpływ
+społeczny
+
+Ogranicza negatywny wpływ
+na środowisko
+
+Pomaga w podejmowaniu lepszych decyzji
 
 <!-- page 3 -->
 
 #03 SOCIAL INNOVATION CANVAS
-KanaB y 
+
+Kanały
+BEZPOŚREDNIE Jak ludzie trafiają do Was bezpośrednio?
+własna strona internetowa,
+własny formularz zgłoszeniowy,
+własny sklep / system zakupu,
+kontakt telefoniczny lub mailowy,
+spotkania bezpośrednie,
+własne warsztaty,
+własne media społecznościowe,
+własna aplikacja,
+newsletter,
+wydarzenia organizowane samodzielnie.
+inne:
+
 Konstelacja partnerów
-Zastanówcie siˇ?
-¸ Jak robi to taniej?
-Wypisz poni|ej: 
-jacy partnerzy mog obni|a ko
-szty rozwiz zania? W jaki sposób?
-BEZPOZ REDNIE
-Jak ludzie trafiaj
- do Was bezpo[ rednio?
-ã   wBasna strona internetowa,
-
-ã   wBasny formularz zgBoszeniowy
-,
-ã   wBasny sklep / system zakup
-u,
-ã   kontakt telefoniczny lub mailo
-wy,
-ã   spotkania bezpo[red
-nie,
-ã   wBasne warsz
-taty,
-ã   wBasne media spoBeczno[
-ciowe,
-ã   wBasna apl
-ikacja,
-ã   new
-sletter,
-ã   wydarzenia organizowane samo
-dzielnie.
-ã   inne: . ..............................................................................
-Kto jest partnerem lub 
-może nim zostać?
+Zastanówcie się?
+Kto jest partnerem lub może nim zostać?
 Jak dokładnie pomaga,
-W którym obszarze 
-wnosi wartość?
+W którym obszarze wnosi wartość?
 
-Pamiętajcie: jeden partner 
-może pomagać na kilka 
-sposobów naraz.
-Twoje 
-rozwi zanie
-Wypisz poni|ej: 
-Jacy partnerzy mog wspiera komunikacjˇ 
-i dystrybucjˇ rozwizania? J
-akimi kanaB ami?
-ã Jak dotrze  do odbiorców?
-BEZPOZ REDNIE
-Kto mo|e pomóc Wam d
-otrze  do odbiorców?
-ã   szkoBa,
+Pamiętajcie: jeden partner może pomagać na kilka sposobów naraz.
 
-ã   urzd / gmina
-,
-ã   organizacja spoBeczn
-a,
-ã   ekspe
-rt,
-ã   lekarz / terape
-uta,
-ã   nauczy
-ciel,
-ã   pracownik soc
-jalny,
-ã   lider l
-okalny,
-ã 
-  firma,
-ã  
- partner,
-ã   
+Jak robić to taniej?
+Wypisz poniżej: jacy partnerzy mogą obniżać koszty
+rozwiązania? W jaki sposób?
+
+Jak dotrzeć do odbiorców?
+Wypisz poniżej: Jacy partnerzy mogą wspierać komunikację i dystrybucję rozwiązania? Jakimi kanałami?
+
+Twoje rozwiązanie
+
+BEZPOŚREDNIE Kto może pomóc Wam dotrzeć do odbiorców?
+szkoła,
+urząd / gmina,
+organizacja społeczna,
+ekspert,
+lekarz / terapeuta,
+nauczyciel,
+pracownik socjalny,
+lider lokalny,
+firma,
+partner,
 ambasador,
-ã   
 handlowiec,
-ã   inna grupa :..............................................................................
-Wypisz poni|ej: 
-Jacy partnerzy mog wzmacnia propozycjˇ 
-wart
-o[ci rozwiz zania? W jaki sposób?
-( Jak dawa lepsz
- warto[ ?
-Oznaczcie obok partnerów, jaki maj
- status :
-Potwierdzony partner
-Partner, z którym rozmawiacie
-Potencjalny partner
+inna grupa:
+
+Jak dawać lepszą wartość?
+Wypisz poniżej: Jacy partnerzy mogą wzmacniać propozycję
+wartości rozwiązania? W jaki sposób?
+
+Oznaczcie obok partnerów, jaki mają status:
+Potwierdzony partner Partner, z którym rozmawiacie Potencjalny partner
+
 DODATKOWE
-Jakie kanaBy dodatkowe mo|ecie w
-ykorzysta ?
-ã   kampania online,
+Jakie kanały dodatkowe możecie wykorzystać?
+kampania online,
+webinary,
+platforma cyfrowa,
+lokalne wydarzenia,
+program ambasadorski,
+materiały edukacyjne,
+rekomendacje ekspertów,
+współpraca z instytucjami,
+newsletter,
+społeczność online,
+inne.
+inna osoba/instytucja:
 
-ã   webinary
-,
-ã   platforma cyfrow
-a,
-ã   lokalne wydarzen
-ia,
-ã   program ambasador
-ski,
-ã   materiaBy edukac
-yjne,
-ã   rekomendacje eksp
-ertów,
-ã   wspóBpraca z instyt
-ucjami,
-ã   new
-sletter,
-ã   spoBeczno[
- online,
-
-ã   inne.
-ã   inna osoba/instytucja :..................................................................
-Canvas stworzony w oparciu o Social Innovation 
+Canvas stworzony w oparciu o Social Innovation
 Canvas stworzony przez The New Global School.
 https://theglobal.school/social-innovation-canvas/
+
 wersja 1.0
+
 5 maja 2026
-WpByw: Co zmienia Twoje rozwizanie  dla osoby, spoBe
-czno[ci i [wiata wokóB? ? 
-d Osoba
-Jak zmienia |ycie u|ytkownika?(
-Co staje siˇ Batwiejsze, bezpieczniejsze, 
-spokojniejsze albo ba
-rdziej dostˇp pne?
-˛ SpoBeczno[
-Jak pomaga wiˇkszej grupie?(
-Czy zwiˇksza dostˇp, zmniejsza wykluczenie, 
-wzmacnia wspóBpracˇ albo po
-prawia jako[ wsparcia?
-1 Zrodowisko
-Jak zmienia [wiat wokóB?(
-Czy ogranicza odpady, zu|ycie zasobów, 
-transport, energiˇ albo inne 
-szkody dla [ rodowiska?
-MaBy wpByw
-Zmiana jest niewielka lub jeszcze 
-niejasna.
-Mo|liwy wpByw
-Widzimy potencjaB zmiany, ale nie 
-mamy jeszcze potwierdzenia.
-Wyrazny wpByw
-Rozwizanie daje konkretn, 
-zauwa|aln
- zmianˇ. .
-Silny wpByw
-Zmiana jest du|a, wa|na i potwierdzona 
-przez u|ytkownikó
-w, spoBeczno[ lub dane.
-Zaznacz odpowiednie 
-pola ˝x˛.
+
+Wpływ: Co zmienia Twoje rozwiązanie — dla osoby, społeczności i świata wokół?
+
+Osoba
+
+Społeczność
+
+Środowisko
+
+Zaznacz odpowiednie pola “x”.
+
+Jak zmienia życie użytkownika?  Co staje się łatwiejsze, bezpieczniejsze, spokojniejsze albo bardziej dostępne?
+
+Jak pomaga większej grupie? 
+
+Jak zmienia świat wokół? 
+
+Czy zwiększa dostęp, zmniejsza wykluczenie,
+
+Czy ogranicza odpady, zużycie zasobów,
+
+wzmacnia współpracę albo poprawia jakość wsparcia? transport, energię albo inne szkody dla
+
+środowiska?
+
+Mały wpływ
+Zmiana jest niewielka lub jeszcze niejasna.
+
+Możliwy wpływ
+Widzimy potencjał zmiany, ale nie mamy jeszcze potwierdzenia.
+
+Wyraźny wpływ
+Rozwiązanie daje konkretną, zauważalną zmianę.
+
+Silny wpływ
+
+Zmiana jest duża, ważna i potwierdzona przez użytkowników, społeczność lub dane.

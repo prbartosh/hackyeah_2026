@@ -145,3 +145,16 @@ def test_tfidf_jedno_wspolne_slowo_nie_wystarcza_przy_dluzszym_zapytaniu():
     assert index.scores("kosmiczne rakiety na Marsa")[0] == 0.0
     assert index.scores("kosmiczne warsztaty astronomia")[1] > 0
     assert index.scores("astronomia")[1] > 0  # zapytanie z jednym słowem: jedno wystarcza
+
+
+def test_synonimy_zapytania():
+    from app.services.matching import synonym_queries
+
+    alternatives = synonym_queries("osoby starsze", VOCABULARY)
+    assert "seniorzy" in alternatives
+    assert "osoby starsze" not in alternatives
+    # reszta zapytania zostaje, zmienia się tylko fraza ze słownika
+    assert all(
+        a.startswith("samotność") for a in synonym_queries("samotność seniorów", VOCABULARY)[2:]
+    )
+    assert synonym_queries("xyz", VOCABULARY) == []

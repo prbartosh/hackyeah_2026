@@ -83,6 +83,10 @@ def _load(assets: Path) -> dict[str, tuple[Document, Path | None]]:
             # Bez id w źródle - stabilny identyfikator z nazwy pliku tekstu.
             doc_id = f"{typ}-{Path(record['text']).stem}"
             entries.append(_pdf_document(assets, typ, record, doc_id))
+    # Szablon Social Canvas (INNO AGH) leży osobno, ale ROPS linkuje go wśród publikacji.
+    for record in _read_json(assets / "canvas" / "metadata.json"):
+        doc_id = f"publikacja-{Path(record['text']).stem}"
+        entries.append(_pdf_document(assets, "publikacja", record, doc_id))
     for record in _read_json(assets / "obserwator" / "indicators.json"):
         entries.append(_indicator(assets, record))
     entries.sort(
@@ -96,6 +100,11 @@ def _index(assets: Path):
     return build_index(list(_load(assets).values()))
 
 
+@lru_cache(maxsize=256)
+def _search(assets: Path, q: str, limit: int) -> tuple[SearchHit, ...]:
+    return tuple(search(_index(assets), q, limit))
+
+
 class DocumentRepository:
     def __init__(self, assets: Path) -> None:
         self._assets = assets
@@ -103,7 +112,7 @@ class DocumentRepository:
 
     def search(self, q: str, limit: int) -> list[SearchHit]:
         """Treść dokumentów, nie tylko tytuł i opis; indeks powstaje przy pierwszym wywołaniu."""
-        return search(_index(self._assets), q, limit)
+        return list(_search(self._assets, q, limit))
 
     def list(
         self, typ: DocumentType | None = None, rok: int | None = None, q: str | None = None

@@ -6,6 +6,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from app.repositories.document_search import fold, query_tokens, rank
 from app.repositories.innovation_search import haystack, matches_query, sort_key, tokens
 from app.schemas.innovation import Category, Innovation
 
@@ -26,6 +27,19 @@ OVERLAY_LIMITS = {
 OVERLAY_LISTS = tuple(OVERLAY_LIMITS)
 
 Vocabulary = dict[str, dict[str, str]]
+
+# Wagi pól karty w wyszukiwaniu; etykiety tagów (waga 2) dochodzą z nakładki.
+SEARCH_WEIGHTS = {
+    "nazwa": 3.0,
+    "problem": 2.0,
+    "grupa_docelowa": 2.0,
+    "kto_moze_skorzystac": 1.0,
+    "opis": 1.0,
+    "czy_dziala": 1.0,
+    "organizacja": 1.0,
+}
+# Role i skala to ogólne etykiety („Partner”, „Placówka”): bez nich wyniki byłyby zaszumione.
+TAG_SECTIONS = ("problemy", "grupy_docelowe", "miejsca", "typy_rozwiazan")
 
 # Poprawki ręczne po slugu. innowacje.json nadpisuje scraper, więc nie edytujemy go ręcznie.
 # W polu `organizacja` scraper zostawił nazwiska autorów, a strona innowacji i wyniki czatu są
@@ -176,6 +190,24 @@ class InnovationRepository:
             and matches_query(self._haystacks[slug], words)
         ]
         return sorted(found, key=sort_key)
+
+    def search(self, q: str, limit: int) -> list[tuple[Innovation, float]]:
+        """Karty według trafności (BM25), nazwa i problem ważą więcej, etykiety tagów też się liczą.
+
+        Do dwóch słów muszą wystąpić wszystkie, dalej wolno pominąć jedno.
+        """
+        tokens = query_tokens(q)
+        labels = vocabulary_labels(self._vocabulary)
+        cards = list(self._by_slug.values())
+        fields = [[(fold(" ".join(self._tags(c.slug, labels))), 2.0)] for c in cards]
+        for card, doc in zip(cards, fields, strict=True):
+            for field, weight in SEARCH_WEIGHTS.items():
+                doc.append((fold(getattr(card, field) or ""), weight))
+        return [(cards[i], score) for i, score in rank(fields, tokens)[:limit]]
+
+    def _tags(self, slug: str, labels: Vocabulary) -> list[str]:
+        overlay = self._overlay.get(slug) or {}
+        return [labels.get(s, {}).get(v, v) for s in TAG_SECTIONS for v in overlay.get(s, [])]
 
     def categories(self) -> list[Category]:
         counts: dict[str, int] = {}
