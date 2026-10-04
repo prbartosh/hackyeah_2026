@@ -25,6 +25,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
+- 2026-10-04: Formularz „Zgłoś potrzebę”: walidacja pól jak w backendzie (opis 10–4000 znaków, e-mail), komunikat przy polu zamiast ogólnego „Sprawdź poprawność wpisanych danych”, licznik znaków i ostrzeżenie przed PESEL-em, testy `reportValidation.test.ts`
 - 2026-10-04: Strona `/wspolpraca`, hub modułu V: axe, klawiatura i 320 px bez uwag (0043, #61)
 - 2026-10-04: Audyt dostępności w repo: `npm run a11y` (axe, wszystkie trasy i panel, 3 motywy, 2 szerokości) i `npm run a11y:keys`; poprawki w otwartych danych, kreatorze i panelu (0022)
 - 2026-10-04: Ewaluacja trafności na DeepSeek: top 3 35/35, top 1 31/35, cache promptu 96%; prosty język, czytanie na głos, deklaracja dostępności (0035, #54); w logu 22× `show_results` bez `items` do sprawdzenia

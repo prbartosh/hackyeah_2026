@@ -1,9 +1,10 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { api } from '@/admin/api'
 import { errorText } from '@/admin/ui'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { saveThread } from '@/lib/myThreads'
+import { looksLikePesel, MAX_TEXT, validateReport, type ReportErrors } from '@/lib/reportValidation'
 import '@/styles/admin.css'
 
 /** Publiczny formularz: zgłoszenie potrzeby do zespołu ROPS (bez konta). */
@@ -17,13 +18,19 @@ export default function ReportPage() {
   // Z czatu bez dopasowania: domyślnie obserwuj, bo rozwiązania jeszcze nie ma w bazie.
   const [watch, setWatch] = useState(Boolean(prefill))
   const [error, setError] = useState('')
+  const [errors, setErrors] = useState<ReportErrors>({})
+  const textRef = useRef<HTMLTextAreaElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null)
   const [busy, setBusy] = useState(false)
   const [token, setToken] = useState<string | null>(null)
 
   async function submit(e: FormEvent) {
     e.preventDefault()
-    if (text.trim().length < 10) {
-      setError('Opisz sprawę w kilku zdaniach (co najmniej 10 znaków).')
+    const found = validateReport(text, email)
+    setErrors(found)
+    if (found.text || found.email) {
+      setError('')
+      ;(found.text ? textRef : emailRef).current?.focus()
       return
     }
     setBusy(true)
@@ -66,9 +73,14 @@ export default function ReportPage() {
       <form onSubmit={submit} className="stack" noValidate>
         <div className="field">
           <label htmlFor="r-text">Opis sprawy</label>
-          <textarea id="r-text" className="textarea" rows={7} value={text} onChange={(e) => setText(e.target.value)}
-            maxLength={4000} required aria-invalid={error ? true : undefined} aria-describedby="r-hint r-error" />
-          <p id="r-hint" className="hint">Nie wpisuj numerów dokumentów ani danych wrażliwych.</p>
+          <textarea id="r-text" ref={textRef} className="textarea" rows={7} value={text}
+            onChange={(e) => { setText(e.target.value); if (errors.text) setErrors({ ...errors, text: undefined }) }}
+            maxLength={MAX_TEXT} required aria-invalid={errors.text ? true : undefined} aria-describedby="r-hint r-text-error" />
+          <p id="r-hint" className="hint">Nie wpisuj numerów dokumentów ani danych wrażliwych. Znaków: {text.length} z {MAX_TEXT}.</p>
+          {looksLikePesel(text) && (
+            <p className="hint" role="status">W opisie jest ciąg 11 cyfr, który wygląda jak numer PESEL. Usuń go, nie jest potrzebny do odpowiedzi.</p>
+          )}
+          <p id="r-text-error" className="field-error" role="alert">{errors.text}</p>
         </div>
         <div className="field">
           <label htmlFor="r-name">Imię (nieobowiązkowo)</label>
@@ -76,8 +88,11 @@ export default function ReportPage() {
         </div>
         <div className="field">
           <label htmlFor="r-email">E-mail (nieobowiązkowo)</label>
-          <input id="r-email" className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" aria-describedby="r-email-hint" />
+          <input id="r-email" ref={emailRef} className="input" type="email" value={email}
+            onChange={(e) => { setEmail(e.target.value); if (errors.email) setErrors({ ...errors, email: undefined }) }}
+            autoComplete="email" aria-invalid={errors.email ? true : undefined} aria-describedby="r-email-hint r-email-error" />
           <p id="r-email-hint" className="hint">Podaj, jeśli chcesz dostać odpowiedź e-mailem. Bez e-maila odpowiedź zobaczysz pod linkiem po wysłaniu.</p>
+          <p id="r-email-error" className="field-error" role="alert">{errors.email}</p>
         </div>
         <label className="check">
           <input type="checkbox" checked={watch} onChange={(e) => setWatch(e.target.checked)} aria-describedby="r-watch-hint" />
