@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, StringConstraints
 
 Status = Literal["nowe", "w_trakcie", "odpowiedziane"]
 Pilnosc = Literal["niska", "srednia", "wysoka"]
@@ -21,10 +21,16 @@ class TicketCreated(BaseModel):
 
 
 class ThreadMessageRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
     autor_rola: Literal["uzytkownik", "admin", "mentor", "system"]
     tresc: str
     zrodla: list[dict] | None
     created_at: datetime
+
+
+class ThreadReply(BaseModel):
+    tresc: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=4000)]
 
 
 class ThreadRead(BaseModel):

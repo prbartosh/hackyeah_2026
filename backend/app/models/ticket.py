@@ -50,7 +50,7 @@ class ThreadMessage(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     token_watku: Mapped[str] = mapped_column(String(64), index=True)
-    autor_rola: Mapped[str] = mapped_column(String(10))  # "uzytkownik" | "admin"
+    autor_rola: Mapped[str] = mapped_column(String(10))  # "uzytkownik" | "admin" | "mentor"
     tresc: Mapped[str] = mapped_column(Text)
     zrodla: Mapped[list[dict[str, Any]] | None] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), server_default=func.now())

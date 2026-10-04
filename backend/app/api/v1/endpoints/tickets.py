@@ -4,6 +4,7 @@ from app.api.deps import TicketServiceDep
 from app.schemas.ticket import (
     ThreadMessageRead,
     ThreadRead,
+    ThreadReply,
     TicketCreate,
     TicketCreated,
 )
@@ -25,11 +26,20 @@ async def get_thread(token: str, service: TicketServiceDep) -> ThreadRead:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Nie znaleziono rozmowy")
     ticket, messages = found
     return ThreadRead(
-        status=ticket.status,
-        wiadomosci=[
-            ThreadMessageRead(
-                autor_rola=m.autor_rola, tresc=m.tresc, zrodla=m.zrodla, created_at=m.created_at
-            )
-            for m in messages
-        ],
+        status=ticket.status, wiadomosci=[ThreadMessageRead.model_validate(m) for m in messages]
     )
+
+
+@router.post(
+    "/watek/{token}/wiadomosci",
+    response_model=ThreadMessageRead,
+    status_code=status.HTTP_201_CREATED,
+    summary="Autor dopisuje wiadomość do rozmowy",
+)
+async def reply_in_thread(
+    token: str, data: ThreadReply, service: TicketServiceDep
+) -> ThreadMessageRead:
+    message = await service.author_reply(token, data.tresc)
+    if message is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Nie znaleziono rozmowy")
+    return ThreadMessageRead.model_validate(message)

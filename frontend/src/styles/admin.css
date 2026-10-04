@@ -94,6 +94,15 @@ fieldset.field > legend { padding-inline: 0.4rem; }
 .thread li { padding: 0.75rem 1rem; border-radius: 16px; border: 1px solid var(--line-strong); background: var(--surface); }
 .thread .msg-admin { border-left: 6px solid var(--success); }
 .thread .msg-author { border-left: 6px solid var(--primary); }
+.thread .msg-mentor { border-left: 6px solid var(--warning-border); }
+.thread .msg-system { background: transparent; border-style: dashed; color: var(--text-muted); }
+/* Publiczny wątek jako rozmowa: dymki, wiadomości autora po prawej. */
+.chat-thread { margin: 1rem 0; }
+.chat-thread li { max-width: min(42rem, 92%); }
+.chat-thread li.msg-author { justify-self: end; border-left-width: 1px; border-right: 6px solid var(--primary); }
+.thread-reply { max-width: 42rem; }
+.my-threads { margin-top: 2rem; }
+.my-threads ul { margin: 0; padding-left: 1.25rem; display: grid; gap: 0.4rem; }
 .confirm { padding: 1rem 1.25rem; border: 3px solid var(--warning-border); border-radius: 16px; background: var(--warning-bg); display: grid; gap: 0.6rem; }
 .notification-list { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
 .notification-list li { padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: 16px; background: var(--surface-float); }
