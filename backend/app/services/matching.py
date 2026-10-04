@@ -32,6 +32,8 @@ TEXT_ONLY_FACTOR = 0.6
 STRONG_TAG_WEIGHT = 2
 # Słowa od tylu liter skracamy do tylu liter (fleksja: demencji/demencja, seniorów/senior).
 STEM_LEN = 6
+# Ile innych nazw jednego pojęcia ze słownika trafia do zapytań zastępczych.
+SYNONYMS_PER_CONCEPT = 2
 _TOKEN = re.compile(r"[^\W_]+\+?", re.UNICODE)
 
 
@@ -74,6 +76,34 @@ def tag_text(text: str, vocabulary: Vocabulary) -> Tags:
         if slugs:
             found[section] = slugs
     return found
+
+
+def synonym_queries(query: str, vocabulary: Vocabulary, limit: int = 8) -> list[str]:
+    """Zapytania zastępcze: fraza ze słownika (etykieta lub alias) podmieniona na inne jej nazwy.
+
+    „osoby starsze” -> „seniorzy”, „emeryci”, ... Reszta zapytania zostaje bez zmian.
+    """
+    words = _TOKEN.findall(query.lower())
+    tokens = [stem(w) for w in words]
+    alternatives: list[str] = []
+    for section in WEIGHTS:
+        for value in vocabulary.get(section, []):
+            phrases = [value["etykieta"], *value.get("aliasy", [])]
+            for phrase in phrases:
+                stems = _stems(phrase)
+                if sum(len(s) for s in stems) < 3:
+                    continue
+                start = next(
+                    (i for i in range(len(tokens)) if tokens[i : i + len(stems)] == stems), None
+                )
+                if start is None:
+                    continue
+                rest = words[:start] + words[start + len(stems) :]
+                others = [o for o in phrases if o != phrase][:SYNONYMS_PER_CONCEPT]
+                alternatives += [" ".join([*rest, o.lower()]) for o in others]
+                break
+    unique = dict.fromkeys(a for a in alternatives if a != query.lower())
+    return list(unique)[:limit]
 
 
 def labels(vocabulary: Vocabulary) -> dict[str, dict[str, str]]:

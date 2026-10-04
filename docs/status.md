@@ -8,6 +8,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury: szkice w `docs/jury/`, reszta po działającym demo (Nikodem, Wiktor)
 - [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu: zostaje sesja NVDA i raport (Daniel)
 - [0022](tasks/0022-dostepnosc-nvda-klawiatura.md) Dostępność: skrypt `npm run a11y` (axe, 228 stron, 0 naruszeń) i `npm run a11y:keys`, zostają testy NVDA i wejście głosowe (Daniel, Kacper)
+- [0047](tasks/0047-szukanie-zasobnika.md) Szukanie w Zasobniku: BM25, synonimy ze słownika, karty innowacji i wskaźniki w wynikach, `GET /search` (Wiktor)
 - [0046](tasks/0046-przewodnik.md) Przewodnik po platformie: przycisk w nagłówku, rozdziały według modułów, na żywo (Nikodem)
 - [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: zmergowany (#62), zostaje znacznik „nowa odpowiedź autora” w skrzynce (Nikodem)
 

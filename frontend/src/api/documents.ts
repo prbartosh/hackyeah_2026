@@ -1,4 +1,6 @@
 // Kontrakt = backend/app/schemas/document.py (zadanie 0003). Przy zmianach schematu poprawiaj ten plik.
+import type { Innowacja } from '@/types/innowacja'
+
 const BASE_URL = import.meta.env.VITE_API_URL ?? '/api/v1'
 
 export type DocumentType = 'raport' | 'publikacja' | 'mapa-wyzwan' | 'wskaznik'
@@ -64,6 +66,20 @@ export async function searchDocuments(q: string, signal?: AbortSignal): Promise<
   const res = await fetch(`${BASE_URL}/documents/search?${params}`, { signal })
   if (!res.ok) throw new Error(`HTTP ${res.status}`)
   return (await res.json()) as TrafienieDokumentu[]
+}
+
+export interface WynikiSzukania {
+  dokumenty: TrafienieDokumentu[]
+  innowacje: Innowacja[]
+}
+
+/** Wspólne szukanie Zasobnika: dokumenty (z canvasem i wskaźnikami) i karty innowacji (backend: `GET /search`). */
+export async function searchAll(q: string, signal?: AbortSignal): Promise<WynikiSzukania> {
+  const params = new URLSearchParams({ q: q.trim().slice(0, 200), limit: '50' })
+  const res = await fetch(`${BASE_URL}/search?${params}`, { signal })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  const data = (await res.json()) as { dokumenty: TrafienieDokumentu[]; innowacje: { innowacja: Innowacja }[] }
+  return { dokumenty: data.dokumenty, innowacje: data.innowacje.map((h) => h.innowacja) }
 }
 
 /** Dzieli fragment na części; `trafienie` = true dla podświetlanych. */

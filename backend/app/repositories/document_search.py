@@ -1,13 +1,15 @@
 """Wyszukiwanie w treści dokumentów (raporty, publikacje, Mapa Wyzwań) z fragmentem i stroną.
 
 Indeks w pamięci, budowany przy pierwszym zapytaniu (ok. 9 MB tekstu). Wskaźniki Obserwatora
-(tabele powiat × rok, dziesiątki MB) przeszukujemy tylko po tytule i opisie.
+przeszukujemy po nazwie, kategorii, źródle i opisie; tabele powiat × rok pomijamy (same liczby).
+Ranking to BM25 (rzadkie słowa ważą więcej, długi dokument nie wygrywa samą długością).
 Normalizacja zachowuje długość tekstu (znak za znak), więc pozycje w tekście znormalizowanym
 wskazują to samo miejsce w oryginale.
 """
 
 from __future__ import annotations
 
+import math
 import re
 from dataclasses import dataclass
 from pathlib import Path
@@ -20,6 +22,13 @@ SNIPPET_BEFORE = 90
 SNIPPET_LENGTH = 260
 PROXIMITY = 150
 MAX_CANDIDATES = 300
+# BM25: nasycenie częstości słowa i wpływ długości dokumentu.
+BM25_K1 = 1.2
+BM25_B = 0.75
+# Trafienie w tytule i opisie liczy się tyle razy co wystąpienie w treści.
+META_WEIGHT = 3.0
+# Wskaźnik: od tego nagłówku zaczyna się tabela z liczbami.
+TABLE_MARKER = "## Wartości według powiatów"
 
 _FOLD = str.maketrans("ąćęłńóśźżĄĆĘŁŃÓŚŹŻİ", "acelnoszzacelnoszzi")
 PAGE_RE = re.compile(r"<!--\s*page\s+(\d+)\s*-->")
@@ -52,11 +61,52 @@ def find_token(text: str, token: str) -> int:
     return min(found) if found else -1
 
 
+def count_token(text: str, token: str) -> int:
+    """Liczba wystąpień słowa z odmianą (od 6 liter liczymy najkrótszy wariant)."""
+    variants = _variants(token)
+    if len(token) >= 6:
+        return text.count(variants[-1])
+    return sum(text.count(v) for v in variants)
+
+
+def required_words(count: int) -> int:
+    """Do dwóch słów muszą wystąpić wszystkie, dalej wolno pominąć jedno."""
+    return count if count <= 2 else count - 1
+
+
+def rank(docs: list[list[tuple[str, float]]], tokens: list[str]) -> list[tuple[int, float]]:
+    """BM25 po polach z wagami (tekst znormalizowany przez `fold`); (indeks, wynik) malejąco.
+
+    Dokument bez wymaganej liczby słów odpada; brakujące słowo obniża wynik kwadratem pokrycia.
+    """
+    if not tokens or not docs:
+        return []
+    need = required_words(len(tokens))
+    tfs = [[sum(w * count_token(t, tok) for t, w in fields) for tok in tokens] for fields in docs]
+    lengths = [sum(len(t) for t, _ in fields) or 1 for fields in docs]
+    average = sum(lengths) / len(docs)
+    total = len(docs)
+    idf = []
+    for i in range(len(tokens)):
+        df = sum(1 for tf in tfs if tf[i] > 0)
+        idf.append(math.log(1 + (total - df + 0.5) / (df + 0.5)))
+    ranked = []
+    for index, tf in enumerate(tfs):
+        matched = sum(1 for f in tf if f > 0)
+        if matched < need:
+            continue
+        norm = BM25_K1 * (1 - BM25_B + BM25_B * lengths[index] / average)
+        score = sum(idf[i] * f * (BM25_K1 + 1) / (f + norm) for i, f in enumerate(tf) if f > 0)
+        ranked.append((index, score * (matched / len(tokens)) ** 2))
+    ranked.sort(key=lambda r: (-r[1], r[0]))
+    return ranked
+
+
 @dataclass(frozen=True)
 class _Entry:
     document: Document
     meta: str  # tytuł i opis, znormalizowane
-    body: str  # treść oryginalna ("" gdy brak lub wskaźnik)
+    body: str  # treść oryginalna ("" gdy brak pliku; wskaźnik bez tabeli)
     body_folded: str
 
 
@@ -66,14 +116,17 @@ class SearchHit:
     fragment: str | None
     highlights: list[tuple[int, int]]  # [początek, koniec) w `fragment`
     strona: int | None
+    score: float = 0.0
 
 
 def build_index(entries: list[tuple[Document, Path | None]]) -> list[_Entry]:
     index = []
     for document, path in entries:
         body = ""
-        if document.typ != "wskaznik" and path and path.exists():
+        if path and path.exists():
             body = path.read_text(encoding="utf-8")
+            if document.typ == "wskaznik":
+                body = body.split(TABLE_MARKER, 1)[0]
         meta = fold(f"{document.tytul} {document.opis or ''}")
         index.append(_Entry(document, meta, body, fold(body)))
     return index
@@ -145,21 +198,11 @@ def _snippet(
 
 def search(index: list[_Entry], query: str, limit: int) -> list[SearchHit]:
     tokens = query_tokens(query)
-    if not tokens:
-        return []
-    scored: list[tuple[int, int, _Entry]] = []
-    for order, entry in enumerate(index):
-        text = f"{entry.meta} {entry.body_folded}"
-        if any(find_token(text, t) < 0 for t in tokens):
-            continue
-        # Trafienie w tytule i opisie liczy się najmocniej, potem liczba wystąpień w treści.
-        score = sum(10 for t in tokens if find_token(entry.meta, t) >= 0)
-        score += sum(min(entry.body_folded.count(t), 20) for t in tokens)
-        scored.append((-score, order, entry))
-    scored.sort(key=lambda s: s[:2])
+    fields = [[(entry.meta, META_WEIGHT), (entry.body_folded, 1.0)] for entry in index]
     hits = []
-    for _, _, entry in scored[:limit]:
+    for position, score in rank(fields, tokens)[:limit]:
+        entry = index[position]
         snippet = _snippet(entry, tokens)
         fragment, marks, page = snippet if snippet else (None, [], None)
-        hits.append(SearchHit(entry.document, fragment, marks, page))
+        hits.append(SearchHit(entry.document, fragment, marks, page, score))
     return hits

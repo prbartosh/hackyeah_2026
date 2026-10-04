@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from app.core.config import settings
 from app.db.session import SessionLocal
 from app.repositories.document import DocumentRepository
-from app.repositories.innovation import InnovationRepository
+from app.repositories.innovation import VOCABULARY_FILE, InnovationRepository
 from app.repositories.obserwator import ObserwatorRepository
 from app.services.ai import AIGateway
 from app.services.asystent import AsystentService
@@ -104,8 +104,9 @@ def get_document_repository() -> DocumentRepository:
 
 def get_knowledge_service(
     repo: Annotated[DocumentRepository, Depends(get_document_repository)],
+    innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
 ) -> KnowledgeService:
-    return KnowledgeService(repo)
+    return KnowledgeService(repo, innovations, settings.innovations_path.parent / VOCABULARY_FILE)
 
 
 def get_open_data_service(

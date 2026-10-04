@@ -17,6 +17,6 @@ Unknown. Neither the page nor the PDF text states a licence (checked 2026-10-03)
 | `files/inno-agh-social-canvas.pdf` | The original PDF. |
 | `text/inno-agh-social-canvas.md` | Extracted text. |
 
-## Caveat
+## Text extraction
 
-This is mostly a graphic template. The extracted text is **fragmentary and has broken Polish characters** (e.g. "Intensywno[", "Przystˇpno["). Use the PDF itself when you need the canvas sections or their wording.
+The text in `text/` was extracted with `pdftotext` (poppler), which reads the PDF's font encoding correctly. The first version, made with `pypdf`, had broken Polish characters (e.g. "Intensywno[", "Przystˇpno["), so it was replaced on 2026-10-04. Emoji, form-fill dot leaders and bullet indentation were removed. Reading order is by text block, so a question and its answer options can be separated by other columns; for the exact layout use the PDF.
