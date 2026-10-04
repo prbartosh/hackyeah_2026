@@ -13,6 +13,8 @@ export default function ReportPage() {
   const [text, setText] = useState(prefill)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  // Z czatu bez dopasowania: domyślnie obserwuj, bo rozwiązania jeszcze nie ma w bazie.
+  const [watch, setWatch] = useState(Boolean(prefill))
   const [error, setError] = useState('')
   const [busy, setBusy] = useState(false)
   const [token, setToken] = useState<string | null>(null)
@@ -30,6 +32,7 @@ export default function ReportPage() {
         tresc: text.trim(),
         autor_nazwa: name.trim() || undefined,
         autor_email: email.trim() || undefined,
+        obserwuj: watch,
       })
       setToken(r.token_watku)
     } catch (err) {
@@ -47,6 +50,7 @@ export default function ReportPage() {
         <p role="status">Odpowiedź pojawi się pod tym adresem. Zapisz go lub dodaj do zakładek:</p>
         <p><Link to={link}>{window.location.origin}{link}</Link></p>
         <p className="hint">Jeśli podałeś e-mail, dostaniesz też wiadomość z odpowiedzią.</p>
+        {watch && <p className="hint">Gdy ROPS doda do bazy pasujące rozwiązanie, powiadomimy Cię pod tym adresem{email.trim() ? ' i e-mailem' : ''}.</p>}
       </div>
     )
   }
@@ -72,6 +76,11 @@ export default function ReportPage() {
           <input id="r-email" className="input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" aria-describedby="r-email-hint" />
           <p id="r-email-hint" className="hint">Podaj, jeśli chcesz dostać odpowiedź e-mailem. Bez e-maila odpowiedź zobaczysz pod linkiem po wysłaniu.</p>
         </div>
+        <label className="check">
+          <input type="checkbox" checked={watch} onChange={(e) => setWatch(e.target.checked)} aria-describedby="r-watch-hint" />
+          Powiadom mnie, gdy w bazie pojawi się pasujące rozwiązanie
+        </label>
+        <p id="r-watch-hint" className="hint">Powiadomienie pojawi się pod linkiem do rozmowy, a jeśli podasz e-mail, także w skrzynce.</p>
         <p id="r-error" className="field-error" role="alert">{error}</p>
         <div className="btn-row">
           <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij zgłoszenie'}</button>

@@ -28,6 +28,10 @@ class Ticket(TimestampMixin, Base):
     # Dyżur eksperta (zadanie 0040): autor prosi w wątku, ROPS przypisuje eksperta z listy.
     prosba_o_eksperta: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())
     ekspert: Mapped[str | None] = mapped_column(String(150))
+    # Obserwuj potrzebę (zadanie 0041): powiadomienie, gdy ROPS opublikuje pasującą kartę.
+    obserwuje: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())
+    # Slugi kart, o których autor już dostał powiadomienie (każda karta raz).
+    powiadomiono_o: Mapped[list[str] | None] = mapped_column(JSON)
 
     kategoria: Mapped[str | None] = mapped_column(String(100), index=True)
     pilnosc: Mapped[str | None] = mapped_column(String(10))

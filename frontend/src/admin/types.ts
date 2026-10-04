@@ -26,6 +26,7 @@ export interface TicketListItem {
   liczba_duplikatow: number
   sla: Sla
   prosba_o_eksperta: boolean
+  obserwuje: boolean
   ekspert: string | null
 }
 
@@ -191,5 +192,6 @@ export interface PublicThread {
   status: StatusZgloszenia
   wiadomosci: ThreadMessage[]
   prosba_o_eksperta: boolean
+  obserwuje: boolean
   ekspert: string | null
 }

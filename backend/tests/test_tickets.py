@@ -275,3 +275,48 @@ async def test_prosba_o_eksperta_i_podpis_odpowiedzi(admin_client):
     assert thread["ekspert"] == experts[0]
     assert thread["wiadomosci"][-1]["podpis"] == experts[0]
     assert thread["wiadomosci"][0]["podpis"] is None
+
+
+async def test_obserwowana_potrzeba_dostaje_powiadomienie_o_nowej_karcie(admin_client):
+    watched = await submit(
+        admin_client,
+        "Seniorzy z demencją gubią się w mieście i zapominają adresu domu",
+        autor_email="ewa@example.test",
+        obserwuj=True,
+    )
+    other = await submit(admin_client, "Szukamy sposobu na hejt wśród uczniów w szkole")
+    assert (await admin_client.get(f"{API}/zgloszenia/watek/{watched}")).json()["obserwuje"]
+
+    slug = await make_card(
+        admin_client,
+        "Opaski z kodem dla seniorów",
+        "Seniorzy z demencją gubią się w mieście i nie pamiętają adresu domu",
+    )
+    thread = (await admin_client.get(f"{API}/zgloszenia/watek/{watched}")).json()
+    last = thread["wiadomosci"][-1]
+    assert last["podpis"] == "Powiadomienie automatyczne"
+    assert last["zrodla"][0]["slug"] == slug
+    assert (
+        len((await admin_client.get(f"{API}/zgloszenia/watek/{other}")).json()["wiadomosci"]) == 1
+    )
+    notifications = (await admin_client.get(f"{API}/admin/powiadomienia")).json()["items"]
+    assert notifications[0]["tekst"].startswith("Nowa karta „Opaski z kodem dla seniorów”")
+
+    # Ponowna publikacja tej samej karty nie wysyła drugiego powiadomienia.
+    await admin_client.patch(f"{API}/admin/karty/{slug}", json={"status": "szkic"})
+    await admin_client.patch(f"{API}/admin/karty/{slug}", json={"status": "opublikowana"})
+    thread = (await admin_client.get(f"{API}/zgloszenia/watek/{watched}")).json()
+    assert len(thread["wiadomosci"]) == 2
+
+
+async def test_bez_obserwowania_nie_ma_powiadomienia(admin_client):
+    token = await submit(
+        admin_client, "Seniorzy z demencją gubią się w mieście i zapominają adresu"
+    )
+    await make_card(
+        admin_client,
+        "Opaski z kodem",
+        "Seniorzy z demencją gubią się w mieście i zapominają adresu",
+    )
+    thread = (await admin_client.get(f"{API}/zgloszenia/watek/{token}")).json()
+    assert len(thread["wiadomosci"]) == 1

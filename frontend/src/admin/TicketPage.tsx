@@ -349,6 +349,7 @@ export default function TicketPage() {
         <StatusBadge status={data.status} /> Wpłynęło {formatDate(data.created_at)}
         {data.autor_nazwa && <> · {data.autor_nazwa}</>}
         {data.prosba_o_eksperta && !data.ekspert && <> <span className="tag tag-warn">prośba o eksperta</span></>}
+        {data.obserwuje && <> <span className="tag" title="Autor dostanie powiadomienie, gdy opublikujesz pasującą kartę">obserwuje potrzebę</span></>}
       </p>
       <blockquote className="ticket-text pre">{data.tresc}</blockquote>
 

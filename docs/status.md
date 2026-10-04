@@ -13,6 +13,7 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 
 - [0039](tasks/0039-zapytaj-testujacych.md) Zapytaj instytucję, która to testuje: pytanie przez ROPS do wątku instytucji testującej, autor może odpisać w wątku (Wiktor)
 - [0040](tasks/0040-dyzur-eksperta.md) Dyżur eksperta: prośba w wątku, ekspert z listy ról, podpisane odpowiedzi (Wiktor)
+- [0041](tasks/0041-obserwuj-potrzebe.md) Obserwuj potrzebę: powiadomienie autora, gdy ROPS opublikuje pasującą kartę (Wiktor)
 - [0036](tasks/0036-gielda-partnerstw.md) Giełda partnerstw: tablica ogłoszeń z moderacją ROPS, kontakt przez ROPS (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
 
 ## Do zrobienia

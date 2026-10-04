@@ -77,7 +77,7 @@ function query(params: Record<string, string | number | undefined>): string {
 }
 
 export const api = {
-  createTicket: (data: { tresc: string; autor_nazwa?: string; autor_email?: string }) =>
+  createTicket: (data: { tresc: string; autor_nazwa?: string; autor_email?: string; obserwuj?: boolean }) =>
     call<{ token_watku: string }>('/zgloszenia', json('POST', data), false),
   publicThread: (token: string) => call<PublicThread>(`/zgloszenia/watek/${encodeURIComponent(token)}`, {}, false),
   replyInThread: (token: string, tresc: string) =>

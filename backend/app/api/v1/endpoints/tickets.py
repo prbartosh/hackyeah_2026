@@ -42,6 +42,7 @@ def _thread_read(ticket: Ticket, messages: list[ThreadMessage]) -> ThreadRead:
             for m in messages
         ],
         prosba_o_eksperta=ticket.prosba_o_eksperta,
+        obserwuje=ticket.obserwuje,
         ekspert=ticket.ekspert,
     )
 

@@ -46,6 +46,7 @@ def _item(ticket: Ticket, panel: PanelSettings) -> TicketListItem:
         liczba_duplikatow=len(ticket.duplikaty or []),
         sla=sla_info(ticket, panel),
         prosba_o_eksperta=ticket.prosba_o_eksperta,
+        obserwuje=ticket.obserwuje,
         ekspert=ticket.ekspert,
     )
 

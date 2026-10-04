@@ -106,6 +106,9 @@ export default function ThreadPage() {
               ? 'Zespół ROPS odpowiedział na zgłoszenie.'
               : 'Zgłoszenie czeka na odpowiedź zespołu ROPS. Wróć na tę stronę później.'}
           </p>
+          {data.obserwuje && (
+            <p className="hint">Obserwujesz tę potrzebę: gdy ROPS doda do bazy pasujące rozwiązanie, powiadomienie pojawi się w tej rozmowie.</p>
+          )}
           <ol className="thread">
             {data.wiadomosci.map((m, i) => (
               <li key={i} className={m.autor_rola === 'admin' ? 'msg-admin' : 'msg-author'}>

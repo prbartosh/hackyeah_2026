@@ -2,7 +2,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, Query, status
 
-from app.api.deps import AIGatewayDep, SessionDep
+from app.api.deps import AIGatewayDep, SessionDep, TicketServiceDep
 from app.models import InnovationCard
 from app.repositories.card import CardRepository
 from app.schemas.admin_card import (
@@ -70,12 +70,23 @@ async def get_card(slug: str, session: SessionDep):
 
 
 @router.patch("/karty/{slug}", response_model=CardRead)
-async def update_card(slug: str, data: CardUpdate, session: SessionDep, ai: AIGatewayDep):
+async def update_card(
+    slug: str,
+    data: CardUpdate,
+    session: SessionDep,
+    ai: AIGatewayDep,
+    tickets: TicketServiceDep,
+):
+    before = await CardRepository(session).get(slug)
+    was_published = before is not None and before.status == "opublikowana"
     try:
         card = await CardService(session).update(slug, data)
     except CardError as e:
         code = 404 if "Nie znaleziono" in str(e) else status.HTTP_422_UNPROCESSABLE_CONTENT
         raise HTTPException(code, str(e)) from None
+    if card.status == "opublikowana" and not was_published:
+        # Obserwuj potrzebę (zadanie 0041): autorzy pasujących zgłoszeń dostają powiadomienie.
+        await tickets.notify_watchers(card)
     return _read(card, ai.degraded)
 
 
