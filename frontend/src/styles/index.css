@@ -498,3 +498,14 @@ details.problem-panel[open] > summary::before { transform: rotate(90deg); }
 .site-nav a { display: inline-flex; align-items: center; min-height: 2.75rem; font-weight: 700; color: var(--text); text-decoration: none; border-bottom: 3px solid transparent; }
 .site-nav a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
 .site-nav a[aria-current="page"] { border-bottom-color: var(--primary); }
+
+/* Deklaracja dostępności */
+.a11y-statement section { margin-block: 1.5rem; }
+.a11y-statement h2 { font-size: 1.4rem; margin-block: 0 0.5rem; }
+.a11y-statement ul { padding-left: 1.25rem; margin-bottom: 0.75rem; list-style: disc; }
+.a11y-statement li { margin-bottom: 0.4rem; }
+.a11y-statement p { max-width: 70ch; }
+.a11y-table { width: 100%; border-collapse: collapse; margin-block: 0.75rem; background: var(--surface); }
+.a11y-table caption { text-align: left; font-weight: 700; padding-bottom: 0.5rem; }
+.a11y-table th, .a11y-table td { border: 1px solid var(--line-strong); padding: 0.5rem 0.75rem; text-align: left; }
+.a11y-table thead th { background: var(--surface-alt); }
