@@ -21,14 +21,14 @@ export default function MentorsPage() {
         Doświadczone osoby i organizacje, które wspierają wdrażanie innowacji społecznych. Mentorzy pomagają
         w konkretnych sprawach zgłoszonych do ROPS Kraków.
       </p>
-      <section className="panel" aria-labelledby="jak-h">
+      <section className="panel" data-tour="siec-mentorzy-jak" aria-labelledby="jak-h">
         <h2 id="jak-h">Jak poprosić o mentora</h2>
         <ol>
           <li>Wyślij zgłoszenie na stronie <Link to="/zglos">Zgłoś potrzebę</Link> i zachowaj link do swojej sprawy.</li>
           <li>Otwórz ten link i kliknij „Poproś mentora”.</li>
           <li>Pracownik ROPS dobierze mentora z listy. Jego odpowiedź zobaczysz w swojej rozmowie.</li>
         </ol>
-        <p className="hint">Dane kontaktowe mentorów nie są publiczne: kontakt odbywa się przez ROPS.</p>
+        <p className="hint" data-tour="siec-mentorzy-kontakt">Dane kontaktowe mentorów nie są publiczne: kontakt odbywa się przez ROPS.</p>
       </section>
 
       <div className="filters">
@@ -53,8 +53,8 @@ export default function MentorsPage() {
       {data && data.length === 0 && <p>Brak mentorów dla wybranych filtrów.</p>}
       {data && data.length > 0 && (
         <ul className="plain-list" aria-label="Mentorzy">
-          {data.map((m) => (
-            <li key={m.id} className="panel">
+          {data.map((m, i) => (
+            <li key={m.id} className="panel" data-tour={i === 0 ? 'siec-mentorzy-lista' : undefined}>
               <p className="meta-line">
                 <span className="tag">{SEKTORY[m.sektor]}</span>
                 <span className="tag">Powiat: {m.powiat}</span>

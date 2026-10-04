@@ -66,12 +66,12 @@ export default function ConversationPage() {
           <p className="lead">
             Ogłoszenie: <strong>{data.tytul}</strong>. Rozmawiasz z: {data.druga_strona}, przez ROPS Kraków.
           </p>
-          <p className="hint">
+          <p className="hint" data-tour="siec-rozmowa-info">
             Twój adres e-mail nie jest widoczny dla drugiej strony. Zachowaj ten link: to Twój dostęp do rozmowy.{' '}
             <button type="button" className="btn-link" onClick={copyLink}>Skopiuj link</button>
           </p>
           <p role="status" className="hint">{copied}</p>
-          <ol className="thread chat" aria-label="Wiadomości w rozmowie">
+          <ol className="thread chat" data-tour="siec-rozmowa-wiadomosci" aria-label="Wiadomości w rozmowie">
             {data.wiadomosci.map((m, i) => (
               <li key={i} className={`bubble bubble-${m.strona === data.twoja_strona ? 'me' : m.strona === 'rops' ? 'rops' : 'other'}`}>
                 <p className="hint"><strong>{label(m.strona)}</strong> · {formatDate(m.created_at)}</p>

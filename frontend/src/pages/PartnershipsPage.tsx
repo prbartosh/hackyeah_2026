@@ -59,7 +59,7 @@ function OfferForm({ innowacja, onDone }: { innowacja: string; onDone: () => voi
   }
 
   return (
-    <form className="panel" onSubmit={submit} noValidate aria-labelledby="oferta-title">
+    <form className="panel" data-tour="siec-gielda-form" onSubmit={submit} noValidate aria-labelledby="oferta-title">
       <h2 id="oferta-title">Dodaj ogłoszenie</h2>
       <Field id="of-typ" label="Rodzaj ogłoszenia">
         {(a) => <select {...a} className="select" value={v.typ} onChange={set('typ')}>
@@ -72,13 +72,13 @@ function OfferForm({ innowacja, onDone }: { innowacja: string; onDone: () => voi
         </select>}
       </Field>
       <Field id="of-inst" label="Nazwa instytucji lub grupy" error={errors.instytucja}>
-        {(a) => <input {...a} className="input" maxLength={200} value={v.instytucja} onChange={set('instytucja')} />}
+        {(a) => <input {...a} data-tour="siec-gielda-instytucja" className="input" maxLength={200} value={v.instytucja} onChange={set('instytucja')} />}
       </Field>
       <Field id="of-tytul" label="Tytuł ogłoszenia" error={errors.tytul}>
-        {(a) => <input {...a} className="input" maxLength={200} value={v.tytul} onChange={set('tytul')} />}
+        {(a) => <input {...a} data-tour="siec-gielda-tytul" className="input" maxLength={200} value={v.tytul} onChange={set('tytul')} />}
       </Field>
       <Field id="of-opis" label="Opis" hint="Czego szukasz albo co oferujesz. Do 2000 znaków." error={errors.opis}>
-        {(a) => <textarea {...a} className="textarea" rows={5} maxLength={2000} value={v.opis} onChange={set('opis')} />}
+        {(a) => <textarea {...a} data-tour="siec-gielda-opis" className="textarea" rows={5} maxLength={2000} value={v.opis} onChange={set('opis')} />}
       </Field>
       <Field id="of-powiat" label="Powiat">
         {(a) => <select {...a} className="select" value={v.powiat} onChange={set('powiat')}>
@@ -87,20 +87,20 @@ function OfferForm({ innowacja, onDone }: { innowacja: string; onDone: () => voi
       </Field>
       <Field id="of-email" label="E-mail kontaktowy"
         hint="Nie pokazujemy go publicznie. Wiadomości przekaże Ci ROPS." error={errors.kontakt_email}>
-        {(a) => <input {...a} className="input" type="email" autoComplete="email" maxLength={320}
+        {(a) => <input {...a} data-tour="siec-gielda-email" className="input" type="email" autoComplete="email" maxLength={320}
           value={v.kontakt_email} onChange={set('kontakt_email')} />}
       </Field>
       {innowacja && <p className="hint">Ogłoszenie będzie powiązane z innowacją: {innowacja}.</p>}
       {errors.form && <p className="field-error" role="alert">{errors.form}</p>}
       <p className="hint">Ogłoszenie pojawi się na liście po sprawdzeniu przez pracownika ROPS.</p>
       <div className="btn-row">
-        <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij ogłoszenie'}</button>
+        <button type="submit" data-tour="siec-gielda-wyslij" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij ogłoszenie'}</button>
       </div>
     </form>
   )
 }
 
-function ContactForm({ offer, onDone }: { offer: Oferta; onDone: (token: string) => void }) {
+function ContactForm({ offer, tour, onDone }: { offer: Oferta; tour: boolean; onDone: (token: string) => void }) {
   const id = `ct-${offer.id}`
   const [v, setV] = useState({ nadawca_nazwa: '', nadawca_email: '', tresc: '' })
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -132,24 +132,24 @@ function ContactForm({ offer, onDone }: { offer: Oferta; onDone: (token: string)
   return (
     <form onSubmit={submit} noValidate aria-label={`Wiadomość do autora: ${offer.tytul}`}>
       <Field id={`${id}-nazwa`} label="Twoje imię lub nazwa instytucji" error={errors.nadawca_nazwa}>
-        {(a) => <input {...a} className="input" maxLength={200} value={v.nadawca_nazwa} onChange={set('nadawca_nazwa')} />}
+        {(a) => <input {...a} data-tour={tour ? 'siec-gielda-kontakt-nazwa' : undefined} className="input" maxLength={200} value={v.nadawca_nazwa} onChange={set('nadawca_nazwa')} />}
       </Field>
       <Field id={`${id}-email`} label="Twój e-mail" hint="Zobaczy go tylko ROPS, nie autor ogłoszenia. Odpowiedź przyjdzie na ten adres i pojawi się w rozmowie." error={errors.nadawca_email}>
-        {(a) => <input {...a} className="input" type="email" autoComplete="email" maxLength={320}
+        {(a) => <input {...a} data-tour={tour ? 'siec-gielda-kontakt-email' : undefined} className="input" type="email" autoComplete="email" maxLength={320}
           value={v.nadawca_email} onChange={set('nadawca_email')} />}
       </Field>
       <Field id={`${id}-tresc`} label="Wiadomość" error={errors.tresc}>
-        {(a) => <textarea {...a} className="textarea" rows={4} maxLength={2000} value={v.tresc} onChange={set('tresc')} />}
+        {(a) => <textarea {...a} data-tour={tour ? 'siec-gielda-kontakt-tresc' : undefined} className="textarea" rows={4} maxLength={2000} value={v.tresc} onChange={set('tresc')} />}
       </Field>
       {errors.form && <p className="field-error" role="alert">{errors.form}</p>}
       <div className="btn-row">
-        <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij przez ROPS'}</button>
+        <button type="submit" data-tour={tour ? 'siec-gielda-kontakt-wyslij' : undefined} className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij przez ROPS'}</button>
       </div>
     </form>
   )
 }
 
-function OfferCard({ offer, onSent }: { offer: Oferta; onSent: (text: string, token: string) => void }) {
+function OfferCard({ offer, tour, onSent }: { offer: Oferta; tour: boolean; onSent: (text: string, token: string) => void }) {
   const [open, setOpen] = useState(false)
   const formId = `kontakt-${offer.id}`
   return (
@@ -168,7 +168,7 @@ function OfferCard({ offer, onSent }: { offer: Oferta; onSent: (text: string, to
         <p className="hint">Dotyczy innowacji: <Link to={`/innowacja/${offer.innowacja_slug}`}>{offer.innowacja_slug}</Link></p>
       )}
       <div className="btn-row">
-        <button type="button" className="btn btn-secondary" aria-expanded={open} aria-controls={formId}
+        <button type="button" data-tour={tour ? 'siec-gielda-kontakt' : undefined} className="btn btn-secondary" aria-expanded={open} aria-controls={formId}
           onClick={() => setOpen(!open)}>
           Napisz przez ROPS<span className="visually-hidden">: {offer.tytul}</span>
         </button>
@@ -176,7 +176,7 @@ function OfferCard({ offer, onSent }: { offer: Oferta; onSent: (text: string, to
       {open && (
         <div id={formId}>
           <p className="hint">ROPS przekaże wiadomość autorowi. Adresy e-mail nie są ujawniane żadnej ze stron.</p>
-          <ContactForm offer={offer} onDone={(token) => { setOpen(false); onSent(`Wiadomość do ogłoszenia „${offer.tytul}” trafiła do ROPS i zostanie przekazana autorowi.`, token) }} />
+          <ContactForm offer={offer} tour={tour} onDone={(token) => { setOpen(false); onSent(`Wiadomość do ogłoszenia „${offer.tytul}” trafiła do ROPS i zostanie przekazana autorowi.`, token) }} />
         </div>
       )}
     </li>
@@ -207,13 +207,13 @@ export default function PartnershipsPage() {
         a kontakt odbywa się przez ROPS, bez ujawniania adresów e-mail.
       </p>
       <div className="btn-row">
-        <button type="button" className="btn btn-primary" aria-expanded={showForm} onClick={() => setShowForm(!showForm)}>
+        <button type="button" data-tour="siec-gielda-dodaj" className="btn btn-primary" aria-expanded={showForm} onClick={() => setShowForm(!showForm)}>
           {showForm ? 'Zamknij formularz' : 'Dodaj ogłoszenie'}
         </button>
       </div>
-      <p role="status" className={notice ? 'alert alert-note' : undefined}>
+      <p role="status" data-tour={notice ? 'siec-gielda-status' : undefined} className={notice ? 'alert alert-note' : undefined}>
         {notice}
-        {notice && rozmowa && <> <Link to={rozmowaPath(rozmowa)}>Otwórz rozmowę</Link> (zachowaj ten link, odpowiedź pojawi się właśnie tam).</>}
+        {notice && rozmowa && <> <Link to={rozmowaPath(rozmowa)} data-tour="siec-gielda-rozmowa">Otwórz rozmowę</Link> (zachowaj ten link, odpowiedź pojawi się właśnie tam).</>}
       </p>
       {showForm && <OfferForm innowacja={innowacja} onDone={() => {
         setShowForm(false)
@@ -221,10 +221,10 @@ export default function PartnershipsPage() {
         setNotice('Dziękujemy. Ogłoszenie dotarło do ROPS i pojawi się na liście po sprawdzeniu.')
       }} />}
 
-      <div className="filters">
+      <div className="filters" data-tour="siec-gielda-filtry">
         <div className="field">
           <label htmlFor="f-typ">Rodzaj</label>
-          <select id="f-typ" className="select" value={typ} onChange={(e) => setTyp(e.target.value)}>
+          <select id="f-typ" data-tour="siec-gielda-typ" className="select" value={typ} onChange={(e) => setTyp(e.target.value)}>
             <option value="">Wszystkie</option>
             {Object.entries(TYPY).map(([k, l]) => <option key={k} value={k}>{l}</option>)}
           </select>
@@ -257,8 +257,8 @@ export default function PartnershipsPage() {
       {loading && !data && <p role="status">Wczytywanie…</p>}
       {data && data.length === 0 && <p>Brak ogłoszeń dla wybranych filtrów. Dodaj pierwsze.</p>}
       {data && data.length > 0 && (
-        <ul className="plain-list" aria-label="Ogłoszenia partnerskie">
-          {data.map((o) => <OfferCard key={o.id} offer={o} onSent={(text, token) => { setNotice(text); setRozmowa(token) }} />)}
+        <ul className="plain-list" data-tour="siec-gielda-lista" aria-label="Ogłoszenia partnerskie">
+          {data.map((o, i) => <OfferCard key={o.id} offer={o} tour={i === 0} onSent={(text, token) => { setNotice(text); setRozmowa(token) }} />)}
         </ul>
       )}
     </div>
