@@ -1,8 +1,8 @@
 # 0040. Mentorzy (moduł V)
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR: 
+- PR: #65
 
 ## Cel
 
