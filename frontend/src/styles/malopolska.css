@@ -1,0 +1,62 @@
+/* ──────────────────────────────────────────────
+   Kolory marki Małopolski jako akcenty: cienki wielokolorowy pasek nad nagłówkiem i nad stopką,
+   pasek pod aktywną pozycją menu (przyciski zostają w pierwotnym niebieskim).
+   Czysto dekoracyjne (pseudo-elementy, bez markupu), nie zmienia układu ani kontrastu tekstu.
+   ────────────────────────────────────────────── */
+
+:root {
+  --mp-magenta: #e6007e;
+  --mp-purple: #6c2c91;
+  --mp-blue: #4267b2;
+  --mp-cyan: #00b0ea;
+  --mp-green: #8dc63f;
+  --mp-yellow: #fdb913;
+  --mp-stripe: linear-gradient(90deg,
+    var(--mp-magenta) 0 16.66%, var(--mp-purple) 0 33.33%, var(--mp-blue) 0 50%,
+    var(--mp-cyan) 0 66.66%, var(--mp-green) 0 83.33%, var(--mp-yellow) 0 100%);
+}
+:root[data-theme="high-contrast"] { --mp-stripe: none; }
+
+.topbar { position: relative; }
+.topbar::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; pointer-events: none;
+  background: var(--mp-stripe);
+}
+
+.site-footer { position: relative; }
+.site-footer::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; pointer-events: none;
+  background: var(--mp-stripe); opacity: 0.8;
+}
+
+/* Menu: pasek barw pod pozycją przy najechaniu, fokusie i na aktywnej. Bez podkreślenia tekstu. */
+.site-nav a { position: relative; }
+.site-nav a:hover { text-decoration: none; }
+.site-nav a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0.6rem; height: 3px; pointer-events: none;
+  background: var(--mp-stripe); opacity: 0; transform: scaleX(0.6); transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.site-nav a:hover::after, .site-nav a:focus-visible::after, .site-nav a[aria-current="page"]::after { opacity: 1; transform: none; }
+:root:not([data-theme="high-contrast"]) .site-nav a[aria-current="page"] { border-bottom-color: transparent; }
+:root[data-theme="high-contrast"] .site-nav a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+@media (prefers-reduced-motion: reduce) { .site-nav a::after { transition: none; } }
+
+/* Tło: abstrakcyjna grań w barwach marki, osobny obraz dla motywu jasnego i ciemnego.
+   Przypięte do okna, za treścią, wygaszane maską do brzegów, żeby nie obniżać czytelności tekstu. Wysoki kontrast: bez tła. */
+body { position: relative; }
+body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background: url("../assets/tlo-jasne.webp") center 18% / cover no-repeat;
+  -webkit-mask-image: radial-gradient(ellipse 80% 62% at 50% 42%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 62% at 50% 42%, #000 35%, transparent 100%);
+}
+:root[data-theme="dark"] body::before {
+  background-image: url("../assets/tlo-ciemne.webp");
+  opacity: 0.9;
+}
+:root[data-theme="high-contrast"] body::before { display: none; }
+
+@media print {
+  body::before { display: none; }
+  .topbar::before, .site-footer::before { display: none; }
+}
