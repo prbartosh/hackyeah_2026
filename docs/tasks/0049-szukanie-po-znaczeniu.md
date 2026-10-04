@@ -1,8 +1,8 @@
 # 0049. Szukanie po znaczeniu
 
-- Status: w toku
+- Status: review
 - Osoba: Wiktor
-- PR:
+- PR: #94
 
 ## Cel
 
