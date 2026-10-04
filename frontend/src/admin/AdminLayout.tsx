@@ -32,7 +32,7 @@ function Login({ onLogin }: { onLogin: () => void }) {
     <div className="container page admin-login">
       <h1>Panel pracownika ROPS</h1>
       <p>Ten panel jest tylko dla pracowników ROPS. Wpisz token dostępu otrzymany od administratora systemu.</p>
-      <form onSubmit={submit} className="stack" noValidate>
+      <form onSubmit={submit} className="stack" noValidate data-tour="panel-logowanie">
         <div className="field">
           <label htmlFor="admin-token">Token dostępu</label>
           <input
@@ -56,6 +56,13 @@ function Login({ onLogin }: { onLogin: () => void }) {
 export default function AdminLayout() {
   const [loggedIn, setLoggedIn] = useState(() => getToken() !== null)
   const [unread, setUnread] = useState<number | null>(null)
+
+  // Token ustawiony z zewnątrz (np. przez przewodnik albo test) odblokowuje panel bez przeładowania.
+  useEffect(() => {
+    if (loggedIn) return
+    const timer = window.setInterval(() => { if (getToken() !== null) setLoggedIn(true) }, 500)
+    return () => window.clearInterval(timer)
+  }, [loggedIn])
 
   const refreshUnread = useCallback(() => {
     api.notifications(true)

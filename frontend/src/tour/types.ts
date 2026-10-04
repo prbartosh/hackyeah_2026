@@ -20,6 +20,7 @@ export type TourAction =
   | { kind: 'select'; target: string; value: Value } // wybiera opcję w <select>
   | { kind: 'check'; target: string; checked?: boolean } // checkbox / radio
   | { kind: 'click'; target: string }
+  | { kind: 'upload'; target: string; url: string; filename: string } // wstawia plik pobrany z url do input[type=file] (target: input albo jego kontener)
   | { kind: 'capture'; target: string; key: string; from: 'href' | 'text' | 'value'; pattern?: string }
 // capture: zapisuje do ctx wartość z elementu, np. token wątku z linku po wysłaniu zgłoszenia.
 // pattern: opcjonalne wyrażenie regularne, pierwsza grupa to wartość (np. '/watek/([^/?#]+)').
