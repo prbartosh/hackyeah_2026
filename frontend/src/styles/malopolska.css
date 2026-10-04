@@ -60,9 +60,17 @@
   }
 }
 
-/* Menu: aktywna pozycja podkreślona paskiem */
-.site-nav a[aria-current="page"] { border-image: var(--mp-stripe) 1; }
-.site-nav a[aria-current="page"]:hover { text-decoration: none; }
+/* Menu: pasek barw pod pozycją przy najechaniu, fokusie i na aktywnej. Bez podkreślenia tekstu. */
+.site-nav a { position: relative; }
+.site-nav a:hover { text-decoration: none; }
+.site-nav a::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0.6rem; height: 3px; pointer-events: none;
+  background: var(--mp-stripe); opacity: 0; transform: scaleX(0.6); transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.site-nav a:hover::after, .site-nav a:focus-visible::after, .site-nav a[aria-current="page"]::after { opacity: 1; transform: none; }
+:root:not([data-theme="high-contrast"]) .site-nav a[aria-current="page"] { border-bottom-color: transparent; }
+:root[data-theme="high-contrast"] .site-nav a:hover { text-decoration: underline; text-decoration-thickness: 2px; }
+@media (prefers-reduced-motion: reduce) { .site-nav a::after { transition: none; } }
 
 @media print {
   .topbar::before, .site-footer::before { display: none; }
