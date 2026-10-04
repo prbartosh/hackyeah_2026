@@ -295,7 +295,7 @@ export default function TicketPage() {
   }, [data?.id, data?.triaz_wykonany])
 
   if (loading && !data) return <Loading text="Wczytywanie zgłoszenia…" />
-  if (error || !data) return <ErrorBox message={error ?? 'Nie znaleziono zgłoszenia.'} onRetry={reload} />
+  if (error || !data) return <><h1>Zgłoszenie</h1><ErrorBox message={error ?? 'Nie znaleziono zgłoszenia.'} onRetry={reload} /></>
 
   return (
     <>

@@ -13,7 +13,8 @@ Każdy moduł przeszedł ręczny test czytnikiem ekranu (NVDA), a wejście głos
 - [x] axe (WCAG 2.0–2.2 A i AA, best-practice) na 21 trasach w trzech motywach, 1280 px i 375 px: 0 naruszeń (2026-10-04, lokalnie, dane demo)
 - [x] Klawiatura: na 12 trasach Tab dochodzi do wszystkich elementów z widocznym fokusem
 - [x] Skrypty w repo: `npm run a11y` (axe) i `npm run a11y:keys` (Tab, fokus, 320 px); pierwszy przebieg: 0 naruszeń na trasach publicznych (2026-10-04)
-- [ ] `npm run a11y` z `ADMIN_TOKEN` na panelu `/admin/*` (nie uruchomione w tej sesji) i podpięcie do CI
+- [x] `npm run a11y` z `ADMIN_TOKEN` na panelu `/admin/*`: 228 stron (trasy publiczne i panel × 3 motywy × 1280/320 px), 0 naruszeń (2026-10-04; poprawione h1 w stanie błędu stron szczegółów panelu)
+- [ ] Podpięcie `npm run a11y` do CI (repo nie ma CI)
 - [ ] NVDA: Zasobnik wiedzy (`/zasobnik`, strona dokumentu, `/innowacja/:slug`)
 - [ ] NVDA: czat i panel „Twój problem”, „Dane gminy”, „Podobne przypadki”
 - [ ] NVDA: panel administratora
