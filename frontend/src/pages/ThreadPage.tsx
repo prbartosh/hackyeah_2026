@@ -4,6 +4,7 @@ import { api } from '@/admin/api'
 import { ErrorBox, Loading, errorText, formatDate, useLoad } from '@/admin/ui'
 import type { ThreadMessage } from '@/admin/types'
 import MyThreadsList from '@/components/MyThreadsList'
+import MentorRequestButton from '@/components/MentorRequestButton'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { loadThreads, saveThread } from '@/lib/myThreads'
 import '@/styles/admin.css'
@@ -14,6 +15,7 @@ const ROLE_LABELS: Record<ThreadMessage['autor_rola'], string> = {
   uzytkownik: 'Ty',
   admin: 'ROPS',
   mentor: 'Mentor',
+  system: 'Informacja',
 }
 
 function Reply({ token, onSent }: { token: string; onSent: () => void }) {
@@ -124,6 +126,7 @@ export default function ThreadPage() {
             ))}
           </ol>
           <Reply token={token} onSent={reload} />
+          <MentorRequestButton token={token} />
           <MyThreadsList title="Inne Twoje sprawy" exclude={token} hideWhenEmpty />
         </>
       )}

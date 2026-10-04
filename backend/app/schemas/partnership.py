@@ -67,3 +67,61 @@ class ContactCreate(BaseModel):
     nadawca_nazwa: str = Field(min_length=2, max_length=200)
     nadawca_email: str = Field(max_length=320, pattern=EMAIL_PATTERN)
     tresc: str = Field(min_length=10, max_length=2000)
+
+
+StronaRozmowy = Literal["nadawca", "autor", "rops"]
+StatusRozmowy = Literal["otwarta", "zamknieta"]
+
+
+class ContactCreated(BaseModel):
+    status: str
+    token_rozmowy: str
+    tytul: str
+
+
+class MessageCreate(BaseModel):
+    tresc: str = Field(min_length=2, max_length=2000)
+
+
+class ConversationMessage(BaseModel):
+    strona: StronaRozmowy
+    tresc: str
+    created_at: datetime
+
+
+class ConversationView(BaseModel):
+    """Widok rozmowy ze strony tokenu. Bez adresów e-mail żadnej ze stron."""
+
+    tytul: str
+    status: StatusRozmowy
+    twoja_strona: Literal["nadawca", "autor"]
+    druga_strona: str
+    wiadomosci: list[ConversationMessage]
+
+
+class ConversationAdminItem(BaseModel):
+    id: int
+    ogloszenie_id: int
+    tytul: str
+    nadawca_nazwa: str
+    status: StatusRozmowy
+    liczba_wiadomosci: int
+    created_at: datetime
+    updated_at: datetime
+
+
+class ConversationAdminList(BaseModel):
+    items: list[ConversationAdminItem]
+    total: int
+
+
+class ConversationAdmin(BaseModel):
+    id: int
+    ogloszenie_id: int
+    tytul: str
+    instytucja: str
+    nadawca_nazwa: str
+    nadawca_email: str
+    kontakt_email: str
+    status: StatusRozmowy
+    wiadomosci: list[ConversationMessage]

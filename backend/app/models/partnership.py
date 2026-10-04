@@ -41,3 +41,37 @@ class PartnershipMessage(TimestampMixin, Base):
     nadawca_nazwa: Mapped[str] = mapped_column(String(200))
     nadawca_email: Mapped[str] = mapped_column(String(320))
     tresc: Mapped[str] = mapped_column(Text)
+
+
+STRONY_ROZMOWY = ("nadawca", "autor", "rops")
+STATUSY_ROZMOW = ("otwarta", "zamknieta")
+
+
+class PartnershipConversation(TimestampMixin, Base):
+    """Rozmowa nadawcy z autorem ogłoszenia przez ROPS. Każda strona ma własny token w linku.
+
+    `nadawca_email` jest prywatny: nie trafia do widoku rozmowy, widzi go tylko panel ROPS.
+    """
+
+    __tablename__ = "rozmowy_partnerskie"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    ogloszenie_id: Mapped[int] = mapped_column(
+        ForeignKey("ogloszenia_partnerskie.id", ondelete="CASCADE"), index=True
+    )
+    nadawca_nazwa: Mapped[str] = mapped_column(String(200))
+    nadawca_email: Mapped[str] = mapped_column(String(320))
+    token_nadawcy: Mapped[str] = mapped_column(String(64), unique=True)
+    token_autora: Mapped[str] = mapped_column(String(64), unique=True)
+    status: Mapped[str] = mapped_column(String(10), default="otwarta")
+
+
+class PartnershipConversationMessage(TimestampMixin, Base):
+    __tablename__ = "wiadomosci_rozmow"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    rozmowa_id: Mapped[int] = mapped_column(
+        ForeignKey("rozmowy_partnerskie.id", ondelete="CASCADE"), index=True
+    )
+    strona: Mapped[str] = mapped_column(String(10))
+    tresc: Mapped[str] = mapped_column(Text)

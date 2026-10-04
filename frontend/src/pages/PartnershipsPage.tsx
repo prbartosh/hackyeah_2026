@@ -6,6 +6,7 @@ import {
   type Oferta, type Sektor, type TypOgloszenia,
 } from '@/api/partnerships'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
+import { rozmowaPath, saveRozmowa } from '@/lib/rozmowy'
 import '@/styles/admin.css'
 
 const EMAIL = /^[^@\s]+@[^@\s]+\.[^@\s]+$/
@@ -99,7 +100,7 @@ function OfferForm({ innowacja, onDone }: { innowacja: string; onDone: () => voi
   )
 }
 
-function ContactForm({ offer, onDone }: { offer: Oferta; onDone: () => void }) {
+function ContactForm({ offer, onDone }: { offer: Oferta; onDone: (token: string) => void }) {
   const id = `ct-${offer.id}`
   const [v, setV] = useState({ nadawca_nazwa: '', nadawca_email: '', tresc: '' })
   const [errors, setErrors] = useState<Record<string, string>>({})
@@ -116,10 +117,11 @@ function ContactForm({ offer, onDone }: { offer: Oferta; onDone: () => void }) {
     if (Object.keys(next).length) return
     setBusy(true)
     try {
-      await partnerships.contact(offer.id, {
+      const { token_rozmowy } = await partnerships.contact(offer.id, {
         nadawca_nazwa: v.nadawca_nazwa.trim(), nadawca_email: v.nadawca_email.trim(), tresc: v.tresc.trim(),
       })
-      onDone()
+      saveRozmowa({ token: token_rozmowy, tytul: offer.tytul, data: new Date().toISOString() })
+      onDone(token_rozmowy)
     } catch (err) {
       setErrors({ form: errorText(err) })
     } finally {
@@ -132,7 +134,7 @@ function ContactForm({ offer, onDone }: { offer: Oferta; onDone: () => void }) {
       <Field id={`${id}-nazwa`} label="Twoje imię lub nazwa instytucji" error={errors.nadawca_nazwa}>
         {(a) => <input {...a} className="input" maxLength={200} value={v.nadawca_nazwa} onChange={set('nadawca_nazwa')} />}
       </Field>
-      <Field id={`${id}-email`} label="Twój e-mail" hint="Zobaczy go tylko ROPS, nie autor ogłoszenia." error={errors.nadawca_email}>
+      <Field id={`${id}-email`} label="Twój e-mail" hint="Zobaczy go tylko ROPS, nie autor ogłoszenia. Odpowiedź przyjdzie na ten adres i pojawi się w rozmowie." error={errors.nadawca_email}>
         {(a) => <input {...a} className="input" type="email" autoComplete="email" maxLength={320}
           value={v.nadawca_email} onChange={set('nadawca_email')} />}
       </Field>
@@ -147,7 +149,7 @@ function ContactForm({ offer, onDone }: { offer: Oferta; onDone: () => void }) {
   )
 }
 
-function OfferCard({ offer, onSent }: { offer: Oferta; onSent: (text: string) => void }) {
+function OfferCard({ offer, onSent }: { offer: Oferta; onSent: (text: string, token: string) => void }) {
   const [open, setOpen] = useState(false)
   const formId = `kontakt-${offer.id}`
   return (
@@ -174,7 +176,7 @@ function OfferCard({ offer, onSent }: { offer: Oferta; onSent: (text: string) =>
       {open && (
         <div id={formId}>
           <p className="hint">ROPS przekaże wiadomość autorowi. Adresy e-mail nie są ujawniane żadnej ze stron.</p>
-          <ContactForm offer={offer} onDone={() => { setOpen(false); onSent(`Wiadomość do ogłoszenia „${offer.tytul}” trafiła do ROPS i zostanie przekazana autorowi.`) }} />
+          <ContactForm offer={offer} onDone={(token) => { setOpen(false); onSent(`Wiadomość do ogłoszenia „${offer.tytul}” trafiła do ROPS i zostanie przekazana autorowi.`, token) }} />
         </div>
       )}
     </li>
@@ -191,6 +193,7 @@ export default function PartnershipsPage() {
   const [powiat, setPowiat] = useState('')
   const [showForm, setShowForm] = useState(false)
   const [notice, setNotice] = useState('')
+  const [rozmowa, setRozmowa] = useState('')
   const { data, error, loading, reload } = useLoad(
     () => partnerships.list({ typ, sektor, powiat, innowacja }), [typ, sektor, powiat, innowacja],
   )
@@ -208,9 +211,13 @@ export default function PartnershipsPage() {
           {showForm ? 'Zamknij formularz' : 'Dodaj ogłoszenie'}
         </button>
       </div>
-      <p role="status" className={notice ? 'alert alert-note' : undefined}>{notice}</p>
+      <p role="status" className={notice ? 'alert alert-note' : undefined}>
+        {notice}
+        {notice && rozmowa && <> <Link to={rozmowaPath(rozmowa)}>Otwórz rozmowę</Link> (zachowaj ten link, odpowiedź pojawi się właśnie tam).</>}
+      </p>
       {showForm && <OfferForm innowacja={innowacja} onDone={() => {
         setShowForm(false)
+        setRozmowa('')
         setNotice('Dziękujemy. Ogłoszenie dotarło do ROPS i pojawi się na liście po sprawdzeniu.')
       }} />}
 
@@ -251,7 +258,7 @@ export default function PartnershipsPage() {
       {data && data.length === 0 && <p>Brak ogłoszeń dla wybranych filtrów. Dodaj pierwsze.</p>}
       {data && data.length > 0 && (
         <ul className="plain-list" aria-label="Ogłoszenia partnerskie">
-          {data.map((o) => <OfferCard key={o.id} offer={o} onSent={setNotice} />)}
+          {data.map((o) => <OfferCard key={o.id} offer={o} onSent={(text, token) => { setNotice(text); setRozmowa(token) }} />)}
         </ul>
       )}
     </div>

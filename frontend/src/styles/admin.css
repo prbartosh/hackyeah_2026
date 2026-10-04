@@ -95,6 +95,7 @@ fieldset.field > legend { padding-inline: 0.4rem; }
 .thread .msg-admin { border-left: 6px solid var(--success); }
 .thread .msg-author { border-left: 6px solid var(--primary); }
 .thread .msg-mentor { border-left: 6px solid var(--warning-border); }
+.thread .msg-system { background: transparent; border-style: dashed; color: var(--text-muted); }
 /* Publiczny wątek jako rozmowa: dymki, wiadomości autora po prawej. */
 .chat-thread { margin: 1rem 0; }
 .chat-thread li { max-width: min(42rem, 92%); }
@@ -132,3 +133,9 @@ fieldset.field > legend { padding-inline: 0.4rem; }
   .facts div { grid-template-columns: 1fr; gap: 0; }
   .admin-nav a { flex: 1 1 auto; justify-content: center; }
 }
+
+/* Rozmowa partnerska (0042): dymki "Ty" po prawej, druga strona i ROPS po lewej. */
+.thread.chat .bubble { max-width: 42rem; }
+.thread.chat .bubble-me { justify-self: end; border-left-width: 1px; border-right: 6px solid var(--primary); }
+.thread.chat .bubble-other { justify-self: start; border-left: 6px solid var(--line-strong); }
+.thread.chat .bubble-rops { justify-self: start; border-left: 6px solid var(--success); }

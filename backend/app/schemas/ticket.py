@@ -23,7 +23,7 @@ class TicketCreated(BaseModel):
 class ThreadMessageRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    autor_rola: Literal["uzytkownik", "admin", "mentor"]
+    autor_rola: Literal["uzytkownik", "admin", "mentor", "system"]
     tresc: str
     zrodla: list[dict] | None
     created_at: datetime
