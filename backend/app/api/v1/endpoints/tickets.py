@@ -1,9 +1,11 @@
 from fastapi import APIRouter, HTTPException, status
 
 from app.api.deps import TicketServiceDep
+from app.models import ThreadMessage, Ticket
 from app.schemas.ticket import (
     ThreadMessageRead,
     ThreadRead,
+    ThreadReply,
     TicketCreate,
     TicketCreated,
 )
@@ -23,7 +25,10 @@ async def get_thread(token: str, service: TicketServiceDep) -> ThreadRead:
     found = await service.thread(token)
     if found is None:
         raise HTTPException(status.HTTP_404_NOT_FOUND, "Nie znaleziono rozmowy")
-    ticket, messages = found
+    return _thread_read(*found)
+
+
+def _thread_read(ticket: Ticket, messages: list[ThreadMessage]) -> ThreadRead:
     return ThreadRead(
         status=ticket.status,
         wiadomosci=[
@@ -33,3 +38,16 @@ async def get_thread(token: str, service: TicketServiceDep) -> ThreadRead:
             for m in messages
         ],
     )
+
+
+@router.post(
+    "/watek/{token}/wiadomosci",
+    response_model=ThreadRead,
+    status_code=status.HTTP_201_CREATED,
+    summary="Odpowiedź autora w jego wątku",
+)
+async def reply_in_thread(token: str, data: ThreadReply, service: TicketServiceDep) -> ThreadRead:
+    ticket = await service.reply_in_thread(token, data.tresc)
+    if ticket is None:
+        raise HTTPException(status.HTTP_404_NOT_FOUND, "Nie znaleziono rozmowy")
+    return _thread_read(ticket, await service.messages(ticket))

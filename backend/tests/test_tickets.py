@@ -216,3 +216,28 @@ async def test_triaz_bez_slow_ze_slownika_zostawia_puste_tagi(admin_client, sess
     ticket_id = await first_ticket_id(admin_client)
     await admin_client.post(f"{API}/admin/zgloszenia/{ticket_id}/triaz")
     assert await stored_tags(session_factory, ticket_id) == {}
+
+
+async def test_autor_odpisuje_w_watku_i_zgloszenie_wraca_do_skrzynki(admin_client):
+    token = await submit(admin_client, "Szukamy pomysłu na zajęcia dla seniorów w gminie")
+    ticket_id = await first_ticket_id(admin_client)
+    await admin_client.post(
+        f"{API}/admin/zgloszenia/{ticket_id}/odpowiedz", json={"tresc": "Dzień dobry, polecamy."}
+    )
+
+    response = await admin_client.post(
+        f"{API}/zgloszenia/watek/{token}/wiadomosci", json={"tresc": "Dziękuję, a jak z kosztami?"}
+    )
+    assert response.status_code == 201, response.text
+    thread = response.json()
+    assert [m["autor_rola"] for m in thread["wiadomosci"]] == ["uzytkownik", "admin", "uzytkownik"]
+    assert thread["status"] == "w_trakcie"
+    notifications = (await admin_client.get(f"{API}/admin/powiadomienia")).json()["items"]
+    assert notifications[0]["tekst"] == f"Nowa wiadomość w zgłoszeniu nr {ticket_id}"
+
+
+async def test_odpowiedz_w_nieistniejacym_watku(admin_client):
+    response = await admin_client.post(
+        f"{API}/zgloszenia/watek/nie-ma/wiadomosci", json={"tresc": "Halo?"}
+    )
+    assert response.status_code == 404

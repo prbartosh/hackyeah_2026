@@ -62,6 +62,15 @@ export interface Ticket extends TicketListItem {
   triaz_komunikat: string | null
   najlepsze_dopasowanie: number | null
   wiadomosci: ThreadMessage[]
+  innowacja_slug: string | null
+  testujacy: TesterContact[]
+}
+
+/** Instytucja testująca innowację z pytania; kontakt tylko przez wątek ROPS. */
+export interface TesterContact {
+  opinia_id: number
+  instytucja: string | null
+  tresc: string
 }
 
 export interface Page<T> {

@@ -80,6 +80,8 @@ export const api = {
   createTicket: (data: { tresc: string; autor_nazwa?: string; autor_email?: string }) =>
     call<{ token_watku: string }>('/zgloszenia', json('POST', data), false),
   publicThread: (token: string) => call<PublicThread>(`/zgloszenia/watek/${encodeURIComponent(token)}`, {}, false),
+  replyInThread: (token: string, tresc: string) =>
+    call<PublicThread>(`/zgloszenia/watek/${encodeURIComponent(token)}/wiadomosci`, json('POST', { tresc }), false),
 
   tickets: (p: Record<string, string | number | undefined>) =>
     call<Page<TicketListItem>>(`/admin/zgloszenia${query(p)}`),
@@ -89,6 +91,8 @@ export const api = {
     call<Ticket>(`/admin/zgloszenia/${id}/szkic`, json('PUT', { szkic_odpowiedzi })),
   approveReply: (id: number, tresc: string, zrodla: string[]) =>
     call<Ticket>(`/admin/zgloszenia/${id}/odpowiedz`, json('POST', { tresc, zrodla })),
+  forwardQuestion: (id: number, opinia_id: number, tresc: string) =>
+    call<Ticket>(`/admin/zgloszenia/${id}/przekaz`, json('POST', { opinia_id, tresc })),
 
   notifications: (onlyUnread = false) =>
     call<{ items: AppNotification[]; nieprzeczytane: number }>(

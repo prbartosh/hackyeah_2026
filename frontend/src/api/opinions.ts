@@ -22,6 +22,14 @@ export interface OpinieSummary {
   liczba_testow: number
   poziom: { kod: PoziomDowodu; etykieta: string; opis: string }
   opinie: OpiniaPublic[]
+  /** Jest instytucja testująca, do której ROPS może przekazać pytanie. */
+  mozna_zapytac: boolean
+}
+
+export interface PytanieCreate {
+  tresc: string
+  instytucja?: string
+  autor_email?: string
 }
 
 export interface OpiniaCreate {
@@ -64,6 +72,8 @@ export const opinions = {
     call<{ status: StatusOpinii; token_watku: string | null }>(
       path(slug), { method: 'POST', body: JSON.stringify(data) }, false,
     ),
+  ask: (slug: string, data: PytanieCreate) =>
+    call<{ token_watku: string }>(`${path(slug)}/pytanie`, { method: 'POST', body: JSON.stringify(data) }, false),
   adminList: (status: StatusOpinii | '', offset = 0) =>
     call<{ items: OpiniaAdmin[]; total: number }>(
       `/admin/opinie?${new URLSearchParams({ ...(status ? { status } : {}), offset: String(offset) })}`,

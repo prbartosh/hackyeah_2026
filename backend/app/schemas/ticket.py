@@ -32,6 +32,25 @@ class ThreadRead(BaseModel):
     wiadomosci: list[ThreadMessageRead]
 
 
+class ThreadReply(BaseModel):
+    """Odpowiedź autora w jego wątku (bez konta, przez token)."""
+
+    tresc: str = Field(min_length=2, max_length=4000)
+
+
+class TesterContact(BaseModel):
+    """Instytucja testująca innowację; kontakt tylko przez wątek ROPS, bez e-maila."""
+
+    opinia_id: int
+    instytucja: str | None
+    tresc: str
+
+
+class ForwardQuestion(BaseModel):
+    opinia_id: int
+    tresc: str = Field(min_length=10, max_length=8000)
+
+
 class CardSuggestion(BaseModel):
     slug: str
     nazwa: str
@@ -85,6 +104,8 @@ class TicketRead(TicketListItem):
     triaz_komunikat: str | None
     najlepsze_dopasowanie: float | None
     wiadomosci: list[ThreadMessageRead]
+    innowacja_slug: str | None = None
+    testujacy: list[TesterContact] = []
 
 
 class DraftUpdate(BaseModel):

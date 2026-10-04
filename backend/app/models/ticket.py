@@ -23,6 +23,8 @@ class Ticket(TimestampMixin, Base):
     token_watku: Mapped[str] = mapped_column(String(64), unique=True, index=True)
     status: Mapped[str] = mapped_column(String(20), default="nowe", index=True)
     odpowiedziano: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
+    # Pytanie do instytucji testujących tę innowację (zadanie 0039); ROPS przekazuje je dalej.
+    innowacja_slug: Mapped[str | None] = mapped_column(String(200), index=True)
 
     kategoria: Mapped[str | None] = mapped_column(String(100), index=True)
     pilnosc: Mapped[str | None] = mapped_column(String(10))

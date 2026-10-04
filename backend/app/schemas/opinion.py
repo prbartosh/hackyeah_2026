@@ -56,6 +56,8 @@ class OpinieSummary(BaseModel):
     liczba_testow: int
     poziom: Poziom
     opinie: list[OpiniaPublic]
+    # Czy jest instytucja testująca, do której ROPS może przekazać pytanie (zadanie 0039).
+    mozna_zapytac: bool = False
 
 
 class OpiniaAdmin(OpiniaPublic):
@@ -73,3 +75,17 @@ class OpinieAdminList(BaseModel):
 
 class OpiniaStatusUpdate(BaseModel):
     status: StatusOpinii
+
+
+class PytanieCreate(BaseModel):
+    """Pytanie do instytucji, które testują innowację; ROPS przekazuje je dalej (zadanie 0039)."""
+
+    tresc: str = Field(min_length=10, max_length=2000)
+    instytucja: str | None = Field(default=None, max_length=200)
+    autor_email: str | None = Field(
+        default=None, max_length=320, pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
+    )
+
+
+class PytanieCreated(BaseModel):
+    token_watku: str

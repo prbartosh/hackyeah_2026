@@ -86,6 +86,64 @@ function Triage({ ticket }: { ticket: Ticket }) {
   )
 }
 
+/** Pytanie do instytucji testujących: ROPS przekazuje je do ich wątków, bez ujawniania kontaktów. */
+function Testers({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => void }) {
+  // Treść zgłoszenia: nagłówek (innowacja, kto pyta), pusta linia, pytanie.
+  const question = ticket.tresc.split('\n\n').slice(1).join('\n\n').trim() || ticket.tresc
+  const [text, setText] = useState(
+    'Dzień dobry,\n\ninna instytucja pyta o rozwiązanie, które Państwo testują:\n\n' +
+    `${question}\n\nJeśli możecie pomóc, odpowiedzcie w tym wątku. Przekażemy odpowiedź bez ujawniania ` +
+    'Państwa danych kontaktowych.\n\nPozdrawiamy, zespół ROPS',
+  )
+  const [sent, setSent] = useState<number[]>([])
+  const [busy, setBusy] = useState<number | null>(null)
+  const [error, setError] = useState('')
+
+  async function forward(opiniaId: number) {
+    setBusy(opiniaId)
+    setError('')
+    try {
+      onChange(await api.forwardQuestion(ticket.id, opiniaId, text.trim()))
+      setSent((s) => [...s, opiniaId])
+    } catch (e) {
+      setError(errorText(e))
+    } finally {
+      setBusy(null)
+    }
+  }
+
+  return (
+    <section aria-labelledby="testers-h" className="panel">
+      <h2 id="testers-h">Instytucje, które to testują</h2>
+      <p className="hint">
+        Autor pyta instytucje testujące <Link to={`/innowacja/${ticket.innowacja_slug}`}>tę innowację</Link>.
+        Przekaż pytanie do ich wątku. Odpowiedź zobaczysz w ich zgłoszeniu i przekażesz autorowi.
+      </p>
+      <div className="field">
+        <label htmlFor="fwd-text">Treść przekazywanej wiadomości</label>
+        <textarea id="fwd-text" className="textarea" rows={8} value={text} onChange={(e) => setText(e.target.value)} />
+      </div>
+      {error && <p className="field-error" role="alert">{error}</p>}
+      <ul className="plain-list">
+        {ticket.testujacy.map((t) => (
+          <li key={t.opinia_id}>
+            <strong>{t.instytucja ?? 'Instytucja bez nazwy'}</strong>
+            <span className="hint block">{t.tresc}</span>
+            {sent.includes(t.opinia_id) ? (
+              <p className="status-ok" role="status">Przekazano.</p>
+            ) : (
+              <button type="button" className="btn btn-secondary" disabled={busy !== null || text.trim().length < 10}
+                onClick={() => forward(t.opinia_id)}>
+                {busy === t.opinia_id ? 'Przekazywanie…' : 'Przekaż pytanie'}
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
 function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => void }) {
   const [text, setText] = useState(ticket.szkic_odpowiedzi ?? '')
   const [sources, setSources] = useState<Set<string>>(
@@ -262,7 +320,10 @@ export default function TicketPage() {
           )}
           <Thread ticket={data} />
         </div>
-        <div>{data.triaz_wykonany && <Triage ticket={data} />}</div>
+        <div>
+          {data.testujacy.length > 0 && <Testers ticket={data} onChange={setData} />}
+          {data.triaz_wykonany && <Triage ticket={data} />}
+        </div>
       </div>
     </>
   )

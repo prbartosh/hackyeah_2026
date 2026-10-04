@@ -2,13 +2,14 @@ from typing import Annotated
 
 from fastapi import APIRouter, HTTPException, Query, status
 
-from app.api.deps import AIGatewayDep, SessionDep, TicketServiceDep
+from app.api.deps import AIGatewayDep, OpinionServiceDep, SessionDep, TicketServiceDep
 from app.core.config import settings
 from app.models import Ticket
 from app.schemas.ticket import (
     CardSuggestion,
     DraftUpdate,
     DuplicateRead,
+    ForwardQuestion,
     MarkRead,
     NotificationList,
     NotificationRead,
@@ -67,6 +68,8 @@ async def _read(service: TicketService, ticket: Ticket) -> TicketRead:
             )
             for m in messages
         ],
+        innowacja_slug=ticket.innowacja_slug,
+        testujacy=await service.testers(ticket),
     )
 
 
@@ -125,6 +128,23 @@ async def approve_reply(ticket_id: int, data: ReplyApprove, service: TicketServi
     """Jedyna droga wysłania odpowiedzi: człowiek zatwierdza (i może zmienić) tekst."""
     ticket = await _ticket_or_404(service, ticket_id)
     await service.approve_reply(ticket, data.tresc, data.zrodla)
+    return await _read(service, ticket)
+
+
+@router.post(
+    "/zgloszenia/{ticket_id}/przekaz",
+    response_model=TicketRead,
+    summary="Przekaż pytanie do wątku instytucji testującej innowację",
+)
+async def forward_question(
+    ticket_id: int,
+    data: ForwardQuestion,
+    service: TicketServiceDep,
+    opinions: OpinionServiceDep,
+):
+    """Tekst zatwierdza pracownik ROPS; instytucja odpowiada w swoim wątku."""
+    ticket = await _ticket_or_404(service, ticket_id)
+    await opinions.forward(ticket, data.opinia_id, data.tresc)
     return await _read(service, ticket)
 
 
