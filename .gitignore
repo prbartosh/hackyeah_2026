@@ -31,3 +31,4 @@ backend/uv.lock
 
 # Artefakty builda TypeScript
 *.tsbuildinfo
+.claude/worktrees/

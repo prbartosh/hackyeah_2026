@@ -1,21 +1,20 @@
 # Mapowanie pokazu na kryteria oceny
 
-Szkic dla [zadania 0011](../tasks/0011-materialy-dla-jury.md). Kryteria: [kryteria-oceny.md](../kryteria-oceny.md). Stan zadań: [status.md](../status.md). Niczego nie wpisujemy jako „zrobione”, dopóki nie działa na demo. Nie mamy jeszcze testu z czytnikiem ekranu ani przejścia wszystkich modułów na prawdziwym kluczu DeepSeek.
+Kryteria: [kryteria-oceny.md](../kryteria-oceny.md). Stan: [status.md](../status.md). Do „zrobione” trafia tylko to, co działa na demo. Brak jeszcze testu z czytnikiem ekranu.
 
 ## 40%: spełnienie wyzwania
 
-| Moduł | Co pokazujemy | Gdzie | Stan |
-|---|---|---|---|
-| I Matchmaking (obligatoryjny, 10%) | Czat: rola, max 4 rundy pytań, panel „Twój problem”, do 5 innowacji z `why_relevant` | [DEMO.md](../DEMO.md), [ADR 0005](../adr/0005-matchmaking-chat-llm.md) | działa; pełna rozmowa na DeepSeek sprawdzona ([0002](../tasks/0002-smoke-test.md)); „Podobne przypadki” jeszcze nieprojektowane |
-| I+ Dane gminy w czacie | Blok „Dane gminy” z Obserwatora pod polem „Gdzie” | [0013](../tasks/0013-dane-gminy-w-czacie.md) | backend i front gotowe, brak testu na prawdziwym modelu |
-| II Zasobnik wiedzy (+5%) | `/zasobnik`: 115 innowacji, raporty, publikacje, Mapa Wyzwań, wskaźniki; strona dokumentu z wersją tekstową | [0003](../tasks/0003-zasobnik-wiedzy.md) | działa; brak ręcznego testu czytnikiem ekranu |
-| III Kreator pomysłów | `/kreator`: fiszka z AI, nabory i wniosek (DOCX), „Znajdź finansowanie”, canvy, asystent | [0018](../tasks/0018-kreator-pomyslow.md), [opis](../kreator-pomyslow.md) | działa; brak NVDA i przejścia z prawdziwym kluczem |
-| IV Tester innowacji | Oceny i zgłoszenia do testów na stronie innowacji, poziom dowodu, moderacja w panelu | [0019](../tasks/0019-tester-innowacji.md), [ADR 0011](../adr/0011-tester-innowacji.md) | działa; brak NVDA |
-| V Platforma komunikacji | Dialog ROPS z użytkownikami bez konta: hub `/wspolpraca`, `/zglos` i dwustronny wątek `/watek/:token`, publiczne pytania `/pytania`, mentorzy `/mentorzy`, giełda partnerstw `/partnerstwa` z rozmowami `/rozmowa/:token` | [0015](../tasks/0015-panel-administratora.md), [0036](../tasks/0036-gielda-partnerstw.md), [0043](../tasks/0043-wspolpraca-z-rops.md), zadania 0039–0042 | w toku; pełne po zmergowaniu 0039–0042 |
-| VI Panel administratora | `/admin`: skrzynka z triażem AI, powiadomienia, import dokumentu → karta, karty, radar, nabory, opinie | [0015](../tasks/0015-panel-administratora.md), [opis](../panel-administratora.md) | działa; brak NVDA i przejścia z prawdziwym kluczem |
-| VII Middleman innowacji (+5%) | „Dostosuj do mojej instytucji” → `/innowacja/:slug/wdrozenie`: karta wdrożenia, druk, „Chcę to wdrożyć” | [0012](../tasks/0012-middleman-innowacji.md), [ADR 0009](../adr/0009-middleman-karta-uslugi.md) | działa; brak przejścia z prawdziwym kluczem |
+| Moduł | Co pokazujemy | Opis |
+|---|---|---|
+| I Matchmaking (obligatoryjny, 10%) | Czat: rola, max 4 rundy pytań, panel „Twój problem”, do 5 innowacji z `why_relevant`, dane gminy, podobne przypadki | [DEMO.md](../DEMO.md), [ADR 0005](../adr/0005-matchmaking-chat-llm.md), [ADR 0012](../adr/0012-podobne-przypadki.md) |
+| II Zasobnik wiedzy (+5%) | `/zasobnik`: 115 innowacji, raporty, publikacje, Mapa Wyzwań, wskaźniki; `/dokument/:id` z wersją tekstową | [baza-innowacji.md](../baza-innowacji.md) |
+| III Kreator pomysłów | `/kreator`: fiszka z AI, nabory i wniosek (DOCX), „Znajdź finansowanie”, canvy, asystent | [kreator-pomyslow.md](../kreator-pomyslow.md), [ADR 0008](../adr/0008-kreator-pomyslow.md) |
+| IV Tester innowacji | Oceny i zgłoszenia do testów na stronie innowacji, poziom dowodu, moderacja | [ADR 0011](../adr/0011-tester-innowacji.md) |
+| V Platforma komunikacji | Hub `/wspolpraca`, `/zglos` i wątek `/watek/:token`, pytania `/pytania`, mentorzy `/mentorzy`, giełda partnerstw `/partnerstwa` z rozmowami `/rozmowa/:token` | [ADR 0013](../adr/0013-gielda-partnerstw.md), [0014](../adr/0014-mentorzy.md), [0015](../adr/0015-pytania-do-rops.md) |
+| VI Panel administratora | `/admin`: skrzynka z triażem, powiadomienia, import dokumentu → karta, karty, radar, nabory, opinie | [panel-administratora.md](../panel-administratora.md), [ADR 0006](../adr/0006-panel-administratora.md) |
+| VII Middleman innowacji (+5%) | „Dostosuj do mojej instytucji” → `/innowacja/:slug/wdrozenie`: karta wdrożenia, druk, „Chcę to wdrożyć” | [ADR 0009](../adr/0009-middleman-karta-uslugi.md) |
 
-Jakość działania: skrypt ewaluacji dopasowania ([0009](../tasks/0009-ewaluacja-dopasowania.md)) jest, pełnego pomiaru nie zrobiliśmy. Liczb nie wpisujemy.
+Jakość działania: skrypt `backend/scripts/eval_matchmaking.py` na [zestawie testowym](../zestaw-testowy.md). Pełnego pomiaru nie robiliśmy, liczb nie wpisujemy.
 
 Poza zakresem: PJM i audio.
 
@@ -23,28 +22,30 @@ Poza zakresem: PJM i audio.
 
 | Punkt | Argument | Źródło |
 |---|---|---|
-| Koszt | Jeden model, jeden katalog w prompcie (cache), limity zapytań w nginx | [0006](../tasks/0006-limity-czatu.md), [ADR 0005](../adr/0005-matchmaking-chat-llm.md) |
-| Utrzymanie | Odświeżanie danych scraperem, nakładka niezależna od danych źródłowych, karty edytowane w panelu | [ADR 0004](../adr/0004-obiekt-innowacji.md), [ADR 0006](../adr/0006-panel-administratora.md) |
-| Skalowalność | Do 200 innowacji w prompcie, wariant zapasowy z prefiltrem i rerankiem, PostgreSQL | [ADR 0004](../adr/0004-obiekt-innowacji.md) §8, §10 |
-| Prywatność | Czat bezstanowy, rozmowy nie są zapisywane, zapis potrzeb bez treści rozmowy, adresów IP nie zapisujemy | [0004](../tasks/0004-zapis-potrzeb.md) |
-| Uczciwość odpowiedzi | `why_relevant` tylko z danych bazy, brak wymyślonych kosztów i kontaktów | [DEMO.md](../DEMO.md) |
+| Koszt | Jeden model, katalog w prompcie (cache), limity zapytań w nginx | [ADR 0005](../adr/0005-matchmaking-chat-llm.md), [ADR 0010](../adr/0010-port-llm.md) |
+| Utrzymanie | Dane odświeża scraper, nakładka jest niezależna od danych źródłowych, karty edytuje panel | [ADR 0004](../adr/0004-obiekt-innowacji.md), [ADR 0006](../adr/0006-panel-administratora.md) |
+| Skalowalność | Do 200 innowacji w prompcie, wariant zapasowy z prefiltrem i rerankiem, PostgreSQL | [ADR 0004](../adr/0004-obiekt-innowacji.md) |
+| Dostawca modelu | Port `LLMProvider`, wymiana przez `.env` | [ADR 0010](../adr/0010-port-llm.md) |
+| Prywatność | Czat bezstanowy, potrzeby bez treści rozmowy, adresów IP nie zapisujemy | [README dla jury](README.md) |
+| Uczciwość odpowiedzi | `why_relevant` tylko z danych bazy, bez wymyślonych kosztów i kontaktów | [DEMO.md](../DEMO.md) |
 
-Koszt jednej rozmowy w złotówkach i miesięczny: nie mamy, do wyliczenia z cennika DeepSeek. Zmierzone zużycie jednej rozmowy: [0002](../tasks/0002-smoke-test.md).
+Kosztu rozmowy w złotówkach nie mamy. Do wyliczenia z cennika dostawcy.
 
 ## 20%: dostępność
 
 | Punkt | Stan |
 |---|---|
-| WCAG 2.1 AA: klawiatura, fokus, `aria-live`, kontrast, powiększenie | axe: 0 naruszeń w 3 motywach na stronach czatu, Zasobnika, panelu, Kreatora i Testera; brak ręcznego testu klawiaturą i czytnikiem ekranu |
-| Pasek dostępności (rozmiar tekstu, motyw) | działa, na mobile zwijany ([0010](../tasks/0010-dostepnosc-mobile-i-glos.md)) |
-| Wejście głosowe | dyktowanie w czacie i Kreatorze, ukryte bez Web Speech API ([0010](../tasks/0010-dostepnosc-mobile-i-glos.md)) |
+| WCAG 2.1 AA | axe: 0 naruszeń w 3 motywach na stronach czatu, Zasobnika, panelu, Kreatora i Testera; brak ręcznego testu klawiaturą i czytnikiem |
+| Pasek dostępności | rozmiar tekstu, 3 motywy, zwijany na mobile |
+| Wejście głosowe | dyktowanie w czacie i Kreatorze, ukryte bez Web Speech API |
+| Czytanie na głos, prosty język | przy kartach i odpowiedziach czatu |
+| Deklaracja dostępności | `/dostepnosc` |
 | Wersja tekstowa dokumentów | tekst raportu na `/dokument/:id` obok linku do PDF |
-| Prosty język, odpowiedzi do klikania | w przepływie czatu ([DEMO.md](../DEMO.md)) |
 
-## 10%: atrakcyjność i pomysłowość UI
+## 10%: atrakcyjność UI
 
-Do opisu po stabilnym demo: panel „Twój problem” wypełniany na żywo, odpowiedzi do klikania, karty z uzasadnieniem, trzy motywy.
+Do opisu po stabilnym demo: panel „Twój problem” na żywo, odpowiedzi do klikania, karty z uzasadnieniem, trzy motywy.
 
 ## 10%: jakość materiałów i MVP
 
-[Scenariusz pokazu](scenariusz-pokazu.md), [README dla jury](README.md), nagranie zapasowe i prezentacja (zakładamy 10 minut): [0011](../tasks/0011-materialy-dla-jury.md).
+[Scenariusz pokazu](scenariusz-pokazu.md), [README dla jury](README.md), nagranie zapasowe i prezentacja (10 minut).

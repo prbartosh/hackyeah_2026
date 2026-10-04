@@ -1,6 +1,6 @@
 # Baza innowacji społecznych: jak z niej korzystać
 
-Baza to dwa pliki JSON w `assets/innowacje-spoleczne/`. Zawierają 115 innowacji z Biblioteki Innowacji Społecznych ROPS Kraków. To jedyne źródło rozwiązań, do których dopasowujemy problemy użytkowników. AI niczego do niej nie dopisuje.
+Baza to pliki JSON w `assets/innowacje-spoleczne/` (115 innowacji z Biblioteki Innowacji Społecznych ROPS Kraków). To jedyne źródło wyników dopasowania. AI niczego do niej nie dopisuje. Nakładka i słownik: [README katalogu](../assets/innowacje-spoleczne/README.md).
 
 Źródło i licencja: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie, treści na licencji CC BY 4.0. Przy każdej innowacji pokazujemy `url_zrodlowy`.
 
@@ -10,9 +10,9 @@ Baza to dwa pliki JSON w `assets/innowacje-spoleczne/`. Zawierają 115 innowacji
 |---|---|
 | `assets/innowacje-spoleczne/innowacje.json` | Lista 115 rekordów, po jednym na innowację. |
 | `assets/innowacje-spoleczne/kategorie.json` | 9 kategorii z liczbą innowacji i listą ich slugów. |
-| `assets/innowacje-spoleczne/.cache/` | Surowy HTML ze scrapera. Poza gitem, nie korzystaj z niego. |
+| `assets/innowacje-spoleczne/slownik.json`, `wzbogacenia.json` | Słownik i nakładka ([ADR 0004](adr/0004-obiekt-innowacji.md)). |
 
-Pliki są kodowane w UTF-8. Otwieraj je z jawnym kodowaniem, bo na Windowsie domyślne bywa złe.
+Pliki są w UTF-8, otwieraj je z jawnym kodowaniem.
 
 ## Rekord innowacji
 
@@ -36,9 +36,9 @@ Pliki są kodowane w UTF-8. Otwieraj je z jawnym kodowaniem, bo na Windowsie dom
 | `licencja` | tekst lub null | Link do licencji CC BY. | 15 |
 | `pobrano_dnia` | data | Kiedy dane pobrano (RRRR-MM-DD). | 0 |
 
-Czego w bazie nie ma: kosztu wdrożenia, czasu wdrożenia i wymagań. Strona ROPS ich nie podaje. Nie wymyślaj ich. Mogą być w PDF-ach, ale tego nie wyciągaliśmy. Do czasu uzupełnienia pokazuj w interfejsie „brak danych".
+Brak w bazie: kosztu, czasu wdrożenia i wymagań (strona ROPS ich nie podaje). Nie wymyślaj ich, pokazuj „brak danych”.
 
-`null` oznacza, że sekcji nie ma na stronie źródłowej, a nie że scraper zawiódł. Zawsze sprawdzaj `null` przed użyciem pola.
+`null` oznacza, że sekcji nie ma na stronie źródłowej. Sprawdzaj `null` przed użyciem pola.
 
 ## Kategorie
 
@@ -54,7 +54,7 @@ Czego w bazie nie ma: kosztu wdrożenia, czasu wdrożenia i wymagań. Strona ROP
 | `dla-seniorow` | Dla seniorów | 20 |
 | `dla-zdrowia-i-medycyny` | Dla zdrowia i medycyny | 9 |
 
-Rekord w `kategorie.json` ma pola `slug`, `nazwa`, `url_zrodlowy`, `liczba_innowacji` i `innowacje` (lista slugów). Nazwy w tabeli mogą różnić się o wielkość liter od pliku. Źródłem prawdy jest plik.
+Rekord w `kategorie.json` ma pola `slug`, `nazwa`, `url_zrodlowy`, `liczba_innowacji` i `innowacje` (lista slugów). Źródłem prawdy jest plik.
 
 ## Przykłady użycia
 
@@ -84,17 +84,17 @@ type Innowacja = (typeof innowacje)[number];
 const poSlugu = new Map(innowacje.map((r) => [r.slug, r]));
 ```
 
-Do importu JSON-a w Vite wystarczy `"resolveJsonModule": true` w `tsconfig`. Plik ma około 0,3 MB, więc można go zaimportować wprost, bez API. Uwaga: pola mogą być `null`, więc typuj je jako `string | null`.
+Pola mogą być `null`, typuj je jako `string | null`.
 
-## Dopasowanie problemu do innowacji (wskazówki)
+## Dopasowanie problemu do innowacji
 
-Decyzja o sposobie dopasowania, nakładce z typowanymi listami (`wzbogacenia.json`) i zapisie potrzeb jest w [ADR 0004](adr/0004-obiekt-innowacji.md). Czat dostaje cały katalog w prompcie, a panel administratora dopasowuje zgłoszenia do kart deterministycznie po tagach ze słownika i trigramach, bez embeddingów ([ADR 0006](adr/0006-panel-administratora.md)). Wskazówki poniżej zostają jako tło.
+Decyzje (nakładka `wzbogacenia.json`, słownik, zapis potrzeb): [ADR 0004](adr/0004-obiekt-innowacji.md). Czat dostaje katalog w prompcie ([ADR 0005](adr/0005-matchmaking-chat-llm.md)). Panel dopasowuje zgłoszenia do kart deterministycznie ([ADR 0006](adr/0006-panel-administratora.md)).
 
-- **Tekst do dopasowania.** Dla każdej innowacji sklej `nazwa`, `problem`, `grupa_docelowa`, `kto_moze_skorzystac` i `opis`. Pole `problem` ma największą wagę, bo użytkownik opisuje właśnie problem. Pomiń `null`.
-- **Kategoria jako filtr pomocniczy.** Może zawęzić wyniki (np. seniorzy), ale nie rób z niej warunku koniecznego. Zgłoszenia bywają potoczne i niejednoznaczne.
-- **Źródło przy każdym wyniku.** Pokazuj `nazwa`, `url_zrodlowy` i fragment, na którym oparto uzasadnienie. Uzasadnienie generowane przez AI może się opierać tylko na polach rekordu.
-- **Brak trafienia.** Gdy nic nie pasuje, zapisz potrzebę zamiast pokazywać „brak wyników" (zasada z briefu).
-- **Ocena trafności.** Przygotuj 20–30 testowych zgłoszeń z oczekiwanym `slug` i policz, ile razy trafna innowacja jest w top-3. Nie podawaj liczb, których nie zmierzyliśmy.
+- Pole `problem` ma największą wagę. Pomiń `null`.
+- Kategoria to filtr pomocniczy, nie warunek konieczny.
+- Przy każdym wyniku pokazuj `nazwa` i `url_zrodlowy`. Uzasadnienie AI opiera się tylko na polach rekordu.
+- Gdy nic nie pasuje, zapisz potrzebę zamiast „brak wyników”.
+- Trafność mierzy `backend/scripts/eval_matchmaking.py` na [zestawie testowym](zestaw-testowy.md).
 
 ## Odświeżanie danych
 
@@ -105,13 +105,11 @@ python scripts/scrape_rops.py            # używa cache HTML
 python scripts/scrape_rops.py --refresh  # pobiera wszystko od nowa
 ```
 
-Skrypt nadpisuje oba pliki JSON i wypisuje w konsoli liczbę rekordów oraz rekordy z brakami. Zależności (`httpx`, `beautifulsoup4`) są w `backend/pyproject.toml`. Testy parsera: `python -m pytest tests/test_scrape_rops.py --noconftest`.
+Skrypt nadpisuje oba pliki JSON i wypisuje liczbę rekordów oraz rekordy z brakami. Zależności są w `backend/pyproject.toml`. Testy parsera: `python -m pytest tests/test_scrape_rops.py --noconftest`. Duża zmiana liczby rekordów w `git diff --stat` oznacza zmianę strony ROPS.
 
-Po odświeżeniu zerknij na `git diff --stat`. Duża zmiana liczby rekordów oznacza, że ROPS zmienił stronę lub szablon, i parser trzeba poprawić.
+## Zasady
 
-## Dobre praktyki i ograniczenia
-
-- Nie edytuj JSON-ów ręcznie. Zmiany zniknęłyby przy odświeżeniu. Poprawki rób w scraperze albo dodaj osobny plik nakładki (np. `poprawki.json` po `slug`).
-- Nie dopisuj do rekordów danych zmyślonych przez AI. Wzbogacenia (koszt, czas) trzymaj w osobnym pliku z oznaczeniem „do zatwierdzenia przez człowieka".
-- Pole `organizacja` jest wykrywane po słowach kluczowych. W kilku rekordach może zawierać dopisek z nazwiskiem. Przed pokazaniem jury sprawdź je ręcznie.
-- Dane są publiczne, ale ich użycie wymaga zachowania atrybucji (CC BY). Przed produkcyjnym wdrożeniem uzgodnij zgodę z ROPS.
+- Nie edytuj JSON-ów ręcznie, zmiany zniknęłyby przy odświeżeniu. Poprawki rób w scraperze lub nakładce.
+- Wzbogacenia (np. koszt, czas) trzymaj w osobnym pliku, zatwierdzane przez człowieka.
+- `organizacja` jest wykrywana po słowach kluczowych i może zawierać nazwisko. Sprawdź ręcznie przed pokazem.
+- Atrybucja CC BY jest wymagana.
