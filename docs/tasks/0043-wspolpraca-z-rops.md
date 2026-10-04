@@ -1,8 +1,8 @@
 # 0043. Współpraca z ROPS (hub modułu V)
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR: 
+- PR: #61
 
 ## Cel
 
