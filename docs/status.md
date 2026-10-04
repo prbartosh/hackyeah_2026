@@ -8,7 +8,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury: szkice w `docs/jury/`, reszta po działającym demo (Nikodem, Wiktor)
 - [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu: zostaje sesja NVDA i raport (Daniel)
 - [0022](tasks/0022-dostepnosc-nvda-klawiatura.md) Dostępność: axe i klawiatura gotowe (0 naruszeń), zostają testy NVDA i wejście głosowe (Daniel, Kacper)
-- [0035](tasks/0035-szybkie-przewagi.md) Szybkie przewagi: funkcje zmergowane (#54), zostaje pełna ewaluacja na DeepSeek (liczba na slajd) i pytest na Pythonie 3.12 (Wiktor)
+- [0035](tasks/0035-szybkie-przewagi.md) Szybkie przewagi: funkcje zmergowane (#54), zostaje pełna ewaluacja na DeepSeek (liczba na slajd) (Wiktor)
 
 ## Do zrobienia
 
@@ -25,7 +25,9 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
-Moduł V (komunikacja z ROPS), migracje 0008–0013 niesprawdzone na PostgreSQL:
+- 2026-10-04: Test całości na main bez Dockera (build obrazu blokuje certyfikat proxy w środowisku chmurowym): migracje 0001–0013 na PostgreSQL 16 (up, down, up), seedy, pytest 238/238, lint, build i testy frontendu, smoke API modułu V, Playwright na wszystkich trasach i zakładkach panelu bez błędów konsoli i 4xx/5xx. Niesprawdzone: czat (brak klucza w trakcie testu), nginx w Dockerze, e-mail. `ruff check` zgłasza 23 błędy (E501 w starych plikach, I001 w `scripts/dev_panel.py`)
+
+Moduł V (komunikacja z ROPS):
 
 - 2026-10-04: Giełda partnerstw: ogłoszenia z moderacją ROPS, kontakt przez ROPS bez ujawniania adresów, migracja 0008 (0036, #58, [ADR 0013](adr/0013-gielda-partnerstw.md))
 - 2026-10-04: Dwustronny wątek zgłoszenia i „Moje sprawy” (0039, #62); brak oznaczenia „nowa odpowiedź autora” w skrzynce i sprawdzenia axe/klawiatury
@@ -38,7 +40,7 @@ Moduł V (komunikacja z ROPS), migracje 0008–0013 niesprawdzone na PostgreSQL:
 
 Pozostałe:
 
-- 2026-10-04: Porównanie do 3 innowacji obok siebie, `/porownaj` (0037, #56); niesprawdzone w przeglądarce
+- 2026-10-04: Porównanie do 3 innowacji obok siebie, `/porownaj` (0037, #56)
 - 2026-10-04: Otwarte dane: eksport CSV i JSON, `/otwarte-dane` (0038, #57); na produkcji ustawić `PUBLIC_BASE_URL`
 - 2026-10-04: Motywy kolorystyczne Małopolski: pasek barw i tło (#60), filtr notatek modelu i fokus w czacie (#71), kontrast obramowań i Esc w oknie potwierdzenia (#53)
 - 2026-10-04: Dzienny budżet tokenów czatu usunięty (#45); zostają limity nginx, `CHAT_ENABLED` i dzienne limity wywołań AI panelu i kreatora

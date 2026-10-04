@@ -15,7 +15,7 @@ Punkty 1–5 z [pomysly-na-przewage.md](../pomysly-na-przewage.md): funkcje dok�
 - [x] Deklaracja dostępności `/dostepnosc` z wynikiem axe z [0022](0022-dostepnosc-nvda-klawiatura.md), link w stopce
 - [x] Metryka top 3 w `eval_matchmaking.py`, zgłoszenia potoczne i z literówkami (#29–36) w [zestawie testowym](../zestaw-testowy.md)
 - [ ] Pełny przebieg ewaluacji na DeepSeek i liczba na slajd
-- [ ] Testy backendu (`pytest`) na Pythonie 3.12
+- [x] Testy backendu (`pytest`) na Pythonie 3.12: 238/238 (2026-10-04)
 
 ## Notatki
 
