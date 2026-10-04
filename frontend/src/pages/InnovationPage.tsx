@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { Download, ExternalLink, FileText } from 'lucide-react'
 import { getInnovation } from '@/api/innovations'
-import { DetailSkeleton } from '@/components/Skeleton'
 import TesterSection from '@/components/TesterSection'
 import VideoEmbed from '@/components/VideoEmbed'
 import { useChat } from '@/context/ChatContext'
@@ -25,10 +24,8 @@ function NewTab() {
 export default function InnovationPage() {
   const { slug = '' } = useParams()
   const { results } = useChat()
-  // Wejście z zasobnika (link z karty niesie filtry listy): wracamy do listy z tymi filtrami.
-  // Ten sam stan idzie dalej do karty wdrożenia, żeby ścieżka nawigacji była spójna.
-  const navState = useLocation().state as { zasobnik?: string } | null
-  const zasobnik = navState?.zasobnik
+  // Wejście z zasobnika (link z karty niesie filtry listy): wracamy do listy z tymi filtrami
+  const zasobnik = (useLocation().state as { zasobnik?: string } | null)?.zasobnik
   const [state, setState] = useState<{ slug: string; data: Innowacja | null; failed?: boolean } | null>(null)
 
   useEffect(() => {
@@ -44,14 +41,14 @@ export default function InnovationPage() {
   ) : results ? (
     <Link to="/#wyniki">← Wróć do wyników wyszukiwania</Link>
   ) : (
-    <Link to="/">← Wróć do wyszukiwarki</Link>
+    <Link to="/">← Wróć do strony głównej</Link>
   )
 
   const loaded = state?.slug === slug ? state.data : null
   useDocumentTitle(loaded ? `${loaded.nazwa} · Splot` : 'Rozwiązanie · Splot')
 
   if (!state || state.slug !== slug) {
-    return <DetailSkeleton label="Wczytywanie opisu rozwiązania…" />
+    return <div className="container page"><p role="status">Wczytywanie opisu rozwiązania…</p></div>
   }
   const rec = state.data
   if (state.failed) {
@@ -82,7 +79,7 @@ export default function InnovationPage() {
             <li><Link to={`/zasobnik${zasobnik}`}>Zasobnik wiedzy</Link></li>
           ) : (
             <>
-              <li><Link to="/">Wyszukiwarka</Link></li>
+              <li><Link to="/">Strona główna</Link></li>
               {results && <li><Link to="/#wyniki">Wyniki</Link></li>}
             </>
           )}
@@ -96,13 +93,14 @@ export default function InnovationPage() {
           <h1>{rec.nazwa}</h1>
           {rec.wybrana_do_upowszechniania && <p className="badge">Polecana przez ROPS do upowszechniania</p>}
 
-          <Section title="Na czym polega rozwiązanie" text={rec.opis} />
           {rec.youtube_url && (
             <section className="detail-section">
               <h2>Film</h2>
               <VideoEmbed url={rec.youtube_url} nazwa={rec.nazwa} />
             </section>
           )}
+
+          <Section title="Na czym polega rozwiązanie" text={rec.opis} />
           <Section title="Jakich problemów dotyczy" text={rec.problem} />
           <Section title="Dla kogo" text={rec.grupa_docelowa} />
           <Section title="Kto może wdrożyć" text={rec.kto_moze_skorzystac} />
@@ -116,41 +114,26 @@ export default function InnovationPage() {
           <TesterSection slug={rec.slug} />
         </article>
 
-        <aside className="detail-side" aria-label="Co dalej, materiały i kontakt">
-          <section className="side-box is-next" aria-labelledby="next-title">
-            <h2 id="next-title">Co dalej</h2>
-            <Link to={`/innowacja/${rec.slug}/wdrozenie`} state={navState} className="btn btn-primary btn-block">
-              Jak wdrożyć u siebie
-            </Link>
-            <Link to={`/kreator/finansowanie?karta=${rec.slug}`} className="btn btn-secondary btn-block">
-              Znajdź finansowanie
-            </Link>
-            <p className="hint">
-              Masz pytanie? <Link to="/zglos" state={{ tresc: `Pytanie o rozwiązanie „${rec.nazwa}”: ` }}>Napisz do pracownika ROPS</Link>
-            </p>
+        <aside className="detail-side" aria-label="Materiały i kontakt">
+          <section className="side-box">
+            <h2>Materiały do pobrania</h2>
+            <ul className="link-list">
+              {rec.materialy_url && (
+                <li>
+                  <a href={rec.materialy_url}>
+                    <Download size={20} aria-hidden="true" /> Pakiet materiałów (ZIP)
+                  </a>
+                </li>
+              )}
+              {rec.pdf_url && (
+                <li>
+                  <a href={rec.pdf_url} target="_blank" rel="noreferrer">
+                    <FileText size={20} aria-hidden="true" /> Folder informacyjny (PDF)<NewTab />
+                  </a>
+                </li>
+              )}
+            </ul>
           </section>
-
-          {(rec.materialy_url || rec.pdf_url) && (
-            <section className="side-box">
-              <h2>Materiały do pobrania</h2>
-              <ul className="link-list">
-                {rec.materialy_url && (
-                  <li>
-                    <a href={rec.materialy_url}>
-                      <Download size={20} aria-hidden="true" /> Pakiet materiałów (ZIP)
-                    </a>
-                  </li>
-                )}
-                {rec.pdf_url && (
-                  <li>
-                    <a href={rec.pdf_url} target="_blank" rel="noreferrer">
-                      <FileText size={20} aria-hidden="true" /> Folder informacyjny (PDF)<NewTab />
-                    </a>
-                  </li>
-                )}
-              </ul>
-            </section>
-          )}
 
           <section className="side-box">
             <h2>Kontakt</h2>
@@ -164,8 +147,14 @@ export default function InnovationPage() {
                 <a href="mailto:iws@rops.krakow.pl">iws@rops.krakow.pl</a>
               </dd>
             </dl>
-            <a href={rec.url_zrodlowy} target="_blank" rel="noreferrer" className="link-ext">
-              Opis na stronie ROPS <ExternalLink size={16} aria-hidden="true" /><NewTab />
+            <Link to={`/innowacja/${rec.slug}/wdrozenie`} className="btn btn-primary btn-block">
+              Dostosuj do mojej instytucji
+            </Link>
+            <Link to={`/kreator/finansowanie?karta=${rec.slug}`} className="btn btn-secondary btn-block">
+              Znajdź finansowanie
+            </Link>
+            <a href={rec.url_zrodlowy} className="btn btn-secondary btn-block" target="_blank" rel="noreferrer">
+              Strona źródłowa ROPS <ExternalLink size={18} aria-hidden="true" /><NewTab />
             </a>
           </section>
 
@@ -175,7 +164,7 @@ export default function InnovationPage() {
               {rec.licencja ? (
                 <a href={rec.licencja} target="_blank" rel="noreferrer">Creative Commons CC BY 4.0<NewTab /></a>
               ) : (
-                'Zasady wykorzystania innowacji MIIS (szczegóły na stronie ROPS).'
+                'Zasady wykorzystania innowacji MIIS — szczegóły na stronie źródłowej.'
               )}
             </p>
             {rec.pobrano_dnia && <p className="hint">Dane pobrano: {rec.pobrano_dnia}</p>}

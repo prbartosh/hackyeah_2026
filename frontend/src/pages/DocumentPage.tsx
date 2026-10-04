@@ -5,7 +5,6 @@ import { getDocument, splitPages, TYP_NAZWA, type DokumentSzczegoly } from '@/ap
 import IndicatorExplorer from '@/components/IndicatorExplorer'
 import MapaWyzwanDocument from '@/components/MapaWyzwanDocument'
 import ReportDocument from '@/components/ReportDocument'
-import { DetailSkeleton } from '@/components/Skeleton'
 import { parseMapaWyzwan } from '@/lib/mapaWyzwan'
 import { parseIndicatorTable } from '@/lib/indicator'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
@@ -34,7 +33,7 @@ export default function DocumentPage() {
   const dzial = doc?.typ === 'wskaznik' ? 'wskazniki' : 'wyzwania'
   const back = <Link to={`/zasobnik?dzial=${dzial}`}>← Wróć do zasobnika wiedzy</Link>
 
-  if (!state || state.id !== id) return <DetailSkeleton label="Wczytywanie dokumentu…" />
+  if (!state || state.id !== id) return <div className="container page"><p role="status">Wczytywanie dokumentu…</p></div>
   if (state.failed) {
     return (
       <div className="container page">

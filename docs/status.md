@@ -7,7 +7,6 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 ## W toku
 
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice w `docs/jury/`, reszta po działającym demo
-- [0020](tasks/0020-dopracowanie-ui.md) Dopracowanie UI stron publicznych i panelu (spokojny wygląd, szkielety ładowania, przepływ): review w [PR #48](https://github.com/prbartosh/hackyeah_2026/pull/48)
 - [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu: zostaje sesja NVDA i raport
 
 ## Do zrobienia

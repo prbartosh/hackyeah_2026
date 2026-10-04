@@ -2,8 +2,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '@/admin/api'
 import {
-  CardStatusBadge, COST_LABELS, ContentSkeleton, ErrorBox, EVIDENCE_LABELS, FormSkeleton, StatusLine, TIME_LABELS, errorText, useLoad,
-  useTitle,
+  CardStatusBadge, COST_LABELS, ErrorBox, EVIDENCE_LABELS, Loading, TIME_LABELS, errorText, useLoad, useTitle,
 } from '@/admin/ui'
 import type { Card, CardInput } from '@/admin/types'
 import { KATEGORIE, type Innowacja } from '@/types/innowacja'
@@ -78,7 +77,7 @@ function Preview({ slug, version }: { slug: string; version: number }) {
   return (
     <section aria-labelledby="preview-h" className="panel preview">
       <h2 id="preview-h">Podgląd: tak zobaczy to użytkownik</h2>
-      {loading && !data && <ContentSkeleton label="Wczytywanie podglądu…" />}
+      {loading && !data && <Loading />}
       {error && <ErrorBox message={error} />}
       {data && (
         <article>
@@ -126,7 +125,6 @@ export default function CardEditPage() {
 
   async function save(e: FormEvent) {
     e.preventDefault()
-    if (busy) return
     setFailure('')
     setNotice('')
     if (!form.nazwa.trim()) {
@@ -148,7 +146,7 @@ export default function CardEditPage() {
     }
   }
 
-  if (loading && data === undefined) return <FormSkeleton label="Wczytywanie karty…" side />
+  if (loading && data === undefined) return <Loading text="Wczytywanie karty…" />
   if (error) return <ErrorBox message={error} onRetry={reload} />
 
   const field = (id: string, label: string, key: keyof FormState, rows = 3, hint?: string) => (
@@ -163,7 +161,7 @@ export default function CardEditPage() {
 
   return (
     <>
-      <p><Link to="/admin/karty">Wróć do listy kart</Link></p>
+      <p><Link to="/admin/karty">← Wróć do listy kart</Link></p>
       <h1>{isNew ? 'Nowa karta innowacji' : form.nazwa || 'Karta innowacji'} {data && <CardStatusBadge status={data.status} />}</h1>
 
       <div className="edit-layout">
@@ -234,16 +232,16 @@ export default function CardEditPage() {
             {field('c-zasoby', 'Wymagania wdrożenia (jedno w wierszu)', 'zasoby', 3)}
             {field('c-uwagi', 'Uwagi o wdrożeniu', 'uwagi', 2)}
           </fieldset>
-          <label className="admin-check">
+          <label className="check">
             <input type="checkbox" checked={form.wybrana} onChange={(e) => set('wybrana', e.target.checked)} />
             Wyróżniona przez ROPS do upowszechniania
           </label>
 
+          {failure && <p className="field-error" role="alert">{failure}</p>}
+          {notice && <p className="status-ok" role="status">{notice}</p>}
           <div className="btn-row">
-            <button className="btn btn-primary" type="submit" aria-disabled={busy || undefined}>{busy ? 'Zapisywanie…' : 'Zapisz kartę'}</button>
-            {data?.status === 'opublikowana' && <Link className="btn btn-ghost" to={`/innowacja/${data.slug}`}>Zobacz na stronie</Link>}
+            <button className="btn btn-primary" type="submit" disabled={busy}>{busy ? 'Zapisywanie…' : 'Zapisz kartę'}</button>
           </div>
-          <StatusLine message={notice} error={failure} />
         </form>
         {!isNew && <Preview slug={slug} version={version} />}
       </div>

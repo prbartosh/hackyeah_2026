@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { Sparkles } from 'lucide-react'
 import { api } from '@/admin/api'
 import {
-  ErrorBox, FormSkeleton, PanelSkeleton, SlaBadge, StatusBadge, StatusLine, SyntheticTag, UrgencyBadge,
+  ErrorBox, Loading, SlaBadge, StatusBadge, SyntheticTag, UrgencyBadge,
   categoryName, errorText, formatDate, useLoad, useTitle,
 } from '@/admin/ui'
 import type { Ticket } from '@/admin/types'
@@ -33,10 +34,9 @@ function Thread({ ticket }: { ticket: Ticket }) {
 }
 
 function Triage({ ticket }: { ticket: Ticket }) {
-  const backState = useLocation().state
   return (
     <section aria-labelledby="triage-h" className="panel">
-      <h2 id="triage-h">Analiza zgłoszenia</h2>
+      <h2 id="triage-h"><Sparkles size={20} aria-hidden="true" /> Analiza zgłoszenia</h2>
       <p className="hint">
         {ticket.triaz_zrodlo === 'ai'
           ? 'Podpowiedź AI. Sprawdź ją, zanim z niej skorzystasz.'
@@ -62,7 +62,7 @@ function Triage({ ticket }: { ticket: Ticket }) {
         <ul className="plain-list">
           {ticket.duplikaty.map((d) => (
             <li key={d.id}>
-              <Link to={`/admin/zgloszenia/${d.id}`} state={backState}>Nr {d.id}</Link> — podobieństwo {Math.round(d.score * 100)}%
+              <Link to={`/admin/zgloszenia/${d.id}`}>Nr {d.id}</Link> — podobieństwo {Math.round(d.score * 100)}%
               <span className="hint block">{d.tresc}</span>
             </li>
           ))}
@@ -77,10 +77,7 @@ function Triage({ ticket }: { ticket: Ticket }) {
           {ticket.proponowane_karty.map((c) => (
             <li key={c.slug}>
               <Link to={`/innowacja/${c.slug}`}>{c.nazwa}</Link> — dopasowanie {Math.round(c.score * 100)}%
-              {c.powody.length > 0
-                ? <> · pasuje, bo: {c.powody.join(', ')}</>
-                : <> · podobny tekst (bez wspólnych tagów)</>}
-              {c.uzyta && <> <span className="tag">użyta w szkicu</span></>}
+              {c.uzyta && <> <span className="tag tag-ontime">użyta w szkicu</span></>}
             </li>
           ))}
         </ul>
@@ -105,7 +102,6 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
   }, [confirming])
 
   async function run(action: () => Promise<Ticket>, after?: () => void) {
-    if (busy) return
     setBusy(true)
     setError('')
     setSaved(false)
@@ -135,7 +131,7 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
         <fieldset className="field">
           <legend>Karty, na które powołujesz się w odpowiedzi</legend>
           {ticket.proponowane_karty.map((c) => (
-            <label key={c.slug} className="admin-check">
+            <label key={c.slug} className="check">
               <input
                 type="checkbox" checked={sources.has(c.slug)}
                 onChange={(e) => {
@@ -150,17 +146,19 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
           ))}
         </fieldset>
       )}
+      {error && <p className="field-error" role="alert">{error}</p>}
+      {saved && <p className="status-ok" role="status">Szkic zapisany.</p>}
 
       {!confirming ? (
         <div className="btn-row">
-          <button type="button" className="btn btn-primary" disabled={!text.trim()} aria-disabled={busy || undefined} onClick={() => { if (!busy) setConfirming(true) }}>
+          <button type="button" className="btn btn-primary" disabled={busy || !text.trim()} onClick={() => setConfirming(true)}>
             Zatwierdź odpowiedź
           </button>
-          <button type="button" className="btn btn-secondary" aria-disabled={busy || undefined}
+          <button type="button" className="btn btn-secondary" disabled={busy}
             onClick={() => run(() => api.saveDraft(ticket.id, text), () => setSaved(true))}>
             Zapisz szkic
           </button>
-          <button type="button" className="btn btn-ghost" aria-disabled={busy || undefined}
+          <button type="button" className="btn btn-ghost" disabled={busy}
             onClick={() => run(async () => { const t = await api.triage(ticket.id); setText(t.szkic_odpowiedzi ?? ''); return t })}>
             Wygeneruj szkic od nowa
           </button>
@@ -172,7 +170,7 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
             Odpowiedź trafi do autora zgłoszenia{ticket.autor_email ? ` (${ticket.autor_email})` : ' i będzie widoczna pod jego linkiem do rozmowy'}. Tego nie da się cofnąć.
           </p>
           <div className="btn-row">
-            <button ref={confirmRef} type="button" className="btn btn-primary" aria-disabled={busy || undefined}
+            <button ref={confirmRef} type="button" className="btn btn-primary" disabled={busy}
               onClick={() => run(() => api.approveReply(ticket.id, text.trim(), [...sources]))}>
               Tak, wyślij odpowiedź
             </button>
@@ -180,7 +178,6 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
           </div>
         </div>
       )}
-      <StatusLine message={saved ? 'Szkic zapisany.' : ''} error={error} />
     </section>
   )
 }
@@ -188,21 +185,20 @@ function Reply({ ticket, onChange }: { ticket: Ticket; onChange: (t: Ticket) => 
 export default function TicketPage() {
   const id = Number(useParams().id)
   useTitle(`Zgłoszenie nr ${id}`)
-  // Powrót do skrzynki z tymi samymi filtrami, z którymi pracownik ją zostawił.
-  const from = (useLocation().state as { from?: string } | null)?.from
-  const back = from ? `/admin?${from}` : '/admin'
-  const [sentId, setSentId] = useState<number | null>(null)
   const { data, error, loading, reload, setData } = useLoad(() => api.ticket(id), [id])
   const [analysing, setAnalysing] = useState(false)
   const [triageError, setTriageError] = useState('')
   const started = useRef<number | null>(null)
-  const answeredRef = useRef<HTMLDivElement>(null)
-  const justSent = data !== undefined && sentId === data.id
+  const answeredRef = useRef<HTMLParagraphElement>(null)
+  const prevStatus = useRef<string | undefined>(undefined)
 
   // Po wysłaniu odpowiedzi przycisk znika: przenieś fokus na komunikat o wysłaniu.
   useEffect(() => {
-    if (justSent) answeredRef.current?.focus()
-  }, [justSent])
+    if (prevStatus.current && prevStatus.current !== 'odpowiedziane' && data?.status === 'odpowiedziane') {
+      answeredRef.current?.focus()
+    }
+    prevStatus.current = data?.status
+  }, [data?.status])
 
   // Zgłoszenie bez analizy: uruchom ją raz po otwarciu (jedna akcja mniej dla pracownika).
   useEffect(() => {
@@ -216,12 +212,12 @@ export default function TicketPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data?.id, data?.triaz_wykonany])
 
-  if (loading && !data) return <FormSkeleton label="Wczytywanie zgłoszenia…" side />
+  if (loading && !data) return <Loading text="Wczytywanie zgłoszenia…" />
   if (error || !data) return <ErrorBox message={error ?? 'Nie znaleziono zgłoszenia.'} onRetry={reload} />
 
   return (
     <>
-      <p><Link to={back}>Wróć do skrzynki</Link></p>
+      <p><Link to="/admin">← Wróć do skrzynki</Link></p>
       <h1>Zgłoszenie nr {data.id} {data.syntetyczne && <SyntheticTag />}</h1>
       <p className="meta-line">
         <StatusBadge status={data.status} /> Wpłynęło {formatDate(data.created_at)}
@@ -229,6 +225,7 @@ export default function TicketPage() {
       </p>
       <blockquote className="ticket-text pre">{data.tresc}</blockquote>
 
+      {analysing && <Loading text="AI analizuje zgłoszenie…" />}
       {triageError && <ErrorBox message={`${triageError} Możesz odpowiedzieć ręcznie.`} onRetry={() => { started.current = null; setTriageError(''); reload() }} />}
 
       <div className="ticket-layout">
@@ -237,24 +234,14 @@ export default function TicketPage() {
             <Reply
               key={`${data.triaz_wykonany}-${data.proponowane_karty.map((c) => c.slug + c.uzyta).join()}`}
               ticket={data}
-              onChange={(t) => {
-                if (t.status === 'odpowiedziane') setSentId(t.id)
-                setData(t)
-              }}
+              onChange={setData}
             />
           ) : (
-            <div ref={answeredRef} tabIndex={-1} className="admin-done" role="status">
-              <p>{justSent ? 'Odpowiedź wysłana do autora.' : 'Na to zgłoszenie odpowiedziano.'} Odpowiedź jest w rozmowie poniżej.</p>
-              <p><Link to={back}>Wróć do skrzynki</Link></p>
-            </div>
+            <p ref={answeredRef} tabIndex={-1} className="alert alert-warning" role="status">Na to zgłoszenie odpowiedziano. Odpowiedź jest w rozmowie poniżej.</p>
           )}
           <Thread ticket={data} />
         </div>
-        <div>
-          {data.triaz_wykonany
-            ? <Triage ticket={data} />
-            : analysing && <PanelSkeleton label="Trwa analiza zgłoszenia…" />}
-        </div>
+        <div>{data.triaz_wykonany && <Triage ticket={data} />}</div>
       </div>
     </>
   )

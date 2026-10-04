@@ -1,35 +1,36 @@
 /* Karta wdrożenia (Middleman, moduł VII). Wyłącznie tokeny z index.css (motywy, kontrast). */
 
-.sc-setup { display: grid; gap: var(--space-3); max-width: 48rem; margin-bottom: var(--space-5); }
-.sc-roles { border: 0; margin: 0; padding: 0; display: grid; gap: var(--space-2); min-width: 0; }
-.sc-roles legend { font-weight: 700; font-size: var(--text-md); padding: 0; margin-bottom: var(--space-2); }
+.service-card .lead { max-width: 70ch; color: var(--text-muted); margin-bottom: 1.25rem; }
+.sc-setup { display: grid; gap: 0.75rem; max-width: 48rem; margin-bottom: 1.5rem; }
+.sc-roles { border: 0; margin: 0; padding: 0; display: grid; gap: 0.6rem; min-width: 0; }
+.sc-roles legend { font-weight: 700; font-size: 1.1rem; padding: 0; margin-bottom: 0.4rem; }
 .sc-role {
-  display: flex; align-items: center; gap: var(--space-3); min-height: 2.75rem; padding: 0.6rem var(--space-4); cursor: pointer;
-  background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--radius-sm); font-weight: 600;
+  display: flex; align-items: center; gap: 0.75rem; min-height: 2.75rem; padding: 0.7rem 1rem; cursor: pointer;
+  background: var(--surface); border: 2px solid var(--line-strong); border-radius: 16px; font-weight: 600;
 }
-.sc-role:has(input:checked) { border-color: var(--primary); box-shadow: inset 0 0 0 1px var(--primary); background: var(--primary-soft); color: var(--on-primary-soft); }
+.sc-role:has(input:checked) { border-color: var(--primary); background: var(--primary-soft); color: var(--on-primary-soft); }
 .sc-role input { width: 1.4rem; height: 1.4rem; flex-shrink: 0; accent-color: var(--primary); }
 
 .sc-card {
-  padding: var(--space-5); background: var(--surface); border: 1px solid var(--line-strong);
-  border-top: 5px solid var(--primary); border-radius: var(--radius-sm);
-  animation: rise 200ms var(--ease) both;
+  padding: 1.4rem 1.5rem; background: var(--surface-float); border: 2px solid var(--primary);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-float);
 }
-.sc-card-title { font-size: var(--text-xl); margin-bottom: var(--space-2); }
-.sc-card-title:focus-visible { outline-offset: 4px; }
-.sc-ai { color: var(--text-muted); font-size: 0.95rem; margin-bottom: var(--space-2); }
-.sc-section { padding-block: var(--space-4); border-top: 1px solid var(--line-strong); }
-.sc-section h2 { font-size: var(--text-md); margin-bottom: 0.4rem; }
-.sc-section ul, .sc-section ol { margin: 0; padding-left: var(--space-5); display: grid; gap: 0.35rem; }
-.sc-source { padding-top: var(--space-4); border-top: 1px solid var(--line-strong); font-size: 0.95rem; }
+.sc-card-title { font-size: 1.4rem; margin-bottom: 0.5rem; }
+.sc-card-title:focus-visible { outline-offset: 4px; border-radius: 8px; }
+.sc-ai { display: flex; gap: 0.5rem; align-items: flex-start; color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.5rem; }
+.sc-ai svg { margin-top: 0.25rem; flex-shrink: 0; }
+.sc-section { padding-block: 1rem; border-top: 1px solid var(--line-strong); }
+.sc-section h2 { font-size: 1.15rem; margin-bottom: 0.4rem; }
+.sc-section ul, .sc-section ol { margin: 0; padding-left: 1.5rem; display: grid; gap: 0.35rem; }
+.sc-source { padding-top: 1rem; border-top: 1px solid var(--line-strong); font-size: 0.95rem; }
 .todo { display: inline-flex; align-items: baseline; gap: 0.35rem; font-weight: 700; color: var(--error); }
 .todo svg { align-self: center; flex-shrink: 0; }
 .sc-form { display: grid; gap: 0.4rem; }
 .sc-form label { font-weight: 700; }
-.sc-form .btn { margin-top: var(--space-2); }
+.sc-form .btn { margin-top: 0.5rem; }
 
 :root[data-theme="high-contrast"] .sc-card,
-:root[data-theme="high-contrast"] .sc-role { border-color: var(--border); border-width: 2px; }
+:root[data-theme="high-contrast"] .sc-role { border-color: var(--border); box-shadow: none; }
 :root[data-theme="high-contrast"] .sc-section,
 :root[data-theme="high-contrast"] .sc-source { border-top-color: var(--border); }
 
@@ -38,6 +39,6 @@
   .topbar, .site-footer, .no-print, .skip-link { display: none !important; }
   body { background: #fff; color: #000; }
   .sc-result { display: block; }
-  .sc-card { border: 1px solid #000; background: #fff; color: #000; animation: none; }
+  .sc-card { border: 1px solid #000; box-shadow: none; background: #fff; color: #000; }
   .sc-section { break-inside: avoid; }
 }
