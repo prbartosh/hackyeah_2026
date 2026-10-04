@@ -27,7 +27,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
-- 2026-10-04: Test całości na main bez Dockera (build obrazu blokuje certyfikat proxy w środowisku chmurowym): migracje 0001–0013 na PostgreSQL 16 (up, down, up), seedy, pytest 238/238, lint, build i testy frontendu, smoke API modułu V, Playwright na wszystkich trasach i zakładkach panelu bez błędów konsoli i 4xx/5xx. Niesprawdzone: czat (brak klucza w trakcie testu), nginx w Dockerze, e-mail. `ruff check` zgłasza 23 błędy (E501 w starych plikach, I001 w `scripts/dev_panel.py`)
+- 2026-10-04: Test całości na main: `docker compose up --build` (w chmurze Claude potrzebne obrazy bazowe z CA proxy), migracje 0001–0013 na PostgreSQL 16 (up, down, up), seedy, pytest 238/238, lint, build i testy frontendu, smoke API modułu V, Playwright na wszystkich trasach i zakładkach panelu bez błędów konsoli i 4xx/5xx, limit nginx 20/min (429) sprawdzony, czat przez nginx na DeepSeek odpowiada. Niesprawdzone: e-mail. `ruff check` zgłasza 23 błędy (E501 w starych plikach, I001 w `scripts/dev_panel.py`)
 
 Moduł V (komunikacja z ROPS):
 
