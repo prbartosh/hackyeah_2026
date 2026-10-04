@@ -80,7 +80,7 @@ function QuestionOptions({ question }: { question: Question }) {
   }
 
   return (
-    <div className="question" role="group" aria-label={question.text}>
+    <div className="question" role="group" aria-label={question.text} tabIndex={-1}>
       <div className="option-list">
         {question.options.map((opt) => (
           <button key={opt} type="button" className="btn btn-option" disabled={streaming} onClick={() => sendMessage(opt)}>
@@ -331,15 +331,16 @@ export default function ChatPanel() {
     target?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'end' })
   }, [display])
 
-  // Po zakończeniu odpowiedzi: pytanie z opcjami dostaje focus; w innym razie wracamy do pola pisania,
+  // Po zakończeniu odpowiedzi: focus na grupie pytania (czytnik czyta pytanie, Tab prowadzi do opcji,
+  // żadna opcja nie jest z góry podświetlona); w innym razie wracamy do pola pisania,
   // jeśli focus zgubił się razem z klikniętym przyciskiem (opcja, podpowiedź, „Potwierdzam”)
   const wasStreaming = useRef(false)
   useEffect(() => {
     const justFinished = wasStreaming.current && !streaming
     wasStreaming.current = streaming
     if (!justFinished) return
-    const option = logRef.current?.querySelector<HTMLElement>('.question .btn-option:not(:disabled)')
-    if (option) option.focus({ preventScroll: true })
+    const question = logRef.current?.querySelector<HTMLElement>('.question')
+    if (question) question.focus({ preventScroll: true })
     else if (!document.activeElement || document.activeElement === document.body) textareaRef.current?.focus({ preventScroll: true })
   }, [streaming])
 

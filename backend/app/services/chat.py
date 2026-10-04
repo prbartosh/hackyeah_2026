@@ -1,5 +1,6 @@
 import json
 import logging
+import re
 from collections.abc import AsyncIterator
 from dataclasses import dataclass, field
 
@@ -74,6 +75,9 @@ NOTE_PREFIXES = (
     "[Użytkownik",
     "[brak odpowiedzi]",
 )
+# Model wymyśla też własne notatki w tym stylu (np. „[Miejsca: wieś]” na wzór „[Panel: …]”),
+# więc za notatkę uznajemy każdą linię w całości w nawiasie z „Etykieta:” na początku.
+NOTE_LINE = re.compile(r"\[[^\[\]\n:]{1,40}:[^\n]*\]")
 
 NUDGE = (
     "Nie wywołano narzędzia kończącego turę. Wywołaj teraz `ask_question`, "
@@ -105,13 +109,17 @@ class ToolOutcome:
 
 
 def _is_note(line: str) -> bool:
-    return line.strip().startswith(NOTE_PREFIXES)
+    line = line.strip()
+    return line.startswith(NOTE_PREFIXES) or NOTE_LINE.fullmatch(line) is not None
 
 
 def _may_be_note(start: str) -> bool:
     """Początek linii, który może jeszcze okazać się notatką."""
     start = start.lstrip()
-    return any(start.startswith(p) or p.startswith(start) for p in NOTE_PREFIXES)
+    if any(start.startswith(p) or p.startswith(start) for p in NOTE_PREFIXES):
+        return True
+    # Nawias jeszcze otwarty albo cała linia wygląda na notatkę; „[uwaga] tekst” przechodzi od razu
+    return start.startswith("[") and ("]" not in start or _is_note(start))
 
 
 class NoteFilter:
