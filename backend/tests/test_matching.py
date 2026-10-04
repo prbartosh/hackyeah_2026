@@ -102,7 +102,7 @@ def test_ogolny_tag_bez_wspolnych_slow_przegrywa_z_tekstem():
     overlay = {"grupy_docelowe": ["dzieci"]}
     generic = card_score(tags, overlay, LABELS, "t", "k", vector=0.0)
     textual = card_score(tags, overlay, LABELS, "t", "k", vector=0.25)
-    assert abs(generic.score - 0.3) < 1e-9 and abs(textual.score - 1.0) < 1e-9
+    assert abs(generic.score - 0.4) < 1e-9 and abs(textual.score - 1.0) < 1e-9
     assert rank_key(textual) > rank_key(generic)
 
 
@@ -115,3 +115,9 @@ def test_potoczne_sformulowania_dostaja_tagi():
     }
     for text, (section, slug) in cases.items():
         assert slug in tag_text(text, VOCABULARY).get(section, []), text
+
+
+def test_trafienie_samym_rzadkim_tagiem_przekracza_domyslny_prog():
+    tags = {"problemy": ["przemoc"]}
+    match = card_score(tags, tags, LABELS, "Mama mnie bije", "x", vector=0.0)
+    assert match.score >= 0.30 + 0.05  # domyślny prog dopasowania z zapasem
