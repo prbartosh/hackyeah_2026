@@ -50,19 +50,21 @@ const chapter: TourChapter = {
         { kind: 'fill', target: 'czat-pole', value: ZGLOSZENIE },
         { kind: 'click', target: 'czat-wyslij' },
       ],
-      advanceOn: { kind: 'appear', target: 'czat-rola', timeoutMs: MODEL },
+      // Koniec tury modelu (pytanie, podsumowanie albo wyniki), także gdy ktoś wpisze własny opis i nie da się z niego
+      // wywnioskować roli.
+      advanceOn: { kind: 'appear', target: 'czat-tura', timeoutMs: MODEL },
     },
     {
       id: 'sedzia.zrozumienie',
       target: 'czat-panel',
       title: 'AI rozumie, o co chodzi',
       body: [
-        'Model rozpoznaje, kim jesteś, i układa kartę problemu: kogo dotyczy, gdzie i w jakiej skali. Do gminy dokłada dane z Obserwatora Statystyk ROPS.',
+        'Z opisu model rozpoznaje, kim jesteś, i układa kartę problemu: kogo dotyczy, gdzie i w jakiej skali. Gdy padnie gmina, dokłada dane z Obserwatora Statystyk ROPS.',
       ],
       hint: 'Zobacz, jak AI streściło opis, i kliknij „Dalej”.',
       tag: TAG,
       placement: 'right',
-      waitFor: { target: 'czat-rola', timeoutMs: MODEL, message: 'Model analizuje opis, to kilka sekund…' },
+      waitFor: { target: 'czat-panel', timeoutMs: 15_000, message: 'Model analizuje opis, to kilka sekund…' },
     },
     {
       id: 'sedzia.pytanie',
