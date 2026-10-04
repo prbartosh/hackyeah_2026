@@ -20,12 +20,12 @@ os.environ.setdefault("ADMIN_TOKEN", "demo-token")
 os.environ.setdefault("CORS_ORIGINS", "[]")
 DB.unlink(missing_ok=True)
 
-import uvicorn  # noqa: E402
-
-import app.models  # noqa: E402,F401
 import seed_demo  # noqa: E402
 import seed_kreator  # noqa: E402
 import seed_tester  # noqa: E402
+import uvicorn  # noqa: E402
+
+import app.models  # noqa: E402,F401
 from app.db.base import Base  # noqa: E402
 from app.db.session import engine  # noqa: E402
 
