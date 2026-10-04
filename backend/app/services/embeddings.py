@@ -51,6 +51,7 @@ def cosine(a: list[float], b: list[float]) -> float:
     return dot / (na * nb) if na and nb else 0.0
 
 
+MIN_SHARED_TERMS = 2  # jedno wspólne słowo to zwykle kolizja krótkiego rdzenia (kosmiczne/kosmetyk)
 INDEX_STEM_LEN = 4  # krótszy rdzeń niż w radarze: lepsza odporność na polską fleksję
 
 
@@ -72,6 +73,7 @@ class TfidfIndex:
         n = len(documents)
         self._idf = {t: math.log((n + 1) / (f + 1)) + 1 for t, f in df.items()}
         self._docs = [self._vector(c) for c in counts]
+        self._terms = [set(c) for c in counts]
 
     def _vector(self, counts: Counter[str]) -> dict[str, float]:
         vec = {t: (1 + math.log(c)) * self._idf[t] for t, c in counts.items() if t in self._idf}
@@ -79,6 +81,14 @@ class TfidfIndex:
         return {t: v / norm for t, v in vec.items()} if norm else {}
 
     def scores(self, query: str) -> list[float]:
-        """Kosinus zapytania z każdym dokumentem, w kolejności dokumentów."""
-        q = self._vector(Counter(index_terms(query)))
-        return [sum(w * d.get(t, 0.0) for t, w in q.items()) for d in self._docs]
+        """Kosinus zapytania z każdym dokumentem, w kolejności dokumentów.
+
+        Dokument ze zbyt małą liczbą wspólnych słów dostaje 0.
+        """
+        counts = Counter(index_terms(query))
+        q = self._vector(counts)
+        need = min(MIN_SHARED_TERMS, len(counts))
+        return [
+            sum(w * d.get(t, 0.0) for t, w in q.items()) if len(q.keys() & terms) >= need else 0.0
+            for d, terms in zip(self._docs, self._terms, strict=True)
+        ]

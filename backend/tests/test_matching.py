@@ -3,6 +3,7 @@ from pathlib import Path
 from app.core.config import settings
 from app.services.embeddings import TfidfIndex
 from app.services.matching import (
+    TEXT_ONLY_FACTOR,
     card_score,
     labels,
     load_vocabulary,
@@ -92,9 +93,25 @@ def test_tfidf_zapytanie_bez_wspolnych_slow_daje_zero():
     assert TfidfIndex(["klub seniora"]).scores("festiwal latawców") == [0.0]
 
 
-def test_bez_tagow_wynik_to_znormalizowany_tfidf():
+def test_bez_tagow_wynik_to_znormalizowany_tfidf_z_czynnikiem():
     match = card_score({}, None, LABELS, "abc", "xyz", vector=0.125)
-    assert match.score == 0.5 and match.vector == 0.125
+    assert abs(match.score - 0.5 * TEXT_ONLY_FACTOR) < 1e-9 and match.vector == 0.125
+
+
+def test_karta_bez_wspolnego_tagu_wymaga_mocniejszego_tekstu():
+    tags = {"problemy": ["przemoc"]}
+    overlay = {"problemy": ["samotnosc"]}
+    weak = card_score(tags, overlay, LABELS, "t", "k", vector=0.1)
+    assert weak.score < 0.30  # sam średni tekst bez wspólnego tagu nie przechodzi progu
+    strong = card_score(tags, overlay, LABELS, "t", "k", vector=0.25)
+    assert strong.score >= 0.30
+
+
+def test_sam_ogolny_tag_miejsca_lub_typu_nie_jest_dowodem():
+    tags = {"typy_rozwiazan": ["urzadzenie"]}
+    overlay = {"typy_rozwiazan": ["urzadzenie"]}
+    match = card_score(tags, overlay, LABELS, "t", "k", vector=0.1)
+    assert match.score < 0.30 and match.powody == ["Urządzenie lub sprzęt"]
 
 
 def test_ogolny_tag_bez_wspolnych_slow_przegrywa_z_tekstem():
@@ -121,3 +138,10 @@ def test_trafienie_samym_rzadkim_tagiem_przekracza_domyslny_prog():
     tags = {"problemy": ["przemoc"]}
     match = card_score(tags, tags, LABELS, "Mama mnie bije", "x", vector=0.0)
     assert match.score >= 0.30 + 0.05  # domyślny prog dopasowania z zapasem
+
+
+def test_tfidf_jedno_wspolne_slowo_nie_wystarcza_przy_dluzszym_zapytaniu():
+    index = TfidfIndex(["Kosmetyki naturalne dla seniorów", "Warsztaty kosmiczne i astronomia"])
+    assert index.scores("kosmiczne rakiety na Marsa")[0] == 0.0
+    assert index.scores("kosmiczne warsztaty astronomia")[1] > 0
+    assert index.scores("astronomia")[1] > 0  # zapytanie z jednym słowem: jedno wystarcza
