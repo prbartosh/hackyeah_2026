@@ -26,6 +26,7 @@ from app.services.opinions import OpinionService
 from app.services.otwarte_dane import OpenDataService
 from app.services.partnership import PartnershipService
 from app.services.plain_language import PlainLanguageService
+from app.services.pytania import PytanieService
 from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
 from app.services.wnioski import WniosekService
@@ -169,6 +170,13 @@ def get_partnership_service(
 
 
 PartnershipServiceDep = Annotated[PartnershipService, Depends(get_partnership_service)]
+
+
+def get_pytanie_service(session: SessionDep) -> PytanieService:
+    return PytanieService(session, settings, get_email_sender(settings))
+
+
+PytanieServiceDep = Annotated[PytanieService, Depends(get_pytanie_service)]
 
 
 def get_today() -> date:

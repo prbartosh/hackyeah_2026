@@ -13,7 +13,7 @@ from sqlalchemy import select
 from app.api.deps import get_llm_service
 from app.core.config import settings
 from app.db.session import SessionLocal
-from app.models import PartnershipOffer, Ticket
+from app.models import PartnershipOffer, Pytanie, Ticket
 from app.schemas.ticket import TicketCreate
 from app.services.ai import AIGateway
 from app.services.cards import CardService
@@ -101,10 +101,81 @@ async def seed_offers(session) -> None:
     print(f"Dodano {len(DEMO_OFFERS)} ogłoszeń partnerskich demo (przykładowych).")
 
 
+# Przykładowe pytania i odpowiedzi (FAQ) o tym, co faktycznie robi Splot: (pytanie, odpowiedź).
+DEMO_QUESTIONS: list[tuple[str, str]] = [
+    (
+        "Jak działa dopasowanie innowacji do mojego problemu?",
+        "Na stronie głównej opisujesz problem w rozmowie. Splot ustala, kim jesteś, zadaje "
+        "najwyżej kilka pytań doprecyzowujących, pokazuje podsumowanie do potwierdzenia i "
+        "zwraca do 5 innowacji z wyjaśnieniem, jak każda odnosi się do Twojej sprawy. Gdy nic "
+        "dobrze nie pasuje, mówi o tym wprost.",
+    ),
+    (
+        "Czym jest Biblioteka Innowacji Społecznych?",
+        "To zbiór 115 innowacji społecznych opisanych przez ROPS Kraków, podzielony na 9 "
+        "kategorii. Splot dopasowuje problemy tylko do tych rozwiązań, a przy każdej innowacji "
+        "pokazuje link do strony źródłowej ROPS. Całość znajdziesz w Zasobniku wiedzy.",
+    ),
+    (
+        "Jak zgłosić potrzebę do ROPS?",
+        "Wejdź na stronę „Zgłoś potrzebę” (link w stopce) i opisz sprawę. Podanie e-maila jest "
+        "dobrowolne, ale dzięki niemu dostaniesz informację o odpowiedzi. Po wysłaniu "
+        "dostajesz link do wątku, pod którym zobaczysz odpowiedź pracownika ROPS. Zgłoszenie "
+        "jest prywatne.",
+    ),
+    (
+        "Jak wziąć udział w testach innowacji?",
+        "Na stronie wybranej innowacji znajdziesz sekcję „Oceny i testy” z przyciskiem „Chcę "
+        "przetestować”. Zgłoszenie trafia do pracownika ROPS jak zwykła sprawa, a Ty dostajesz "
+        "link do wątku. Możesz też ocenić rozwiązanie i opisać, co warto poprawić; opinie są "
+        "publikowane po sprawdzeniu przez ROPS.",
+    ),
+    (
+        "Czy w Kreatorze pomysłów znajdę informacje o naborach grantowych?",
+        "Tak. Po wysłaniu pomysłu (lub z karty innowacji) wybierz „Znajdź finansowanie”: Kreator "
+        "pokazuje aktywne nabory z uzasadnieniem i pomaga przygotować szkic wniosku. Nabory "
+        "wpisuje pracownik ROPS w panelu. Szkic wniosku wymaga sprawdzenia przez Ciebie.",
+    ),
+    (
+        "Czy mogę szukać partnera do wdrożenia innowacji?",
+        "Tak, służy do tego Giełda partnerstw. Możesz dodać ogłoszenie „szukam partnera” albo "
+        "„oferuję wsparcie”. Ogłoszenia sprawdza ROPS przed publikacją, a kontakt odbywa się "
+        "przez ROPS, więc adresy e-mail nie są ujawniane.",
+    ),
+    (
+        "Czy muszę mieć konto, żeby korzystać ze Splotu?",
+        "Nie. Rozmowa, przeglądanie innowacji i zgłoszenia działają bez konta. Zgłoszenia "
+        "odbierasz pod osobnym linkiem do wątku, a szkice w Kreatorze pomysłów wracają z "
+        "adresu szkicu, więc zachowaj te linki.",
+    ),
+]
+
+
+async def seed_questions(session) -> None:
+    if await session.scalar(select(Pytanie.id).where(Pytanie.syntetyczne.is_(True))):
+        print("Pytania demo już istnieją, pomijam.")
+        return
+    now = datetime.now(UTC)
+    for index, (tresc, odpowiedz) in enumerate(DEMO_QUESTIONS):
+        session.add(
+            Pytanie(
+                tresc=tresc,
+                odpowiedz=f"Przykładowa odpowiedź demo. {odpowiedz}",
+                odpowiedziano=now - timedelta(days=index + 1),
+                zgoda_na_publikacje=True,
+                status="opublikowane",
+                syntetyczne=True,
+            )
+        )
+    await session.commit()
+    print(f"Dodano {len(DEMO_QUESTIONS)} pytań demo (przykładowych).")
+
+
 async def main() -> None:
     llm = get_llm_service() if settings.llm_api_key else None
     async with SessionLocal() as session:
         await seed_offers(session)
+        await seed_questions(session)
         existing = await session.scalar(select(Ticket.id).where(Ticket.syntetyczne.is_(True)))
         if existing:
             print("Zgłoszenia demo już istnieją, nic nie robię.")

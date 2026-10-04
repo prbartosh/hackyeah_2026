@@ -13,6 +13,8 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 
 - [0036](tasks/0036-gielda-partnerstw.md) Giełda partnerstw: tablica ogłoszeń z moderacją ROPS, kontakt przez ROPS (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
 
+- [0041](tasks/0041-pytania-do-rops.md) Pytania do ROPS: publiczne FAQ z odpowiedziami, publikacja za zgodą, moderacja w panelu (Nikodem, [ADR 0015](adr/0015-pytania-do-rops.md))
+
 ## Do zrobienia
 
 - [0021](tasks/0021-koszt-rozmowy.md) Redukcja kosztu rozmowy (opcjonalne), dziś ok. 297 tys. tokenów (Bartłomiej)
