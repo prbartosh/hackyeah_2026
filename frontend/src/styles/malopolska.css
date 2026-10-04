@@ -1,59 +1,33 @@
 /* ──────────────────────────────────────────────
-   Małopolskie motywy: czerwień i złoto z herbu województwa, wyłącznie jako akcenty.
-   Cienki pasek nad nagłówkiem, siatka i linia grani (Tatry) w tle, złote zaznaczenie.
-   Czysto dekoracyjne (pseudo-elementy, bez markupu), więc nie zmienia układu ani kontrastu tekstu.
+   Kolory marki Małopolski jako akcenty: cienki wielokolorowy pasek nad nagłówkiem i nad stopką.
+   Czysto dekoracyjne (pseudo-elementy, bez markupu), nie zmienia układu ani kontrastu tekstu.
    ────────────────────────────────────────────── */
 
 :root {
-  --mp-red: #c8102e;
-  --mp-gold: #d9a21b;
-  --mp-ink: 24, 34, 80;
+  --mp-magenta: #e6007e;
+  --mp-purple: #6c2c91;
+  --mp-blue: #4267b2;
+  --mp-cyan: #00b0ea;
+  --mp-green: #8dc63f;
+  --mp-yellow: #fdb913;
+  --mp-stripe: linear-gradient(90deg,
+    var(--mp-magenta) 0 16.66%, var(--mp-purple) 0 33.33%, var(--mp-blue) 0 50%,
+    var(--mp-cyan) 0 66.66%, var(--mp-green) 0 83.33%, var(--mp-yellow) 0 100%);
 }
-:root[data-theme="dark"] {
-  --mp-red: #ff5a6e;
-  --mp-gold: #f2c14e;
-  --mp-ink: 160, 190, 255;
-}
-:root[data-theme="high-contrast"] {
-  --mp-red: transparent;
-  --mp-gold: transparent;
-}
+:root[data-theme="high-contrast"] { --mp-stripe: none; }
 
-/* Pasek nad nagłówkiem: czerwień przechodząca w złoto */
 .topbar { position: relative; }
 .topbar::before {
+  content: ""; position: absolute; inset: 0 0 auto 0; height: 4px; pointer-events: none;
+  background: var(--mp-stripe);
+}
+
+.site-footer { position: relative; }
+.site-footer::before {
   content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; pointer-events: none;
-  background: linear-gradient(90deg, var(--mp-red) 0%, var(--mp-red) 38%, var(--mp-gold) 100%);
+  background: var(--mp-stripe); opacity: 0.8;
 }
-
-/* Tło: delikatna siatka u góry i linia grani u dołu strony */
-body { position: relative; }
-body::before, body::after {
-  content: ""; position: fixed; left: 0; right: 0; z-index: -1; pointer-events: none;
-}
-body::before {
-  top: 0; height: 26rem;
-  background-image:
-    linear-gradient(rgba(var(--mp-ink), 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--mp-ink), 0.05) 1px, transparent 1px);
-  background-size: 2.5rem 2.5rem;
-  -webkit-mask-image: linear-gradient(to bottom, #000, transparent);
-  mask-image: linear-gradient(to bottom, #000, transparent);
-}
-body::after {
-  bottom: 0; height: 9rem; background: var(--mp-gold); opacity: 0.12;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0 120V86l70-22 55 30 85-58 70 40 60-26 90 52 80-44 75 36 100-62 80 50 70-30 90 44 80-38 95 46V120Z' fill='%23000'/%3E%3C/svg%3E") center bottom / 100% 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M0 120V86l70-22 55 30 85-58 70 40 60-26 90 52 80-44 75 36 100-62 80 50 70-30 90 44 80-38 95 46V120Z' fill='%23000'/%3E%3C/svg%3E") center bottom / 100% 100% no-repeat;
-}
-:root[data-theme="dark"] body::after { opacity: 0.1; }
-:root[data-theme="high-contrast"] body::before,
-:root[data-theme="high-contrast"] body::after { display: none; }
-
-::selection { background: var(--mp-gold); color: #16181d; }
-
-/* Stopka: cienka złota linia */
-.site-footer { border-top: 1px solid color-mix(in srgb, var(--mp-gold) 55%, transparent); }
 
 @media print {
-  body::before, body::after, .topbar::before { display: none; }
+  .topbar::before, .site-footer::before { display: none; }
 }
