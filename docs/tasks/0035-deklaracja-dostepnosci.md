@@ -1,8 +1,8 @@
 # 0035. Deklaracja dostępności (`/dostepnosc`)
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR:
+- PR: #55
 
 ## Cel
 
