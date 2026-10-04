@@ -16,7 +16,7 @@ function Thread({ ticket }: { ticket: Ticket }) {
         {ticket.wiadomosci.map((m, i) => (
           <li key={i} className={m.autor_rola === 'admin' ? 'msg-admin' : 'msg-author'}>
             <p className="hint">
-              {m.autor_rola === 'admin' ? 'Odpowiedź ROPS' : ticket.autor_nazwa || 'Autor zgłoszenia'} · {formatDate(m.created_at)}
+              {m.autor_rola === 'admin' ? 'Odpowiedź ROPS' : m.autor_rola === 'mentor' ? 'Mentor' : ticket.autor_nazwa || 'Autor zgłoszenia'} · {formatDate(m.created_at)}
             </p>
             <p className="pre">{m.tresc}</p>
             {m.zrodla && m.zrodla.length > 0 && (

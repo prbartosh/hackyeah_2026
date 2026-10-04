@@ -1,6 +1,6 @@
 import type {
   AppNotification, Card, CardInput, CardListItem, Cluster, ImportDetail, ImportListItem, Note, Page,
-  PanelSettings, PublicThread, Radar, Ticket, TicketListItem,
+  PanelSettings, PublicThread, Radar, ThreadMessage, Ticket, TicketListItem,
 } from '@/admin/types'
 
 const BASE_URL = import.meta.env.VITE_API_URL ?? '/api/v1'
@@ -80,6 +80,8 @@ export const api = {
   createTicket: (data: { tresc: string; autor_nazwa?: string; autor_email?: string }) =>
     call<{ token_watku: string }>('/zgloszenia', json('POST', data), false),
   publicThread: (token: string) => call<PublicThread>(`/zgloszenia/watek/${encodeURIComponent(token)}`, {}, false),
+  replyInThread: (token: string, tresc: string) =>
+    call<ThreadMessage>(`/zgloszenia/watek/${encodeURIComponent(token)}/wiadomosci`, json('POST', { tresc }), false),
 
   tickets: (p: Record<string, string | number | undefined>) =>
     call<Page<TicketListItem>>(`/admin/zgloszenia${query(p)}`),
