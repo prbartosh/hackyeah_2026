@@ -6,6 +6,12 @@ from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from app.api.deps import (
+    get_document_repository,
+    get_innovation_repository,
+    get_knowledge_service,
+    get_semantic_index,
+)
 from app.api.v1.router import api_router
 from app.core.config import settings
 from app.db.session import SessionLocal
@@ -32,6 +38,10 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
             await import_templates(session)
     except Exception:
         logger.exception("Start bez szablonów canvy")
+    knowledge = get_knowledge_service(
+        get_document_repository(), get_innovation_repository(), get_semantic_index()
+    )
+    knowledge.start_semantic()
     yield
 
 

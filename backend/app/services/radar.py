@@ -1,13 +1,16 @@
 """Radar trendów: grupy zgłoszeń bez dobrego dopasowania w bazie (ADR 0006).
 
-Grupujemy po wspólnym tagu `problemy` ze słownika, a zgłoszenia bez tagu trigramami tekstu.
+Grupujemy po wspólnym tagu `problemy` ze słownika, a zgłoszenia bez tagu po podobieństwie
+znaczenia (embeddingi, ADR 0016); bez modelu trigramami tekstu.
 """
 
+import asyncio
 import hashlib
 import json
 import logging
 import re
 from collections import Counter
+from collections.abc import Callable
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
@@ -20,7 +23,8 @@ from app.schemas.radar import ClusterExample, ClusterRead, RadarRead, WeekCount
 from app.services.ai import AIGateway, AIUnavailableError
 from app.services.app_settings import load_settings
 from app.services.embeddings import cosine, local_embed, tokenize
-from app.services.matching import labels, load_vocabulary
+from app.services.matching import TRIGRAM_CLUSTER, labels, load_vocabulary
+from app.services.semantic import SemanticIndex
 from app.services.tickets import aware
 
 logger = logging.getLogger(__name__)
@@ -72,8 +76,18 @@ class Group:
     powod: str = "podobny tekst zgłoszeń"
 
 
+Embed = Callable[[list[str]], list[list[float]]]
+
+
+def trigram_vectors(texts: list[str]) -> list[list[float]]:
+    return [local_embed(t) for t in texts]
+
+
 def group_tickets(
-    tickets: list[Ticket], threshold: float, label_map: dict[str, dict[str, str]]
+    tickets: list[Ticket],
+    threshold: float,
+    label_map: dict[str, dict[str, str]],
+    embed: Embed = trigram_vectors,
 ) -> list[Group]:
     by_problem: dict[str, list[int]] = {}
     untagged: list[Ticket] = []
@@ -87,7 +101,9 @@ def group_tickets(
     for slug, ids in by_problem.items():
         label = label_map.get("problemy", {}).get(slug, slug)
         groups.append(Group(ids, label, f"wspólny problem: {label}"))
-    similar = group_by_similarity([(t.id, local_embed(t.tresc)) for t in untagged], threshold)
+    vectors = embed([t.tresc for t in untagged])
+    items = [(t.id, v) for t, v in zip(untagged, vectors, strict=True)]
+    similar = group_by_similarity(items, threshold)
     groups += [Group(ids) for ids in similar]
     return groups
 
@@ -122,10 +138,17 @@ def name_from_words(tickets: list[Ticket]) -> str:
 
 
 class RadarService:
-    def __init__(self, session: AsyncSession, ai: AIGateway, settings: Settings) -> None:
+    def __init__(
+        self,
+        session: AsyncSession,
+        ai: AIGateway,
+        settings: Settings,
+        semantic: SemanticIndex | None = None,
+    ) -> None:
         self.session = session
         self.ai = ai
         self.settings = settings
+        self.semantic = semantic
 
     async def build(self) -> RadarRead:
         now = datetime.now(UTC)
@@ -139,7 +162,19 @@ class RadarService:
         ]
         by_id = {t.id: t for t in unmatched}
         label_map = labels(load_vocabulary(self.settings.innovations_path.parent / "slownik.json"))
-        groups = group_tickets(unmatched, panel.prog_klastra, label_map)
+        if self.semantic is not None:
+            semantic = self.semantic
+            untagged = [t.tresc for t in unmatched if not (t.tagi or {}).get("problemy")]
+            # Wektory liczone poza pętlą zdarzeń; grupowanie bierze je potem z pamięci.
+            await asyncio.to_thread(semantic.vectors, untagged)
+            groups = group_tickets(
+                unmatched,
+                panel.prog_klastra,
+                label_map,
+                lambda texts: [v.tolist() for v in semantic.vectors(texts)],
+            )
+        else:
+            groups = group_tickets(unmatched, TRIGRAM_CLUSTER, label_map)
         groups.sort(key=lambda g: (-len(g.ids), -max(g.ids)))
 
         names = await self._names([[by_id[i] for i in g.ids] for g in groups if g.label is None])

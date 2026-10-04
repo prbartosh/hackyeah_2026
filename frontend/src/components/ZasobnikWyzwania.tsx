@@ -18,6 +18,7 @@ function DocCard({ doc, trafienie }: { doc: Dokument; trafienie?: TrafienieDokum
         </div>
         <h3 className="zs-card-title"><Link to={`/dokument/${doc.id}`}>{doc.tytul}</Link></h3>
         {doc.opis && <p className="zs-card-problem">{doc.opis}</p>}
+        {trafienie?.po_znaczeniu && <p className="zs-doc-semantic">Podobny temat, bez wpisanych słów</p>}
         {trafienie?.fragment && (
           <p className="zs-doc-snippet">
             {podswietl(trafienie.fragment, trafienie.trafienia).map((c, i) =>

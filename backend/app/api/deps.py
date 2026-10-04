@@ -17,6 +17,7 @@ from app.services.asystent import AsystentService
 from app.services.canvy import CanvaService
 from app.services.chat import ChatService
 from app.services.email import get_email_sender
+from app.services.embedder import FastEmbedder
 from app.services.fiszki import FiszkaService
 from app.services.innovation import InnovationService
 from app.services.knowledge import KnowledgeService
@@ -28,6 +29,7 @@ from app.services.otwarte_dane import OpenDataService
 from app.services.partnership import PartnershipService
 from app.services.plain_language import PlainLanguageService
 from app.services.pytania import PytanieService
+from app.services.semantic import SemanticIndex
 from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
 from app.services.wnioski import WniosekService
@@ -102,11 +104,25 @@ def get_document_repository() -> DocumentRepository:
     return DocumentRepository(settings.assets_path)
 
 
+@lru_cache
+def get_semantic_index() -> SemanticIndex | None:
+    """Jeden indeks na proces; None = szukanie samymi słowami."""
+    if not settings.semantic_search:
+        return None
+    embedder = FastEmbedder(settings.embedding_model, settings.cache_path / "fastembed")
+    return SemanticIndex(
+        embedder, settings.cache_path / "semantic", settings.assets_path / "semantic"
+    )
+
+
 def get_knowledge_service(
     repo: Annotated[DocumentRepository, Depends(get_document_repository)],
     innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
+    semantic: Annotated[SemanticIndex | None, Depends(get_semantic_index)],
 ) -> KnowledgeService:
-    return KnowledgeService(repo, innovations, settings.innovations_path.parent / VOCABULARY_FILE)
+    return KnowledgeService(
+        repo, innovations, settings.innovations_path.parent / VOCABULARY_FILE, semantic
+    )
 
 
 def get_open_data_service(
@@ -150,7 +166,7 @@ AIGatewayDep = Annotated[AIGateway, Depends(get_ai_gateway)]
 
 
 def get_ticket_service(session: SessionDep, ai: AIGatewayDep) -> TicketService:
-    return TicketService(session, ai, settings, get_email_sender(settings))
+    return TicketService(session, ai, settings, get_email_sender(settings), get_semantic_index())
 
 
 TicketServiceDep = Annotated[TicketService, Depends(get_ticket_service)]

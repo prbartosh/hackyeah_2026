@@ -240,6 +240,35 @@ def test_rank_trzy_slowa_pozwalaja_pominac_jedno():
     assert rank(docs, ["senior", "dom"]) == [(0, rank(docs, ["senior", "dom"])[0][1])]
 
 
+def test_rank_krotkie_slowo_tylko_od_poczatku_wyrazu():
+    from app.repositories.document_search import rank
+
+    docs = [[("kontakt e-mail biuro", 1.0)], [("narzedzia ai w pomocy", 1.0)]]
+    assert [i for i, _ in rank(docs, ["ai"])] == [1]
+
+
+def test_rank_rdzen_nie_lapie_innych_slow():
+    from app.repositories.document_search import rank
+
+    # „dzieci” -> „dziec” (nie „dzie” z „dzień”), „przemoc” -> „przemo” (nie „przem” z „przemysł”)
+    docs = [[("w ciagu dnia przemysl", 1.0)], [("dziecko i przemocy", 1.0)]]
+    assert [i for i, _ in rank(docs, ["dzieci"])] == [1]
+    assert [i for i, _ in rank(docs, ["przemoc"])] == [1]
+
+
+async def test_fragment_pomija_spis_tresci(tmp_path):
+    write(tmp_path / "raporty" / "metadata.json", [RAPORT])
+    write(
+        tmp_path / "raporty" / "text" / "100-piecza.md",
+        "<!-- page 2 -->\nSpis treści\nPRZEMOC W RODZINIE \ufffd\ufffd\ufffd\ufffd 14\n"
+        "<!-- page 14 -->\nPrzemoc w rodzinie dotyka co dziesiątej rodziny.",
+    )
+    [hit] = DocumentRepository(tmp_path).search("przemoc", 5)
+    assert hit.strona == 14
+    assert "Przemoc w rodzinie dotyka" in hit.fragment
+    assert "\ufffd" not in hit.fragment
+
+
 async def test_search_wskaznik_po_opisie_bez_tabeli(tmp_path):
     write(tmp_path / "obserwator" / "indicators.json", [WSKAZNIK])
     write(

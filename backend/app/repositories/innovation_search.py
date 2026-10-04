@@ -31,8 +31,11 @@ def matches_token(text: str, token: str) -> bool:
     # „wózek” → „wózka”, „wózków”: w odmianie „e” wypada
     if len(token) >= 5 and token.endswith("ek") and token[:-2] + "k" in text:
         return True
-    # „seniorów” → „senior”, „seniorzy”: dla dłuższych słów rdzeń bez dwóch ostatnich liter
-    return len(token) >= 6 and token[:-2] in text
+    # „seniorów” → „senior”, „seniorzy”: od 8 liter rdzeń bez dwóch ostatnich liter, od 6 bez
+    # jednej („dzieci” → „dziec”, a nie „dzie” z „dzień”)
+    if len(token) >= 8:
+        return token[:-2] in text
+    return len(token) >= 6 and token[:-1] in text
 
 
 def matches_query(text: str, query_tokens: list[str]) -> bool:

@@ -114,6 +114,10 @@ class DocumentRepository:
         """Treść dokumentów, nie tylko tytuł i opis; indeks powstaje przy pierwszym wywołaniu."""
         return list(_search(self._assets, q, limit))
 
+    def texts(self) -> list[tuple[Document, str]]:
+        """Dokument i treść, jak w indeksie (wskaźnik bez tabeli z liczbami)."""
+        return [(entry.document, entry.body) for entry in _index(self._assets)]
+
     def list(
         self, typ: DocumentType | None = None, rok: int | None = None, q: str | None = None
     ) -> list[Document]:

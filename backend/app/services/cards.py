@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 import re
@@ -21,7 +22,8 @@ from app.repositories.innovation import (
 from app.schemas.admin_card import CardCreate, CardUpdate
 from app.schemas.innovation import Innovation
 from app.services.embeddings import TfidfIndex
-from app.services.matching import CardMatch, Tags, card_score, rank_key
+from app.services.matching import CardMatch, Tags, add_meaning, card_score, rank_key
+from app.services.semantic import SemanticIndex
 
 logger = logging.getLogger(__name__)
 
@@ -89,9 +91,10 @@ def overlay_of(card: InnovationCard) -> dict[str, Any] | None:
 
 
 class CardService:
-    def __init__(self, session: AsyncSession) -> None:
+    def __init__(self, session: AsyncSession, semantic: SemanticIndex | None = None) -> None:
         self.session = session
         self.repo = CardRepository(session)
+        self.semantic = semantic
 
     async def refresh_snapshot(self) -> None:
         cards = await self.repo.all()
@@ -141,6 +144,12 @@ class CardService:
             (c, card_score(tags, c.nakladka, label_map, text, match_text(c), v))
             for c, v in zip(cards, vectors, strict=True)
         ]
+        if self.semantic is not None:
+            # Model liczy na CPU (pierwszy raz także wektory wszystkich kart): poza pętlą zdarzeń.
+            meaning = await asyncio.to_thread(
+                self.semantic.similarities, text, {c.slug: match_text(c) for c in cards}
+            )
+            scored = [(c, add_meaning(m, meaning[c.slug])) for c, m in scored]
         return sorted(scored, key=lambda x: rank_key(x[1]), reverse=True)[:limit]
 
     async def create(self, data: CardCreate, *, zrodlo: str = "panel") -> InnovationCard:

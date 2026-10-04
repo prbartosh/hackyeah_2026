@@ -34,6 +34,17 @@ STRONG_TAG_WEIGHT = 2
 STEM_LEN = 6
 # Ile innych nazw jednego pojęcia ze słownika trafia do zapytań zastępczych.
 SYNONYMS_PER_CONCEPT = 2
+SYNONYM_SECTIONS = ("problemy", "grupy_docelowe")
+# Podobieństwo znaczenia z modelu embeddingów (ADR 0016) dokłada się do wyniku karty względem
+# typowego poziomu: karta bliższa niż MEANING_CENTER zyskuje, dalsza traci. Na zestawie testowym
+# (docs/zestaw-testowy.md) top 1 z 28 do 31/35, top 3 z 32 do 34/35, a zgłoszenie spoza bazy (#28)
+# z 0,27 do 0,22 przy progu 0,30. Wynik stabilny dla wag 0,1-0,3 i środka 0,3-0,5.
+MEANING_WEIGHT = 0.2
+# Bez modelu embeddingów (SEMANTIC_SEARCH=false, testy) duplikaty i grupy radaru liczymy trigramami
+# z ich własnymi progami: progi panelu dotyczą embeddingów i nie pasują do trigramów.
+TRIGRAM_DUPLICATES = 0.55
+TRIGRAM_CLUSTER = 0.30
+MEANING_CENTER = 0.4
 _TOKEN = re.compile(r"[^\W_]+\+?", re.UNICODE)
 
 
@@ -82,14 +93,17 @@ def synonym_queries(query: str, vocabulary: Vocabulary, limit: int = 8) -> list[
     """Zapytania zastępcze: fraza ze słownika (etykieta lub alias) podmieniona na inne jej nazwy.
 
     „osoby starsze” -> „seniorzy”, „emeryci”, ... Reszta zapytania zostaje bez zmian.
+    Tylko problemy i grupy: aliasy miejsc i typów rozwiązań to różne rzeczy jednej kategorii
+    (DPS, WTZ, klub seniora), nie synonimy.
     """
     words = _TOKEN.findall(query.lower())
     tokens = [stem(w) for w in words]
     alternatives: list[str] = []
-    for section in WEIGHTS:
+    for section in SYNONYM_SECTIONS:
         for value in vocabulary.get(section, []):
             phrases = [value["etykieta"], *value.get("aliasy", [])]
-            for phrase in phrases:
+            # Najpierw dłuższe frazy: „przemoc domowa” zamiast „przemoc” + reszta „domowa”.
+            for phrase in sorted(phrases, key=lambda p: -len(_stems(p))):
                 stems = _stems(phrase)
                 if sum(len(s) for s in stems) < 3:
                     continue
@@ -165,6 +179,11 @@ def card_score(
             return CardMatch(score=textual, powody=reasons, trigram=trigram, vector=vector)
         coverage = (1 - VECTOR_WEIGHT) * coverage + VECTOR_WEIGHT * textual / TEXT_ONLY_FACTOR
     return CardMatch(score=coverage, powody=reasons, trigram=trigram, vector=vector)
+
+
+def add_meaning(match: CardMatch, similarity: float) -> CardMatch:
+    match.score = max(0.0, match.score + MEANING_WEIGHT * (similarity - MEANING_CENTER))
+    return match
 
 
 def rank_key(match: CardMatch) -> tuple[float, float, float]:

@@ -11,7 +11,11 @@ from __future__ import annotations
 
 import math
 import re
+from bisect import bisect_left
+from collections import Counter
 from dataclasses import dataclass
+from functools import lru_cache
+from itertools import accumulate
 from pathlib import Path
 
 from app.schemas.document import Document
@@ -21,7 +25,7 @@ MIN_TOKEN_LEN = 2
 SNIPPET_BEFORE = 90
 SNIPPET_LENGTH = 260
 PROXIMITY = 150
-MAX_CANDIDATES = 300
+MAX_CANDIDATES = 100
 # BM25: nasycenie częstości słowa i wpływ długości dokumentu.
 BM25_K1 = 1.2
 BM25_B = 0.75
@@ -32,7 +36,10 @@ TABLE_MARKER = "## Wartości według powiatów"
 
 _FOLD = str.maketrans("ąćęłńóśźżĄĆĘŁŃÓŚŹŻİ", "acelnoszzacelnoszzi")
 PAGE_RE = re.compile(r"<!--\s*page\s+(\d+)\s*-->")
-MARKUP_RE = re.compile(r"<!--.*?-->|[#*_|>`]+|\.{4,}", re.DOTALL)
+# \ufffd: kropki spisu treści, których ekstrakcja PDF nie odczytała.
+MARKUP_RE = re.compile(r"<!--.*?-->|[#*_|>`]+|\.{4,}|\ufffd+", re.DOTALL)
+WORD_RE = re.compile(r"\w+")
+TOC_RE = re.compile(r"\.{4,}|\ufffd{3,}|…{3,}")
 
 
 def fold(text: str) -> str:
@@ -50,23 +57,68 @@ def _variants(token: str) -> list[str]:
     variants = [token]
     if len(token) >= 5 and token.endswith("ek"):
         variants.append(token[:-2] + "k")  # „wózek” -> „wózka”
-    if len(token) >= 6:
+    if len(token) >= 8:
         variants.append(token[:-2])  # „seniorów” -> „seniorzy”
+    elif len(token) >= 6:
+        variants.append(token[:-1])  # „dzieci” -> „dziecko”, „przemoc” -> „przemocy”
     return variants
+
+
+def _prefixes(token: str) -> list[str]:
+    """Warianty bez tych, których początkiem jest inny wariant (liczyłyby się podwójnie)."""
+    variants = _variants(token)
+    return [v for v in variants if not any(o != v and v.startswith(o) for o in variants)]
+
+
+@lru_cache(maxsize=1024)
+def _pattern(token: str) -> re.Pattern[str]:
+    """Słowo od początku wyrazu: „ai” nie trafia w „e-mail”, „żonę” w „położone”."""
+    return re.compile(r"(?<!\w)(?:" + "|".join(map(re.escape, _prefixes(token))) + ")")
+
+
+@dataclass(frozen=True)
+class _Words:
+    sorted: list[str]
+    cumulative: list[int]  # cumulative[i] = suma wystąpień słów sorted[:i]
+
+
+@lru_cache(maxsize=4096)
+def _words(text: str) -> _Words:
+    """Słownik słów tekstu, liczony raz: liczenie słowa to wyszukiwanie binarne po prefiksie."""
+    counts = Counter(WORD_RE.findall(text))
+    words = sorted(counts)
+    return _Words(words, list(accumulate((counts[w] for w in words), initial=0)))
+
+
+def _occurrences(text: str, token: str, limit: int) -> list[int]:
+    """Pierwsze pozycje słowa od początku wyrazu. `str.find` zamiast wzorca z warunkiem
+    na poprzedni znak: na kilku MB tekstu kilkadziesiąt razy szybciej."""
+    found: list[int] = []
+    for prefix in _prefixes(token):
+        pos, hits = text.find(prefix), 0
+        while pos >= 0 and hits < limit:
+            if pos == 0 or not text[pos - 1].isalnum():
+                found.append(pos)
+                hits += 1
+            pos = text.find(prefix, pos + 1)
+    return sorted(found)[:limit]
 
 
 def find_token(text: str, token: str) -> int:
     """Pozycja pierwszego trafienia albo -1."""
-    found = [i for i in (text.find(v) for v in _variants(token)) if i >= 0]
-    return min(found) if found else -1
+    first = _occurrences(text, token, 1)
+    return first[0] if first else -1
 
 
 def count_token(text: str, token: str) -> int:
-    """Liczba wystąpień słowa z odmianą (od 6 liter liczymy najkrótszy wariant)."""
-    variants = _variants(token)
-    if len(token) >= 6:
-        return text.count(variants[-1])
-    return sum(text.count(v) for v in variants)
+    """Liczba wyrazów zaczynających się od słowa (z odmianą)."""
+    words = _words(text)
+    total = 0
+    for prefix in _prefixes(token):
+        lo = bisect_left(words.sorted, prefix)
+        hi = bisect_left(words.sorted, prefix + "\uffff")
+        total += words.cumulative[hi] - words.cumulative[lo]
+    return total
 
 
 def required_words(count: int) -> int:
@@ -132,7 +184,8 @@ def build_index(entries: list[tuple[Document, Path | None]]) -> list[_Entry]:
     return index
 
 
-def _clean(text: str) -> str:
+def clean(text: str) -> str:
+    """Tekst bez znaczników Markdown i kropek spisu treści, jedna spacja między słowami."""
     return re.sub(r"\s+", " ", MARKUP_RE.sub(" ", text)).strip()
 
 
@@ -142,14 +195,13 @@ def _highlights(fragment: str, tokens: list[str]) -> list[tuple[int, int]]:
     marks: list[list[int]] = []
     spans = []
     for token in tokens:
-        for variant in _variants(token):
-            for m in re.finditer(re.escape(variant), folded):
-                s, e = m.start(), m.end()
-                while s > 0 and folded[s - 1].isalnum():
-                    s -= 1
-                while e < len(folded) and folded[e].isalnum():
-                    e += 1
-                spans.append((s, e))
+        for m in _pattern(token).finditer(folded):
+            s, e = m.start(), m.end()
+            while s > 0 and folded[s - 1].isalnum():
+                s -= 1
+            while e < len(folded) and folded[e].isalnum():
+                e += 1
+            spans.append((s, e))
     for s, e in sorted(spans):
         if marks and s <= marks[-1][1]:
             marks[-1][1] = max(marks[-1][1], e)
@@ -158,22 +210,29 @@ def _highlights(fragment: str, tokens: list[str]) -> list[tuple[int, int]]:
     return [(s, e) for s, e in marks]
 
 
+def _in_toc(text: str, pos: int) -> bool:
+    """Linia spisu treści: kropki prowadzące do numeru strony (w tej albo następnej linii)."""
+    start = text.rfind("\n", 0, pos) + 1
+    lines = text[start : start + 2 * SNIPPET_LENGTH].split("\n", 2)
+    return bool(TOC_RE.search("\n".join(lines[:2])))
+
+
+def highlight(fragment: str, query: str) -> list[tuple[int, int]]:
+    return _highlights(fragment, query_tokens(query))
+
+
 def _best_position(text: str, tokens: list[str]) -> int:
-    """Pierwsze miejsce, w którym wszystkie słowa są blisko siebie; inaczej pierwsze trafienie."""
-    first = [p for p in (find_token(text, t) for t in tokens) if p >= 0]
-    if not first:
+    """Miejsce na fragment: najlepiej poza spisem treści i ze wszystkimi słowami blisko siebie."""
+    present = [t for t in tokens if find_token(text, t) >= 0]
+    if not present:
         return -1
-    if len(tokens) > 1:
-        for variant in _variants(tokens[0]):
-            start = text.find(variant)
-            for _ in range(MAX_CANDIDATES):
-                if start < 0:
-                    break
-                window = text[max(0, start - PROXIMITY) : start + PROXIMITY]
-                if all(find_token(window, t) >= 0 for t in tokens):
-                    return start
-                start = text.find(variant, start + 1)
-    return min(first)
+    candidates = sorted(p for t in present for p in _occurrences(text, t, MAX_CANDIDATES))
+    outside_toc = [p for p in candidates if not _in_toc(text, p)]
+    for pos in outside_toc:
+        window = text[max(0, pos - PROXIMITY) : pos + PROXIMITY]
+        if all(find_token(window, t) >= 0 for t in present):
+            return pos
+    return (outside_toc or candidates)[0]
 
 
 def _snippet(
@@ -186,7 +245,7 @@ def _snippet(
     raw = entry.body[start : start + SNIPPET_LENGTH]
     if start > 0 and " " in raw[:20]:
         raw = raw.split(" ", 1)[1]  # pierwsze słowo mogło zostać ucięte w środku
-    fragment = _clean(raw)
+    fragment = clean(raw)
     marks = _highlights(fragment, tokens)
     prefix = "…" if start > 0 else ""
     suffix = "…" if start + SNIPPET_LENGTH < len(entry.body) else ""
