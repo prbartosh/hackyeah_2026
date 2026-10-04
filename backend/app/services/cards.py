@@ -20,6 +20,7 @@ from app.repositories.innovation import (
 )
 from app.schemas.admin_card import CardCreate, CardUpdate
 from app.schemas.innovation import Innovation
+from app.services.embeddings import TfidfIndex
 from app.services.matching import CardMatch, Tags, card_score, rank_key
 
 logger = logging.getLogger(__name__)
@@ -127,9 +128,12 @@ class CardService:
         limit: int = 5,
     ) -> list[tuple[InnovationCard, CardMatch]]:
         """Opublikowane karty od najlepiej dopasowanych (matching.py), z powodami."""
+        cards = await self.repo.published()
+        texts = [match_text(c) for c in cards]
+        vectors = TfidfIndex(texts).scores(text)
         scored = [
-            (c, card_score(tags, c.nakladka, label_map, text, match_text(c)))
-            for c in await self.repo.published()
+            (c, card_score(tags, c.nakladka, label_map, text, t, v))
+            for c, t, v in zip(cards, texts, vectors, strict=True)
         ]
         return sorted(scored, key=lambda x: rank_key(x[1]), reverse=True)[:limit]
 

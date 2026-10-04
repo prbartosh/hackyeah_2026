@@ -8,6 +8,7 @@ dlatego każdy wektor ma zapisaną nazwę modelu.
 import hashlib
 import math
 import re
+from collections import Counter
 
 LOCAL_MODEL = "local-trigram-v1"
 DIMENSIONS = 1024
@@ -48,3 +49,28 @@ def cosine(a: list[float], b: list[float]) -> float:
     na = math.sqrt(sum(x * x for x in a))
     nb = math.sqrt(sum(y * y for y in b))
     return dot / (na * nb) if na and nb else 0.0
+
+
+class TfidfIndex:
+    """Przestrzeń wektorowa TF-IDF po rdzeniach słów (lokalnie, bez API).
+
+    IDF liczony na korpusie dokumentów: rzadkie słowa ("demencja") ważą więcej niż pospolite
+    ("osoba"), a długi opis nie wygrywa samą długością (kosinus, tf logarytmiczne).
+    """
+
+    def __init__(self, documents: list[str]) -> None:
+        counts = [Counter(tokenize(d)) for d in documents]
+        df = Counter(t for c in counts for t in c)
+        n = len(documents)
+        self._idf = {t: math.log((n + 1) / (f + 1)) + 1 for t, f in df.items()}
+        self._docs = [self._vector(c) for c in counts]
+
+    def _vector(self, counts: Counter[str]) -> dict[str, float]:
+        vec = {t: (1 + math.log(c)) * self._idf[t] for t, c in counts.items() if t in self._idf}
+        norm = math.sqrt(sum(v * v for v in vec.values()))
+        return {t: v / norm for t, v in vec.items()} if norm else {}
+
+    def scores(self, query: str) -> list[float]:
+        """Kosinus zapytania z każdym dokumentem, w kolejności dokumentów."""
+        q = self._vector(Counter(tokenize(query)))
+        return [sum(w * d.get(t, 0.0) for t, w in q.items()) for d in self._docs]
