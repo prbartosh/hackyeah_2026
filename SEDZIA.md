@@ -26,7 +26,7 @@ Kliknij **„Przewodnik”** w nagłówku. To pełne przejście przez wszystkie 
 | Panel pracownika ROPS (moduł VI) | `/?przewodnik=panel` |
 | Middleman, karta wdrożenia (moduł VII) | `/?przewodnik=middleman` |
 
-Do panelu ROPS przewodnik wchodzi sam, bez logowania.
+Panel ROPS (`/admin`) otwiera się bez logowania.
 
 ## Na co warto zwrócić uwagę
 

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
-import { api, getToken, setToken } from '@/admin/api'
+import { api, demoLogin, getToken, setToken } from '@/admin/api'
 import { errorText, useTitle } from '@/admin/ui'
 import '@/styles/admin.css'
 
@@ -55,7 +55,20 @@ function Login({ onLogin }: { onLogin: () => void }) {
 /** Właściwa kontrola dostępu jest na backendzie. */
 export default function AdminLayout() {
   const [loggedIn, setLoggedIn] = useState(() => getToken() !== null)
+  // Na stacku demo (DEMO_TOUR_ENABLED) panel otwiera się bez logowania; do odpowiedzi nie pokazujemy formularza.
+  const [checkingDemo, setCheckingDemo] = useState(() => getToken() === null)
   const [unread, setUnread] = useState<number | null>(null)
+
+  useEffect(() => {
+    if (loggedIn) return
+    let active = true
+    void demoLogin().then((ok) => {
+      if (!active) return
+      if (ok) setLoggedIn(true)
+      setCheckingDemo(false)
+    })
+    return () => { active = false }
+  }, [loggedIn])
 
   // Token ustawiony z zewnątrz (np. przez przewodnik albo test) odblokowuje panel bez przeładowania.
   useEffect(() => {
@@ -86,6 +99,7 @@ export default function AdminLayout() {
     }
   }, [loggedIn, refreshUnread])
 
+  if (!loggedIn && checkingDemo) return <p className="container page" role="status">Otwieram panel…</p>
   if (!loggedIn) return <Login onLogin={() => setLoggedIn(true)} />
 
   return (
