@@ -10,7 +10,13 @@ from app.api.deps import (
     ServiceCardServiceDep,
 )
 from app.schemas.innovation import Innovation
-from app.schemas.opinion import OpiniaCreate, OpiniaCreated, OpinieSummary
+from app.schemas.opinion import (
+    OpiniaCreate,
+    OpiniaCreated,
+    OpinieSummary,
+    TesterQuestion,
+    TesterQuestionCreated,
+)
 from app.schemas.plain_language import PlainLanguageResponse
 from app.schemas.service_card import ServiceCardRequest, ServiceCardResponse
 from app.services.plain_language import (
@@ -111,3 +117,15 @@ async def create_opinion(
     slug: str, data: OpiniaCreate, service: OpinionServiceDep
 ) -> OpiniaCreated:
     return await service.create(slug, data)
+
+
+@router.post(
+    "/{slug}/opinie/pytanie",
+    response_model=TesterQuestionCreated,
+    status_code=status.HTTP_201_CREATED,
+    summary="Pytanie do instytucji testujących innowację; ROPS przekazuje je dalej",
+)
+async def ask_testers(
+    slug: str, data: TesterQuestion, service: OpinionServiceDep
+) -> TesterQuestionCreated:
+    return await service.ask(slug, data)

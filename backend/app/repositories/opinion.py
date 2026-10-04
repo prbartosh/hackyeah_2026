@@ -35,3 +35,17 @@ class OpiniaRepository:
             query.order_by(Opinia.created_at.desc(), Opinia.id.desc()).offset(offset).limit(limit)
         )
         return list(rows.all()), total or 0
+
+    async def testers(self, slug: str) -> list[Opinia]:
+        """Zatwierdzone zgłoszenia do testów z wątkiem, przez który ROPS może się skontaktować."""
+        query = (
+            select(Opinia)
+            .where(
+                Opinia.slug == slug,
+                Opinia.rodzaj == "test",
+                Opinia.status == "opublikowana",
+                Opinia.token_watku.is_not(None),
+            )
+            .order_by(Opinia.created_at.desc(), Opinia.id.desc())
+        )
+        return list((await self.session.scalars(query)).all())

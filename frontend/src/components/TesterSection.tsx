@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
-import { FlaskConical, Star } from 'lucide-react'
+import { FlaskConical, MessagesSquare, Star } from 'lucide-react'
 import { errorText } from '@/admin/ui'
 import { OCENY, POZIOMY, opinions, type OpinieSummary, type RodzajOpinii } from '@/api/opinions'
 import { plural } from '@/lib/plural'
@@ -120,6 +120,82 @@ function OpinionForm({ slug, rodzaj, onDone }: { slug: string; rodzaj: RodzajOpi
   )
 }
 
+/** „Zapytaj instytucję, która to testuje” (moduł V): pytanie idzie przez ROPS, bez ujawniania kontaktów. */
+function AskTesters({ slug }: { slug: string }) {
+  const [open, setOpen] = useState(false)
+  const [tresc, setTresc] = useState('')
+  const [instytucja, setInstytucja] = useState('')
+  const [email, setEmail] = useState('')
+  const [error, setError] = useState('')
+  const [busy, setBusy] = useState(false)
+  const [token, setToken] = useState<string | null>(null)
+  const sentRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => { if (token) sentRef.current?.focus() }, [token])
+
+  async function submit(e: FormEvent) {
+    e.preventDefault()
+    if (tresc.trim().length < 10) {
+      setError('Napisz pytanie (co najmniej 10 znaków).')
+      return
+    }
+    setBusy(true)
+    setError('')
+    try {
+      const r = await opinions.ask(slug, {
+        tresc: tresc.trim(),
+        instytucja: instytucja.trim() || undefined,
+        autor_email: email.trim() || undefined,
+      })
+      setToken(r.token_watku)
+    } catch (err) {
+      setError(errorText(err))
+    } finally {
+      setBusy(false)
+    }
+  }
+
+  if (token) {
+    return (
+      <div className="alert alert-note tester-sent" role="status" tabIndex={-1} ref={sentRef}>
+        <p><strong>Pytanie dotarło do ROPS.</strong> Pracownik przekaże je instytucji, która testuje to rozwiązanie, a odpowiedź pojawi się tutaj:</p>
+        <p><Link to={`/watek/${token}`}>{window.location.origin}/watek/{token}</Link></p>
+      </div>
+    )
+  }
+
+  return (
+    <div className="tester-ask">
+      <button type="button" className={`btn ${open ? 'btn-primary' : 'btn-secondary'}`}
+        aria-expanded={open} aria-controls="ask-form-slot" onClick={() => setOpen(!open)}>
+        <MessagesSquare size={18} aria-hidden="true" />
+        Zapytaj instytucję, która to testuje
+      </button>
+      <div id="ask-form-slot">
+        {open && (
+          <form className="opinion-form" onSubmit={submit} noValidate aria-labelledby="ask-title">
+            <h3 id="ask-title">Zapytaj instytucję, która to testuje</h3>
+            <p className="hint">Pytanie trafi do pracownika ROPS. On przekaże je dalej. Nie zobaczysz danych kontaktowych instytucji, a ona nie zobaczy Twoich.</p>
+            <label htmlFor="ask-tresc">Twoje pytanie</label>
+            <textarea id="ask-tresc" className="textarea" rows={4} maxLength={2000} value={tresc}
+              onChange={(e) => setTresc(e.target.value)} aria-invalid={error ? true : undefined}
+              aria-describedby="ask-tresc-hint ask-error" />
+            <p id="ask-tresc-hint" className="hint">Np. ile trwało wdrożenie, co było najtrudniejsze, ile kosztowało.</p>
+            <label htmlFor="ask-inst">Jaka to instytucja? (nieobowiązkowo)</label>
+            <input id="ask-inst" className="input" value={instytucja} maxLength={200} onChange={(e) => setInstytucja(e.target.value)} />
+            <label htmlFor="ask-email">E-mail do powiadomienia o odpowiedzi (nieobowiązkowo)</label>
+            <input id="ask-email" className="input" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <p id="ask-error" className="field-error" role="alert">{error}</p>
+            <div className="btn-row">
+              <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij pytanie'}</button>
+            </div>
+          </form>
+        )}
+      </div>
+    </div>
+  )
+}
+
 /** Tester innowacji (moduł IV): poziom dowodu, oceny i zgłoszenia do testów zatwierdzone przez ROPS. */
 export default function TesterSection({ slug }: { slug: string }) {
   const [data, setData] = useState<OpinieSummary | null>(null)
@@ -217,6 +293,7 @@ export default function TesterSection({ slug }: { slug: string }) {
           </div>
         </>
       )}
+      {data?.mozna_zapytac && <AskTesters slug={slug} />}
     </section>
   )
 }

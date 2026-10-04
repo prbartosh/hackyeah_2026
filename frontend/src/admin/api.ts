@@ -91,6 +91,8 @@ export const api = {
     call<Ticket>(`/admin/zgloszenia/${id}/szkic`, json('PUT', { szkic_odpowiedzi })),
   approveReply: (id: number, tresc: string, zrodla: string[]) =>
     call<Ticket>(`/admin/zgloszenia/${id}/odpowiedz`, json('POST', { tresc, zrodla })),
+  forwardQuestion: (id: number, opinia_id: number, tresc: string) =>
+    call<Ticket>(`/admin/zgloszenia/${id}/przekaz`, json('POST', { opinia_id, tresc })),
 
   notifications: (onlyUnread = false) =>
     call<{ items: AppNotification[]; nieprzeczytane: number }>(
