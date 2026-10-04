@@ -1,8 +1,8 @@
 # 0040. Dyżur eksperta (moduł V)
 
-- Status: w toku
+- Status: review
 - Osoba: Wiktor
-- PR: 
+- PR: #67
 
 ## Cel
 
