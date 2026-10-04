@@ -85,6 +85,7 @@ Python 3.12 i FastAPI, PostgreSQL 16, React 19 z TypeScript, nginx, Docker Compo
 ## Więcej
 
 - [SEDZIA.md](SEDZIA.md): instrukcja na kilka minut
+- [KOSZTORYS.md](KOSZTORYS.md): koszt modelu AI i serwera
 - [docs/scenariusz-pokazu.md](docs/scenariusz-pokazu.md): scenariusz prezentacji
 - [user_scenario.md](user_scenario.md): przykładowi użytkownicy i ich problemy
 - [docs/zestaw-testowy.md](docs/zestaw-testowy.md): 35 zgłoszeń testowych i wyniki
