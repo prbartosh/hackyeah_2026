@@ -213,9 +213,26 @@ const chapter: TourChapter = {
       body: [
         'Wgraj opis projektu (PDF lub DOCX), a AI przygotuje szkic karty innowacji. Każde pole ma cytat z dokumentu, a to, czego w nim nie ma, zostaje puste.',
       ],
-      hint: 'Wybierz plik z folderu assets/demo, np. dokument-projektu-1-autobus-zdrowia.docx.',
+      hint: 'Kliknij „Zrób to za mnie”, a wgramy przykładowy opis projektu „Autobus zdrowia”.',
       tag: 'AI pod kontrolą człowieka',
       placement: 'top',
+      actions: [
+        { kind: 'upload', target: 'panel-import-plik', url: '/demo/dokument-projektu-1-autobus-zdrowia.docx', filename: 'dokument-projektu-1-autobus-zdrowia.docx' },
+        { kind: 'click', target: 'panel-import-wyslij' },
+      ],
+      advanceOn: { kind: 'route', startsWith: '/admin/importy/' },
+    },
+    {
+      id: 'panel.import-szkic',
+      target: 'panel-import-szkic',
+      admin: true,
+      title: 'Szkic karty z cytatami',
+      body: [
+        'AI przeczytało dokument i przygotowało szkic karty. Obok każdego pola widać fragment, z którego pochodzi, więc łatwo sprawdzić, czy niczego nie zmyśliło.',
+      ],
+      hint: 'Przejrzyj pola i cytaty. Publikację zawsze zatwierdza pracownik ROPS.',
+      tag: 'AI pod kontrolą człowieka',
+      waitFor: { target: 'panel-import-szkic', timeoutMs: 90000, message: 'AI czyta dokument…' },
     },
     {
       id: 'panel.karta',
