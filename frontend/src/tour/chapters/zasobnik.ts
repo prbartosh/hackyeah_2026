@@ -37,13 +37,13 @@ const chapter: TourChapter = {
     {
       id: 'zasobnik.przeglad',
       route: '/zasobnik',
-      target: 'zasobnik-liczby',
+      target: 'zasobnik-dzialy',
       title: 'Biblioteka wiedzy ROPS',
       body: [
         'Zasobnik zbiera w jednym miejscu innowacje, raporty, Mapę Wyzwań i wskaźniki ROPS Kraków.',
-        'Nie zaczynasz od zera: widzisz, co już działa w Małopolsce. Liczby wczytują się na żywo.',
+        'Nie zaczynasz od zera: widzisz, co już działa w Małopolsce.',
       ],
-      hint: 'Zerknij na liczby. To stan bazy w tej chwili.',
+      hint: 'Trzy zakładki to trzy działy: innowacje, wyzwania i raporty, wskaźniki.',
       tag: 'Moduł II · +5%',
       placement: 'bottom',
     },
@@ -80,7 +80,7 @@ const chapter: TourChapter = {
       target: 'zasobnik-doc-szukaj',
       title: 'Wyzwania i raporty',
       body: [
-        'To drugi dział: raporty, publikacje i Mapa Wyzwań ROPS. Szukasz nie tylko w tytułach, ale w całej treści dokumentów.',
+        'To drugi dział: raporty, publikacje i Mapa Wyzwań ROPS. Jedno pole przeszukuje całą treść dokumentów, a także wskaźniki i innowacje.',
         'Zamiast czytać setki stron, wpisujesz hasło.',
       ],
       hint: 'Wpisz „seniorzy samotnosc”.',

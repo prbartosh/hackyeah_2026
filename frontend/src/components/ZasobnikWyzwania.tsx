@@ -1,8 +1,10 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Map as MapIcon, Search } from 'lucide-react'
-import { listDocuments, MIN_SZUKANIE, podswietl, searchDocuments, TYP_NAZWA, type Dokument, type TrafienieDokumentu } from '@/api/documents'
+import { listDocuments, MIN_SZUKANIE, podswietl, searchAll, TYP_NAZWA, type Dokument, type TrafienieDokumentu } from '@/api/documents'
+import InnowacjaCard from '@/components/InnowacjaCard'
 import { plural } from '@/lib/plural'
+import type { Innowacja } from '@/types/innowacja'
 
 const PAGE = 12
 
@@ -40,6 +42,7 @@ function DocCard({ doc, trafienie }: { doc: Dokument; trafienie?: TrafienieDokum
 export default function ZasobnikWyzwania() {
   const [docs, setDocs] = useState<Dokument[] | null>(null)
   const [trafienia, setTrafienia] = useState<Map<string, TrafienieDokumentu>>(new Map())
+  const [karty, setKarty] = useState<Innowacja[]>([])
   const [error, setError] = useState(false)
   const [attempt, setAttempt] = useState(0)
   const [typed, setTyped] = useState('')
@@ -58,14 +61,21 @@ export default function ZasobnikWyzwania() {
     setError(false)
     const szukanie = q.trim().length >= MIN_SZUKANIE
     const pobierz = szukanie
-      ? searchDocuments(q, controller.signal).then((hits) => ({
-          lista: hits.map((h) => h.dokument),
-          trafienia: new Map(hits.map((h) => [h.dokument.id, h])),
+      ? searchAll(q, controller.signal).then(({ dokumenty, innowacje }) => ({
+          lista: dokumenty.map((h) => h.dokument),
+          trafienia: new Map(dokumenty.map((h) => [h.dokument.id, h])),
+          innowacje,
         }))
-      : listDocuments({ q }, controller.signal).then((lista) => ({ lista, trafienia: new Map<string, TrafienieDokumentu>() }))
+      : listDocuments({ q }, controller.signal).then((lista) => ({
+          lista,
+          trafienia: new Map<string, TrafienieDokumentu>(),
+          innowacje: [] as Innowacja[],
+        }))
     pobierz
-      .then(({ lista, trafienia }) => {
-        setDocs(lista.filter((d) => d.typ !== 'wskaznik'))
+      .then(({ lista, trafienia, innowacje }) => {
+        // Wskaźniki mają własną sekcję; w wynikach szukania pokazujemy je razem z dokumentami
+        setDocs(szukanie ? lista : lista.filter((d) => d.typ !== 'wskaznik'))
+        setKarty(innowacje)
         setTrafienia(trafienia)
         setShown(PAGE)
       })
@@ -100,7 +110,7 @@ export default function ZasobnikWyzwania() {
 
       <div className="zs-filters">
         <div className="zs-filter zs-filter-q" data-tour="zasobnik-doc-szukaj">
-          <label htmlFor="zs-doc-q">Szukaj w tytule, opisie i treści dokumentów</label>
+          <label htmlFor="zs-doc-q">Szukaj w dokumentach, wskaźnikach i innowacjach</label>
           <div className="zs-input-icon">
             <Search size={18} aria-hidden="true" />
             <input id="zs-doc-q" data-tour="zasobnik-doc-szukaj-pole" type="search" className="input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
@@ -132,13 +142,22 @@ export default function ZasobnikWyzwania() {
           <button type="button" className="btn btn-secondary" onClick={() => setAttempt((n) => n + 1)}>Spróbuj ponownie</button>
         </div>
       )}
-      {docs && filtered.length === 0 && !error && (
+      {docs && filtered.length === 0 && karty.length === 0 && !error && (
         <div className="alert alert-warning"><p>Brak dokumentów dla tych filtrów. Spróbuj innego słowa albo wybierz „Wszystkie lata”.</p></div>
       )}
       {filtered.length > 0 && (
         <ul className="zs-grid" data-tour="zasobnik-doc-wyniki">
           {filtered.slice(0, shown).map((d) => <li key={d.id}><DocCard doc={d} trafienie={trafienia.get(d.id)} /></li>)}
         </ul>
+      )}
+      {karty.length > 0 && (
+        <>
+          <h3 className="zs-h2" id="zs-pasujace-h">Pasujące innowacje</h3>
+          <p role="status" className="zs-status">Znaleziono: {plural(karty.length, 'innowacja', 'innowacje', 'innowacji')}</p>
+          <ul className="zs-grid" aria-labelledby="zs-pasujace-h">
+            {karty.map((r) => <li key={r.slug}><InnowacjaCard innowacja={r} kategoria={null} /></li>)}
+          </ul>
+        </>
       )}
       {filtered.length > shown && (
         <div className="zs-more">

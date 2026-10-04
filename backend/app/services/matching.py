@@ -20,8 +20,20 @@ Tags = dict[str, list[str]]
 
 # Sekcje słownika używane do dopasowania i ich wagi.
 WEIGHTS = {"problemy": 3, "grupy_docelowe": 2, "miejsca": 1, "typy_rozwiazan": 1}
+# Wynik tekstowy (TF-IDF) ma w wyniku końcowym wagę VECTOR_WEIGHT; kosinus krótkiego zgłoszenia
+# z długim opisem karty rzadko przekracza ~0,25, więc VECTOR_SCALE rozciąga go do 0-1.
+VECTOR_WEIGHT = 0.6
+VECTOR_SCALE = 0.25
+# Karta bez żadnego wspólnego tagu (albo zgłoszenie bez tagów) pasuje tylko tekstem, a to słabszy
+# dowód: jej wynik mnożymy przez ten czynnik, więc potrzeba mocniejszego podobieństwa słów.
+TEXT_ONLY_FACTOR = 0.6
+# Same miejsce lub typ rozwiązania („Dom”, „Urządzenie”) to zbyt ogólny powód: tag liczy się jako
+# dowód dopiero, gdy wspólny jest problem albo grupa docelowa (waga >= tej wartości).
+STRONG_TAG_WEIGHT = 2
 # Słowa od tylu liter skracamy do tylu liter (fleksja: demencji/demencja, seniorów/senior).
 STEM_LEN = 6
+# Ile innych nazw jednego pojęcia ze słownika trafia do zapytań zastępczych.
+SYNONYMS_PER_CONCEPT = 2
 _TOKEN = re.compile(r"[^\W_]+\+?", re.UNICODE)
 
 
@@ -66,6 +78,34 @@ def tag_text(text: str, vocabulary: Vocabulary) -> Tags:
     return found
 
 
+def synonym_queries(query: str, vocabulary: Vocabulary, limit: int = 8) -> list[str]:
+    """Zapytania zastępcze: fraza ze słownika (etykieta lub alias) podmieniona na inne jej nazwy.
+
+    „osoby starsze” -> „seniorzy”, „emeryci”, ... Reszta zapytania zostaje bez zmian.
+    """
+    words = _TOKEN.findall(query.lower())
+    tokens = [stem(w) for w in words]
+    alternatives: list[str] = []
+    for section in WEIGHTS:
+        for value in vocabulary.get(section, []):
+            phrases = [value["etykieta"], *value.get("aliasy", [])]
+            for phrase in phrases:
+                stems = _stems(phrase)
+                if sum(len(s) for s in stems) < 3:
+                    continue
+                start = next(
+                    (i for i in range(len(tokens)) if tokens[i : i + len(stems)] == stems), None
+                )
+                if start is None:
+                    continue
+                rest = words[:start] + words[start + len(stems) :]
+                others = [o for o in phrases if o != phrase][:SYNONYMS_PER_CONCEPT]
+                alternatives += [" ".join([*rest, o.lower()]) for o in others]
+                break
+    unique = dict.fromkeys(a for a in alternatives if a != query.lower())
+    return list(unique)[:limit]
+
+
 def labels(vocabulary: Vocabulary) -> dict[str, dict[str, str]]:
     return {s: {v["slug"]: v["etykieta"] for v in values} for s, values in vocabulary.items()}
 
@@ -89,31 +129,46 @@ def card_score(
     label_map: dict[str, dict[str, str]],
     ticket_text: str,
     card_text: str,
-    vector: float = 0.0,
+    vector: float | None = None,
 ) -> CardMatch:
-    """Ważone pokrycie tagów zgłoszenia przez nakładkę karty; remis rozstrzyga tekst.
+    """Ważone pokrycie tagów zgłoszenia przez nakładkę karty, z podobieństwem tekstu.
 
-    Karta bez nakładki albo zgłoszenie bez tagów: wynik to lepsze z dwóch podobieństw tekstu,
-    trigramów znaków i TF-IDF (`vector`, liczony na korpusie kart, patrz `TfidfIndex`).
+    Bez `vector`: samo pokrycie tagów, remis rozstrzyga trigram. Z `vector` (TF-IDF na korpusie
+    kart, patrz `TfidfIndex`): 40% pokrycia tagów i 60% tekstu, żeby karta pasująca tylko
+    ogólnym tagiem („Dzieci”) nie wygrywała z kartą o tych samych słowach. Karta bez nakładki
+    albo zgłoszenie bez tagów, a także karta bez żadnego wspólnego tagu: sam tekst razy
+    `TEXT_ONLY_FACTOR` (bez `vector`: trigramy).
     """
     trigram = similar_text(ticket_text, card_text)
-    textual = max(trigram, vector)
+    vector_given = vector is not None
+    if vector is None:
+        textual, vector = trigram, 0.0
+    else:
+        textual = min(1.0, vector / VECTOR_SCALE)
     overlay = overlay or {}
     total = sum(WEIGHTS[s] * len(slugs) for s, slugs in ticket_tags.items())
+    if vector_given:
+        textual *= TEXT_ONLY_FACTOR
     if not total or not any(overlay.get(s) for s in WEIGHTS):
         return CardMatch(score=textual, trigram=trigram, vector=vector)
-    covered, reasons = 0, []
+    covered, covered_strong, reasons = 0, 0, []
     for section, slugs in ticket_tags.items():
         have = set(overlay.get(section) or [])
         for slug in slugs:
             if slug in have:
                 covered += WEIGHTS[section]
+                covered_strong += WEIGHTS[section] >= STRONG_TAG_WEIGHT
                 reasons.append(label_map.get(section, {}).get(slug, slug))
-    return CardMatch(score=covered / total, powody=reasons, trigram=trigram, vector=vector)
+    coverage = covered / total
+    if vector_given:
+        if not covered or covered_strong == 0:
+            return CardMatch(score=textual, powody=reasons, trigram=trigram, vector=vector)
+        coverage = (1 - VECTOR_WEIGHT) * coverage + VECTOR_WEIGHT * textual / TEXT_ONLY_FACTOR
+    return CardMatch(score=coverage, powody=reasons, trigram=trigram, vector=vector)
 
 
-def rank_key(match: CardMatch) -> tuple[float, float]:
-    return (match.score, max(match.trigram, match.vector))
+def rank_key(match: CardMatch) -> tuple[float, float, float]:
+    return (match.score, match.vector, match.trigram)
 
 
 def tag_labels(tags: Tags, label_map: dict[str, dict[str, str]], section: str) -> list[str]:

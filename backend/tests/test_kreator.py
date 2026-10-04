@@ -412,3 +412,18 @@ async def test_asystent_pytania_z_ai(kreator, ai_enabled):
     advice = (await kreator.post(f"{API}/kreator/fiszki/{fiszka['token']}/asystent")).json()
     assert advice["pytania"] == ["Kto będzie korzystał z punktu?"]
     assert advice["ai_uzyte"] is True
+
+
+async def test_podobne_dla_krotkiego_opisu(kreator):
+    created = await kreator.post(
+        f"{API}/admin/karty",
+        json={
+            "nazwa": "Pomoc, gdy mama bije dziecko",
+            "problem": "Mama bije dziecko, a dziecko nie wie, gdzie szukać pomocy",
+        },
+    )
+    slug = created.json()["slug"]
+    await kreator.patch(f"{API}/admin/karty/{slug}", json={"status": "opublikowana"})
+    fiszka = await new_fiszka(kreator, istota="Mama mnie bije")  # 14 znaków
+    similar = (await kreator.get(f"{API}/kreator/fiszki/{fiszka['token']}/podobne")).json()
+    assert [i["slug"] for i in similar["items"]] == [slug]

@@ -2,6 +2,8 @@ from typing import Literal
 
 from pydantic import BaseModel
 
+from app.schemas.innovation import Innovation
+
 DocumentType = Literal["raport", "publikacja", "mapa-wyzwan", "wskaznik"]
 
 
@@ -39,3 +41,14 @@ class DocumentSearchHit(BaseModel):
     trafienia: list[tuple[int, int]]
     # Strona PDF, na której jest fragment; null bez znaczników stron.
     strona: int | None
+
+
+class InnovationSearchHit(BaseModel):
+    innowacja: Innovation
+
+
+class SearchResults(BaseModel):
+    """Wspólne wyszukiwanie Zasobnika: dokumenty i karty innowacji, każde od najtrafniejszego."""
+
+    dokumenty: list[DocumentSearchHit]
+    innowacje: list[InnovationSearchHit]
