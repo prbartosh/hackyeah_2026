@@ -2,7 +2,7 @@
 
 - Status: review
 - Osoba: Wiktor
-- PR:
+- PR: #88
 
 ## Cel
 
