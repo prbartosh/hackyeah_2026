@@ -304,6 +304,7 @@ export default function TicketPage() {
       <p className="meta-line">
         <StatusBadge status={data.status} /> Wpłynęło {formatDate(data.created_at)}
         {data.autor_nazwa && <> · {data.autor_nazwa}</>}
+        {data.obserwuje && <> <span className="tag" title="Autor dostanie powiadomienie, gdy opublikujesz pasującą kartę">obserwuje potrzebę</span></>}
       </p>
       <blockquote className="ticket-text pre">{data.tresc}</blockquote>
 

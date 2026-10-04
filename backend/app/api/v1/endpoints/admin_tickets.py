@@ -44,6 +44,7 @@ def _item(ticket: Ticket, panel: PanelSettings) -> TicketListItem:
         triaz_wykonany=ticket.triaz_zrodlo is not None,
         liczba_duplikatow=len(ticket.duplikaty or []),
         sla=sla_info(ticket, panel),
+        obserwuje=ticket.obserwuje,
     )
 
 

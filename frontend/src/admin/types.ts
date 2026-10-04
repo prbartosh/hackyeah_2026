@@ -25,6 +25,7 @@ export interface TicketListItem {
   triaz_wykonany: boolean
   liczba_duplikatow: number
   sla: Sla
+  obserwuje: boolean
 }
 
 export interface ThreadMessage {
@@ -186,4 +187,5 @@ export interface Note {
 export interface PublicThread {
   status: StatusZgloszenia
   wiadomosci: ThreadMessage[]
+  obserwuje: boolean
 }

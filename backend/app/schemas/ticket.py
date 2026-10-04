@@ -14,6 +14,8 @@ class TicketCreate(BaseModel):
     autor_email: str | None = Field(
         default=None, max_length=320, pattern=r"^[^@\s]+@[^@\s]+\.[^@\s]+$"
     )
+    # Powiadom, gdy w bazie pojawi się pasująca karta (zadanie 0045).
+    obserwuj: bool = False
 
 
 class TicketCreated(BaseModel):
@@ -36,6 +38,7 @@ class ThreadReply(BaseModel):
 class ThreadRead(BaseModel):
     status: Status
     wiadomosci: list[ThreadMessageRead]
+    obserwuje: bool = False
 
 
 class TesterContact(BaseModel):
@@ -85,6 +88,7 @@ class TicketListItem(BaseModel):
     triaz_wykonany: bool
     liczba_duplikatow: int
     sla: SlaInfo
+    obserwuje: bool = False
 
 
 class TicketList(BaseModel):

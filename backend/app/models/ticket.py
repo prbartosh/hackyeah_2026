@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, String, Text, func
+from sqlalchemy import JSON, Boolean, DateTime, Float, ForeignKey, String, Text, false, func
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.db.base import Base, TimestampMixin
@@ -40,6 +40,10 @@ class Ticket(TimestampMixin, Base):
     mentor_prosba: Mapped[bool] = mapped_column(Boolean, default=False)
     # Pytanie do instytucji testujących tę innowację (zadanie 0044); ROPS przekazuje je dalej.
     innowacja_slug: Mapped[str | None] = mapped_column(String(200), index=True)
+    # Obserwuj potrzebę (zadanie 0045): powiadomienie, gdy ROPS opublikuje pasującą kartę.
+    obserwuje: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())
+    # Slugi kart, o których autor już dostał powiadomienie (każda karta raz).
+    powiadomiono_o: Mapped[list[str] | None] = mapped_column(JSON)
     # Nieużywane od ADR 0006 (embeddingi zastąpiło matching.py); kolumny zostają do czasu migracji.
     embedding: Mapped[list[float] | None] = mapped_column(JSON)
     embedding_model: Mapped[str | None] = mapped_column(String(80))

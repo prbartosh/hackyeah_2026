@@ -108,6 +108,9 @@ export default function ThreadPage() {
             <button type="button" className="btn btn-secondary" onClick={copyLink}>Skopiuj link do wątku</button>
           </div>
           <p role="status" className="hint">{copied}</p>
+          {data.obserwuje && (
+            <p className="hint">Obserwujesz tę potrzebę: gdy ROPS doda do bazy pasujące rozwiązanie, powiadomienie pojawi się w tej rozmowie.</p>
+          )}
           <ol className="thread chat-thread" aria-label="Rozmowa">
             {data.wiadomosci.map((m, i) => (
               <li key={i} className={`msg-${m.autor_rola === 'uzytkownik' ? 'author' : m.autor_rola}`}>
