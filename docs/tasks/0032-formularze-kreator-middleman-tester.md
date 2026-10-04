@@ -32,7 +32,7 @@ Wszystkie formularze dla mieszkańców i instytucji (fiszka, wniosek, canva, fin
 ### Zgłoszenie i wątek
 
 - [ ] `ReportPage.tsx`: formularz w karcie, wstępnie wypełniona treść z czatu wyraźnie oznaczona. Ekran podziękowania z ilustracją, linkiem do wątku i przyciskiem „Skopiuj link”.
-- [ ] `ThreadPage.tsx`: wątek jak rozmowa (dymki użytkownika i pracownika ROPS z datą i rolą), status zgłoszenia jako etykieta.
+- [ ] `ThreadPage.tsx`: status zgłoszenia jako etykieta. Dymki z rolą i datą są już z 0039; do weryfikacji, czy etykieta statusu jest.
 
 ### Wspólne
 

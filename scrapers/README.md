@@ -1,8 +1,8 @@
 # scrapers – ROPS Kraków data scrapers
 
-Python scripts that download and structure public data from the Regionalny Ośrodek Polityki Społecznej w Krakowie (ROPS). Output goes to `../assets/<site>/`; each of those folders has its own `README.md` describing the data.
+Scripts that download public ROPS Kraków data into `../assets/<site>/`. Each folder has its own `README.md`.
 
-The "Biblioteka innowacji społecznych" section of the ROPS site is **not** covered here; someone else handles it.
+The "Biblioteka innowacji społecznych" is scraped separately by `backend/scripts/scrape_rops.py` ([docs/baza-innowacji.md](../docs/baza-innowacji.md)).
 
 ## Setup
 
@@ -38,7 +38,7 @@ Python 3.10+. No browser is needed: every page used here is server-rendered.
 - `obserwator.py` runs 8 worker threads (`WORKERS`), one indicator per worker. Keep the delay and worker count modest; this is a public institution's server.
 - Paths stored in `metadata.json` are relative to the repo root with forward slashes.
 - PDFs (`assets/*/files/*.pdf`) are not committed (too large for git). Each `metadata.json` entry keeps the original `url`; run the scraper to get them locally under `file`.
-- Console output on Windows may show broken Polish characters; set `PYTHONIOENCODING=utf-8`. The files themselves are UTF-8.
+- Files are UTF-8. On Windows set `PYTHONIOENCODING=utf-8` for console output.
 
 ## Gotchas
 

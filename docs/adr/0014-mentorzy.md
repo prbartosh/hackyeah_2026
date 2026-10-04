@@ -5,7 +5,7 @@
 
 ## Kontekst
 
-Brief wymaga dialogu ROPS z użytkownikami, w tym mentorów. Platforma nie ma kont (zgłoszenia i ogłoszenia działają na tokenach), a mentorzy to zewnętrzne osoby, które nie powinny dostawać dostępu do całego panelu.
+Brief wymaga dialogu ROPS z użytkownikami, w tym mentorów. Platforma nie ma kont (tokeny), a mentorzy to osoby zewnętrzne bez dostępu do panelu.
 
 ## Decyzja
 
@@ -14,11 +14,11 @@ Brief wymaga dialogu ROPS z użytkownikami, w tym mentorów. Platforma nie ma ko
 - Przydział wysyła mentorowi e-mail z linkiem `/{public_base_url}/mentor/{token_mentora}/{token_watku}` i dodaje do wątku wiadomość systemową „Do sprawy dołączył mentor: X”.
 - Mentor nie ma konta: `token_mentora` (losowy, `secrets.token_urlsafe`) w linku jest jego poświadczeniem. `GET/POST /api/v1/mentor/{token_mentora}/watek/{token_watku}` działa tylko wtedy, gdy mentor jest aktywny i przypisany do tego zgłoszenia; w przeciwnym razie 404 (bez ujawniania, czy wątek istnieje). Odpowiedź to `ThreadMessage` z `autor_rola="mentor"`. Mentor nie widzi e-maila ani nazwiska autora.
 - Zdjęcie mentora ze zgłoszenia albo wyłączenie go odbiera dostęp.
-- Limity nginx i długości pól jak dla pozostałych publicznych formularzy.
+- Limity nginx i długości pól jak dla pozostałych formularzy.
 
 ## Konsekwencje
 
-- Nie ma logowania ani haseł do utrzymania; wyciek linku daje dostęp do jednej sprawy, a ROPS odbiera go jednym kliknięciem.
+- Brak logowania i haseł; wyciek linku daje dostęp do jednej sprawy, ROPS odbiera go jednym kliknięciem.
 - Pracownik ROPS jest wąskim gardłem przy przydziale.
-- Token mentora jest jeden na mentora (nie na sprawę); link do konkretnej sprawy wymaga też tokenu wątku, a przydział jest sprawdzany po stronie serwera.
-- Na demo e-mail tylko loguje (ADR 0013); prawdziwa wysyłka wymaga SMTP.
+- Token mentora jest jeden na mentora; dostęp do sprawy wymaga też tokenu wątku, a przydział sprawdza serwer.
+- Na demo e-mail tylko loguje ([ADR 0013](0013-gielda-partnerstw.md)).

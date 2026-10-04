@@ -1,12 +1,12 @@
 # Scenariusz pokazu
 
-Szkic dla [zadania 0011](../tasks/0011-materialy-dla-jury.md). Trzy role, jeden wątek: od opisu problemu do konkretnej innowacji, potem moduły dodatkowe. Czasy i wybór zgłoszeń uzupełniamy po próbie na działającym demo.
+Trzy role, jeden wątek: od opisu problemu do innowacji, potem moduły dodatkowe. Czasy i zgłoszenia potwierdzamy po próbie.
 
 ## Zasady
 
-- Kandydaci to numery z [zestawu testowego](../zestaw-testowy.md), nie ostateczny wybór. Pokazujemy tylko te, które na próbie trafiają na 1. miejscu.
-- **Założenie:** 10 minut na pokaz (organizatorzy nie podali limitu).
-- Każda część ma plan B: nagranie zapasowe albo gotowy zrzut.
+- Numery zgłoszeń z [zestawu testowego](../zestaw-testowy.md). Pokazujemy te, które na próbie trafiają na 1. miejscu.
+- Założenie: 10 minut (organizatorzy nie podali limitu).
+- Plan B każdej części: nagranie zapasowe albo zrzut.
 
 ## Układ
 
@@ -22,7 +22,7 @@ Szkic dla [zadania 0011](../tasks/0011-materialy-dla-jury.md). Trzy role, jeden 
 
 ## Do zrobienia przed próbą
 
-- [ ] Wybrać 3 zgłoszenia, które trafiają na 1. miejscu (próba na DeepSeek, [0009](../tasks/0009-ewaluacja-dopasowania.md))
+- [ ] Wybrać 3 zgłoszenia, które trafiają na 1. miejscu (próba na DeepSeek, `backend/scripts/eval_matchmaking.py`)
 - [ ] Potwierdzić czas na pokaz u organizatorów
 - [ ] Kto prowadzi, kto klika (Nikodem, Wiktor)
 - [ ] Próba generalna z zegarkiem i nagranie zapasowe

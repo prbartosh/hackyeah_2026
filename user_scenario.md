@@ -1,10 +1,10 @@
 # Scenariusze użytkownika
 
-Źródło innowacji: [Biblioteka innowacji społecznych ROPS Kraków](https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie). Osoby i cytaty są wymyślone. Tytuły, opisy i linki pochodzą z listy kategorii na stronie ROPS.
+Źródło: [Biblioteka innowacji społecznych ROPS Kraków](https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie). Osoby i cytaty są wymyślone. Tytuły, opisy i linki pochodzą ze strony ROPS.
 
-Użytkownik otwiera stronę i opisuje problem własnymi słowami, nie wybiera kategorii. System zwraca jedno dopasowanie główne i do dwóch uzupełniających.
+Użytkownik opisuje problem własnymi słowami, nie wybiera kategorii. System zwraca jedno dopasowanie główne i do dwóch uzupełniających.
 
-Linki względne (`/mpliki/...`) działają pod `https://rops.krakow.pl`. Strona ROPS jest w przebudowie, część linków może być nieaktywna (kontakt: iws@rops.krakow.pl).
+Strona ROPS jest w przebudowie, część linków może nie działać (kontakt: iws@rops.krakow.pl).
 
 ## 1. Ewa, córka opiekująca się mamą z demencją
 
@@ -43,8 +43,8 @@ Linki względne (`/mpliki/...`) działają pod `https://rops.krakow.pl`. Strona 
 
 ## Wnioski dla produktu
 
-- Wejście: pole tekstowe "opisz problem własnymi słowami". Nazwy innowacji nie przychodzą użytkownikom do głowy.
-- Wyszukiwanie po sekcjach "Na czym polega" i "Jakich problemów dotyczy" (patrz [ADR 0004](docs/adr/0004-obiekt-innowacji.md)).
-- Pole "dla kogo szukasz" (dla siebie / dla bliskiej osoby / jako organizacja): część innowacji jest dla placówek, część dla osób prywatnych.
-- Historia 2: prosty polski, rozważyć PJM i audio w samej aplikacji.
-- Każdy wynik pokazuje licencję. Warunki są różne: CC BY 4.0 albo zasady MIIS.
+- Wejście: pole „opisz problem własnymi słowami”. Nazwy innowacji nie przychodzą użytkownikom do głowy.
+- Wyszukiwanie po sekcjach „Na czym polega” i „Jakich problemów dotyczy” ([ADR 0004](docs/adr/0004-obiekt-innowacji.md)).
+- Część innowacji jest dla placówek, część dla osób prywatnych.
+- Historia 2: prosty polski.
+- Każdy wynik pokazuje licencję: CC BY 4.0 albo zasady MIIS.
