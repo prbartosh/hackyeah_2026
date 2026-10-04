@@ -1,4 +1,4 @@
-// Kontrakt = backend/app/schemas/opinion.py (ADR 0011). Przy zmianach schematu poprawiaj ten plik.
+// Kontrakt = backend/app/schemas/opinion.py. Przy zmianach schematu poprawiaj ten plik.
 import { call } from '@/admin/api'
 
 export type RodzajOpinii = 'test' | 'ocena'

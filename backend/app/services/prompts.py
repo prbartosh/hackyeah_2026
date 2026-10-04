@@ -1,4 +1,4 @@
-"""System prompt i narzędzia modelu dla matchmakingu (spec: docs/DEMO.md)."""
+"""System prompt i narzędzia modelu dla matchmakingu."""
 
 import json
 from typing import Any
@@ -11,7 +11,7 @@ MAX_RESULTS = 5
 MAX_SEARCH = 8
 MAX_SLUGS = 3
 
-# Pola panelu „Twój problem” (ADR 0004 §7).
+# Pola panelu „Twój problem”.
 PROBLEM_FIELDS = {
     "grupy_docelowe": "Kogo dotyczy problem (grupa, wiek, liczba osób).",
     "problemy": "Główna przyczyna lub trudność (nie objaw).",
@@ -21,7 +21,7 @@ PROBLEM_FIELDS = {
     "proby": "Co już próbowano i dlaczego nie zadziałało.",
 }
 
-# Pole panelu -> sekcja słownika, z której pochodzą jego slugi (ADR 0004 §5, §7).
+# Pole panelu -> sekcja słownika, z której pochodzą jego slugi.
 PROBLEM_SECTIONS = {
     "grupy_docelowe": "grupy_docelowe",
     "problemy": "problemy",

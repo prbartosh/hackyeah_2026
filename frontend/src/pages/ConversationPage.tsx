@@ -6,7 +6,7 @@ import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import { saveRozmowa } from '@/lib/rozmowy'
 import '@/styles/admin.css'
 
-/** Rozmowa partnerska widziana ze strony tokenu (ADR 0013): bez adresów e-mail żadnej ze stron. */
+/** Rozmowa partnerska widziana ze strony tokenu: bez adresów e-mail żadnej ze stron. */
 export default function ConversationPage() {
   const { token = '' } = useParams()
   useDocumentTitle('Rozmowa partnerska · Splot')

@@ -116,7 +116,7 @@ class KnowledgeService:
     def search_all(self, q: str, limit: int) -> SearchResults:
         """Dokumenty (raporty, publikacje, canvas, Mapa Wyzwań, wskaźniki) i karty innowacji.
 
-        Wyniki po słowach (BM25 z synonimami) i po znaczeniu (ADR 0016) w jednej liście.
+        Wyniki po słowach (BM25 z synonimami) i po znaczeniu w jednej liście.
         """
         return SearchResults(dokumenty=self._documents(q, limit), innowacje=self._cards(q, limit))
 

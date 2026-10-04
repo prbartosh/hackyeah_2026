@@ -35,7 +35,7 @@ class Ticket(TimestampMixin, Base):
     najlepsze_dopasowanie: Mapped[float | None] = mapped_column(Float)
     # Tagi ze słownika (sekcja -> slugi): z fraz w treści, po triażu AI zwalidowane tagi modelu.
     tagi: Mapped[dict[str, list[str]] | None] = mapped_column(JSON)
-    # Mentor przydzielony przez ROPS i prośba autora o mentora (ADR 0014).
+    # Mentor przydzielony przez ROPS i prośba autora o mentora.
     mentor_id: Mapped[int | None] = mapped_column(ForeignKey("mentorzy.id", ondelete="SET NULL"))
     mentor_prosba: Mapped[bool] = mapped_column(Boolean, default=False)
     # Pytanie do instytucji testujących tę innowację (zadanie 0044); ROPS przekazuje je dalej.
@@ -44,7 +44,7 @@ class Ticket(TimestampMixin, Base):
     obserwuje: Mapped[bool] = mapped_column(Boolean, default=False, server_default=false())
     # Slugi kart, o których autor już dostał powiadomienie (każda karta raz).
     powiadomiono_o: Mapped[list[str] | None] = mapped_column(JSON)
-    # Nieużywane od ADR 0006 (embeddingi zastąpiło matching.py); kolumny zostają do czasu migracji.
+    # Nieużywane (embeddingi zastąpiło matching.py); kolumny zostają do czasu migracji.
     embedding: Mapped[list[float] | None] = mapped_column(JSON)
     embedding_model: Mapped[str | None] = mapped_column(String(80))
 

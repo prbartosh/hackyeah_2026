@@ -1,4 +1,4 @@
-"""Moduł VII Middleman innowacji: karta usługi dla instytucji (ADR 0009)."""
+"""Moduł VII Middleman innowacji: karta usługi dla instytucji."""
 
 import json
 import logging

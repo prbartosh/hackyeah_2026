@@ -92,7 +92,7 @@ function AskForm({ onDone }: { onDone: () => void }) {
   )
 }
 
-/** Publiczne FAQ: opublikowane pytania z odpowiedziami ROPS i formularz „Zadaj pytanie” (ADR 0015). */
+/** Publiczne FAQ: opublikowane pytania z odpowiedziami ROPS i formularz „Zadaj pytanie”. */
 export default function PytaniaPage() {
   useDocumentTitle('Pytania do ROPS · Splot')
   const [input, setInput] = useState('')

@@ -1,4 +1,4 @@
-"""Deterministyczne dopasowanie zgłoszeń do kart bez embeddingów (ADR 0006).
+"""Deterministyczne dopasowanie zgłoszeń do kart bez embeddingów.
 
 Czyste funkcje, bez bazy i bez AI: ten sam tekst daje ten sam wynik, a przy każdym dopasowaniu
 znamy powód (etykiety wspólnych tagów ze słownika).
@@ -35,7 +35,7 @@ STEM_LEN = 6
 # Ile innych nazw jednego pojęcia ze słownika trafia do zapytań zastępczych.
 SYNONYMS_PER_CONCEPT = 2
 SYNONYM_SECTIONS = ("problemy", "grupy_docelowe")
-# Podobieństwo znaczenia z modelu embeddingów (ADR 0016) dokłada się do wyniku karty względem
+# Podobieństwo znaczenia z modelu embeddingów dokłada się do wyniku karty względem
 # typowego poziomu: karta bliższa niż MEANING_CENTER zyskuje, dalsza traci. Na zestawie testowym
 # (docs/zestaw-testowy.md) top 1 z 28 do 31/35, top 3 z 32 do 34/35, a zgłoszenie spoza bazy (#28)
 # z 0,27 do 0,22 przy progu 0,30. Wynik stabilny dla wag 0,1-0,3 i środka 0,3-0,5.

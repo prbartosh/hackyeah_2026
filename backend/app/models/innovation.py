@@ -10,7 +10,7 @@ POZIOMY_DOWODU = ("brak_danych", "zadeklarowany", "pilotaz", "przetestowany", "w
 
 
 class InnovationCard(TimestampMixin, Base):
-    """Karta innowacji w bazie (ADR 0006). Pola nazwane jak w innowacje.json (ADR 0004)."""
+    """Karta innowacji w bazie. Pola nazwane jak w innowacje.json."""
 
     __tablename__ = "innowacje"
 
@@ -35,7 +35,7 @@ class InnovationCard(TimestampMixin, Base):
     obraz_url: Mapped[str | None] = mapped_column(Text)
     licencja: Mapped[str | None] = mapped_column(Text)
     pobrano_dnia: Mapped[str | None] = mapped_column(String(20))
-    # Nakładka (ADR 0004 §3): typowane listy; `wdrozenie` osobno.
+    # Nakładka: typowane listy; `wdrozenie` osobno.
     nakladka: Mapped[dict[str, Any] | None] = mapped_column(JSON)
     wdrozenie: Mapped[dict[str, Any] | None] = mapped_column(JSON)
     embedding: Mapped[list[float] | None] = mapped_column(JSON)

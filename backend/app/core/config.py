@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = []
 
     llm_api_key: str | None = None
-    # Profil dostawcy w adapterze Responses API: `deepseek` albo `openai` (ADR 0010).
+    # Profil dostawcy w adapterze Responses API: `deepseek` albo `openai`.
     llm_provider: str = "deepseek"
     # DeepSeek przez SDK openai (Responses API).
     llm_base_url: str = "https://api.deepseek.com"
@@ -32,12 +32,12 @@ class Settings(BaseSettings):
     # Raporty, publikacje, Mapa Wyzwań i Obserwator (Zasobnik wiedzy, zadanie 0003).
     assets_path: Path = DEFAULT_ASSETS_PATH
     obserwator_path: Path = DEFAULT_OBSERWATOR_PATH
-    # Szukanie po znaczeniu w Zasobniku (ADR 0016): lokalny model, wektory i model w `cache_path`.
+    # Szukanie po znaczeniu w Zasobniku: lokalny model, wektory i model w `cache_path`.
     semantic_search: bool = True
     embedding_model: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     cache_path: Path = DEFAULT_CACHE_PATH
 
-    # Panel administratora (ADR 0006). Pusty token = panel wyłączony.
+    # Panel administratora. Pusty token = panel wyłączony.
     admin_token: str | None = None
     # true = przewodnik loguje się do panelu sam (POST /demo/admin-session zwraca ADMIN_TOKEN).
     # Każdy, kto otworzy aplikację, ma wtedy dostęp do panelu: tylko na stacku demo.

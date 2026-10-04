@@ -9,7 +9,7 @@ STATUSY_PYTAN = ("nowe", "odpowiedziane", "opublikowane", "ukryte")
 
 
 class Pytanie(TimestampMixin, Base):
-    """Pytanie do ROPS (ADR 0015). Publiczne dopiero po odpowiedzi, za zgodą i decyzji ROPS.
+    """Pytanie do ROPS. Publiczne dopiero po odpowiedzi, za zgodą i decyzji ROPS.
 
     `autor_email` nigdy nie trafia do publicznego API.
     """

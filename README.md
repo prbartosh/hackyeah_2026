@@ -1,92 +1,92 @@
-# hackyeah_2026
+# Splot
 
-Monorepo: `backend/` (FastAPI + PostgreSQL) i `frontend/` (React + Vite + TypeScript).
+Splot pomaga znaleźć sprawdzone rozwiązanie problemu społecznego w Bibliotece Innowacji Społecznych ROPS Kraków. Mieszkaniec, pracownik OPS albo urzędnik gminy opisuje sprawę swoimi słowami, AI dopytuje o szczegóły i pokazuje do pięciu innowacji, które już działają w Małopolsce, z wyjaśnieniem, dlaczego pasują. Wokół tego jest wszystko, czego potrzeba dalej: biblioteka wiedzy, kreator pomysłów, karta wdrożenia dla instytucji, kontakt z ROPS bez zakładania konta i panel dla pracowników ROPS.
 
-Sędzia (kilka minut): [SEDZIA.md](SEDZIA.md). Jury: [docs/jury/README.md](docs/jury/README.md). Stan prac: [docs/status.md](docs/status.md). Decyzje: [docs/adr/](docs/adr/).
+**Demo:** https://splot.drogos.dev/ · **Masz kilka minut?** [SEDZIA.md](SEDZIA.md)
 
-## Struktura
+## Jak obejrzeć
 
-```
-.
-├── docker-compose.yml        # db + backend + frontend
-├── .env.example              # wspólna konfiguracja
-├── assets/                   # dane ROPS (innowacje, raporty, Obserwator)
-├── scrapers/                 # scrapery danych ROPS
-├── docs/                     # status, zadania, ADR, materiały dla jury
-├── backend/
-│   ├── pyproject.toml
-│   ├── alembic.ini
-│   ├── alembic/              # migracje
-│   ├── scripts/              # seedy, scraper innowacji, ewaluacja
-│   ├── app/
-│   │   ├── main.py           # app factory, CORS, routery
-│   │   ├── core/             # config (pydantic-settings)
-│   │   ├── db/               # engine, sesja, Base
-│   │   ├── models/           # modele SQLAlchemy (ORM)
-│   │   ├── schemas/          # modele Pydantic (I/O API)
-│   │   ├── repositories/     # dostęp do danych (zapytania)
-│   │   ├── services/         # logika biznesowa
-│   │   └── api/
-│   │       ├── deps.py       # zależności (sesja DB)
-│   │       └── v1/
-│   │           ├── router.py
-│   │           └── endpoints/
-│   └── tests/
-└── frontend/
-    ├── Dockerfile            # multi-stage: build (node) -> serve (nginx)
-    ├── nginx.conf            # SPA fallback, cache assetów, proxy /api
-    └── src/
-        ├── api/              # klient HTTP
-        ├── components/       # komponenty wielokrotnego użytku
-        ├── pages/            # widoki
-        ├── admin/            # panel administratora
-        ├── kreator/          # Kreator pomysłów
-        ├── hooks/, lib/, context/, types/, styles/
-```
+- **2 minuty:** przycisk **„Dla sędziego (2 min)”** w nagłówku. Przewodnik na żywo: opis problemu, pytanie AI, wyniki z uzasadnieniem i karta innowacji.
+- **Całość:** przycisk **„Przewodnik”**. 10 rozdziałów, ok. 45 minut, wszystko na żywo (prawdziwy model AI, prawdziwe formularze, panel ROPS). Rozdziały można wybierać w spisie albo otworzyć adresem, np. `/?przewodnik=panel`.
 
-Przepływ: `endpoint -> service -> repository -> model`. Endpoint nie dotyka ORM bezpośrednio.
+W każdej chmurce przycisk **„Zrób to za mnie”** wykonuje krok za Ciebie.
 
-## Model językowy
+## Co jest w Splocie
 
-Serwisy używają portu `LLMProvider` (`services/llm.py`), nie SDK dostawcy ([ADR 0010](docs/adr/0010-port-llm.md)). Ustawienia w `.env`: `LLM_PROVIDER` (`deepseek` domyślnie, `openai`), `LLM_BASE_URL`, `LLM_MODEL`, `LLM_API_KEY`. Bez klucza czat odpowiada 503, a panel i Kreator działają bez AI. Dopasowanie zgłoszeń do kart w panelu jest deterministyczne (`services/matching.py`).
+| Moduł | Gdzie | Co robi |
+|---|---|---|
+| I Wyszukiwarka innowacji | `/` | Czat z AI: rozpoznaje rolę, zadaje krótkie pytania, pokazuje do 5 innowacji z uzasadnieniem i dane gminy z Obserwatora Statystyk ROPS |
+| II Zasobnik wiedzy | `/zasobnik` | 115 innowacji, raporty, publikacje, Mapa Wyzwań i wskaźniki. Szukanie po słowach i po znaczeniu, w treści dokumentów |
+| III Kreator pomysłów | `/kreator` | Fiszka pomysłu z pomocą AI, podobne innowacje, nabory, szkic wniosku do pobrania, canvy |
+| IV Tester innowacji | karta innowacji | Opinie instytucji, które testują rozwiązanie, poziom dowodu, pytania do testujących przez ROPS |
+| V Kontakt z ROPS | `/wspolpraca` | Zgłoszenie potrzeby bez konta z prywatnym linkiem do rozmowy, pytania i odpowiedzi, mentorzy, giełda partnerstw |
+| VI Panel pracownika ROPS | `/admin` | Skrzynka zgłoszeń z analizą AI, import dokumentu do karty innowacji, karty, radar potrzeb, moderacja |
+| VII Middleman innowacji | karta innowacji | Karta wdrożenia dopasowana do typu instytucji: kroki, koszty, ryzyka, do wydruku |
 
-## Limity zapytań
+Do tego porównanie do trzech innowacji (`/porownaj`) i otwarte dane w CSV i JSON (`/otwarte-dane`).
 
-Limity są w `frontend/nginx.conf`: czat i karta usługi (10/min na IP), publiczne zapisy (20/min), `/api/v1/admin/` (120/min). `CHAT_ENABLED=false` wyłącza czat. Nowy publiczny endpoint zapisu dodaj do sekcji `location` w nginx.
+## Na co warto zwrócić uwagę
 
-## Start (Docker)
+- **Trafność:** na 35 testowych zgłoszeniach trafna innowacja była w pierwszej trójce za każdym razem (35/35). Zestaw: [docs/zestaw-testowy.md](docs/zestaw-testowy.md).
+- **Dostępność:** trzy motywy (w tym wysoki kontrast), powiększanie tekstu, czytanie na głos, „Powiedz prościej”, wejście głosowe, pełna obsługa klawiaturą. Automatyczny audyt axe: 0 naruszeń na wszystkich stronach w trzech motywach i na telefonie. Deklaracja: `/dostepnosc`.
+- **AI pod kontrolą człowieka:** w panelu AI podpowiada odpowiedź i dopasowanie, ale wysłanie i publikację zatwierdza pracownik ROPS.
+- **Bez konta:** zgłoszenia, pytania i rozmowy działają przez prywatny link, bez rejestracji i bez ujawniania adresów e-mail między stronami.
+
+## Prywatność
+
+Czat nie zapisuje rozmów w bazie Splotu. Treść rozmowy trafia do zewnętrznego dostawcy modelu AI, żeby mógł odpowiedzieć. Użytkownik widzi tę informację przy polu czatu i jest proszony o niewpisywanie danych wrażliwych. Przed uruchomieniem publicznym trzeba opisać dostawcę, podstawę przetwarzania i okres przechowywania w polityce prywatności.
+
+Zapisujemy tylko anonimowe potrzeby (rola, pokazane innowacje, bez treści rozmowy). Serwer nie zapisuje adresów IP ani pełnych adresów stron. Zgłoszenia, fiszki i oceny, które użytkownik świadomie wysyła, trafiają do bazy i skrzynki panelu.
+
+## Dane i licencje
+
+| Dane | Źródło | Licencja |
+|---|---|---|
+| 115 innowacji | [Biblioteka Innowacji Społecznych ROPS Kraków](https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie) | CC BY 4.0, przy każdej innowacji źródło i licencja |
+| Raporty z badań (51) | [ROPS Kraków](https://rops.krakow.pl/badania-analizy-raporty/raporty-z-badan) | 5 raportów CC BY 4.0, pozostałe: licencja nieustalona |
+| Publikacje (3), Social Canvas | [ROPS Kraków](https://rops.krakow.pl/innowacje-spoleczne/publikacje-ze-swiata-innowacji) | licencja nieustalona |
+| Mapa Wyzwań Społecznych | [ROPS Kraków (PDF)](https://rops.krakow.pl/mpliki/IS/IWS_20/za._nr_2._Mapa_Wyzwa_Spoecznych.pdf) | licencja nieustalona |
+| Wskaźniki | [Obserwator Statystyk Społecznych](https://obserwator.rops.krakow.pl/), dane m.in. z GUS i MRPiPS | licencja nieustalona; dane GUS z podaniem źródła ([stat.gov.pl/copyright](https://stat.gov.pl/copyright)) |
+
+Dane pobrano 2026-10-03. Gdy źródło nie podaje licencji, pokazujemy samo źródło i link. Więcej o danych: [docs/baza-innowacji.md](docs/baza-innowacji.md).
+
+## Uruchomienie u siebie
+
+Wymagany Docker.
 
 ```bash
-cp .env.example .env          # ustaw POSTGRES_PASSWORD, LLM_API_KEY, ADMIN_TOKEN
+cp .env.example .env    # ustaw POSTGRES_PASSWORD, LLM_API_KEY (DeepSeek), ADMIN_TOKEN
 docker compose up --build
 ```
 
-- Frontend: http://localhost:8080 (statyczny build na nginx, `/api` proxowane do backendu)
-- API docs: http://localhost:8000/docs
-- PostgreSQL: localhost:5432
-
-Migracje uruchamiają się przy starcie backendu. Przy `DEMO_DATA=true` (domyślnie w `.env.example`) do pustej bazy wczytują się też przykładowe dane demo z `backend/scripts/demo-data.json`: zgłoszenia, powiadomienia, mentorzy, giełda partnerstw, importy dokumentów, notatki radaru, nabory i oceny, więc po `git clone` panel jest od razu wypełniony (token panelu: `ADMIN_TOKEN` z `.env`). Daty są przesuwane do „teraz”. Świeża baza: `docker compose down -v`. Odświeżenie fixture po zmianie danych: `docker compose exec backend python scripts/demo_data.py export`.
-
- Backend: kod jako volume, hot reload. Frontend: statyczny build, po zmianach `docker compose up --build frontend`.
-
-Frontend z HMR (backend w Dockerze):
+Dane demo, na których opiera się przewodnik (raz, gdy aplikacja działa):
 
 ```bash
-cd frontend && npm install
-VITE_API_URL=http://localhost:8000/api/v1 npm run dev   # http://localhost:5173
+docker compose exec backend python scripts/seed_demo.py
+docker compose exec backend python scripts/seed_kreator.py
+docker compose exec backend python scripts/seed_tester.py
+docker compose exec backend python scripts/seed_demo_extra.py
 ```
 
-## Nowa migracja
+- Aplikacja: http://localhost:8080
+- Panel ROPS: http://localhost:8080/admin
 
-```bash
-docker compose exec backend alembic revision --autogenerate -m "opis"
-docker compose exec backend alembic upgrade head
-```
+Dobrze wiedzieć:
 
-## Testy / lint
+- Pierwszy start pobiera model wyszukiwania (ok. 220 MB), potrzebny jest internet.
+- Bez `LLM_API_KEY` czat nie odpowie, reszta działa.
+- `DEMO_TOUR_ENABLED=true` (domyślnie w `.env.example`) otwiera panel ROPS bez logowania. Wtedy dostęp do panelu ma każdy, kto otworzy aplikację, więc to ustawienie tylko na demo.
+- Hasła do bazy (`POSTGRES_PASSWORD`) nie zmieniaj po pierwszym starcie. Świeża baza: `docker compose down -v`.
 
-```bash
-docker compose exec backend pytest
-docker compose exec backend ruff check .
-cd frontend && npm run lint && npm test && npm run build
-```
+## Technologia
+
+Python 3.12 i FastAPI, PostgreSQL 16, React 19 z TypeScript, nginx, Docker Compose. Model językowy: DeepSeek. Szukanie po znaczeniu: lokalny model, bez klucza API.
+
+## Więcej
+
+- [SEDZIA.md](SEDZIA.md): instrukcja na kilka minut
+- [docs/scenariusz-pokazu.md](docs/scenariusz-pokazu.md): scenariusz prezentacji
+- [user_scenario.md](user_scenario.md): przykładowi użytkownicy i ich problemy
+- [docs/zestaw-testowy.md](docs/zestaw-testowy.md): 35 zgłoszeń testowych i wyniki
+- [docs/baza-innowacji.md](docs/baza-innowacji.md): skąd są dane i jak są opisane
+- [GLOSSARY.md](GLOSSARY.md): słowniczek

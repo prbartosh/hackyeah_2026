@@ -1,4 +1,4 @@
-"""Liczy wektory fragmentów dokumentów Zasobnika do pliku w repo (ADR 0016).
+"""Liczy wektory fragmentów dokumentów Zasobnika do pliku w repo.
 
 Plik `assets/semantic/dokumenty-<skrót>.npy` aplikacja czyta przy starcie zamiast liczyć
 od nowa (ok. 10 minut CPU). Uruchom po każdej zmianie dokumentów w `assets/` i dodaj nowy plik

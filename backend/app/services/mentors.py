@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 class MentorService:
-    """Mentorzy (ADR 0014): bez konta, dostęp linkiem z tokenem, przydział przez ROPS."""
+    """Mentorzy: bez konta, dostęp linkiem z tokenem, przydział przez ROPS."""
 
     def __init__(
         self,

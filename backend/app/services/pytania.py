@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 
 
 class PytanieService:
-    """Pytania do ROPS (ADR 0015): publikacja tylko za zgodą i po decyzji pracownika."""
+    """Pytania do ROPS: publikacja tylko za zgodą i po decyzji pracownika."""
 
     def __init__(self, session: AsyncSession, settings: Settings, email: EmailSender) -> None:
         self.session = session

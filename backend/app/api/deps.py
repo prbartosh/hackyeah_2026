@@ -142,7 +142,7 @@ PlainLanguageServiceDep = Annotated[PlainLanguageService, Depends(get_plain_lang
 
 
 def require_admin(authorization: Annotated[str | None, Header()] = None) -> None:
-    """Dostęp do /admin/*: nagłówek `Authorization: Bearer <ADMIN_TOKEN>` (ADR 0006)."""
+    """Dostęp do /admin/*: nagłówek `Authorization: Bearer <ADMIN_TOKEN>`."""
     expected = settings.admin_token
     if not expected:
         raise HTTPException(

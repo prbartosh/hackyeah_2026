@@ -6,7 +6,7 @@ from app.api.deps import MentorServiceDep
 from app.schemas.mentor import MentorPublic, MentorReply, MentorRequested, MentorThreadRead
 from app.schemas.partnership import Powiat
 
-# Publiczne, bez konta (ADR 0014). Lista nie zawiera e-maila ani tokenu mentora.
+# Publiczne, bez konta. Lista nie zawiera e-maila ani tokenu mentora.
 router = APIRouter()
 # Pod /zgloszenia: autor prosi o mentora ze swojego linku do wątku.
 request_router = APIRouter()

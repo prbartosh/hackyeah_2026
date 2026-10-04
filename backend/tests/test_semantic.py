@@ -1,4 +1,4 @@
-"""Szukanie po znaczeniu (ADR 0016) z atrapą modelu: wektor to grupy słów o jednym sensie."""
+"""Szukanie po znaczeniu z atrapą modelu: wektor to grupy słów o jednym sensie."""
 
 import json
 from pathlib import Path

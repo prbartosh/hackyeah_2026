@@ -2,7 +2,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field, model_validator
 
-# Role i stan problemu zgodne z ADR 0004 (§3, §7).
+# Role i stan problemu (panel „Twój problem”).
 Role = Literal["mieszkaniec", "cus-ops", "partner"]
 PoziomKosztu = Literal["niski", "sredni", "wysoki"]
 ChatAction = Literal["show_results_now", "confirm_summary"]
@@ -25,7 +25,7 @@ class PoleZasoby(PoleProblemu):
 
 
 class ProblemState(BaseModel):
-    """Panel „Twój problem” (ADR 0004 §7)."""
+    """Panel „Twój problem”."""
 
     grupy_docelowe: PoleProblemu = Field(default_factory=PoleProblemu)
     problemy: PoleProblemu = Field(default_factory=PoleProblemu)

@@ -55,7 +55,7 @@ export interface TrafienieDokumentu {
   /** [początek, koniec) w `fragment`. */
   trafienia: [number, number][]
   strona: number | null
-  /** Znaleziony po znaczeniu, a nie po wpisanych słowach (ADR 0016). */
+  /** Znaleziony po znaczeniu, a nie po wpisanych słowach. */
   po_znaczeniu?: boolean
 }
 

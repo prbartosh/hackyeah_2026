@@ -90,7 +90,7 @@ class ProviderProfile:
 
 PROFILES: dict[str, ProviderProfile] = {
     # DeepSeek ignoruje `store`, `include` i `strict`, a w Chat Completions zna tylko `max_tokens`
-    # (ADR 0007).
+    #.
     "deepseek": ProviderProfile(),
     # `strict` zostaje wyłączony: wymaga schematów z `additionalProperties: false` i wszystkimi
     # polami w `required`, a nasze narzędzia tego nie spełniają.

@@ -1,4 +1,4 @@
-// Kontrakt = backend/app/schemas/service_card.py (ADR 0009). Przy zmianach schematu poprawiaj ten plik.
+// Kontrakt = backend/app/schemas/service_card.py. Przy zmianach schematu poprawiaj ten plik.
 import { AdminApiError, call } from '@/admin/api'
 import { PROBLEM_FIELDS, type ProblemState } from '@/types/chat'
 

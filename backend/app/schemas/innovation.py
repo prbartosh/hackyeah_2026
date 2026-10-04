@@ -2,7 +2,7 @@ from pydantic import BaseModel
 
 
 class Innovation(BaseModel):
-    """Pola treści mogą być null (ADR 0004 §2) - pusty rekord po odświeżeniu scraperem
+    """Pola treści mogą być null - pusty rekord po odświeżeniu scraperem
     nie może wywalić startu backendu.
     """
 

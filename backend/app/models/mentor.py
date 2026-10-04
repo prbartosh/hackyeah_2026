@@ -5,7 +5,7 @@ from app.db.base import Base, TimestampMixin
 
 
 class Mentor(TimestampMixin, Base):
-    """Mentor społeczny (ADR 0014): bez konta, wchodzi linkiem z tokenem po przydziale przez ROPS.
+    """Mentor społeczny: bez konta, wchodzi linkiem z tokenem po przydziale przez ROPS.
 
     `email` i `token_mentora` nigdy nie trafiają do publicznego API.
     """

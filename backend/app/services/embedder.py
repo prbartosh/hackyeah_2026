@@ -1,7 +1,7 @@
-"""Port do modelu embeddingów (ADR 0016) i adapter lokalnego modelu fastembed.
+"""Port do modelu embeddingów i adapter lokalnego modelu fastembed.
 
 Serwisy i repozytoria znają tylko `Embedder`; fastembed importuje wyłącznie `FastEmbedder`.
-Model działa lokalnie (ONNX, CPU), bez klucza API: DeepSeek nie ma embeddingów (ADR 0007).
+Model działa lokalnie (ONNX, CPU), bez klucza API: DeepSeek nie ma embeddingów.
 """
 
 from __future__ import annotations
