@@ -1,3 +1,4 @@
+import asyncio
 import json
 import logging
 import secrets
@@ -17,6 +18,7 @@ from app.services.app_settings import PanelSettings, load_settings
 from app.services.cards import CardService, category_names, match_text
 from app.services.email import EmailSender
 from app.services.matching import (
+    TRIGRAM_DUPLICATES,
     CardMatch,
     card_score,
     labels,
@@ -25,6 +27,7 @@ from app.services.matching import (
     tag_text,
     valid_tags,
 )
+from app.services.semantic import SemanticIndex
 
 logger = logging.getLogger(__name__)
 
@@ -86,12 +89,13 @@ class TicketService:
         ai: AIGateway,
         settings: Settings,
         email: EmailSender,
+        semantic: SemanticIndex | None = None,
     ) -> None:
         self.session = session
         self.ai = ai
         self.settings = settings
         self.email = email
-        self.cards = CardService(session)
+        self.cards = CardService(session, semantic)
 
     async def panel_settings(self) -> PanelSettings:
         return await load_settings(self.session, self.settings)
@@ -424,9 +428,20 @@ class TicketService:
             .order_by(Ticket.id.desc())
             .limit(DUPLICATE_WINDOW)
         )
-        scored = [(t, similar_text(ticket.tresc, t.tresc)) for t in rows]
+        rows = list(rows)
+        semantic = self.cards.semantic
+        if semantic is not None:
+            # Pierwszy raz liczy wektory wszystkich zgłoszeń z okna: poza pętlą zdarzeń.
+            scores = await asyncio.to_thread(
+                semantic.text_similarities, ticket.tresc, [t.tresc for t in rows]
+            )
+            threshold = panel.prog_duplikatow
+        else:
+            scores = [similar_text(ticket.tresc, t.tresc) for t in rows]
+            threshold = TRIGRAM_DUPLICATES
+        scored = list(zip(rows, scores, strict=True))
         close = sorted(
-            ((t, s) for t, s in scored if s >= panel.prog_duplikatow),
+            ((t, s) for t, s in scored if s >= threshold),
             key=lambda x: x[1],
             reverse=True,
         )[:MAX_DUPLICATES]

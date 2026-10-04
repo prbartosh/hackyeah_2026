@@ -41,7 +41,7 @@ class FiszkaService:
         self.settings = settings
         self.tickets = tickets
         self.repo = FiszkaRepository(session)
-        self.cards = CardService(session)
+        self.cards = CardService(session, tickets.cards.semantic)
 
     def categories(self) -> dict[str, str]:
         return category_names(self.settings.innovations_path)
@@ -202,4 +202,3 @@ class FiszkaService:
             "syntetyczna": fiszka.syntetyczna,
             "updated_at": fiszka.updated_at,
         }
-

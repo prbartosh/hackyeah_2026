@@ -158,3 +158,16 @@ def test_synonimy_zapytania():
         a.startswith("samotność") for a in synonym_queries("samotność seniorów", VOCABULARY)[2:]
     )
     assert synonym_queries("xyz", VOCABULARY) == []
+    # aliasy miejsc to różne instytucje (DPS, WTZ, klub seniora), nie synonimy
+    assert synonym_queries("DPS", VOCABULARY) == []
+    # dłuższa fraza ma pierwszeństwo: bez „domowa przemoc domowa”
+    assert synonym_queries("przemoc domowa", VOCABULARY)[:2] == ["przemoc", "krzywdzenie"]
+
+
+def test_znaczenie_przesuwa_wynik_karty_wzgledem_typowego_poziomu():
+    from app.services.matching import MEANING_CENTER, CardMatch, add_meaning
+
+    assert add_meaning(CardMatch(score=0.5), 0.8).score > 0.5  # bliska sensem zyskuje
+    assert add_meaning(CardMatch(score=0.5), 0.1).score < 0.5  # daleka traci
+    assert add_meaning(CardMatch(score=0.5), MEANING_CENTER).score == 0.5
+    assert add_meaning(CardMatch(score=0.0), 0.0).score == 0.0  # bez wyniku poniżej zera

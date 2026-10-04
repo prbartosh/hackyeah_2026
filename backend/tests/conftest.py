@@ -2,6 +2,8 @@ import logging
 import os
 
 os.environ.setdefault("DATABASE_URL", "postgresql+asyncpg://app:app@db:5432/app")
+# Bez pobierania modelu embeddingów; szukanie po znaczeniu testy sprawdzają atrapą.
+os.environ["SEMANTIC_SEARCH"] = "false"
 
 from typing import Annotated
 

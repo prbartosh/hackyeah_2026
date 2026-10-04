@@ -6,6 +6,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 DEFAULT_ASSETS_PATH = Path(__file__).resolve().parents[3] / "assets"
 DEFAULT_INNOVATIONS_PATH = DEFAULT_ASSETS_PATH / "innowacje-spoleczne" / "innowacje.json"
 DEFAULT_OBSERWATOR_PATH = DEFAULT_ASSETS_PATH / "obserwator" / "observations.csv"
+DEFAULT_CACHE_PATH = Path(__file__).resolve().parents[2] / ".cache"
 
 
 class Settings(BaseSettings):
@@ -31,6 +32,10 @@ class Settings(BaseSettings):
     # Raporty, publikacje, Mapa Wyzwań i Obserwator (Zasobnik wiedzy, zadanie 0003).
     assets_path: Path = DEFAULT_ASSETS_PATH
     obserwator_path: Path = DEFAULT_OBSERWATOR_PATH
+    # Szukanie po znaczeniu w Zasobniku (ADR 0016): lokalny model, wektory i model w `cache_path`.
+    semantic_search: bool = True
+    embedding_model: str = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+    cache_path: Path = DEFAULT_CACHE_PATH
 
     # Panel administratora (ADR 0006). Pusty token = panel wyłączony.
     admin_token: str | None = None

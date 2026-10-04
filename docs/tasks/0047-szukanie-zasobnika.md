@@ -2,7 +2,7 @@
 
 - Status: review
 - Osoba: Wiktor
-- PR: #88
+- PR: #88, #94
 
 ## Cel
 
@@ -24,10 +24,12 @@ Jedno szukanie w Zasobniku obejmuje dokumenty (raporty, publikacje, Mapa Wyzwań
 - [x] `GET /api/v1/search` (dokumenty i innowacje), limit w `frontend/nginx.conf`
 - [x] Frontend: `ZasobnikWyzwania` szuka wspólnie, sekcja „Pasujące innowacje”
 - [x] Testy backendu (257 → 266)
+- [x] Poprawki po teście na prawdziwych zapytaniach: wyniki zapytania i synonimów liczone względem najlepszego trafienia (synonim nie wyprzedza oryginału), synonimy tylko z problemów i grup (bez DPS → WTZ, klub seniora), dłuższa fraza słownika ma pierwszeństwo, słowa pasują od początku wyrazu („ai” nie trafia w „e-mail”, „żonę” w „położone”), liczenie słów przez posortowany słownik słów tekstu (zapytanie ok. 0,2–0,8 s zamiast 2–4 s), rdzeń 6–7 liter bez jednej litery („dzieci” nie łapie „dzień”), fragment poza spisem treści i bez znaków U+FFFD; testy 266 → 271 (m.in. „Przemoc”)
 - [ ] Zestaw zapytań z oczekiwanymi wynikami do porównania rankingów (potrzebna lista od produktu)
 
 ## Notatki
 
 - Pomijamy tabele wskaźników (po nazwie powiatu pasowałyby wszystkie 184 wskaźniki) i `observations.csv` z gminami (34 MB; gminy ma `ObserwatorRepository`, używa go czat).
 - Ranking nie był porównywany liczbami ze starym ani z `TfidfIndex`; na 10 zapytaniach wyniki wyglądają sensownie.
+- Błędy w danych do poprawy u źródła: `raporty/text/844-…` i `850-…` mają identyczną treść; wskaźnik „Studenci uczelni wyższych” ma w `obserwator/indicators.json` opis egzaminu ósmoklasisty.
 - Wyniki dokumentów są w cache procesu (`lru_cache`), indeks powstaje przy pierwszym zapytaniu (ok. 1 s).

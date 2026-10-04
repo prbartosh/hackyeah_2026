@@ -6,8 +6,11 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.config import Settings
 from app.models import AppSetting
 
-# Duplikaty i klastry to podobieństwo trigramów, dopasowanie kart to pokrycie tagów (matching.py).
-_DEFAULTS = {"prog_duplikatow": 0.55, "prog_dopasowania": 0.30, "prog_klastra": 0.30}
+# Duplikaty i klastry to podobieństwo znaczenia (kosinus embeddingów, ADR 0016), dopasowanie kart
+# to wynik z matching.py. Na parach z docs/zestaw-testowy.md (#29-36 to inne wersje #1-17):
+# próg 0,65 łapie 4/8 duplikatów przy 1 fałszywym na 622 pary (trigramy przy 0,55: 0/8),
+# 0,55 łączy 6/8 w grupę radaru.
+_DEFAULTS = {"prog_duplikatow": 0.65, "prog_dopasowania": 0.30, "prog_klastra": 0.55}
 KEYS = ("prog_duplikatow", "prog_dopasowania", "prog_klastra", "sla_godziny")
 
 

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, status
 from sqlalchemy import select
 
-from app.api.deps import AIGatewayDep, SessionDep
+from app.api.deps import AIGatewayDep, SessionDep, get_semantic_index
 from app.core.config import settings
 from app.models import TrendNote
 from app.schemas.radar import NoteCreate, NoteRead, NoteUpdate, RadarRead
@@ -16,7 +16,7 @@ def _note(n: TrendNote) -> NoteRead:
 
 @router.get("/radar", response_model=RadarRead, summary="Klastry zgłoszeń bez dopasowania")
 async def get_radar(session: SessionDep, ai: AIGatewayDep):
-    return await RadarService(session, ai, settings).build()
+    return await RadarService(session, ai, settings, get_semantic_index()).build()
 
 
 @router.get("/radar/notatki", response_model=list[NoteRead])
@@ -28,7 +28,7 @@ async def list_notes(session: SessionDep):
 @router.post("/radar/notatki", response_model=NoteRead, status_code=status.HTTP_201_CREATED)
 async def create_note(data: NoteCreate, session: SessionDep, ai: AIGatewayDep):
     try:
-        note = await RadarService(session, ai, settings).create_note(
+        note = await RadarService(session, ai, settings, get_semantic_index()).create_note(
             data.tytul, data.zgloszenia_ids
         )
     except ValueError as e:

@@ -172,6 +172,7 @@
 .zs-doc-snippet { margin: 0 0 0.6rem; font-size: 0.95rem; color: var(--text); overflow-wrap: anywhere; }
 .zs-doc-snippet mark { background: var(--warning-bg); color: var(--text); font-weight: 700; padding: 0 0.1em; border-bottom: 2px solid var(--warning-border); }
 .zs-doc-snippet a { position: relative; z-index: 1; white-space: nowrap; }
+.zs-doc-semantic { margin: 0 0 0.4rem; font-size: 0.85rem; font-weight: 600; color: var(--text-muted); }
 .zs-more { display: flex; justify-content: center; margin-top: 1.25rem; }
 
 .zs-groups { display: grid; gap: 0.6rem; margin-top: 0.5rem; }

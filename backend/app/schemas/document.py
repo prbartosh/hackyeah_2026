@@ -41,10 +41,13 @@ class DocumentSearchHit(BaseModel):
     trafienia: list[tuple[int, int]]
     # Strona PDF, na której jest fragment; null bez znaczników stron.
     strona: int | None
+    # Znaleziony po znaczeniu (ADR 0016), nie po wpisanych słowach.
+    po_znaczeniu: bool = False
 
 
 class InnovationSearchHit(BaseModel):
     innowacja: Innovation
+    po_znaczeniu: bool = False
 
 
 class SearchResults(BaseModel):
