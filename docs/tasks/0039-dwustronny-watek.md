@@ -1,6 +1,6 @@
 # 0039. Dwustronny wątek zgłoszenia
 
-- Status: review
+- Status: w toku
 - Osoba: Nikodem
 - PR: #62
 

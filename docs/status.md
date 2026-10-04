@@ -9,16 +9,8 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice w `docs/jury/`, reszta po działającym demo
 - [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu: zostaje sesja NVDA i raport
 - [0035](tasks/0035-szybkie-przewagi.md) Szybkie przewagi: prosty język, czytanie na głos i deklaracja dostępności gotowe; zostaje pomiar trafności na DeepSeek (Wiktor)
-
-- [0036](tasks/0036-gielda-partnerstw.md) Giełda partnerstw: tablica ogłoszeń z moderacją ROPS, kontakt przez ROPS (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
-- [0040](tasks/0040-mentorzy.md) Mentorzy: lista, prośba autora, przydział przez ROPS, odpowiedź mentora linkiem bez konta (Nikodem, [ADR 0014](adr/0014-mentorzy.md))
-
-- [0041](tasks/0041-pytania-do-rops.md) Pytania do ROPS: publiczne FAQ z odpowiedziami, publikacja za zgodą, moderacja w panelu (Nikodem, [ADR 0015](adr/0015-pytania-do-rops.md))
-
-- [0042](tasks/0042-rozmowy-partnerskie.md) Rozmowa partnerska przez ROPS: dwustronna korespondencja w Giełdzie partnerstw bez ujawniania e-maili (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
-
-- [0044](tasks/0044-zapytaj-testujacych.md) Zapytaj instytucję, która to testuje: pytanie przez ROPS do wątku instytucji testującej (Wiktor)
-- [0045](tasks/0045-obserwuj-potrzebe.md) Obserwuj potrzebę: powiadomienie autora, gdy ROPS opublikuje pasującą kartę (Wiktor)
+- [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: zmergowany (#62), zostaje znacznik „nowa odpowiedź autora” w skrzynce i sprawdzenie w przeglądarce (Nikodem)
+- [0043](tasks/0043-wspolpraca-z-rops.md) Strona „Współpraca z ROPS” `/wspolpraca`: zmergowana (#61), zostaje axe, klawiatura i widok 320 px (Nikodem)
 
 ## Do zrobienia
 
@@ -33,13 +25,14 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 - [0032](tasks/0032-formularze-kreator-middleman-tester.md) Kreator, Middleman, Tester, zgłoszenia i wątek
 - [0033](tasks/0033-panel-administratora-ui.md) Panel administratora: układ i czytelność
 - [0034](tasks/0034-stany-ladowania-bledow-404.md) Stany ładowania, pustych wyników, błędów i 404
-- [0037](tasks/0037-porownaj-innowacje.md) Porównaj innowacje obok siebie: przełącznik, pasek, strona `/porownaj` (Nikodem)
-- [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: odpowiedź autora, „Moje sprawy” (Nikodem)
-
-- [0043](tasks/0043-wspolpraca-z-rops.md) Strona „Współpraca z ROPS” `/wspolpraca`: hub modułu V i nawigacja (Nikodem)
 
 ## Zrobione
 
+- 2026-10-04: Obserwuj potrzebę (0045, moduł V): autor zaznacza „Powiadom mnie”, po publikacji pasującej karty dostaje wiadomość systemową w wątku i e-mail, migracja 0013 (#70); niesprawdzone na PostgreSQL
+- 2026-10-04: Zapytaj instytucję, która to testuje (0044, moduł V): pytanie przez ROPS do wątku instytucji testującej, bez ujawniania kontaktów, migracja 0012 (#69); na istniejącej bazie raz `seed_tester.py`
+- 2026-10-04: Rozmowa partnerska przez ROPS (0042): dwustronna korespondencja w Giełdzie partnerstw bez ujawniania e-maili, migracja 0011 (#64, [ADR 0013](adr/0013-gielda-partnerstw.md))
+- 2026-10-04: Pytania do ROPS (0041): publiczne FAQ, publikacja za zgodą autora, moderacja w panelu, migracja 0010 (#63, [ADR 0015](adr/0015-pytania-do-rops.md))
+- 2026-10-04: Mentorzy (0040): lista, prośba autora, przydział przez ROPS, odpowiedź mentora linkiem bez konta, migracja 0009 (#65, [ADR 0014](adr/0014-mentorzy.md))
 - 2026-10-04: Giełda partnerstw (moduł V): ogłoszenia z moderacją ROPS, kontakt przez ROPS bez ujawniania adresów, zakładka w panelu, migracja 0008 (#58, [ADR 0013](adr/0013-gielda-partnerstw.md)); migracja i seed niesprawdzone na PostgreSQL
 - 2026-10-04: Porównanie do 3 innowacji obok siebie: przełącznik na kartach, pasek, strona `/porownaj` z drukiem (#56); niesprawdzone w przeglądarce
 - 2026-10-04: Otwarte dane: eksport innowacji i dokumentów w CSV i JSON, strona `/otwarte-dane` (#57); na produkcji ustawić `PUBLIC_BASE_URL`
