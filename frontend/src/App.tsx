@@ -11,6 +11,7 @@ import ZasobnikPage from '@/pages/ZasobnikPage'
 const AdminRoutes = lazy(() => import('@/admin/AdminRoutes'))
 const KreatorRoutes = lazy(() => import('@/kreator/KreatorRoutes'))
 const DocumentPage = lazy(() => import('@/pages/DocumentPage'))
+const PartnershipsPage = lazy(() => import('@/pages/PartnershipsPage'))
 const ReportPage = lazy(() => import('@/pages/ReportPage'))
 const ServiceCardPage = lazy(() => import('@/pages/ServiceCardPage'))
 const ThreadPage = lazy(() => import('@/pages/ThreadPage'))
@@ -25,6 +26,7 @@ export default function App() {
         <Route path="innowacja/:slug/wdrozenie" element={<ServiceCardPage />} />
         <Route path="dokument/:id" element={<DocumentPage />} />
         <Route path="zglos" element={<ReportPage />} />
+        <Route path="partnerstwa" element={<PartnershipsPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
         <Route path="kreator/*" element={<KreatorRoutes />} />
         <Route path="admin/*" element={<AdminRoutes />} />

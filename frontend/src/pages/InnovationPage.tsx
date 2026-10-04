@@ -112,6 +112,7 @@ export default function InnovationPage() {
           </section>
 
           <TesterSection slug={rec.slug} />
+          <p><Link to={`/partnerstwa?innowacja=${encodeURIComponent(rec.slug)}`}>Szukaj partnerów do wdrożenia</Link></p>
         </article>
 
         <aside className="detail-side" aria-label="Materiały i kontakt">

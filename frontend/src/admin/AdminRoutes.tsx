@@ -8,6 +8,7 @@ import ImportsPage from '@/admin/ImportsPage'
 import InboxPage from '@/admin/InboxPage'
 import NotificationsPage from '@/admin/NotificationsPage'
 import OpinionsPage from '@/admin/OpinionsPage'
+import PartnershipsPage from '@/admin/PartnershipsPage'
 import RadarPage from '@/admin/RadarPage'
 import TicketPage from '@/admin/TicketPage'
 import { NaborEditPage, NaboryPage } from '@/kreator/AdminNabory'
@@ -29,6 +30,7 @@ export default function AdminRoutes() {
         <Route path="nabory" element={<NaboryPage />} />
         <Route path="nabory/:slug" element={<NaborEditPage />} />
         <Route path="opinie" element={<OpinionsPage />} />
+        <Route path="partnerstwa" element={<PartnershipsPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

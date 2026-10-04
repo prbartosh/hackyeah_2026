@@ -13,7 +13,7 @@ from sqlalchemy import select
 from app.api.deps import get_llm_service
 from app.core.config import settings
 from app.db.session import SessionLocal
-from app.models import Ticket
+from app.models import PartnershipOffer, Ticket
 from app.schemas.ticket import TicketCreate
 from app.services.ai import AIGateway
 from app.services.cards import CardService
@@ -47,9 +47,64 @@ DEMO_TICKETS: list[tuple[int, str]] = [
 ]
 
 
+# Przykładowe ogłoszenia Giełdy partnerstw: (typ, sektor, powiat, tytuł, opis). Bez prawdziwych
+# nazw instytucji i osób.
+DEMO_OFFERS: list[tuple[str, str, str, str, str]] = [
+    (
+        "szukam_partnera", "publiczny", "m. Kraków",
+        "Szukamy organizacji do pilotażu kodów QR dla seniorów",
+        "Przykładowe ogłoszenie demo. Ośrodek pomocy społecznej chce wdrożyć rozwiązanie "
+        "u 20 seniorów i szuka organizacji, która pomoże w szkoleniu opiekunów.",
+    ),
+    (
+        "oferuje_wsparcie", "ngo", "tarnowski",
+        "Wolontariusze i szkolenia z obsługi telefonu dla seniorów",
+        "Przykładowe ogłoszenie demo. Organizacja pozarządowa oferuje wolontariuszy "
+        "i warsztaty z prostej obsługi telefonu dla osób starszych.",
+    ),
+    (
+        "szukam_partnera", "mieszkancy", "nowotarski",
+        "Szukamy lokalu na świetlicę sąsiedzką",
+        "Przykładowe ogłoszenie demo. Grupa mieszkańców szuka partnera, który udostępni "
+        "salę raz w tygodniu na spotkania sąsiedzkie.",
+    ),
+    (
+        "oferuje_wsparcie", "biznes", "m. Nowy Sącz",
+        "Lokalna firma oferuje sprzęt i wsparcie IT dla projektów społecznych",
+        "Przykładowe ogłoszenie demo. Firma IT oferuje używany sprzęt oraz kilka godzin "
+        "pomocy technicznej miesięcznie dla organizacji realizujących wdrożenia.",
+    ),
+]  # fmt: skip
+
+
+async def seed_offers(session) -> None:
+    if await session.scalar(
+        select(PartnershipOffer.id).where(PartnershipOffer.syntetyczne.is_(True))
+    ):
+        print("Ogłoszenia partnerskie demo już istnieją, pomijam.")
+        return
+    for typ, sektor, powiat, tytul, opis in DEMO_OFFERS:
+        session.add(
+            PartnershipOffer(
+                typ=typ,
+                sektor=sektor,
+                instytucja="Instytucja przykładowa (demo)",
+                tytul=tytul,
+                opis=opis,
+                powiat=powiat,
+                kontakt_email="demo@example.test",
+                status="opublikowane",
+                syntetyczne=True,
+            )
+        )
+    await session.commit()
+    print(f"Dodano {len(DEMO_OFFERS)} ogłoszeń partnerskich demo (przykładowych).")
+
+
 async def main() -> None:
     llm = get_llm_service() if settings.llm_api_key else None
     async with SessionLocal() as session:
+        await seed_offers(session)
         existing = await session.scalar(select(Ticket.id).where(Ticket.syntetyczne.is_(True)))
         if existing:
             print("Zgłoszenia demo już istnieją, nic nie robię.")

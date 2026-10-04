@@ -23,6 +23,7 @@ from app.services.knowledge import KnowledgeService
 from app.services.llm import LLMProvider, create_provider
 from app.services.nabory import NaborService
 from app.services.opinions import OpinionService
+from app.services.partnership import PartnershipService
 from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
 from app.services.wnioski import WniosekService
@@ -141,6 +142,15 @@ def get_opinion_service(
 
 
 OpinionServiceDep = Annotated[OpinionService, Depends(get_opinion_service)]
+
+
+def get_partnership_service(
+    session: SessionDep, innovations: InnovationRepositoryDep
+) -> PartnershipService:
+    return PartnershipService(session, innovations, get_email_sender(settings))
+
+
+PartnershipServiceDep = Annotated[PartnershipService, Depends(get_partnership_service)]
 
 
 def get_today() -> date:

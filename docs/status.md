@@ -9,6 +9,8 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice w `docs/jury/`, reszta po działającym demo
 - [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu: zostaje sesja NVDA i raport
 
+- [0036](tasks/0036-gielda-partnerstw.md) Giełda partnerstw: tablica ogłoszeń z moderacją ROPS, kontakt przez ROPS (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
+
 ## Do zrobienia
 
 - [0021](tasks/0021-koszt-rozmowy.md) Redukcja kosztu rozmowy (opcjonalne), dziś ok. 297 tys. tokenów (Bartłomiej)
