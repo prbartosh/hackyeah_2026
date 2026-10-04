@@ -17,6 +17,7 @@ const ComparePage = lazy(() => import('@/pages/ComparePage'))
 const DocumentPage = lazy(() => import('@/pages/DocumentPage'))
 const OpenDataPage = lazy(() => import('@/pages/OpenDataPage'))
 const PartnershipsPage = lazy(() => import('@/pages/PartnershipsPage'))
+const PytaniaPage = lazy(() => import('@/pages/PytaniaPage'))
 const ReportPage = lazy(() => import('@/pages/ReportPage'))
 const ServiceCardPage = lazy(() => import('@/pages/ServiceCardPage'))
 const ThreadPage = lazy(() => import('@/pages/ThreadPage'))
@@ -36,6 +37,7 @@ export default function App() {
         <Route path="partnerstwa" element={<PartnershipsPage />} />
         <Route path="mentorzy" element={<MentorsPage />} />
         <Route path="mentor/:mentorToken/:threadToken" element={<MentorThreadPage />} />
+        <Route path="pytania" element={<PytaniaPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
         <Route path="dostepnosc" element={<AccessibilityStatementPage />} />
         <Route path="kreator/*" element={<KreatorRoutes />} />

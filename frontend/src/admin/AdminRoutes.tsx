@@ -10,6 +10,7 @@ import MentorsPage from '@/admin/MentorsPage'
 import NotificationsPage from '@/admin/NotificationsPage'
 import OpinionsPage from '@/admin/OpinionsPage'
 import PartnershipsPage from '@/admin/PartnershipsPage'
+import QuestionsPage from '@/admin/QuestionsPage'
 import RadarPage from '@/admin/RadarPage'
 import TicketPage from '@/admin/TicketPage'
 import { NaborEditPage, NaboryPage } from '@/kreator/AdminNabory'
@@ -33,6 +34,7 @@ export default function AdminRoutes() {
         <Route path="opinie" element={<OpinionsPage />} />
         <Route path="partnerstwa" element={<PartnershipsPage />} />
         <Route path="mentorzy" element={<MentorsPage />} />
+        <Route path="pytania" element={<QuestionsPage />} />
       </Route>
       <Route path="*" element={<NotFoundPage />} />
     </Routes>

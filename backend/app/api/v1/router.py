@@ -12,6 +12,7 @@ from app.api.v1.endpoints import (
     mentors,
     otwarte_dane,
     partnerships,
+    pytania,
     tickets,
 )
 
@@ -30,3 +31,4 @@ api_router.include_router(partnerships.router, prefix="/partnerstwa", tags=["par
 api_router.include_router(mentors.router, prefix="/mentorzy", tags=["mentorzy"])
 api_router.include_router(mentors.request_router, prefix="/zgloszenia", tags=["mentorzy"])
 api_router.include_router(mentors.access_router, prefix="/mentor", tags=["mentorzy"])
+api_router.include_router(pytania.router, prefix="/pytania", tags=["pytania"])
