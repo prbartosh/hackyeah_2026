@@ -44,7 +44,7 @@ export default function CooperationPage() {
         Nie znalazłeś gotowego rozwiązania albo chcesz coś zrobić razem z innymi? Wybierz, w czym możemy pomóc. Konto nie jest potrzebne.
       </p>
 
-      <ul className="coop-tiles" aria-label="Wybierz, czego potrzebujesz">
+      <ul className="coop-tiles" data-tour="wspolpraca-kafelki" aria-label="Wybierz, czego potrzebujesz">
         {TILES.map((t) => (
           <li key={t.to}>
             {t.to.startsWith('#') ? (
@@ -56,7 +56,7 @@ export default function CooperationPage() {
         ))}
       </ul>
 
-      <section aria-labelledby="coop-jak">
+      <section aria-labelledby="coop-jak" data-tour="wspolpraca-jak">
         <h2 id="coop-jak">Jak to działa</h2>
         <ol className="coop-steps">
           <li>Piszesz: pytanie, zgłoszenie albo ogłoszenie.</li>
@@ -70,7 +70,7 @@ export default function CooperationPage() {
         <p>Adres e-mail widzi tylko ROPS. Nie pokazujemy go innym użytkownikom.</p>
       </section>
 
-      <section id="moje-sprawy" aria-labelledby="coop-sprawy" tabIndex={-1}>
+      <section id="moje-sprawy" aria-labelledby="coop-sprawy" tabIndex={-1} data-tour="wspolpraca-moje-sprawy">
         <h2 id="coop-sprawy">Moje sprawy</h2>
         <MyThreadsList title="Zgłoszenia" heading="h3" />
         <h3>Rozmowy partnerskie</h3>

@@ -24,7 +24,7 @@ export default function MentorRequestButton({ token }: { token: string }) {
   return (
     <div>
       {!done && (
-        <button type="button" className="btn btn-secondary" disabled={busy} onClick={request}>
+        <button type="button" data-tour="wspolpraca-mentor" className="btn btn-secondary" disabled={busy} onClick={request}>
           {busy ? 'Wysyłanie…' : 'Poproś mentora'}
         </button>
       )}
