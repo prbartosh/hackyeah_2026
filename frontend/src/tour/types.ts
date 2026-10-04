@@ -73,4 +73,7 @@ export interface TourChapter {
   /** Rozdział osobny (np. 2-minutowy przewodnik dla sędziego): poza spisem i pełnym przejściem, uruchamiany własnym przyciskiem
    * lub `?przewodnik=<id>`. Po ostatnim kroku otwiera się spis rozdziałów pełnego przewodnika. */
   standalone?: boolean
+  /** Bez pomijania: krok z `advanceOn` przechodzi dalej tylko po wykonaniu (ręcznie albo „Zrób to za mnie”),
+   * bez „Wstecz”, „Pomiń krok”, spisu i minimalizacji, żeby nie dało się zgubić ani rozjechać stanu. */
+  strict?: boolean
 }
