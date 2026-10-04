@@ -1,6 +1,7 @@
+from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import Notification, Opinia
+from app.models import Notification, Opinia, Ticket
 from app.repositories.innovation import InnovationRepository
 from app.repositories.opinion import OpiniaRepository
 from app.schemas.opinion import (
@@ -11,6 +12,8 @@ from app.schemas.opinion import (
     OpinieAdminList,
     OpinieSummary,
     Poziom,
+    TesterQuestion,
+    TesterQuestionCreated,
 )
 from app.schemas.ticket import TicketCreate
 from app.services.errors import KreatorError
@@ -81,6 +84,7 @@ class OpinionService:
             liczba_testow=tests,
             poziom=evidence_level(ratings, tests),
             opinie=[OpiniaPublic.model_validate(o, from_attributes=True) for o in rows],
+            mozna_zapytac=any(o.rodzaj == "test" and o.token_watku for o in rows),
         )
 
     def _ticket_text(self, nazwa: str, slug: str, data: OpiniaCreate) -> str:
@@ -121,6 +125,42 @@ class OpinionService:
             self.session.add(Notification(tekst=f"Nowa ocena do zatwierdzenia: {nazwa}"[:500]))
         await self.session.commit()
         return OpiniaCreated(status="nowa", token_watku=opinia.token_watku)
+
+    async def ask(self, slug: str, data: TesterQuestion) -> TesterQuestionCreated:
+        """Pytanie do instytucji testujących trafia do skrzynki ROPS; kontakty zostają ukryte."""
+        nazwa = self._nazwa(slug)
+        if not await self.repo.testers(slug):
+            raise KreatorError("Nikt jeszcze nie testuje tego rozwiązania.")
+        lines = [
+            f"[Pytanie do instytucji testującej] {nazwa}",
+            f"Innowacja: {slug}",
+            f"Pyta: {(data.instytucja or '').strip() or 'nie podano'}",
+            "",
+            data.tresc.strip(),
+        ]
+        ticket = await self.tickets.create(
+            TicketCreate(tresc="\n".join(lines)[:TICKET_LIMIT], autor_email=data.autor_email),
+            innowacja_slug=slug,
+        )
+        return TesterQuestionCreated(token_watku=ticket.token_watku)
+
+    async def forward(self, ticket: Ticket, opinia_id: int, text: str) -> None:
+        """ROPS przekazuje pytanie do wątku instytucji testującej, bez ujawniania danych."""
+        testers = await self.repo.testers(ticket.innowacja_slug or "")
+        opinia = next((o for o in testers if o.id == opinia_id), None)
+        if opinia is None:
+            raise KreatorError("Ta instytucja nie testuje rozwiązania z tego pytania.", 422)
+        tester_ticket = await self.session.scalar(
+            select(Ticket).where(Ticket.token_watku == opinia.token_watku)
+        )
+        if tester_ticket is None:
+            raise KreatorError("Nie znaleziono wątku instytucji testującej.", 404)
+        await self.tickets.post_admin_message(
+            tester_ticket, text.strip(), "ROPS przekazuje pytanie o testowane rozwiązanie"
+        )
+        if ticket.status == "nowe":
+            ticket.status = "w_trakcie"
+            await self.session.commit()
 
     def _admin(self, opinia: Opinia) -> OpiniaAdmin:
         innovation = self.innovations.get(opinia.slug)

@@ -17,6 +17,8 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 
 - [0042](tasks/0042-rozmowy-partnerskie.md) Rozmowa partnerska przez ROPS: dwustronna korespondencja w Giełdzie partnerstw bez ujawniania e-maili (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
 
+- [0044](tasks/0044-zapytaj-testujacych.md) Zapytaj instytucję, która to testuje: pytanie przez ROPS do wątku instytucji testującej (Wiktor)
+
 ## Do zrobienia
 
 - [0021](tasks/0021-koszt-rozmowy.md) Redukcja kosztu rozmowy (opcjonalne), dziś ok. 297 tys. tokenów (Bartłomiej)

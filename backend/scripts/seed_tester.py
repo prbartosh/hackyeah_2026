@@ -7,11 +7,12 @@ Skrypt jest idempotentny.
 """
 
 import asyncio
+import secrets
 
 from sqlalchemy import select
 
 from app.db.session import SessionLocal
-from app.models import Opinia
+from app.models import Opinia, ThreadMessage, Ticket
 
 # (slug, rodzaj, ocena, instytucja, tresc, usprawnienie, status)
 OPINIE: list[tuple[str, str, int | None, str, str, str | None, str]] = [
@@ -72,26 +73,49 @@ OPINIE: list[tuple[str, str, int | None, str, str, str | None, str]] = [
 ]
 
 
+async def add_threads(session) -> int:
+    """Zgłoszenia do testów dostają wątek, żeby ROPS mógł przekazać im pytanie (zadanie 0044)."""
+    rows = await session.scalars(
+        select(Opinia).where(
+            Opinia.syntetyczna.is_(True), Opinia.rodzaj == "test", Opinia.token_watku.is_(None)
+        )
+    )
+    added = 0
+    for opinia in rows:
+        token = secrets.token_urlsafe(24)
+        tresc = f"[Zgłoszenie do testów] {opinia.slug}\nInstytucja: {opinia.instytucja}\n\n"
+        session.add(
+            Ticket(tresc=tresc + opinia.tresc, syntetyczne=True, token_watku=token, status="nowe")
+        )
+        session.add(ThreadMessage(token_watku=token, autor_rola="uzytkownik", tresc=opinia.tresc))
+        opinia.token_watku = token
+        added += 1
+    return added
+
+
 async def main() -> None:
     async with SessionLocal() as session:
         if await session.scalar(select(Opinia.id).where(Opinia.syntetyczna.is_(True))):
-            print("Dane demo Testera już istnieją, nic nie robię.")
-            return
-        for slug, rodzaj, ocena, instytucja, tresc, usprawnienie, status in OPINIE:
-            session.add(
-                Opinia(
-                    slug=slug,
-                    rodzaj=rodzaj,
-                    ocena=ocena,
-                    instytucja=instytucja,
-                    tresc=tresc,
-                    usprawnienie=usprawnienie,
-                    status=status,
-                    syntetyczna=True,
+            print("Opinie demo Testera już istnieją.")
+        else:
+            for slug, rodzaj, ocena, instytucja, tresc, usprawnienie, status in OPINIE:
+                session.add(
+                    Opinia(
+                        slug=slug,
+                        rodzaj=rodzaj,
+                        ocena=ocena,
+                        instytucja=instytucja,
+                        tresc=tresc,
+                        usprawnienie=usprawnienie,
+                        status=status,
+                        syntetyczna=True,
+                    )
                 )
-            )
+            await session.flush()
+            print(f"Dodano {len(OPINIE)} opinii demo.")
+        threads = await add_threads(session)
         await session.commit()
-        print(f"Dodano {len(OPINIE)} opinii demo.")
+        print(f"Dodano {threads} wątków zgłoszeń do testów.")
 
 
 if __name__ == "__main__":

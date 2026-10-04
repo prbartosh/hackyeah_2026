@@ -10,7 +10,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import Settings
 from app.models import InnovationCard, Notification, ThreadMessage, Ticket
-from app.schemas.ticket import SlaInfo, TicketCreate
+from app.repositories.opinion import OpiniaRepository
+from app.schemas.ticket import SlaInfo, TesterContact, TicketCreate
 from app.services.ai import AIGateway, AIUnavailableError
 from app.services.app_settings import PanelSettings, load_settings
 from app.services.cards import CardService, category_names
@@ -94,7 +95,9 @@ class TicketService:
     async def panel_settings(self) -> PanelSettings:
         return await load_settings(self.session, self.settings)
 
-    async def create(self, data: TicketCreate, *, synthetic: bool = False) -> Ticket:
+    async def create(
+        self, data: TicketCreate, *, synthetic: bool = False, innowacja_slug: str | None = None
+    ) -> Ticket:
         ticket = Ticket(
             tresc=data.tresc.strip(),
             autor_nazwa=data.autor_nazwa,
@@ -102,6 +105,7 @@ class TicketService:
             syntetyczne=synthetic,
             token_watku=secrets.token_urlsafe(24),
             status="nowe",
+            innowacja_slug=innowacja_slug,
         )
         self.session.add(ticket)
         await self.session.flush()
@@ -156,6 +160,25 @@ class TicketService:
                 f"Nowa wiadomość w zgłoszeniu #{ticket.id}",
                 f"{message.tresc[:300]}\n\n"
                 f"{self.settings.public_base_url}/admin/zgloszenia/{ticket.id}",
+            )
+        return message
+
+    async def testers(self, ticket: Ticket) -> list[TesterContact]:
+        """Instytucje testujące innowację z pytania; panel pokazuje je bez danych kontaktowych."""
+        if not ticket.innowacja_slug:
+            return []
+        rows = await OpiniaRepository(self.session).testers(ticket.innowacja_slug)
+        return [TesterContact(opinia_id=o.id, instytucja=o.instytucja, tresc=o.tresc) for o in rows]
+
+    async def post_admin_message(self, ticket: Ticket, text: str, subject: str) -> ThreadMessage:
+        """Wiadomość ROPS w wątku zgłoszenia (np. przekazane pytanie), e-mail do autora."""
+        message = ThreadMessage(token_watku=ticket.token_watku, autor_rola="admin", tresc=text)
+        self.session.add(message)
+        await self.session.commit()
+        if ticket.autor_email:
+            link = f"{self.settings.public_base_url}/watek/{ticket.token_watku}"
+            await self.email.send(
+                ticket.autor_email, subject, f"{message.tresc}\n\nCała rozmowa: {link}"
             )
         return message
 

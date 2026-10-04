@@ -24,6 +24,7 @@
 .opinion-who { font-weight: 700; }
 
 .tester-actions { margin-top: 0.75rem; }
+.tester-ask { margin-top: 0.75rem; }
 .opinion-form {
   display: grid; gap: 0.35rem; margin-top: 1rem; padding: 1rem 1.25rem; max-width: 44rem;
   border: 2px solid var(--primary); border-radius: var(--radius-md); background: var(--surface-float);
