@@ -24,7 +24,7 @@ function ResultCard({ item, first }: { item: ResultItem; first: boolean }) {
   // data-tour tylko na pierwszej karcie: przewodnik pokazuje jedną, typową kartę
   const tour = (name: string) => (first ? name : undefined)
   return (
-    <li className={`result-card${isMain ? ' is-main' : ''}`} data-tour={tour('czat-wynik')}>
+    <li className={`result-card${isMain ? ' is-main' : ''}`} data-tour={tour('czat-wynik czat-tura')}>
       <p className="result-kinds">
         <span className="result-kind">{isMain ? 'Najlepsze dopasowanie' : 'Uzupełniające'}</span>
         {item.wybrana_do_upowszechniania && <span className="result-kind result-kind-rops">Polecana przez ROPS</span>}

@@ -19,6 +19,8 @@ export interface BubbleProps {
   phone: boolean
   acting: boolean
   actionError: string
+  /** Rozdział bez pomijania: to, na co czeka krok (advanceOn appear), już jest na stronie. */
+  advanceDone?: boolean
   onNext(): void
   onBack(): void
   onRetry(): void
@@ -113,8 +115,10 @@ export default function Bubble(props: BubbleProps) {
   const isLast = index === total - 1
   const hasAdvance = !!step.advanceOn
   const strict = !!chapter.strict
-  // Tryb bez pomijania: „Dalej” tylko w gotowym kroku do przeczytania, nigdy „Pomiń krok”.
-  const showNext = !strict || (phase.kind === 'ready' && !hasAdvance)
+  // Tryb bez pomijania: „Dalej” w kroku do przeczytania, gdy to, na co czekał krok, już się stało,
+  // albo gdy elementu nie ma (żeby nie było martwego punktu). Nigdy „Pomiń krok”.
+  const strictNext = (phase.kind === 'ready' && (!hasAdvance || !!props.advanceDone)) || phase.kind === 'missing' || phase.kind === 'error'
+  const showNext = !strict || strictNext
 
   // Fokus na tytule przy zmianie kroku, ale nigdy z pola tekstowego strony (np. po wpisaniu przez „Zrób to za mnie”).
   useEffect(() => {
@@ -214,9 +218,9 @@ export default function Bubble(props: BubbleProps) {
             className={`btn tour-btn tour-btn--next ${phase.kind === 'ready' && !hasAdvance ? 'btn-primary' : isLast && phase.kind === 'ready' ? 'btn-primary' : phase.kind === 'missing' || phase.kind === 'error' ? 'btn-primary' : 'btn-ghost'}`}
             onClick={props.onNext}
           >
-            {phase.kind === 'ready'
-              ? isLast ? <><Check size={18} aria-hidden="true" /> Zakończ rozdział</> : hasAdvance ? 'Pomiń krok' : <>Dalej <ArrowRight size={18} aria-hidden="true" /></>
-              : 'Pomiń krok'}
+            {phase.kind === 'ready' && isLast
+              ? <><Check size={18} aria-hidden="true" /> Zakończ rozdział</>
+              : strict || (phase.kind === 'ready' && !hasAdvance) ? <>Dalej <ArrowRight size={18} aria-hidden="true" /></> : 'Pomiń krok'}
           </button>
         )}
       </div>

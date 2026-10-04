@@ -65,6 +65,18 @@ export async function call<T>(path: string, init: RequestInit = {}, auth = true)
   return response.status === 204 ? (undefined as T) : response.json()
 }
 
+/** Stack demo (DEMO_TOUR_ENABLED): token panelu bez logowania. false, gdy wyłączone (404) albo błąd. */
+export async function demoLogin(): Promise<boolean> {
+  try {
+    const { token } = await call<{ token: string }>('/demo/admin-session', { method: 'POST' }, false)
+    if (!token) return false
+    setToken(token)
+    return true
+  } catch {
+    return false
+  }
+}
+
 const json = (method: string, body: unknown): RequestInit => ({ method, body: JSON.stringify(body) })
 
 function query(params: Record<string, string | number | undefined>): string {

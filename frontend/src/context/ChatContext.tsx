@@ -1,5 +1,6 @@
-import { createContext, useCallback, useContext, useMemo, useReducer, useRef, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer, useRef, type ReactNode } from 'react'
 import { ChatError, streamChat } from '@/api/chat'
+import { CHAT_RESET_EVENT } from '@/lib/chatEvents'
 import {
   ACTION_HISTORY_TEXT,
   MAX_HISTORY_CHARS,
@@ -308,6 +309,16 @@ export function ChatProvider({ children }: { children: ReactNode }) {
     },
     [dispatch, stream],
   )
+
+  // Przewodnik (np. dla sędziego) zaczyna od czystej rozmowy, także gdy czat nie jest na ekranie.
+  useEffect(() => {
+    const onReset = () => {
+      abortRef.current?.abort()
+      dispatch({ type: 'reset' })
+    }
+    window.addEventListener(CHAT_RESET_EVENT, onReset)
+    return () => window.removeEventListener(CHAT_RESET_EVENT, onReset)
+  }, [dispatch])
 
   const value = useMemo<ChatContextValue>(
     () => ({
