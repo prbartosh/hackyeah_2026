@@ -83,7 +83,7 @@ export default function PartnershipConversations() {
   const { data, error, loading, reload } = useLoad(() => partnerships.adminConversations(offset), [offset])
 
   return (
-    <section aria-labelledby="rozmowy-title">
+    <section aria-labelledby="rozmowy-title" data-tour="panel-rozmowy">
       <h2 id="rozmowy-title">Rozmowy partnerskie</h2>
       <p className="lead">
         Korespondencja stron przez ROPS. Strony nie widzą swoich adresów e-mail. Zamknij rozmowę, gdy ktoś nadużywa

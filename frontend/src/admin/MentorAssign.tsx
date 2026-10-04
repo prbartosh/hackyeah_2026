@@ -37,7 +37,7 @@ export default function MentorAssign({ ticketId, kategoria, onChange }: {
   const current = state.data?.mentor
 
   return (
-    <section aria-labelledby="mentor-h" className="panel">
+    <section aria-labelledby="mentor-h" className="panel" data-tour="panel-mentor">
       <h2 id="mentor-h">Mentor</h2>
       {state.loading && !state.data && <Loading />}
       {state.error && <ErrorBox message={state.error} onRetry={state.reload} />}
@@ -54,7 +54,7 @@ export default function MentorAssign({ ticketId, kategoria, onChange }: {
         <>
           <div className="field">
             <label htmlFor="mentor-choice">{current ? 'Zmień mentora' : 'Wybierz mentora'}</label>
-            <select id="mentor-choice" className="select" value={choice} onChange={(e) => setChoice(e.target.value)}>
+            <select id="mentor-choice" data-tour="panel-mentor-wybor" className="select" value={choice} onChange={(e) => setChoice(e.target.value)}>
               <option value="">—</option>
               {matching.length > 0 && (
                 <optgroup label="Pasują do obszaru zgłoszenia">
@@ -70,7 +70,7 @@ export default function MentorAssign({ ticketId, kategoria, onChange }: {
             <p className="hint">Mentor dostanie e-mail z linkiem do rozmowy, a w wątku pojawi się informacja o jego dołączeniu.</p>
           </div>
           <div className="btn-row">
-            <button type="button" className="btn btn-primary" disabled={busy || !choice} onClick={() => assign(Number(choice))}>
+            <button type="button" data-tour="panel-mentor-przydziel" className="btn btn-primary" disabled={busy || !choice} onClick={() => assign(Number(choice))}>
               Przydziel mentora
             </button>
             <Link className="btn btn-ghost" to="/admin/mentorzy">Zarządzaj mentorami</Link>

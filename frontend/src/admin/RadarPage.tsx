@@ -122,10 +122,10 @@ export default function RadarPage() {
             Bez dopasowania w bazie: <strong>{data.bez_dopasowania}</strong>.
             {data.nieprzeanalizowane > 0 && <> Zgłoszeń jeszcze nieprzeanalizowanych: {data.nieprzeanalizowane} (otwórz je w skrzynce, żeby wliczyły się do radaru).</>}
           </p>
-          <h2>Grupy potrzeb</h2>
+          <h2 data-tour="panel-radar-tytul">Grupy potrzeb</h2>
           {data.klastry.length === 0
             ? <Empty>Brak zgłoszeń bez dopasowania. Wszystkie dotychczasowe potrzeby mają swoje karty w bazie.</Empty>
-            : <ul className="cluster-list">{data.klastry.map((c) => <ClusterCard key={c.klucz} cluster={c} onNote={notes.reload} />)}</ul>}
+            : <ul className="cluster-list" data-tour="panel-radar-grupy">{data.klastry.map((c) => <ClusterCard key={c.klucz} cluster={c} onNote={notes.reload} />)}</ul>}
         </>
       )}
 

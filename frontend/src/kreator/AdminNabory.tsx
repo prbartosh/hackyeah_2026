@@ -23,7 +23,7 @@ export function NaboryPage() {
     <>
       <h1>Nabory grantowe</h1>
       <p className="lead">Generator wniosków jest widoczny dla użytkowników tylko w czasie trwania naboru (według dat poniżej).</p>
-      <div className="btn-row"><Link className="btn btn-primary" to="/admin/nabory/nowy">Dodaj nabór</Link></div>
+      <div className="btn-row"><Link className="btn btn-primary" data-tour="panel-nabory-dodaj" to="/admin/nabory/nowy">Dodaj nabór</Link></div>
       {loading && !data && <Loading />}
       {error && <ErrorBox message={error} onRetry={reload} />}
       {data && data.items.length === 0 && <p className="empty-state">Nie ma jeszcze żadnego naboru.</p>}

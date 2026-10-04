@@ -66,7 +66,7 @@ export default function CardsPage() {
       {loading && !data && <Loading text="Wczytywanie kart…" />}
       {data && data.items.length === 0 && <Empty>Brak kart dla tych filtrów.</Empty>}
       {data && data.items.length > 0 && (
-        <div className="table-wrap" tabIndex={0} role="region" aria-label="Tabela kart">
+        <div className="table-wrap" data-tour="panel-karty-tabela" tabIndex={0} role="region" aria-label="Tabela kart">
           <table className="admin-table">
             <caption className="visually-hidden">Karty innowacji, {data.total} łącznie</caption>
             <thead>

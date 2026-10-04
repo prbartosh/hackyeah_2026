@@ -118,7 +118,7 @@ export default function MentorsAdminPage() {
         Lista mentorów dostępnych do przydziału. Mentora do zgłoszenia przypisujesz na stronie zgłoszenia.
       </p>
       <div className="btn-row">
-        <button type="button" className="btn btn-primary" onClick={() => { setEditing('new'); setDone('') }}>Dodaj mentora</button>
+        <button type="button" data-tour="panel-mentorzy-dodaj" className="btn btn-primary" onClick={() => { setEditing('new'); setDone('') }}>Dodaj mentora</button>
       </div>
       <p role="status" className="hint">{done}</p>
       {editing && (
