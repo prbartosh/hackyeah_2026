@@ -7,6 +7,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Any
 
+from app.repositories.document_search import SearchHit, build_index, search
 from app.repositories.innovation_search import matches_query, normalize, tokens
 from app.schemas.document import Document, DocumentDetail, DocumentType
 
@@ -90,9 +91,19 @@ def _load(assets: Path) -> dict[str, tuple[Document, Path | None]]:
     return {document.id: (document, text) for document, text in entries}
 
 
+@lru_cache
+def _index(assets: Path):
+    return build_index(list(_load(assets).values()))
+
+
 class DocumentRepository:
     def __init__(self, assets: Path) -> None:
+        self._assets = assets
         self._by_id = _load(assets)
+
+    def search(self, q: str, limit: int) -> list[SearchHit]:
+        """Treść dokumentów, nie tylko tytuł i opis; indeks powstaje przy pierwszym wywołaniu."""
+        return search(_index(self._assets), q, limit)
 
     def list(
         self, typ: DocumentType | None = None, rok: int | None = None, q: str | None = None

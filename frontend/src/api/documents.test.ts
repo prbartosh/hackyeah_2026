@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { splitPages } from './documents'
+import { podswietl, splitPages } from './documents'
 
 describe('splitPages', () => {
   it('dzieli treść po znacznikach stron i pomija puste', () => {
@@ -14,5 +14,22 @@ describe('splitPages', () => {
     expect(splitPages('Opis wskaźnika\n| powiat | 2024 |')).toEqual([
       { strona: 0, tekst: 'Opis wskaźnika\n| powiat | 2024 |' },
     ])
+  })
+})
+
+describe('podswietl', () => {
+  it('dzieli fragment na części ze znacznikiem trafienia', () => {
+    expect(podswietl('…Pomoc społeczna w gminie', [[1, 6], [7, 16]])).toEqual([
+      { tekst: '…', trafienie: false },
+      { tekst: 'Pomoc', trafienie: true },
+      { tekst: ' ', trafienie: false },
+      { tekst: 'społeczna', trafienie: true },
+      { tekst: ' w gminie', trafienie: false },
+    ])
+  })
+
+  it('pomija trafienia poza tekstem i bez trafień zwraca całość', () => {
+    expect(podswietl('abc', [[2, 9]])).toEqual([{ tekst: 'abc', trafienie: false }])
+    expect(podswietl('abc', [])).toEqual([{ tekst: 'abc', trafienie: false }])
   })
 })
