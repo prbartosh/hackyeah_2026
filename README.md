@@ -65,7 +65,9 @@ docker compose up --build
 - API docs: http://localhost:8000/docs
 - PostgreSQL: localhost:5432
 
-Migracje uruchamiają się przy starcie backendu. Backend: kod jako volume, hot reload. Frontend: statyczny build, po zmianach `docker compose up --build frontend`.
+Migracje uruchamiają się przy starcie backendu. Przy `DEMO_DATA=true` (domyślnie w `.env.example`) do pustej bazy wczytują się też przykładowe dane demo z `backend/scripts/demo-data.json`: zgłoszenia, powiadomienia, mentorzy, giełda partnerstw, importy dokumentów, notatki radaru, nabory i oceny, więc po `git clone` panel jest od razu wypełniony (token panelu: `ADMIN_TOKEN` z `.env`). Daty są przesuwane do „teraz”. Świeża baza: `docker compose down -v`. Odświeżenie fixture po zmianie danych: `docker compose exec backend python scripts/demo_data.py export`.
+
+ Backend: kod jako volume, hot reload. Frontend: statyczny build, po zmianach `docker compose up --build frontend`.
 
 Frontend z HMR (backend w Dockerze):
 

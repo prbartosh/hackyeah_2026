@@ -1,0 +1,2718 @@
+{
+ "wyeksportowano": "2026-10-04T01:49:24.998166+00:00",
+ "tabele": {
+  "mentorzy": [
+   {
+    "id": 1,
+    "nazwa": "Mentorka przykładowa A",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "sektor": "ngo",
+    "obszary": [
+     "dla-seniorow",
+     "dla-zdrowia-i-medycyny"
+    ],
+    "powiat": "m. Kraków",
+    "opis": "Przykładowy mentor demo. Wspiera pilotaże rozwiązań dla seniorów i opiekunów.",
+    "email": "mentor-demo@example.test",
+    "aktywny": true,
+    "token_mentora": "gy8_P_a4X8vjJ_XB3XKAqQ3pdxUQHgPy",
+    "syntetyczny": true,
+    "created_at": "2026-10-04T01:36:11.682178+00:00",
+    "updated_at": "2026-10-04T01:36:11.682178+00:00"
+   },
+   {
+    "id": 2,
+    "nazwa": "Mentor przykładowy B",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "sektor": "publiczny",
+    "obszary": [
+     "dla-rynku-pracy"
+    ],
+    "powiat": "tarnowski",
+    "opis": "Przykładowy mentor demo. Doradza przy aktywizacji zawodowej w małych gminach.",
+    "email": "mentor-demo@example.test",
+    "aktywny": true,
+    "token_mentora": "80tH2Nt9ybyFnYdA562tvrTC0whzw9rn",
+    "syntetyczny": true,
+    "created_at": "2026-10-04T01:36:11.682178+00:00",
+    "updated_at": "2026-10-04T01:36:11.682178+00:00"
+   },
+   {
+    "id": 3,
+    "nazwa": "Mentorka przykładowa C",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "sektor": "nauka",
+    "obszary": [
+     "dla-osob-z-niepelnosprawnoscia-sensoryczna",
+     "dla-osob-o-ograniczonej-mobilnosci"
+    ],
+    "powiat": "m. Kraków",
+    "opis": "Przykładowy mentor demo. Pomaga w badaniu potrzeb i testach z użytkownikami.",
+    "email": "mentor-demo@example.test",
+    "aktywny": true,
+    "token_mentora": "GnT2CMIZd2KbnFfNOkIuZTGAYcsTCKAj",
+    "syntetyczny": true,
+    "created_at": "2026-10-04T01:36:11.682178+00:00",
+    "updated_at": "2026-10-04T01:36:11.682178+00:00"
+   },
+   {
+    "id": 4,
+    "nazwa": "Mentor przykładowy D",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "sektor": "biznes",
+    "obszary": [
+     "dla-osob-w-kryzysie-bezdomnosci"
+    ],
+    "powiat": "nowosądecki",
+    "opis": "Przykładowy mentor demo. Łączy organizacje z lokalnym biznesem i finansowaniem.",
+    "email": "mentor-demo@example.test",
+    "aktywny": true,
+    "token_mentora": "hAGm9vXUko7Faz-PtD15no9Z1VzTWwgE",
+    "syntetyczny": true,
+    "created_at": "2026-10-04T01:36:11.682178+00:00",
+    "updated_at": "2026-10-04T01:36:11.682178+00:00"
+   },
+   {
+    "id": 5,
+    "nazwa": "Mentorka przykładowa E",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "sektor": "ngo",
+    "obszary": [
+     "dla-dzieci-mlodziezy-i-rodziny",
+     "dla-cudzoziemcow"
+    ],
+    "powiat": "m. Nowy Sącz",
+    "opis": "Przykładowy mentor demo. Doświadczenie w pracy z rodzinami i cudzoziemcami.",
+    "email": "mentor-demo@example.test",
+    "aktywny": true,
+    "token_mentora": "YVX4sFoTzlTGgSZkwn4dUXyt1JT9rT8e",
+    "syntetyczny": true,
+    "created_at": "2026-10-04T01:36:11.682178+00:00",
+    "updated_at": "2026-10-04T01:36:11.682178+00:00"
+   }
+  ],
+  "zgloszenia": [
+   {
+    "id": 1,
+    "tresc": "Mama ma początki demencji i po dziesięć razy dziennie dzwoni z pytaniem, czy brała leki.",
+    "autor_nazwa": "Użytkownik demo 1",
+    "autor_email": "demo1@example.test",
+    "syntetyczne": true,
+    "token_watku": "mKQIhdG8iWDZJv4hKCAlQBmvqjkdGvOl",
+    "status": "w_trakcie",
+    "odpowiedziano": null,
+    "kategoria": "dla-dzieci-mlodziezy-i-rodziny",
+    "pilnosc": "srednia",
+    "pilnosc_uzasadnienie": null,
+    "duplikaty": [
+     {
+      "id": 2,
+      "score": 0.5966,
+      "tresc": "Mama ma demencję, ciągle dzwoni i pyta czy brała leki i gdzie są klucze. Szukam pomocy.",
+      "status": "nowe"
+     }
+    ],
+    "proponowane_karty": [
+     {
+      "slug": "zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+      "nazwa": "Zakupy na jednym wózku z dzieckiem z niepełnosprawnością ruchową",
+      "score": 0.3931,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+      "uzyta": true
+     },
+     {
+      "slug": "puzzle-3d",
+      "nazwa": "Puzzle 3D",
+      "score": 0.3864,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,puzzle-3d",
+      "uzyta": true
+     },
+     {
+      "slug": "bez-stresu-do-sukcesu-terapia-neurologiczna-przyjazna-dziecku",
+      "nazwa": "Bez stresu do sukcesu - terapia neurologiczna przyjazna dziecku",
+      "score": 0.3558,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,bez-stresu-do-sukcesu-terapia-neurologiczna-przyjazna-dziecku",
+      "uzyta": true
+     },
+     {
+      "slug": "autyzm-i-ja",
+      "nazwa": "AuTyzm i ja",
+      "score": 0.3382,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,autyzm-i-ja",
+      "uzyta": false
+     },
+     {
+      "slug": "piosenki-uczestniczace",
+      "nazwa": "Piosenki uczestniczące",
+      "score": 0.3232,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,piosenki-uczestniczace",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry,\n\ndziękujemy za zgłoszenie. W bazie innowacji ROPS znaleźliśmy rozwiązania, które mogą pomóc w opisanej sprawie. Zachęcamy do zapoznania się z nimi:\n\nŹródła (baza innowacji ROPS):\n- Zakupy na jednym wózku z dzieckiem z niepełnosprawnością ruchową: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa\n- Puzzle 3D: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,puzzle-3d\n- Bez stresu do sukcesu - terapia neurologiczna przyjazna dziecku: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,bez-stresu-do-sukcesu-terapia-neurologiczna-przyjazna-dziecku\n\nPozdrawiamy, zespół ROPS",
+    "triaz_zrodlo": "reguly",
+    "triaz_komunikat": "Podpowiedź AI nie powiodła się (Model nie odpowiedział na czas). Pokazano propozycje oparte na regułach.",
+    "najlepsze_dopasowanie": 0.3931,
+    "tagi": {},
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-10-01T00:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 2,
+    "tresc": "Mama ma demencję, ciągle dzwoni i pyta czy brała leki i gdzie są klucze. Szukam pomocy.",
+    "autor_nazwa": "Użytkownik demo 2",
+    "autor_email": "demo2@example.test",
+    "syntetyczne": true,
+    "token_watku": "rQg9HGC_5exDHiLDWqdTAt-ThEUhM-n3",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-dzieci-mlodziezy-i-rodziny",
+    "pilnosc": "srednia",
+    "pilnosc_uzasadnienie": null,
+    "duplikaty": [
+     {
+      "id": 1,
+      "score": 0.5966,
+      "tresc": "Mama ma początki demencji i po dziesięć razy dziennie dzwoni z pytaniem, czy brała leki.",
+      "status": "nowe"
+     }
+    ],
+    "proponowane_karty": [
+     {
+      "slug": "puzzle-3d",
+      "nazwa": "Puzzle 3D",
+      "score": 0.2963,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,puzzle-3d",
+      "uzyta": false
+     },
+     {
+      "slug": "bez-presji-z-depresji",
+      "nazwa": "Bez presji z depresji",
+      "score": 0.2857,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,bez-presji-z-depresji",
+      "uzyta": false
+     },
+     {
+      "slug": "moj-pomocny-virtual-world",
+      "nazwa": "Mój pomocny Virtual World",
+      "score": 0.2775,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,moj-pomocny-virtual-world",
+      "uzyta": false
+     },
+     {
+      "slug": "zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+      "nazwa": "Zakupy na jednym wózku z dzieckiem z niepełnosprawnością ruchową",
+      "score": 0.266,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+      "uzyta": false
+     },
+     {
+      "slug": "zeglowanie-w-wyobrazni-czyli-sposob-na-strachy-na-wodzie",
+      "nazwa": "Żeglowanie w wyobraźni - czyli sposób na strachy na wodzie",
+      "score": 0.2652,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,zeglowanie-w-wyobrazni-czyli-sposob-na-strachy-na-wodzie",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry,\n\ndziękujemy za zgłoszenie. W bazie innowacji ROPS nie ma jeszcze rozwiązania, które dobrze pasuje do opisanej sprawy. Zespół przyjrzy się zgłoszeniu i wróci do Państwa z odpowiedzią.\n\nPozdrawiamy, zespół ROPS",
+    "triaz_zrodlo": "reguly",
+    "triaz_komunikat": "Podpowiedź AI nie powiodła się (Model nie odpowiedział na czas). Pokazano propozycje oparte na regułach.",
+    "najlepsze_dopasowanie": 0.2963,
+    "tagi": {},
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-10-01T23:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:38:28.737124+00:00"
+   },
+   {
+    "id": 3,
+    "tresc": "Głuchy student musi złożyć wniosek o tłumacza PJM, formularz jest zbyt trudny.",
+    "autor_nazwa": "Użytkownik demo 3",
+    "autor_email": "demo3@example.test",
+    "syntetyczne": true,
+    "token_watku": "vn-3Obb0QLM7hBsQ341AgwtVaLSzWwGZ",
+    "status": "odpowiedziane",
+    "odpowiedziano": "2026-09-25T18:36:11.741121+00:00",
+    "kategoria": "dla-osob-z-niepelnosprawnoscia-sensoryczna",
+    "pilnosc": "srednia",
+    "pilnosc_uzasadnienie": "Zgłoszenie dotyczy utrudnionego dostępu do zrozumiałego formularza i tłumaczenia PJM, co może blokować załatwienie sprawy, ale nie wskazuje bezpośredniego zagrożenia zdrowia, bezpieczeństwa ani utraty środków do życia.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "dostepny-wniosek-dla-ggluchych",
+      "nazwa": "Dostępny wniosek dla g/Głuchych",
+      "score": 1.0,
+      "powody": [
+       "Osoby głuche i niedosłyszące",
+       "Wzór dokumentu"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,dostepny-wniosek-dla-ggluchych",
+      "uzyta": true
+     },
+     {
+      "slug": "wielodziedzinowy-slownik-terminow-specjalistycznych-pl-pjm",
+      "nazwa": "Wielodziedzinowy słownik terminów specjalistycznych PL-PJM",
+      "score": 0.6667,
+      "powody": [
+       "Osoby głuche i niedosłyszące"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,wielodziedzinowy-slownik-terminow-specjalistycznych-pl-pjm",
+      "uzyta": false
+     },
+     {
+      "slug": "glucha-ankieta",
+      "nazwa": "Głucha ankieta",
+      "score": 0.6667,
+      "powody": [
+       "Osoby głuche i niedosłyszące"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,glucha-ankieta",
+      "uzyta": false
+     },
+     {
+      "slug": "straznik",
+      "nazwa": "Strażnik",
+      "score": 0.6667,
+      "powody": [
+       "Osoby głuche i niedosłyszące"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,straznik",
+      "uzyta": false
+     },
+     {
+      "slug": "wibraap",
+      "nazwa": "Wibraap",
+      "score": 0.6667,
+      "powody": [
+       "Osoby głuche i niedosłyszące"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,wibraap",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry, zgłoszenie dotyczy trudnego formularza wniosku o tłumacza PJM dla osoby głuchej. W bazie ROPS znajduje się karta „Dostępny wniosek dla g/Głuchych”, która odnosi się do zrozumiałych dokumentów dla osób g/Głuchych w sprawach urzędowych, w tym w celu zapewnienia tłumacza PJM. Zachęcamy do zapoznania się z tą kartą. Pozdrawiamy, zespół ROPS\n\nŹródła (baza innowacji ROPS):\n- Dostępny wniosek dla g/Głuchych: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,dostepny-wniosek-dla-ggluchych",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 1.0,
+    "tagi": {
+     "problemy": [
+      "bariery-komunikacyjne",
+      "sprawy-urzedowe"
+     ],
+     "grupy_docelowe": [
+      "osoby-gluche"
+     ],
+     "miejsca": [
+      "urzad"
+     ],
+     "typy_rozwiazan": [
+      "wzor-dokumentu"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-24T22:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:46:30.818472+00:00"
+   },
+   {
+    "id": 4,
+    "tresc": "Nie mogę zrobić zakupów z synem na wózku, nie ma jak posadzić go w koszyku sklepowym.",
+    "autor_nazwa": "Użytkownik demo 4",
+    "autor_email": "demo4@example.test",
+    "syntetyczne": true,
+    "token_watku": "1Q1gPPYF2unLz8B5Z6l7daQo8dTPqjTz",
+    "status": "odpowiedziane",
+    "odpowiedziano": "2026-10-02T01:48:04.148051+00:00",
+    "kategoria": "dla-osob-o-ograniczonej-mobilnosci",
+    "pilnosc": "srednia",
+    "pilnosc_uzasadnienie": "Problem utrudnia codzienne zakupy i samodzielność opiekuna z dzieckiem na wózku, ale nie zagraża bezpośrednio zdrowiu, bezpieczeństwu ani utracie mieszkania lub środków do życia.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "ev-modul-do-wozkow-inwalidzkich",
+      "nazwa": "EV moduł do wózków inwalidzkich",
+      "score": 1.0,
+      "powody": [
+       "Osoby z niepełnosprawnością ruchową"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,ev-modul-do-wozkow-inwalidzkich",
+      "uzyta": false
+     },
+     {
+      "slug": "zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+      "nazwa": "Zakupy na jednym wózku z dzieckiem z niepełnosprawnością ruchową",
+      "score": 1.0,
+      "powody": [
+       "Osoby z niepełnosprawnością ruchową"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+      "uzyta": true
+     },
+     {
+      "slug": "puzzles-ramp",
+      "nazwa": "Puzzle's Ramp",
+      "score": 1.0,
+      "powody": [
+       "Osoby z niepełnosprawnością ruchową"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,puzzles-ramp",
+      "uzyta": false
+     },
+     {
+      "slug": "uniodziez",
+      "nazwa": "Uniodzież",
+      "score": 1.0,
+      "powody": [
+       "Osoby z niepełnosprawnością ruchową"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,uniodziez",
+      "uzyta": false
+     },
+     {
+      "slug": "dostepna-szermierka",
+      "nazwa": "Dostępna szermierka",
+      "score": 1.0,
+      "powody": [
+       "Osoby z niepełnosprawnością ruchową"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,dostepna-szermierka",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry,\nW naszej bazie innowacji społecznych jest karta „Zakupy na jednym wózku z dzieckiem z niepełnosprawnością ruchową”. Odpowiada ona na potrzeby opiekunów dzieci z niepełnosprawnością ruchową w zakresie samodzielności robienia zakupów, bez konieczności organizowania opieki dla dziecka. Rozwiązanie zostało dobrze ocenione przez rodziców, asystentów oraz dzieci. W trakcie testów zgłoszono uwagi, m.in. potrzebę zmniejszenia szerokości zagłówka i możliwość regulacji jego pochyłości oraz zastosowanie pasów z automatycznym regulowaniem.\nPozdrawiamy, zespół ROPS\n\nŹródła (baza innowacji ROPS):\n- Zakupy na jednym wózku z dzieckiem z niepełnosprawnością ruchową: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-o-ograniczonej-mobilnosci,zakupy-na-jednym-wozku-z-dzieckiem-z-niepelnosprawnoscia-ruchowa",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 1.0,
+    "tagi": {
+     "problemy": [
+      "brak-dostosowanego-sprzetu",
+      "trudnosci-w-poruszaniu-sie"
+     ],
+     "grupy_docelowe": [
+      "dzieci",
+      "opiekunowie",
+      "niepelnosprawni-ruchowo"
+     ],
+     "miejsca": [
+      "sklep"
+     ],
+     "typy_rozwiazan": [
+      "urzadzenie"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-27T21:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 5,
+    "tresc": "Szukamy sposobu na aktywizację osób w kryzysie bezdomności, które nie utrzymają etatu.",
+    "autor_nazwa": "Użytkownik demo 5",
+    "autor_email": "demo5@example.test",
+    "syntetyczne": true,
+    "token_watku": "H2oiLCqzXT7_9wclEmER6dxaDWg0j1ly",
+    "status": "w_trakcie",
+    "odpowiedziano": null,
+    "kategoria": "dla-osob-w-kryzysie-bezdomnosci",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Zgłoszenie dotyczy osób w kryzysie bezdomności, które nie są w stanie utrzymać etatu, co wiąże się z zagrożeniem bezpieczeństwa i utratą środków do życia.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "wiejski-program-pomocy-osobom-w-kryzysie-bezdomnosci-sciezka-feniksa",
+      "nazwa": "Wiejski program pomocy osobom w kryzysie bezdomności - Ścieżka Feniksa",
+      "score": 1.0,
+      "powody": [
+       "Bezdomność",
+       "Osoby w kryzysie bezdomności"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-w-kryzysie-bezdomnosci,wiejski-program-pomocy-osobom-w-kryzysie-bezdomnosci-sciezka-feniksa",
+      "uzyta": false
+     },
+     {
+      "slug": "szlakiem-ludzi-bezdomnych",
+      "nazwa": "Szlakiem ludzi bezdomnych",
+      "score": 1.0,
+      "powody": [
+       "Bezdomność",
+       "Osoby w kryzysie bezdomności"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-w-kryzysie-bezdomnosci,szlakiem-ludzi-bezdomnych",
+      "uzyta": false
+     },
+     {
+      "slug": "agencja-pracy-incydentalnej",
+      "nazwa": "Agencja pracy incydentalnej",
+      "score": 0.4,
+      "powody": [
+       "Osoby w kryzysie bezdomności"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,agencja-pracy-incydentalnej",
+      "uzyta": true
+     },
+     {
+      "slug": "ta-sciezka-terapeutyczna-sciezka-kulturowa-dla-dzieci-i-doroslych-z-autyzmem",
+      "nazwa": "TA ścieżka. Terapeutyczna ścieżka kulturowa dla dzieci i dorosłych z autyzmem.",
+      "score": 0.0,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,ta-sciezka-terapeutyczna-sciezka-kulturowa-dla-dzieci-i-doroslych-z-autyzmem",
+      "uzyta": false
+     },
+     {
+      "slug": "my-way-to-culture",
+      "nazwa": "My way to culture",
+      "score": 0.0,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,my-way-to-culture",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry, w bazie ROPS mamy kartę „Agencja pracy incydentalnej”, która odpowiada na trudność w powrocie na rynek pracy osób pozostających w głębokim lub wielowymiarowym kryzysie, w tym osób w kryzysie bezdomności. Model ten wskazuje drogę legalnego zarabiania i pozwala na pracę incydentalną, bez wiązania jej z określonym czasem czy wymiarem, co może odpowiadać potrzebie aktywizacji osób, które nie utrzymają etatu. W testach udział w innowacji umożliwił części grupy docelowej podjęcie pracy, choć tylko niewielka część osób skorzystała z tej możliwości. Proponujemy przeanalizować tę kartę pod kątem Państwa zgłoszenia. Pozdrawiamy, zespół ROPS\n\nŹródła (baza innowacji ROPS):\n- Agencja pracy incydentalnej: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,agencja-pracy-incydentalnej",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 1.0,
+    "tagi": {
+     "problemy": [
+      "bezdomnosc",
+      "brak-pracy"
+     ],
+     "grupy_docelowe": [
+      "osoby-w-kryzysie-bezdomnosci",
+      "bezrobotni"
+     ],
+     "typy_rozwiazan": [
+      "model-pracy"
+     ]
+    },
+    "mentor_id": 2,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-13T20:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 6,
+    "tresc": "Do naszej szkoły trafiło dużo dzieci z Ukrainy, nauczyciele nie wiedzą jak pomagać.",
+    "autor_nazwa": "Użytkownik demo 6",
+    "autor_email": "demo6@example.test",
+    "syntetyczne": true,
+    "token_watku": "habG8btTQeeNphFAwrYvCYyomIO2Pzl6",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-cudzoziemcow",
+    "pilnosc": "srednia",
+    "pilnosc_uzasadnienie": "Nauczyciele potrzebują wsparcia w pracy z dziećmi ukraińskimi, ale zgłoszenie nie wskazuje na bezpośrednie zagrożenie zdrowia lub bezpieczeństwa.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "puzzle-3d",
+      "nazwa": "Puzzle 3D",
+      "score": 1.0,
+      "powody": [
+       "Dzieci"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,puzzle-3d",
+      "uzyta": false
+     },
+     {
+      "slug": "piosenki-uczestniczace",
+      "nazwa": "Piosenki uczestniczące",
+      "score": 1.0,
+      "powody": [
+       "Dzieci"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,piosenki-uczestniczace",
+      "uzyta": false
+     },
+     {
+      "slug": "bez-presji-z-depresji",
+      "nazwa": "Bez presji z depresji",
+      "score": 1.0,
+      "powody": [
+       "Dzieci"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,bez-presji-z-depresji",
+      "uzyta": false
+     },
+     {
+      "slug": "moj-pomocny-virtual-world",
+      "nazwa": "Mój pomocny Virtual World",
+      "score": 1.0,
+      "powody": [
+       "Dzieci"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,moj-pomocny-virtual-world",
+      "uzyta": true
+     },
+     {
+      "slug": "brzuszkole-brzuszek-zostaje-w-przedszkolu",
+      "nazwa": "Brzuszkole - brzuszek zostaje w przedszkolu",
+      "score": 1.0,
+      "powody": [
+       "Dzieci"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,brzuszkole-brzuszek-zostaje-w-przedszkolu",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry,\n\ndziękujemy za zgłoszenie. W naszej bazie innowacji społecznych mamy propozycję \"Mój pomocny Virtual World\", która dotyczy adaptacji dzieci ukraińskich w środowisku szkolnym. Innowacja obejmuje aplikację na telefon oraz materiały instruktażowe, które mogą wspierać nauczycieli w pracy z dziećmi z Ukrainy.\n\nPozdrawiamy,\nzespół ROPS\n\nŹródła (baza innowacji ROPS):\n- Mój pomocny Virtual World: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,moj-pomocny-virtual-world",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 1.0,
+    "tagi": {
+     "problemy": [
+      "trudnosci-w-integracji",
+      "bariery-komunikacyjne"
+     ],
+     "grupy_docelowe": [
+      "dzieci",
+      "cudzoziemcy"
+     ],
+     "miejsca": [
+      "szkola"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": true,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-22T19:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 7,
+    "tresc": "W naszej wsi nie jeździ żaden autobus, seniorzy nie mają jak dojechać do przychodni.",
+    "autor_nazwa": "Użytkownik demo 7",
+    "autor_email": "demo7@example.test",
+    "syntetyczne": true,
+    "token_watku": "UgToPHMvUU3k4LjxTGoe-12oew-cspKY",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-seniorow",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Brak transportu publicznego na wsi uniemożliwia seniorom dojazd do przychodni, co może zagrażać ich zdrowiu.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "health-guide-pl",
+      "nazwa": "Health Guide PL",
+      "score": 0.6667,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-cudzoziemcow,health-guide-pl",
+      "uzyta": false
+     },
+     {
+      "slug": "himalaje-autyzmu",
+      "nazwa": "Himalaje autyzmu",
+      "score": 0.6667,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,himalaje-autyzmu",
+      "uzyta": false
+     },
+     {
+      "slug": "oncotriada",
+      "nazwa": "Oncotriada",
+      "score": 0.6667,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,oncotriada",
+      "uzyta": false
+     },
+     {
+      "slug": "paszport-pacjenta-z-choroba-rzadka",
+      "nazwa": "Paszport pacjenta z chorobą rzadką",
+      "score": 0.6667,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,paszport-pacjenta-z-choroba-rzadka",
+      "uzyta": false
+     },
+     {
+      "slug": "pelnia-zdrowia",
+      "nazwa": "Pełnia zdrowia",
+      "score": 0.5,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,pelnia-zdrowia",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry, dziękujemy za zgłoszenie. Przejrzeliśmy karty innowacji z naszej bazy. Niestety na ten moment nie mamy rozwiązania, które pomogłoby w dowozie seniorów z wsi do przychodni. Karty takie jak Health Guide PL, Himalaje autyzmu, Oncotriada, Paszport pacjenta z chorobą rzadką i Pełnia zdrowia dotyczą innych potrzeb i grup, więc nie pasują do tej sprawy. Gdy pojawi się odpowiednie rozwiązanie, zespół wróci do sprawy. Pozdrawiamy, zespół ROPS.",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.12,
+    "tagi": {
+     "problemy": [
+      "brak-dostepu-do-opieki-zdrowotnej"
+     ],
+     "grupy_docelowe": [
+      "seniorzy"
+     ],
+     "miejsca": [
+      "wies",
+      "placowka-medyczna"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-08-24T18:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:43:33.327937+00:00"
+   },
+   {
+    "id": 8,
+    "tresc": "Seniorzy z sołectwa nie dojadą do lekarza, bo autobus został zlikwidowany.",
+    "autor_nazwa": "Użytkownik demo 8",
+    "autor_email": "demo8@example.test",
+    "syntetyczne": true,
+    "token_watku": "YxC9WbzzSCYxXydFrM5vhO7y7E9UUw0H",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-seniorow",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Brak możliwości dojazdu do lekarza może zagrażać zdrowiu seniorów z powodu przerwania leczenia i utrudnionego dostępu do opieki medycznej.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "himalaje-autyzmu",
+      "nazwa": "Himalaje autyzmu",
+      "score": 0.5,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,himalaje-autyzmu",
+      "uzyta": false
+     },
+     {
+      "slug": "mobilne-centrum-pomocy-dla-osob-starszych",
+      "nazwa": "Mobilne centrum pomocy dla osób starszych",
+      "score": 0.5,
+      "powody": [
+       "Seniorzy",
+       "Wieś"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,mobilne-centrum-pomocy-dla-osob-starszych",
+      "uzyta": false
+     },
+     {
+      "slug": "paszport-pacjenta-z-choroba-rzadka",
+      "nazwa": "Paszport pacjenta z chorobą rzadką",
+      "score": 0.5,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,paszport-pacjenta-z-choroba-rzadka",
+      "uzyta": false
+     },
+     {
+      "slug": "pelnia-zdrowia",
+      "nazwa": "Pełnia zdrowia",
+      "score": 0.5,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,pelnia-zdrowia",
+      "uzyta": false
+     },
+     {
+      "slug": "centrum-antydepresyjne",
+      "nazwa": "Centrum antydepresyjne",
+      "score": 0.5,
+      "powody": [
+       "Seniorzy",
+       "Wieś"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,centrum-antydepresyjne",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry, dziękujemy za zgłoszenie. W naszej bazie innowacji społecznych nie ma obecnie rozwiązania, które wprost odpowiada na problem braku transportu seniorów z sołectwa do lekarza. Przekazujemy sprawę zespołowi, który wróci do Państwa z informacją, gdy pojawi się pasująca propozycja. Pozdrawiamy, zespół ROPS",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.1,
+    "tagi": {
+     "problemy": [
+      "brak-dostepu-do-opieki-zdrowotnej"
+     ],
+     "grupy_docelowe": [
+      "seniorzy"
+     ],
+     "miejsca": [
+      "wies",
+      "placowka-medyczna"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-21T17:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:43:49.477110+00:00"
+   },
+   {
+    "id": 9,
+    "tresc": "Starsi mieszkańcy wsi nie mogą dojechać do apteki ani przychodni, brak autobusu.",
+    "autor_nazwa": "Użytkownik demo 9",
+    "autor_email": "demo9@example.test",
+    "syntetyczne": true,
+    "token_watku": "AHd43IrfIJhcYw9aymYdLMMfAH6E4jYo",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-seniorow",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Brak możliwości dojazdu do apteki i przychodni może zagrażać zdrowiu starszych mieszkańców wsi.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "health-guide-pl",
+      "nazwa": "Health Guide PL",
+      "score": 0.4444,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-cudzoziemcow,health-guide-pl",
+      "uzyta": false
+     },
+     {
+      "slug": "himalaje-autyzmu",
+      "nazwa": "Himalaje autyzmu",
+      "score": 0.4444,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,himalaje-autyzmu",
+      "uzyta": false
+     },
+     {
+      "slug": "oncotriada",
+      "nazwa": "Oncotriada",
+      "score": 0.4444,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,oncotriada",
+      "uzyta": false
+     },
+     {
+      "slug": "paszport-pacjenta-z-choroba-rzadka",
+      "nazwa": "Paszport pacjenta z chorobą rzadką",
+      "score": 0.4444,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,paszport-pacjenta-z-choroba-rzadka",
+      "uzyta": false
+     },
+     {
+      "slug": "organizator-kompleksowej-opieki-w-miejscu-zamieszkania",
+      "nazwa": "Organizator kompleksowej opieki w miejscu zamieszkania",
+      "score": 0.3333,
+      "powody": [
+       "Seniorzy",
+       "Dom"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,organizator-kompleksowej-opieki-w-miejscu-zamieszkania",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry, dziękujemy za zgłoszenie. W bazie innowacji ROPS nie mamy obecnie rozwiązania, które wprost pomagałoby w dojeździe starszych mieszkańców wsi do apteki i przychodni, gdy brakuje autobusu. Sprawa dotyczy dostępu do opieki zdrowotnej i bezpieczeństwa seniorów, dlatego zespół wróci do niej, aby sprawdzić możliwe rozwiązania. Pozdrawiamy, zespół ROPS",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.14,
+    "tagi": {
+     "problemy": [
+      "brak-dostepu-do-opieki-zdrowotnej"
+     ],
+     "grupy_docelowe": [
+      "seniorzy"
+     ],
+     "miejsca": [
+      "wies",
+      "placowka-medyczna"
+     ],
+     "typy_rozwiazan": [
+      "usluga"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-28T16:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:44:06.876904+00:00"
+   },
+   {
+    "id": 10,
+    "tresc": "Brak komunikacji publicznej do przychodni, starsze osoby rezygnują z wizyt lekarskich.",
+    "autor_nazwa": "Użytkownik demo 10",
+    "autor_email": "demo10@example.test",
+    "syntetyczne": true,
+    "token_watku": "66_EEJop_p8bdj3oACN_9sP0o8Xjn3_h",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-seniorow",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Rezygnacja starszych osób z wizyt lekarskich z powodu braku komunikacji do przychodni może prowadzić do pogorszenia zdrowia i zaniedbania chorób.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "health-guide-pl",
+      "nazwa": "Health Guide PL",
+      "score": 1.0,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-cudzoziemcow,health-guide-pl",
+      "uzyta": false
+     },
+     {
+      "slug": "himalaje-autyzmu",
+      "nazwa": "Himalaje autyzmu",
+      "score": 1.0,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,himalaje-autyzmu",
+      "uzyta": false
+     },
+     {
+      "slug": "oncotriada",
+      "nazwa": "Oncotriada",
+      "score": 1.0,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,oncotriada",
+      "uzyta": false
+     },
+     {
+      "slug": "paszport-pacjenta-z-choroba-rzadka",
+      "nazwa": "Paszport pacjenta z chorobą rzadką",
+      "score": 1.0,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej",
+       "Placówka medyczna"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,paszport-pacjenta-z-choroba-rzadka",
+      "uzyta": false
+     },
+     {
+      "slug": "pelnia-zdrowia",
+      "nazwa": "Pełnia zdrowia",
+      "score": 0.75,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,pelnia-zdrowia",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry,\ndziękujemy za zgłoszenie. W naszej bazie innowacji nie ma obecnie rozwiązania, które odpowiadałoby na problem braku komunikacji publicznej do przychodni i rezygnacji starszych osób z wizyt lekarskich. Zespół wróci do sprawy, gdy pojawi się pasująca karta.\nPozdrawiamy, zespół ROPS",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.11,
+    "tagi": {
+     "problemy": [
+      "brak-dostepu-do-opieki-zdrowotnej"
+     ],
+     "grupy_docelowe": [
+      "seniorzy"
+     ],
+     "miejsca": [
+      "placowka-medyczna"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-29T15:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:44:21.599382+00:00"
+   },
+   {
+    "id": 11,
+    "tresc": "Pilne: samotna seniorka na wsi nie ma jak dojechać do lekarza, autobus nie kursuje.",
+    "autor_nazwa": "Użytkownik demo 11",
+    "autor_email": "demo11@example.test",
+    "syntetyczne": true,
+    "token_watku": "cKfGBS9BwcJYHK_Nvcejyx1YGFC2nqzQ",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-seniorow",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Brak możliwości dojazdu do lekarza może stanowić zagrożenie dla zdrowia samotnej seniorki mieszkającej na wsi.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "senior-cuder",
+      "nazwa": "Senior CUDER",
+      "score": 0.625,
+      "powody": [
+       "Samotność",
+       "Seniorzy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,senior-cuder",
+      "uzyta": false
+     },
+     {
+      "slug": "mobilne-centrum-pomocy-dla-osob-starszych",
+      "nazwa": "Mobilne centrum pomocy dla osób starszych",
+      "score": 0.625,
+      "powody": [
+       "Samotność",
+       "Seniorzy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,mobilne-centrum-pomocy-dla-osob-starszych",
+      "uzyta": true
+     },
+     {
+      "slug": "wirtualne-izby-pamieci",
+      "nazwa": "Wirtualne izby pamięci",
+      "score": 0.625,
+      "powody": [
+       "Samotność",
+       "Seniorzy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,wirtualne-izby-pamieci",
+      "uzyta": false
+     },
+     {
+      "slug": "centrum-antydepresyjne",
+      "nazwa": "Centrum antydepresyjne",
+      "score": 0.625,
+      "powody": [
+       "Samotność",
+       "Seniorzy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,centrum-antydepresyjne",
+      "uzyta": false
+     },
+     {
+      "slug": "paszport-pacjenta-z-choroba-rzadka",
+      "nazwa": "Paszport pacjenta z chorobą rzadką",
+      "score": 0.375,
+      "powody": [
+       "Brak dostępu do opieki zdrowotnej"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,paszport-pacjenta-z-choroba-rzadka",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry,\n\ndziękujemy za zgłoszenie. Dotyczy ono samotnej seniorki mieszkającej na wsi, która nie ma jak dojechać do lekarza, bo autobus nie kursuje. W naszej bazie mamy kartę „Mobilne centrum pomocy dla osób starszych”. To rozwiązanie jest skierowane do osób starszych, niesamodzielnych, mieszkających na wsi, które mają problemy komunikacyjne i czują się osamotnione. Nie jest to bezpośrednio transport do lekarza, ale może być punktem wyjścia do dalszego wsparcia.\n\nPozdrawiamy, zespół ROPS\n\nŹródła (baza innowacji ROPS):\n- Mobilne centrum pomocy dla osób starszych: https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,mobilne-centrum-pomocy-dla-osob-starszych",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.13,
+    "tagi": {
+     "problemy": [
+      "samotnosc",
+      "brak-dostepu-do-opieki-zdrowotnej",
+      "wykluczenie-spoleczne"
+     ],
+     "grupy_docelowe": [
+      "seniorzy"
+     ],
+     "miejsca": [
+      "wies",
+      "placowka-medyczna"
+     ],
+     "typy_rozwiazan": [
+      "usluga"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-10-02T14:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:44:36.325493+00:00"
+   },
+   {
+    "id": 12,
+    "tresc": "Pracownicy naszego OPS są wypaleni zawodowo i przeciążeni liczbą spraw, odchodzą z pracy.",
+    "autor_nazwa": "Użytkownik demo 12",
+    "autor_email": "demo12@example.test",
+    "syntetyczne": true,
+    "token_watku": "o4mT8ZgEa_0pGwgS1jI-oS67_EbZlhL7",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-rynku-pracy",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Zgłoszenie wskazuje na zagrożenie zdrowia psychicznego pracowników oraz ryzyko utraty ciągłości wsparcia dla mieszkańców.",
+    "duplikaty": [
+     {
+      "id": 14,
+      "score": 0.5814,
+      "tresc": "Pracownicy socjalni są przeciążeni i wypaleni, potrzebujemy wsparcia dla zespołu OPS.",
+      "status": "nowe"
+     }
+    ],
+    "proponowane_karty": [
+     {
+      "slug": "mobilna-gielda-pracy",
+      "nazwa": "Mobilna giełda pracy",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,mobilna-gielda-pracy",
+      "uzyta": false
+     },
+     {
+      "slug": "niewypaleni",
+      "nazwa": "NIEwypaleni",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,niewypaleni",
+      "uzyta": false
+     },
+     {
+      "slug": "gra-o-zdrowie",
+      "nazwa": "Gra o zdrowie",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,gra-o-zdrowie",
+      "uzyta": false
+     },
+     {
+      "slug": "niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "nazwa": "Niepełnosprawność szansą na pełnosprawność w pracy i życiu",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "uzyta": false
+     },
+     {
+      "slug": "agencja-pracy-incydentalnej",
+      "nazwa": "Agencja pracy incydentalnej",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,agencja-pracy-incydentalnej",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry, dziękujemy za zgłoszenie o wypaleniu i przeciążeniu pracowników OPS. W bazie innowacji nie ma jeszcze pasującego rozwiązania dla tej grupy. Zespół ROPS wróci do sprawy, gdy pojawi się odpowiednia karta. Pozdrawiamy, zespół ROPS.",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.15,
+    "tagi": {
+     "problemy": [
+      "zdrowie-psychiczne"
+     ],
+     "miejsca": [
+      "urzad"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-18T13:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:45:02.472017+00:00"
+   },
+   {
+    "id": 13,
+    "tresc": "Wypalenie zawodowe pracowników socjalnych w gminie, brakuje superwizji i wsparcia.",
+    "autor_nazwa": "Użytkownik demo 13",
+    "autor_email": "demo13@example.test",
+    "syntetyczne": true,
+    "token_watku": "vPDakCOjxkUDP8dAoCL3OBtOEYwdjBn6",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-rynku-pracy",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Wypalenie zawodowe i brak superwizji mogą zagrażać zdrowiu psychicznemu pracowników socjalnych.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "niewypaleni",
+      "nazwa": "NIEwypaleni",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,niewypaleni",
+      "uzyta": false
+     },
+     {
+      "slug": "mobilna-gielda-pracy",
+      "nazwa": "Mobilna giełda pracy",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,mobilna-gielda-pracy",
+      "uzyta": false
+     },
+     {
+      "slug": "niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "nazwa": "Niepełnosprawność szansą na pełnosprawność w pracy i życiu",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "uzyta": false
+     },
+     {
+      "slug": "agencja-pracy-incydentalnej",
+      "nazwa": "Agencja pracy incydentalnej",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,agencja-pracy-incydentalnej",
+      "uzyta": false
+     },
+     {
+      "slug": "gra-o-zdrowie",
+      "nazwa": "Gra o zdrowie",
+      "score": 1.0,
+      "powody": [
+       "Brak pracy"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-zdrowia-i-medycyny,gra-o-zdrowie",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry,\n\ndziękujemy za zgłoszenie sprawy wypalenia zawodowego pracowników socjalnych w gminie oraz braku superwizji i wsparcia. W bazie ROPS nie ma obecnie karty innowacji, która wprost odpowiadałaby na ten problem. Zespół ROPS wróci do sprawy, gdy pojawi się pasujące rozwiązanie.\n\nPozdrawiamy, zespół ROPS",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.12,
+    "tagi": {
+     "problemy": [
+      "zdrowie-psychiczne"
+     ],
+     "typy_rozwiazan": [
+      "model-pracy",
+      "usluga"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-25T12:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:45:21.889805+00:00"
+   },
+   {
+    "id": 14,
+    "tresc": "Pracownicy socjalni są przeciążeni i wypaleni, potrzebujemy wsparcia dla zespołu OPS.",
+    "autor_nazwa": "Użytkownik demo 14",
+    "autor_email": "demo14@example.test",
+    "syntetyczne": true,
+    "token_watku": "IZln661vA1XudXqz0XqpEkaintQHKVV5",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-rynku-pracy",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Zgłoszenie wskazuje na przeciążenie i wypalenie pracowników socjalnych, co jest zagrożeniem dla ich zdrowia psychicznego i może destabilizować wsparcie dla klientów OPS.",
+    "duplikaty": [
+     {
+      "id": 12,
+      "score": 0.5814,
+      "tresc": "Pracownicy naszego OPS są wypaleni zawodowo i przeciążeni liczbą spraw, odchodzą z pracy.",
+      "status": "nowe"
+     }
+    ],
+    "proponowane_karty": [
+     {
+      "slug": "niewypaleni",
+      "nazwa": "NIEwypaleni",
+      "score": 0.3624,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-rynku-pracy,niewypaleni",
+      "uzyta": false
+     },
+     {
+      "slug": "terapeuta-przestrzeni",
+      "nazwa": "Terapeuta przestrzeni",
+      "score": 0.3504,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,terapeuta-przestrzeni",
+      "uzyta": false
+     },
+     {
+      "slug": "mobilna-pomoc-terapeutyczna",
+      "nazwa": "Mobilna pomoc terapeutyczna",
+      "score": 0.348,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,mobilna-pomoc-terapeutyczna",
+      "uzyta": false
+     },
+     {
+      "slug": "e-rzecznik-konsumenta-seniora",
+      "nazwa": "E-rzecznik konsumenta seniora",
+      "score": 0.321,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,e-rzecznik-konsumenta-seniora",
+      "uzyta": false
+     },
+     {
+      "slug": "ngoz-nawigacja-glosowa-osob-zaleznych",
+      "nazwa": "NGOZ - nawigacja głosowa osób zależnych",
+      "score": 0.3207,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,ngoz-nawigacja-glosowa-osob-zaleznych",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry, dziękujemy za zgłoszenie. W bazie innowacji nie ma obecnie karty, która wprost odpowiadałaby na potrzebę wsparcia pracowników socjalnych z powodu przeciążenia i wypalenia. Karta NIEwypaleni dotyczy wypalenia zawodowego, ale osób z niepełnosprawnością intelektualną, dlatego nie wskazujemy jej jako rozwiązania dla zespołu OPS. Zespół wróci do sprawy, gdy pojawi się pasujące rozwiązanie. Pozdrawiamy, zespół ROPS",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.1,
+    "tagi": {
+     "problemy": [
+      "zdrowie-psychiczne"
+     ],
+     "miejsca": [
+      "urzad"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-10-01T11:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:45:45.577588+00:00"
+   },
+   {
+    "id": 15,
+    "tresc": "Młodzież w naszym mieście spędza całe dnie z telefonem, brakuje zajęć pozaszkolnych.",
+    "autor_nazwa": "Użytkownik demo 15",
+    "autor_email": "demo15@example.test",
+    "syntetyczne": true,
+    "token_watku": "vnQQdxT5P6WavNr9P9JXi2_VODNU45ud",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-dzieci-mlodziezy-i-rodziny",
+    "pilnosc": "niska",
+    "pilnosc_uzasadnienie": "Zgłoszenie dotyczy braku zajęć pozaszkolnych dla młodzieży, nie wskazuje na bezpośrednie zagrożenie zdrowia, bezpieczeństwa, utraty mieszkania lub środków do życia.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "marimbaza",
+      "nazwa": "MarimBaza!",
+      "score": 1.0,
+      "powody": [
+       "Młodzież"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,marimbaza",
+      "uzyta": false
+     },
+     {
+      "slug": "patryk-i-kropka",
+      "nazwa": "Patryk i Kropka",
+      "score": 1.0,
+      "powody": [
+       "Młodzież"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,patryk-i-kropka",
+      "uzyta": false
+     },
+     {
+      "slug": "niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "nazwa": "Niepełnosprawność szansą na pełnosprawność w pracy i życiu",
+      "score": 1.0,
+      "powody": [
+       "Młodzież"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "uzyta": false
+     },
+     {
+      "slug": "go-ahead-mow-smialo",
+      "nazwa": "Go ahead - mów śmiało!",
+      "score": 1.0,
+      "powody": [
+       "Młodzież"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,go-ahead-mow-smialo",
+      "uzyta": false
+     },
+     {
+      "slug": "bez-presji-z-depresji",
+      "nazwa": "Bez presji z depresji",
+      "score": 1.0,
+      "powody": [
+       "Młodzież"
+      ],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,bez-presji-z-depresji",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry,\ndziękujemy za zgłoszenie. Rozumiemy, że młodzież w Pana/Pani mieście spędza dużo czasu z telefonem i brakuje zajęć pozaszkolnych. W naszej bazie innowacji społecznych nie mamy jeszcze rozwiązania, które bezpośrednio odpowiadałoby na ten problem. Zespół ROPS wróci do sprawy, gdy pojawi się odpowiednia inicjatywa.\nPozdrawiamy, zespół ROPS",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.18,
+    "tagi": {
+     "problemy": [
+      "brak-dostepu-do-kultury-i-rekreacji"
+     ],
+     "grupy_docelowe": [
+      "mlodziez"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-26T10:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:46:00.226896+00:00"
+   },
+   {
+    "id": 16,
+    "tresc": "Brakuje punktu pomocy prawnej dla osób zagrożonych eksmisją w naszej dzielnicy.",
+    "autor_nazwa": "Użytkownik demo 16",
+    "autor_email": "demo16@example.test",
+    "syntetyczne": true,
+    "token_watku": "aAxA1OSZbBY4QWu4SR5d3GpYkoq9hzot",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": "dla-seniorow",
+    "pilnosc": "wysoka",
+    "pilnosc_uzasadnienie": "Zgłoszenie dotyczy braku pomocy prawnej dla osób zagrożonych eksmisją, co wiąże się z ryzykiem utraty mieszkania.",
+    "duplikaty": [],
+    "proponowane_karty": [
+     {
+      "slug": "bawita",
+      "nazwa": "BaWita",
+      "score": 0.454,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,bawita",
+      "uzyta": false
+     },
+     {
+      "slug": "mobilna-pomoc-terapeutyczna",
+      "nazwa": "Mobilna pomoc terapeutyczna",
+      "score": 0.4131,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-dzieci-mlodziezy-i-rodziny,mobilna-pomoc-terapeutyczna",
+      "uzyta": false
+     },
+     {
+      "slug": "e-rzecznik-konsumenta-seniora",
+      "nazwa": "E-rzecznik konsumenta seniora",
+      "score": 0.4123,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-seniorow,e-rzecznik-konsumenta-seniora",
+      "uzyta": false
+     },
+     {
+      "slug": "niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "nazwa": "Niepełnosprawność szansą na pełnosprawność w pracy i życiu",
+      "score": 0.3792,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-intelektualna,niepelnosprawnosc-szansa-na-pelnosprawnosc-w-pracy-i-zyciu",
+      "uzyta": false
+     },
+     {
+      "slug": "dialog-ponad-kulturami",
+      "nazwa": "Dialog ponad kulturami",
+      "score": 0.3764,
+      "powody": [],
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-cudzoziemcow,dialog-ponad-kulturami",
+      "uzyta": false
+     }
+    ],
+    "szkic_odpowiedzi": "Dzień dobry, dziękujemy za zgłoszenie o braku punktu pomocy prawnej dla osób zagrożonych eksmisją w dzielnicy. W bazie innowacji nie ma jeszcze rozwiązania, które bezpośrednio odpowiadałoby na tę potrzebę. Zespół ROPS wróci do sprawy. Pozdrawiamy, zespół ROPS.",
+    "triaz_zrodlo": "ai",
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": 0.16,
+    "tagi": {
+     "problemy": [
+      "sprawy-urzedowe",
+      "zagrozenie-bezpieczenstwa"
+     ],
+     "typy_rozwiazan": [
+      "usluga"
+     ]
+    },
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-09-03T09:36:11.741121+00:00",
+    "updated_at": "2026-10-04T01:46:11.979972+00:00"
+   },
+   {
+    "id": 17,
+    "tresc": "[Pomysł z Kreatora] Szkolny asystent kulturowy, który tłumaczy i pomaga nowym uczniom z zagranicy odnaleźć się w klasie.\n\nDla kogo jest: Uczniowie i rodzice cudzoziemcy oraz nauczyciele\nEtap realizacji: Wdrożone lokalnie\nObszar społeczny: Dla cudzoziemców\nLokalizacja: Powiat Przykładowy (przykład)\nCzego potrzeba do dalszego rozwoju: Dofinansowanie etatu asystenta na kolejny rok szkolny.",
+    "autor_nazwa": null,
+    "autor_email": null,
+    "syntetyczne": true,
+    "token_watku": "SaTXmaElumkZKQUVkwRNiN_QaeBVwS_a",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": null,
+    "pilnosc": null,
+    "pilnosc_uzasadnienie": null,
+    "duplikaty": null,
+    "proponowane_karty": null,
+    "szkic_odpowiedzi": null,
+    "triaz_zrodlo": null,
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": null,
+    "tagi": null,
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-10-04T01:46:33.161001+00:00",
+    "updated_at": "2026-10-04T01:46:33.161001+00:00"
+   },
+   {
+    "id": 18,
+    "tresc": "[Zgłoszenie do testów] kody-qr-na-pomoc-seniorom\nInstytucja: DPS w powiecie (przykład)\n\nChcemy sprawdzić kody u 15 mieszkańców z otępieniem przez 3 miesiące.",
+    "autor_nazwa": null,
+    "autor_email": null,
+    "syntetyczne": true,
+    "token_watku": "uHW4IFKn9kyUcug1fW_W7lQOQPgrBWvv",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": null,
+    "pilnosc": null,
+    "pilnosc_uzasadnienie": null,
+    "duplikaty": null,
+    "proponowane_karty": null,
+    "szkic_odpowiedzi": null,
+    "triaz_zrodlo": null,
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": null,
+    "tagi": null,
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-10-04T01:46:34.255631+00:00",
+    "updated_at": "2026-10-04T01:46:34.255631+00:00"
+   },
+   {
+    "id": 19,
+    "tresc": "[Zgłoszenie do testów] lekki-wozek-aktywny\nInstytucja: Szkoła podstawowa (przykład)\n\nUczeń na wózku nie wjeżdża sam do klasy. Chcemy przetestować wózek przez semestr.",
+    "autor_nazwa": null,
+    "autor_email": null,
+    "syntetyczne": true,
+    "token_watku": "hRjjkn5Ws8SbM4WFGY_Q0N0NzLorC8qn",
+    "status": "nowe",
+    "odpowiedziano": null,
+    "kategoria": null,
+    "pilnosc": null,
+    "pilnosc_uzasadnienie": null,
+    "duplikaty": null,
+    "proponowane_karty": null,
+    "szkic_odpowiedzi": null,
+    "triaz_zrodlo": null,
+    "triaz_komunikat": null,
+    "najlepsze_dopasowanie": null,
+    "tagi": null,
+    "mentor_id": null,
+    "mentor_prosba": false,
+    "innowacja_slug": null,
+    "obserwuje": false,
+    "powiadomiono_o": null,
+    "created_at": "2026-10-04T01:46:34.255631+00:00",
+    "updated_at": "2026-10-04T01:46:34.255631+00:00"
+   }
+  ],
+  "wiadomosci_watku": [
+   {
+    "id": 1,
+    "token_watku": "mKQIhdG8iWDZJv4hKCAlQBmvqjkdGvOl",
+    "autor_rola": "uzytkownik",
+    "tresc": "Mama ma początki demencji i po dziesięć razy dziennie dzwoni z pytaniem, czy brała leki.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.720833+00:00"
+   },
+   {
+    "id": 2,
+    "token_watku": "rQg9HGC_5exDHiLDWqdTAt-ThEUhM-n3",
+    "autor_rola": "uzytkownik",
+    "tresc": "Mama ma demencję, ciągle dzwoni i pyta czy brała leki i gdzie są klucze. Szukam pomocy.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.760557+00:00"
+   },
+   {
+    "id": 3,
+    "token_watku": "vn-3Obb0QLM7hBsQ341AgwtVaLSzWwGZ",
+    "autor_rola": "uzytkownik",
+    "tresc": "Głuchy student musi złożyć wniosek o tłumacza PJM, formularz jest zbyt trudny.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.774356+00:00"
+   },
+   {
+    "id": 4,
+    "token_watku": "1Q1gPPYF2unLz8B5Z6l7daQo8dTPqjTz",
+    "autor_rola": "uzytkownik",
+    "tresc": "Nie mogę zrobić zakupów z synem na wózku, nie ma jak posadzić go w koszyku sklepowym.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.788458+00:00"
+   },
+   {
+    "id": 5,
+    "token_watku": "H2oiLCqzXT7_9wclEmER6dxaDWg0j1ly",
+    "autor_rola": "uzytkownik",
+    "tresc": "Szukamy sposobu na aktywizację osób w kryzysie bezdomności, które nie utrzymają etatu.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.799622+00:00"
+   },
+   {
+    "id": 6,
+    "token_watku": "habG8btTQeeNphFAwrYvCYyomIO2Pzl6",
+    "autor_rola": "uzytkownik",
+    "tresc": "Do naszej szkoły trafiło dużo dzieci z Ukrainy, nauczyciele nie wiedzą jak pomagać.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.810752+00:00"
+   },
+   {
+    "id": 7,
+    "token_watku": "UgToPHMvUU3k4LjxTGoe-12oew-cspKY",
+    "autor_rola": "uzytkownik",
+    "tresc": "W naszej wsi nie jeździ żaden autobus, seniorzy nie mają jak dojechać do przychodni.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.821770+00:00"
+   },
+   {
+    "id": 8,
+    "token_watku": "YxC9WbzzSCYxXydFrM5vhO7y7E9UUw0H",
+    "autor_rola": "uzytkownik",
+    "tresc": "Seniorzy z sołectwa nie dojadą do lekarza, bo autobus został zlikwidowany.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.834065+00:00"
+   },
+   {
+    "id": 9,
+    "token_watku": "AHd43IrfIJhcYw9aymYdLMMfAH6E4jYo",
+    "autor_rola": "uzytkownik",
+    "tresc": "Starsi mieszkańcy wsi nie mogą dojechać do apteki ani przychodni, brak autobusu.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.846073+00:00"
+   },
+   {
+    "id": 10,
+    "token_watku": "66_EEJop_p8bdj3oACN_9sP0o8Xjn3_h",
+    "autor_rola": "uzytkownik",
+    "tresc": "Brak komunikacji publicznej do przychodni, starsze osoby rezygnują z wizyt lekarskich.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.858063+00:00"
+   },
+   {
+    "id": 11,
+    "token_watku": "cKfGBS9BwcJYHK_Nvcejyx1YGFC2nqzQ",
+    "autor_rola": "uzytkownik",
+    "tresc": "Pilne: samotna seniorka na wsi nie ma jak dojechać do lekarza, autobus nie kursuje.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.873490+00:00"
+   },
+   {
+    "id": 12,
+    "token_watku": "o4mT8ZgEa_0pGwgS1jI-oS67_EbZlhL7",
+    "autor_rola": "uzytkownik",
+    "tresc": "Pracownicy naszego OPS są wypaleni zawodowo i przeciążeni liczbą spraw, odchodzą z pracy.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.887157+00:00"
+   },
+   {
+    "id": 13,
+    "token_watku": "vPDakCOjxkUDP8dAoCL3OBtOEYwdjBn6",
+    "autor_rola": "uzytkownik",
+    "tresc": "Wypalenie zawodowe pracowników socjalnych w gminie, brakuje superwizji i wsparcia.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.897765+00:00"
+   },
+   {
+    "id": 14,
+    "token_watku": "IZln661vA1XudXqz0XqpEkaintQHKVV5",
+    "autor_rola": "uzytkownik",
+    "tresc": "Pracownicy socjalni są przeciążeni i wypaleni, potrzebujemy wsparcia dla zespołu OPS.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.910004+00:00"
+   },
+   {
+    "id": 15,
+    "token_watku": "vnQQdxT5P6WavNr9P9JXi2_VODNU45ud",
+    "autor_rola": "uzytkownik",
+    "tresc": "Młodzież w naszym mieście spędza całe dnie z telefonem, brakuje zajęć pozaszkolnych.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.921536+00:00"
+   },
+   {
+    "id": 16,
+    "token_watku": "aAxA1OSZbBY4QWu4SR5d3GpYkoq9hzot",
+    "autor_rola": "uzytkownik",
+    "tresc": "Brakuje punktu pomocy prawnej dla osób zagrożonych eksmisją w naszej dzielnicy.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:36:11.932555+00:00"
+   },
+   {
+    "id": 17,
+    "token_watku": "vn-3Obb0QLM7hBsQ341AgwtVaLSzWwGZ",
+    "autor_rola": "admin",
+    "tresc": "Dzień dobry, to jest przykładowa odpowiedź demo. Dane są syntetyczne.",
+    "zrodla": [
+     {
+      "slug": "dostepny-wniosek-dla-ggluchych",
+      "nazwa": "Dostępny wniosek dla g/Głuchych",
+      "url": "https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/dla-osob-z-niepelnosprawnoscia-sensoryczna,dostepny-wniosek-dla-ggluchych"
+     }
+    ],
+    "created_at": "2026-10-04T01:46:30.802582+00:00"
+   },
+   {
+    "id": 18,
+    "token_watku": "SaTXmaElumkZKQUVkwRNiN_QaeBVwS_a",
+    "autor_rola": "uzytkownik",
+    "tresc": "[Pomysł z Kreatora] Szkolny asystent kulturowy, który tłumaczy i pomaga nowym uczniom z zagranicy odnaleźć się w klasie.\n\nDla kogo jest: Uczniowie i rodzice cudzoziemcy oraz nauczyciele\nEtap realizacji: Wdrożone lokalnie\nObszar społeczny: Dla cudzoziemców\nLokalizacja: Powiat Przykładowy (przykład)\nCzego potrzeba do dalszego rozwoju: Dofinansowanie etatu asystenta na kolejny rok szkolny.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:46:33.161001+00:00"
+   },
+   {
+    "id": 19,
+    "token_watku": "uHW4IFKn9kyUcug1fW_W7lQOQPgrBWvv",
+    "autor_rola": "uzytkownik",
+    "tresc": "Chcemy sprawdzić kody u 15 mieszkańców z otępieniem przez 3 miesiące.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:46:34.255631+00:00"
+   },
+   {
+    "id": 20,
+    "token_watku": "hRjjkn5Ws8SbM4WFGY_Q0N0NzLorC8qn",
+    "autor_rola": "uzytkownik",
+    "tresc": "Uczeń na wózku nie wjeżdża sam do klasy. Chcemy przetestować wózek przez semestr.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:46:34.255631+00:00"
+   },
+   {
+    "id": 21,
+    "token_watku": "mKQIhdG8iWDZJv4hKCAlQBmvqjkdGvOl",
+    "autor_rola": "admin",
+    "tresc": "Dzień dobry, sprawdzamy, które z rozwiązań z bazy pasuje do Pani sytuacji. Wrócimy z odpowiedzią do końca tygodnia. (demo)",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 22,
+    "token_watku": "mKQIhdG8iWDZJv4hKCAlQBmvqjkdGvOl",
+    "autor_rola": "uzytkownik",
+    "tresc": "Dziękuję, czekam. Mama jest coraz bardziej zagubiona. (demo)",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 23,
+    "token_watku": "1Q1gPPYF2unLz8B5Z6l7daQo8dTPqjTz",
+    "autor_rola": "admin",
+    "tresc": "Dzień dobry, polecamy kartę o wózkach z funkcją siedziska w sklepach. Przykładowa odpowiedź demo.",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 24,
+    "token_watku": "H2oiLCqzXT7_9wclEmER6dxaDWg0j1ly",
+    "autor_rola": "mentor",
+    "tresc": "Dzień dobry, pracowałem z podobną grupą. Chętnie podpowiem, od czego zacząć rozmowę z ośrodkiem. (demo)",
+    "zrodla": null,
+    "created_at": "2026-10-04T01:48:04.117150+00:00"
+   }
+  ],
+  "powiadomienia": [
+   {
+    "id": 1,
+    "tekst": "Nowa wiadomość od autora w zgłoszeniu nr 1",
+    "zgloszenie_id": 1,
+    "przeczytane": false,
+    "created_at": "2026-10-03T22:48:04.148051+00:00"
+   },
+   {
+    "id": 2,
+    "tekst": "Mentor Mentor przykładowy B odpisał w zgłoszeniu nr 5",
+    "zgloszenie_id": 5,
+    "przeczytane": false,
+    "created_at": "2026-10-03T18:48:04.148051+00:00"
+   },
+   {
+    "id": 3,
+    "tekst": "Autor prosi o mentora w zgłoszeniu nr 6",
+    "zgloszenie_id": 6,
+    "przeczytane": false,
+    "created_at": "2026-10-02T23:48:04.148051+00:00"
+   },
+   {
+    "id": 4,
+    "tekst": "Nowe ogłoszenie partnerskie do moderacji: Szukamy gminy do pilotażu dyżurów sąsiedzkich",
+    "zgloszenie_id": null,
+    "przeczytane": false,
+    "created_at": "2026-10-03T20:48:04.181206+00:00"
+   },
+   {
+    "id": 5,
+    "tekst": "Nowa rozmowa partnerska w sprawie ogłoszenia: Szukamy organizacji do pilotażu kodów QR dla seniorów",
+    "zgloszenie_id": null,
+    "przeczytane": false,
+    "created_at": "2026-10-02T19:48:04.185969+00:00"
+   },
+   {
+    "id": 6,
+    "tekst": "Nowa rozmowa partnerska w sprawie ogłoszenia: Wolontariusze i szkolenia z obsługi telefonu dla seniorów",
+    "zgloszenie_id": null,
+    "przeczytane": false,
+    "created_at": "2026-10-02T19:48:04.194380+00:00"
+   },
+   {
+    "id": 7,
+    "tekst": "Nowa ocena do zatwierdzenia: Kody QR na pomoc (przykład demo)",
+    "zgloszenie_id": null,
+    "przeczytane": false,
+    "created_at": "2026-10-03T13:48:04.194380+00:00"
+   },
+   {
+    "id": 8,
+    "tekst": "Nowe pytanie do ROPS: Jak zgłosić własną innowację do bazy?",
+    "zgloszenie_id": null,
+    "przeczytane": true,
+    "created_at": "2026-10-02T01:48:04.194380+00:00"
+   },
+   {
+    "id": 9,
+    "tekst": "Nowe zgłoszenie nr 11",
+    "zgloszenie_id": 11,
+    "przeczytane": true,
+    "created_at": "2026-10-01T01:48:04.194380+00:00"
+   },
+   {
+    "id": 10,
+    "tekst": "Nowe zgłoszenie nr 10",
+    "zgloszenie_id": 10,
+    "przeczytane": true,
+    "created_at": "2026-09-30T01:48:04.194380+00:00"
+   }
+  ],
+  "ogloszenia_partnerskie": [
+   {
+    "id": 1,
+    "typ": "szukam_partnera",
+    "sektor": "publiczny",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "tytul": "Szukamy organizacji do pilotażu kodów QR dla seniorów",
+    "opis": "Przykładowe ogłoszenie demo. Ośrodek pomocy społecznej chce wdrożyć rozwiązanie u 20 seniorów i szuka organizacji, która pomoże w szkoleniu opiekunów.",
+    "powiat": "m. Kraków",
+    "innowacja_slug": null,
+    "kontakt_email": "demo@example.test",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.662355+00:00",
+    "updated_at": "2026-10-04T01:36:11.662355+00:00"
+   },
+   {
+    "id": 2,
+    "typ": "oferuje_wsparcie",
+    "sektor": "ngo",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "tytul": "Wolontariusze i szkolenia z obsługi telefonu dla seniorów",
+    "opis": "Przykładowe ogłoszenie demo. Organizacja pozarządowa oferuje wolontariuszy i warsztaty z prostej obsługi telefonu dla osób starszych.",
+    "powiat": "tarnowski",
+    "innowacja_slug": null,
+    "kontakt_email": "demo@example.test",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.662355+00:00",
+    "updated_at": "2026-10-04T01:36:11.662355+00:00"
+   },
+   {
+    "id": 3,
+    "typ": "szukam_partnera",
+    "sektor": "mieszkancy",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "tytul": "Szukamy lokalu na świetlicę sąsiedzką",
+    "opis": "Przykładowe ogłoszenie demo. Grupa mieszkańców szuka partnera, który udostępni salę raz w tygodniu na spotkania sąsiedzkie.",
+    "powiat": "nowotarski",
+    "innowacja_slug": null,
+    "kontakt_email": "demo@example.test",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.662355+00:00",
+    "updated_at": "2026-10-04T01:36:11.662355+00:00"
+   },
+   {
+    "id": 4,
+    "typ": "oferuje_wsparcie",
+    "sektor": "biznes",
+    "instytucja": "Instytucja przykładowa (demo)",
+    "tytul": "Lokalna firma oferuje sprzęt i wsparcie IT dla projektów społecznych",
+    "opis": "Przykładowe ogłoszenie demo. Firma IT oferuje używany sprzęt oraz kilka godzin pomocy technicznej miesięcznie dla organizacji realizujących wdrożenia.",
+    "powiat": "m. Nowy Sącz",
+    "innowacja_slug": null,
+    "kontakt_email": "demo@example.test",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.662355+00:00",
+    "updated_at": "2026-10-04T01:36:11.662355+00:00"
+   },
+   {
+    "id": 5,
+    "typ": "szukam_partnera",
+    "sektor": "ngo",
+    "instytucja": "Stowarzyszenie demo „Sąsiedzi”",
+    "tytul": "Szukamy gminy do pilotażu dyżurów sąsiedzkich",
+    "opis": "Przykładowe ogłoszenie demo. Chcemy sprawdzić dyżury sąsiedzkie dla seniorów w jednej gminie wiejskiej i szukamy partnera po stronie samorządu.",
+    "powiat": "powiat tarnowski",
+    "innowacja_slug": null,
+    "kontakt_email": "sasiedzi@example.test",
+    "status": "oczekuje",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:48:04.117150+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 6,
+    "typ": "oferuje_wsparcie",
+    "sektor": "biznes",
+    "instytucja": "Firma demo",
+    "tytul": "Tanie szkolenia, kontakt prywatny",
+    "opis": "Przykładowe ogłoszenie demo odrzucone przez moderację: treść reklamowa.",
+    "powiat": "m. Kraków",
+    "innowacja_slug": null,
+    "kontakt_email": "reklama@example.test",
+    "status": "odrzucone",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:48:04.117150+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   }
+  ],
+  "wiadomosci_partnerskie": [],
+  "rozmowy_partnerskie": [
+   {
+    "id": 1,
+    "ogloszenie_id": 1,
+    "nadawca_nazwa": "Gmina demo A",
+    "nadawca_email": "gmina-a@example.test",
+    "token_nadawcy": "sjcKFki4Sn5dC94-7z4Wy4DBKgfEbxgK",
+    "token_autora": "YZmK804HZVsaBkOk1k6PvXm82Qoo4xSH",
+    "status": "otwarta",
+    "created_at": "2026-10-04T01:48:04.117150+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 2,
+    "ogloszenie_id": 2,
+    "nadawca_nazwa": "Fundacja demo B",
+    "nadawca_email": "fundacja-b@example.test",
+    "token_nadawcy": "JJk8jL00eiVXeY5OFoQKcflncbF9LfQ9",
+    "token_autora": "xD5UMv2O6ZocnUaMDQnJWIu8AnQ1Egvj",
+    "status": "otwarta",
+    "created_at": "2026-10-04T01:48:04.117150+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   }
+  ],
+  "wiadomosci_rozmow": [
+   {
+    "id": 1,
+    "rozmowa_id": 1,
+    "strona": "nadawca",
+    "tresc": "Dzień dobry, jesteśmy zainteresowani pilotażem. Jak wygląda start?",
+    "created_at": "2026-10-04T01:48:04.117150+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 2,
+    "rozmowa_id": 1,
+    "strona": "rops",
+    "tresc": "Przekazaliśmy Państwa wiadomość autorowi ogłoszenia.",
+    "created_at": "2026-10-04T01:48:04.117150+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 3,
+    "rozmowa_id": 1,
+    "strona": "autor",
+    "tresc": "Dziękujemy za kontakt, zapraszamy na spotkanie w przyszłym tygodniu.",
+    "created_at": "2026-10-04T01:48:04.117150+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 4,
+    "rozmowa_id": 2,
+    "strona": "nadawca",
+    "tresc": "Czy macie jeszcze wolne terminy szkoleń w listopadzie?",
+    "created_at": "2026-10-04T01:48:04.117150+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   }
+  ],
+  "opinie": [
+   {
+    "id": 1,
+    "slug": "kody-qr-na-pomoc-seniorom",
+    "rodzaj": "ocena",
+    "status": "opublikowana",
+    "ocena": 5,
+    "instytucja": "OPS w gminie wiejskiej (przykład)",
+    "tresc": "Seniorzy z kodem na opasce szybciej wracają do domu. Rodziny są spokojniejsze.",
+    "usprawnienie": "Naklejki z większą czcionką i instrukcja dla sąsiadów.",
+    "token_watku": null,
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:34.255631+00:00",
+    "updated_at": "2026-10-04T01:46:34.255631+00:00"
+   },
+   {
+    "id": 2,
+    "slug": "kody-qr-na-pomoc-seniorom",
+    "rodzaj": "ocena",
+    "status": "opublikowana",
+    "ocena": 4,
+    "instytucja": "CUS w małym mieście (przykład)",
+    "tresc": "Wdrożenie zajęło miesiąc. Najtrudniej było przekonać seniorów do noszenia opaski.",
+    "usprawnienie": null,
+    "token_watku": null,
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:34.255631+00:00",
+    "updated_at": "2026-10-04T01:46:34.255631+00:00"
+   },
+   {
+    "id": 3,
+    "slug": "kody-qr-na-pomoc-seniorom",
+    "rodzaj": "ocena",
+    "status": "opublikowana",
+    "ocena": 5,
+    "instytucja": "Stowarzyszenie seniorów (przykład)",
+    "tresc": "Proste i tanie. Polecamy innym klubom seniora.",
+    "usprawnienie": null,
+    "token_watku": null,
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:34.255631+00:00",
+    "updated_at": "2026-10-04T01:46:34.255631+00:00"
+   },
+   {
+    "id": 4,
+    "slug": "kody-qr-na-pomoc-seniorom",
+    "rodzaj": "test",
+    "status": "opublikowana",
+    "ocena": null,
+    "instytucja": "DPS w powiecie (przykład)",
+    "tresc": "Chcemy sprawdzić kody u 15 mieszkańców z otępieniem przez 3 miesiące.",
+    "usprawnienie": "Czy kod może prowadzić do karty leków?",
+    "token_watku": "uHW4IFKn9kyUcug1fW_W7lQOQPgrBWvv",
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:34.255631+00:00",
+    "updated_at": "2026-10-04T01:46:34.255631+00:00"
+   },
+   {
+    "id": 5,
+    "slug": "lekki-wozek-aktywny",
+    "rodzaj": "test",
+    "status": "opublikowana",
+    "ocena": null,
+    "instytucja": "Szkoła podstawowa (przykład)",
+    "tresc": "Uczeń na wózku nie wjeżdża sam do klasy. Chcemy przetestować wózek przez semestr.",
+    "usprawnienie": null,
+    "token_watku": "hRjjkn5Ws8SbM4WFGY_Q0N0NzLorC8qn",
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:34.255631+00:00",
+    "updated_at": "2026-10-04T01:46:34.255631+00:00"
+   },
+   {
+    "id": 6,
+    "slug": "lekki-wozek-aktywny",
+    "rodzaj": "ocena",
+    "status": "nowa",
+    "ocena": 3,
+    "instytucja": "Fundacja (przykład)",
+    "tresc": "Wózek dobry, ale serwis daleko od naszej gminy.",
+    "usprawnienie": "Lista punktów serwisowych.",
+    "token_watku": null,
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:34.255631+00:00",
+    "updated_at": "2026-10-04T01:46:34.255631+00:00"
+   }
+  ],
+  "pytania": [
+   {
+    "id": 1,
+    "tresc": "Jak działa dopasowanie innowacji do mojego problemu?",
+    "kategoria": null,
+    "autor_nazwa": null,
+    "autor_email": null,
+    "zgoda_na_publikacje": true,
+    "odpowiedz": "Przykładowa odpowiedź demo. Na stronie głównej opisujesz problem w rozmowie. Splot ustala, kim jesteś, zadaje najwyżej kilka pytań doprecyzowujących, pokazuje podsumowanie do potwierdzenia i zwraca do 5 innowacji z wyjaśnieniem, jak każda odnosi się do Twojej sprawy. Gdy nic dobrze nie pasuje, mówi o tym wprost.",
+    "odpowiedziano": "2026-10-03T01:36:11.702073+00:00",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.699416+00:00",
+    "updated_at": "2026-10-04T01:36:11.699416+00:00"
+   },
+   {
+    "id": 2,
+    "tresc": "Czym jest Biblioteka Innowacji Społecznych?",
+    "kategoria": null,
+    "autor_nazwa": null,
+    "autor_email": null,
+    "zgoda_na_publikacje": true,
+    "odpowiedz": "Przykładowa odpowiedź demo. To zbiór 115 innowacji społecznych opisanych przez ROPS Kraków, podzielony na 9 kategorii. Splot dopasowuje problemy tylko do tych rozwiązań, a przy każdej innowacji pokazuje link do strony źródłowej ROPS. Całość znajdziesz w Zasobniku wiedzy.",
+    "odpowiedziano": "2026-10-02T01:36:11.702073+00:00",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.699416+00:00",
+    "updated_at": "2026-10-04T01:36:11.699416+00:00"
+   },
+   {
+    "id": 3,
+    "tresc": "Jak zgłosić potrzebę do ROPS?",
+    "kategoria": null,
+    "autor_nazwa": null,
+    "autor_email": null,
+    "zgoda_na_publikacje": true,
+    "odpowiedz": "Przykładowa odpowiedź demo. Wejdź na stronę „Zgłoś potrzebę” (link w stopce) i opisz sprawę. Podanie e-maila jest dobrowolne, ale dzięki niemu dostaniesz informację o odpowiedzi. Po wysłaniu dostajesz link do wątku, pod którym zobaczysz odpowiedź pracownika ROPS. Zgłoszenie jest prywatne.",
+    "odpowiedziano": "2026-10-01T01:36:11.702073+00:00",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.699416+00:00",
+    "updated_at": "2026-10-04T01:36:11.699416+00:00"
+   },
+   {
+    "id": 4,
+    "tresc": "Jak wziąć udział w testach innowacji?",
+    "kategoria": null,
+    "autor_nazwa": null,
+    "autor_email": null,
+    "zgoda_na_publikacje": true,
+    "odpowiedz": "Przykładowa odpowiedź demo. Na stronie wybranej innowacji znajdziesz sekcję „Oceny i testy” z przyciskiem „Chcę przetestować”. Zgłoszenie trafia do pracownika ROPS jak zwykła sprawa, a Ty dostajesz link do wątku. Możesz też ocenić rozwiązanie i opisać, co warto poprawić; opinie są publikowane po sprawdzeniu przez ROPS.",
+    "odpowiedziano": "2026-09-30T01:36:11.702073+00:00",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.699416+00:00",
+    "updated_at": "2026-10-04T01:36:11.699416+00:00"
+   },
+   {
+    "id": 5,
+    "tresc": "Czy w Kreatorze pomysłów znajdę informacje o naborach grantowych?",
+    "kategoria": null,
+    "autor_nazwa": null,
+    "autor_email": null,
+    "zgoda_na_publikacje": true,
+    "odpowiedz": "Przykładowa odpowiedź demo. Tak. Po wysłaniu pomysłu (lub z karty innowacji) wybierz „Znajdź finansowanie”: Kreator pokazuje aktywne nabory z uzasadnieniem i pomaga przygotować szkic wniosku. Nabory wpisuje pracownik ROPS w panelu. Szkic wniosku wymaga sprawdzenia przez Ciebie.",
+    "odpowiedziano": "2026-09-29T01:36:11.702073+00:00",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.699416+00:00",
+    "updated_at": "2026-10-04T01:36:11.699416+00:00"
+   },
+   {
+    "id": 6,
+    "tresc": "Czy mogę szukać partnera do wdrożenia innowacji?",
+    "kategoria": null,
+    "autor_nazwa": null,
+    "autor_email": null,
+    "zgoda_na_publikacje": true,
+    "odpowiedz": "Przykładowa odpowiedź demo. Tak, służy do tego Giełda partnerstw. Możesz dodać ogłoszenie „szukam partnera” albo „oferuję wsparcie”. Ogłoszenia sprawdza ROPS przed publikacją, a kontakt odbywa się przez ROPS, więc adresy e-mail nie są ujawniane.",
+    "odpowiedziano": "2026-09-28T01:36:11.702073+00:00",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.699416+00:00",
+    "updated_at": "2026-10-04T01:36:11.699416+00:00"
+   },
+   {
+    "id": 7,
+    "tresc": "Czy muszę mieć konto, żeby korzystać ze Splotu?",
+    "kategoria": null,
+    "autor_nazwa": null,
+    "autor_email": null,
+    "zgoda_na_publikacje": true,
+    "odpowiedz": "Przykładowa odpowiedź demo. Nie. Rozmowa, przeglądanie innowacji i zgłoszenia działają bez konta. Zgłoszenia odbierasz pod osobnym linkiem do wątku, a szkice w Kreatorze pomysłów wracają z adresu szkicu, więc zachowaj te linki.",
+    "odpowiedziano": "2026-09-27T01:36:11.702073+00:00",
+    "status": "opublikowane",
+    "syntetyczne": true,
+    "created_at": "2026-10-04T01:36:11.699416+00:00",
+    "updated_at": "2026-10-04T01:36:11.699416+00:00"
+   }
+  ],
+  "importy_dokumentow": [
+   {
+    "id": 1,
+    "nazwa_pliku": "autobus-zdrowia-opis-projektu.docx",
+    "status": "szkic",
+    "tekst": "Sąsiedzki Autobus Zdrowia. Seniorzy mieszkający w małych wsiach nie mają jak dojechać do przychodni, bo nie kursuje komunikacja publiczna. Gmina uruchamia mały autobus, który dwa razy w tygodniu wozi mieszkańców do przychodni i apteki. Pilotaż w dwóch gminach objął 62 seniorów, a liczba odwołanych wizyt spadła o 40 procent.",
+    "pola": {
+     "nazwa": {
+      "wartosc": "Sąsiedzki Autobus Zdrowia",
+      "cytat": "Sąsiedzki Autobus Zdrowia",
+      "pewnosc": 0.95
+     },
+     "problem": {
+      "wartosc": "Seniorzy ze wsi nie mają jak dojechać do przychodni.",
+      "cytat": "nie mają jak dojechać do przychodni, bo nie kursuje komunikacja publiczna",
+      "pewnosc": 0.9
+     },
+     "czy_dziala": {
+      "wartosc": "Pilotaż w dwóch gminach: 62 seniorów, o 40% mniej odwołanych wizyt.",
+      "cytat": "liczba odwołanych wizyt spadła o 40 procent",
+      "pewnosc": 0.85
+     },
+     "poziom_dowodu": {
+      "wartosc": "pilotaz",
+      "cytat": "Pilotaż w dwóch gminach",
+      "pewnosc": 0.55
+     }
+    },
+    "ekstrakcja_zrodlo": "ai",
+    "komunikat": null,
+    "karta_slug": null,
+    "created_at": "2026-10-03T01:48:04.194907+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 2,
+    "nazwa_pliku": "wsparcie-opiekunow-demencja.pdf",
+    "status": "zatwierdzony",
+    "tekst": "Telefon zaufania dla opiekunów osób z demencją. Opiekunowie rodzinni dzwonią do przeszkolonych wolontariuszy, którzy podpowiadają, jak reagować na powtarzające się pytania i jak zadbać o siebie. Usługa działa od roku w trzech powiatach.",
+    "pola": {
+     "nazwa": {
+      "wartosc": "Telefon zaufania dla opiekunów",
+      "cytat": "Telefon zaufania dla opiekunów osób z demencją",
+      "pewnosc": 0.9
+     },
+     "poziom_dowodu": {
+      "wartosc": "wdrozony",
+      "cytat": "Usługa działa od roku w trzech powiatach",
+      "pewnosc": 0.8
+     }
+    },
+    "ekstrakcja_zrodlo": "ai",
+    "komunikat": null,
+    "karta_slug": null,
+    "created_at": "2026-10-02T01:48:04.194907+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 3,
+    "nazwa_pliku": "notatka-ze-spotkania.docx",
+    "status": "odrzucony",
+    "tekst": "Notatka ze spotkania zespołu: omówiliśmy harmonogram szkoleń na jesień oraz rozliczenie delegacji. Nie ma tu opisu żadnego rozwiązania społecznego.",
+    "pola": {},
+    "ekstrakcja_zrodlo": "reczna",
+    "komunikat": "Nie znaleziono pól karty. Uzupełnij je ręcznie.",
+    "karta_slug": null,
+    "created_at": "2026-10-01T01:48:04.194907+00:00",
+    "updated_at": "2026-10-04T01:48:04.117150+00:00"
+   }
+  ],
+  "notatki_rops": [
+   {
+    "id": 1,
+    "tytul": "Transport seniorów na wsi: brakuje innowacji w bazie",
+    "tresc": "Pięć zgłoszeń z ostatnich tygodni dotyczy dojazdu seniorów do lekarza. W bazie nie ma karty o transporcie na wsi. Warto zebrać przykłady (autobusy sąsiedzkie, wolontariat).\n[demo-extra]",
+    "zgloszenia_ids": [
+     7,
+     8,
+     9,
+     10,
+     11
+    ],
+    "wykonana": false,
+    "created_at": "2026-10-04T01:48:04.117150+00:00"
+   },
+   {
+    "id": 2,
+    "tytul": "Wypalenie pracowników OPS",
+    "tresc": "Trzy zgłoszenia od pracowników ośrodków pomocy społecznej. Do rozważenia: karta o superwizji i wsparciu zespołów.\n[demo-extra]",
+    "zgloszenia_ids": [
+     12,
+     13,
+     14
+    ],
+    "wykonana": true,
+    "created_at": "2026-10-04T01:48:04.117150+00:00"
+   }
+  ],
+  "nazwy_klastrow": [],
+  "szablony_canvy": [
+   {
+    "slug": "innowacji-spolecznych",
+    "nazwa": "Canva innowacji społecznych",
+    "opis": "Plansza do opisania pomysłu: problem, osoby, rozwiązanie, wartość, koszty i pieniądze. Układ pól odtworzony z 3-stronicowej Social Innovation Canvas (INNO AGH, wersja 1.0), udostępnionej przez ROPS Kraków.",
+    "url_zrodlowy": "https://rops.krakow.pl/pliki-do-pobrania/wpis,social-canvas,1547",
+    "sekcje": [
+     {
+      "klucz": "problem_intensywnosc",
+      "grupa": "Problem",
+      "tytul": "Intensywność problemu",
+      "podpowiedz": "Jak bardzo źle jest bez Waszego rozwiązania?",
+      "pytania": [
+       "Czy problem lekko przeszkadza, utrudnia działanie, mocno przeszkadza, czy jest bardzo poważny?",
+       "Co konkretnie się dzieje: stres, wykluczenie, realna krzywda?"
+      ]
+     },
+     {
+      "klucz": "problem_czestotliwosc",
+      "grupa": "Problem",
+      "tytul": "Częstotliwość",
+      "podpowiedz": "Jak często występuje problem, na który odpowiada Wasze rozwiązanie?",
+      "pytania": [
+       "Rzadko, czasami, często, a może codziennie?",
+       "Kiedy najczęściej się pojawia?"
+      ]
+     },
+     {
+      "klucz": "problem_skala",
+      "grupa": "Problem",
+      "tytul": "Skala problemu",
+      "podpowiedz": "Ilu ludzi dotyka problem?",
+      "pytania": [
+       "Pojedyncze osoby, wąska grupa, duża grupa czy bardzo szeroka grupa?",
+       "Skąd o tym wiecie (rozmowy, obserwacje, dane)?"
+      ]
+     },
+     {
+      "klucz": "aktorzy_wspierajacy",
+      "grupa": "Aktorzy zmiany",
+      "tytul": "Kto wspiera zmianę",
+      "podpowiedz": "Osoby, grupy lub instytucje, które widzą potrzebę zmiany, wspierają pomysł lub mogą pomóc go wdrożyć.",
+      "pytania": [
+       "Kto najbardziej potrzebuje tej zmiany?",
+       "Kto może Was poprzeć, polecić albo otworzyć drzwi?",
+       "Kto ma energię, wpływ lub zasoby, żeby pomóc?"
+      ]
+     },
+     {
+      "klucz": "aktorzy_utrudniajacy",
+      "grupa": "Aktorzy zmiany",
+      "tytul": "Kto utrudnia zmianę",
+      "podpowiedz": "Osoby, grupy lub instytucje, które mogą nie chcieć zmiany, bać się jej albo utrudniać wdrożenie.",
+      "pytania": [
+       "Kto może się bać dodatkowej pracy, kosztów lub ryzyka?",
+       "Kto może zablokować decyzję, finansowanie albo dostęp do odbiorców?"
+      ]
+     },
+     {
+      "klucz": "rozwiazanie_prostota",
+      "grupa": "Rozwiązanie",
+      "tytul": "Prostota i zrozumiałość",
+      "podpowiedz": "Czy osoba, która pierwszy raz widzi rozwiązanie, szybko rozumie, dla kogo jest, jak działa i co daje?",
+      "pytania": [
+       "Czy trzeba długo tłumaczyć, o co chodzi?",
+       "Co trzeba zrobić, żeby skorzystać z rozwiązania?"
+      ]
+     },
+     {
+      "klucz": "rozwiazanie_wartosc",
+      "grupa": "Rozwiązanie",
+      "tytul": "Przystępność i wartość rozwiązania",
+      "podpowiedz": "Czy korzyść jest większa niż koszt, czas i wysiłek odbiorców?",
+      "pytania": [
+       "Co odbiorca zyskuje?",
+       "Ile go to kosztuje (pieniądze, czas, wysiłek)?"
+      ]
+     },
+     {
+      "klucz": "rozwiazanie_gotowosc",
+      "grupa": "Rozwiązanie",
+      "tytul": "Gotowość do wdrożenia",
+      "podpowiedz": "Na jakim etapie jest pomysł: koncepcja, prototyp, test z odbiorcami, wdrożenie?",
+      "pytania": [
+       "Czy rozwiązanie zostało już sprawdzone z odbiorcami?",
+       "Co jeszcze trzeba przetestować?"
+      ]
+     },
+     {
+      "klucz": "koszty_stale",
+      "grupa": "Struktura kosztów",
+      "tytul": "Stałe koszty",
+      "podpowiedz": "Koszty, które trzeba ponieść niezależnie od liczby odbiorców.",
+      "pytania": [
+       "Np. koordynator, wynajem sali, oprogramowanie, szkolenie zespołu.",
+       "Co trzeba kupić lub zorganizować, zanim ruszycie?"
+      ]
+     },
+     {
+      "klucz": "koszty_zmienne",
+      "grupa": "Struktura kosztów",
+      "tytul": "Zmienne koszty",
+      "podpowiedz": "Rosną, gdy korzysta więcej osób lub gdy realizujecie więcej działań.",
+      "pytania": [
+       "Np. materiały dla uczestników, czas specjalisty na jedną osobę, dojazdy, catering, wydruki.",
+       "Co kosztuje za każdym razem, gdy pomagacie kolejnej osobie?"
+      ]
+     },
+     {
+      "klucz": "odbiorcy_uzytkownik",
+      "grupa": "Odbiorcy",
+      "tytul": "Główny użytkownik",
+      "podpowiedz": "Komu to rozwiązanie ma realnie pomóc?",
+      "pytania": [
+       "Np. dzieci, młodzież, rodzice, seniorzy, osoby z niepełnosprawnościami, nauczyciele, osoby w kryzysie, mieszkańcy konkretnego miejsca.",
+       "Jak wygląda typowy odbiorca?"
+      ]
+     },
+     {
+      "klucz": "wartosc_funkcjonalna",
+      "grupa": "Propozycja wartości",
+      "tytul": "Wartość funkcjonalna",
+      "podpowiedz": "Co rozwiązanie konkretnie poprawia?",
+      "pytania": [
+       "Jaką czynność lub sprawę ułatwia?",
+       "Co odbiorca może dzięki temu zrobić, czego wcześniej nie mógł?"
+      ]
+     },
+     {
+      "klucz": "wartosc_emocjonalna",
+      "grupa": "Propozycja wartości",
+      "tytul": "Wartość emocjonalna",
+      "podpowiedz": "Co odbiorcy poczują dzięki rozwiązaniu? Wybierzcie 2–3 najważniejsze.",
+      "pytania": [
+       "Np. bezpieczeństwo, niezależność, spokój, motywacja, włączenie społeczne, mniejsza samotność, poczucie bycia widzianym, większa sprawczość."
+      ]
+     },
+     {
+      "klucz": "dochod_glowny",
+      "grupa": "Źródła dochodów",
+      "tytul": "Główny dochód",
+      "podpowiedz": "Co jest podstawowym źródłem pieniędzy? Za co będą najpewniej płacić w pierwszej kolejności?",
+      "pytania": [
+       "Nie wiemy jeszcze, mamy pomysł, mamy konkretną propozycję czy mamy potwierdzenie?",
+       "Czy sprawdziliście to z potencjalnym płatnikiem?"
+      ]
+     },
+     {
+      "klucz": "dochod_platnik",
+      "grupa": "Źródła dochodów",
+      "tytul": "Klient / płatnik",
+      "podpowiedz": "Kto uruchamia budżet, żeby Wasze rozwiązanie działało?",
+      "pytania": [
+       "Np. sam użytkownik, rodzic lub opiekun, szkoła, firma, urząd miasta lub gminy, fundacja, grantodawca, sponsor, NFZ lub inna instytucja publiczna."
+      ]
+     },
+     {
+      "klucz": "dochod_skalowanie",
+      "grupa": "Źródła dochodów",
+      "tytul": "Skalowanie dochodu",
+      "podpowiedz": "Jakie dodatkowe rzeczy możecie sprzedawać lub finansować w przyszłości?",
+      "pytania": [
+       "Czy widzicie inne źródła finansowania niż główne?",
+       "Co by się musiało zmienić, żeby dochód mógł rosnąć?"
+      ]
+     }
+    ]
+   }
+  ],
+  "nabory": [
+   {
+    "id": 1,
+    "slug": "mikrogranty-lokalnie-razem-dane-demo",
+    "nazwa": "Mikrogranty „Lokalnie razem” (dane demo)",
+    "organizator": "Organizator demonstracyjny (dane syntetyczne)",
+    "opis": "Przykładowy aktywny nabór na małe projekty lokalne (dane wymyślone).",
+    "url_zrodlowy": null,
+    "termin_od": "2026-09-20",
+    "termin_do": "2026-11-03",
+    "pola": [
+     {
+      "klucz": "opis_projektu",
+      "etykieta": "Opis projektu",
+      "limit": 1000,
+      "wskazowka": "Na czym polega projekt i co zmieni.",
+      "zrodla": [
+       "istota",
+       "etap"
+      ]
+     },
+     {
+      "klucz": "grupa_docelowa",
+      "etykieta": "Grupa docelowa",
+      "limit": 400,
+      "wskazowka": "Kto skorzysta z projektu.",
+      "zrodla": [
+       "odbiorca"
+      ]
+     },
+     {
+      "klucz": "uzasadnienie",
+      "etykieta": "Uzasadnienie potrzeby",
+      "limit": 800,
+      "wskazowka": "Dlaczego projekt jest potrzebny.",
+      "zrodla": [
+       "istota",
+       "odbiorca"
+      ]
+     },
+     {
+      "klucz": "miejsce",
+      "etykieta": "Miejsce realizacji",
+      "limit": 200,
+      "wskazowka": "Gmina lub powiat.",
+      "zrodla": [
+       "lokalizacja"
+      ]
+     },
+     {
+      "klucz": "potrzeby",
+      "etykieta": "Czego potrzeba do realizacji",
+      "limit": 600,
+      "wskazowka": "Zasoby, partnerzy, wsparcie.",
+      "zrodla": [
+       "potrzeby"
+      ]
+     },
+     {
+      "klucz": "budzet",
+      "etykieta": "Budżet projektu",
+      "limit": 500,
+      "wskazowka": "Kosztorys przygotuj sam: AI nie podaje kwot.",
+      "zrodla": []
+     },
+     {
+      "klucz": "wskazniki",
+      "etykieta": "Wskaźniki rezultatu",
+      "limit": 500,
+      "wskazowka": "Po czym poznasz, że projekt się udał.",
+      "zrodla": []
+     }
+    ],
+    "kryteria": [
+     {
+      "nazwa": "Trafność",
+      "opis": "Czy projekt odpowiada na realną potrzebę?"
+     },
+     {
+      "nazwa": "Wykonalność",
+      "opis": "Czy da się go zrealizować w terminie?"
+     },
+     {
+      "nazwa": "Wpływ społeczny",
+      "opis": "Ilu osobom realnie pomoże?"
+     }
+    ],
+    "obszary": [
+     "dla-seniorow",
+     "dla-cudzoziemcow",
+     "dla-dzieci-mlodziezy-i-rodziny"
+    ],
+    "odbiorcy": [
+     "senior",
+     "uczni",
+     "rodzin"
+    ],
+    "syntetyczny": true,
+    "created_at": "2026-10-04T01:46:33.073766+00:00",
+    "updated_at": "2026-10-04T01:46:33.073766+00:00"
+   },
+   {
+    "id": 2,
+    "slug": "wsparcie-innowacji-spolecznych-2026-i-edycja-dane-demo",
+    "nazwa": "Wsparcie innowacji społecznych 2026, I edycja (dane demo)",
+    "organizator": "Organizator demonstracyjny (dane syntetyczne)",
+    "opis": "Przykładowy zakończony nabór. Dane wymyślone na potrzeby demo.",
+    "url_zrodlowy": null,
+    "termin_od": "2026-06-06",
+    "termin_do": "2026-08-05",
+    "pola": [
+     {
+      "klucz": "opis_projektu",
+      "etykieta": "Opis projektu",
+      "limit": 1000,
+      "wskazowka": "Na czym polega projekt i co zmieni.",
+      "zrodla": [
+       "istota",
+       "etap"
+      ]
+     },
+     {
+      "klucz": "grupa_docelowa",
+      "etykieta": "Grupa docelowa",
+      "limit": 400,
+      "wskazowka": "Kto skorzysta z projektu.",
+      "zrodla": [
+       "odbiorca"
+      ]
+     },
+     {
+      "klucz": "uzasadnienie",
+      "etykieta": "Uzasadnienie potrzeby",
+      "limit": 800,
+      "wskazowka": "Dlaczego projekt jest potrzebny.",
+      "zrodla": [
+       "istota",
+       "odbiorca"
+      ]
+     }
+    ],
+    "kryteria": [
+     {
+      "nazwa": "Innowacyjność",
+      "opis": "Czy rozwiązanie jest nowe?"
+     }
+    ],
+    "obszary": [
+     "dla-rynku-pracy",
+     "dla-zdrowia-i-medycyny"
+    ],
+    "odbiorcy": [
+     "bezrobotn"
+    ],
+    "syntetyczny": true,
+    "created_at": "2026-10-04T01:46:33.106607+00:00",
+    "updated_at": "2026-10-04T01:46:33.106607+00:00"
+   }
+  ],
+  "fiszki": [
+   {
+    "id": 1,
+    "token": "NGgTp0DBB5qb4rrl4cZiu96OBLDrlzYw",
+    "status": "szkic",
+    "opis_wlasny": null,
+    "istota": "Mobilny punkt porad, który raz w tygodniu przyjeżdża do świetlic wiejskich i pomaga seniorom załatwić sprawy urzędowe i zdrowotne.",
+    "odbiorca": "Samotni seniorzy z małych miejscowości",
+    "etap": "test_mikroskala",
+    "obszar": "dla-seniorow",
+    "lokalizacja": "Gmina Przykładowo (przykład)",
+    "potrzeby": "Samochód, dwóch wolontariuszy i szkolenie z pierwszej pomocy.",
+    "pola_ai": [],
+    "karta_slug": null,
+    "token_watku": null,
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:33.118993+00:00",
+    "updated_at": "2026-10-04T01:46:33.118993+00:00"
+   },
+   {
+    "id": 2,
+    "token": "B21UDqcUtobTGjWsdKrnEuCZbklNQqQG",
+    "status": "szkic",
+    "opis_wlasny": null,
+    "istota": "Codzienna krótka rozmowa telefoniczna z wolontariuszem dla osób, które rzadko z kimś rozmawiają.",
+    "odbiorca": "Osoby starsze mieszkające samotnie",
+    "etap": "pomysl",
+    "obszar": "dla-seniorow",
+    "lokalizacja": null,
+    "potrzeby": null,
+    "pola_ai": [],
+    "karta_slug": null,
+    "token_watku": null,
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:33.129970+00:00",
+    "updated_at": "2026-10-04T01:46:33.129970+00:00"
+   },
+   {
+    "id": 3,
+    "token": "HGBTVIgtUWkm2rBZclj2KnMPLJruRD56",
+    "status": "wyslana",
+    "opis_wlasny": null,
+    "istota": "Szkolny asystent kulturowy, który tłumaczy i pomaga nowym uczniom z zagranicy odnaleźć się w klasie.",
+    "odbiorca": "Uczniowie i rodzice cudzoziemcy oraz nauczyciele",
+    "etap": "wdrozone_lokalnie",
+    "obszar": "dla-cudzoziemcow",
+    "lokalizacja": "Powiat Przykładowy (przykład)",
+    "potrzeby": "Dofinansowanie etatu asystenta na kolejny rok szkolny.",
+    "pola_ai": [],
+    "karta_slug": null,
+    "token_watku": "SaTXmaElumkZKQUVkwRNiN_QaeBVwS_a",
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:33.140938+00:00",
+    "updated_at": "2026-10-04T01:46:33.181839+00:00"
+   },
+   {
+    "id": 4,
+    "token": "HG7UZzs5oevyvM2wyDXu0Qm9Wt-OsPuF",
+    "status": "szkic",
+    "opis_wlasny": null,
+    "istota": "Warsztaty obsługi telefonu z czytnikiem ekranu dla osób niewidomych.",
+    "odbiorca": "Osoby z niepełnosprawnością wzroku",
+    "etap": "test_mikroskala",
+    "obszar": "dla-osob-z-niepelnosprawnoscia-sensoryczna",
+    "lokalizacja": null,
+    "potrzeby": null,
+    "pola_ai": [],
+    "karta_slug": null,
+    "token_watku": null,
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:33.151233+00:00",
+    "updated_at": "2026-10-04T01:46:33.151233+00:00"
+   }
+  ],
+  "canvy": [
+   {
+    "id": 1,
+    "token": "demo-canva-przyklad",
+    "szablon_slug": "innowacji-spolecznych",
+    "tytul": "Mobilny punkt porad (demo)",
+    "fiszka_id": 1,
+    "wartosci": {
+     "problem_intensywnosc": "Utrudnia działanie: seniorzy rezygnują z załatwiania spraw.",
+     "problem_czestotliwosc": "Często: kilka razy w miesiącu.",
+     "problem_skala": "Duża grupa: samotni seniorzy w kilku wsiach gminy.",
+     "aktorzy_wspierajacy": "Sołtysi, koła gospodyń wiejskich, lokalny ośrodek pomocy społecznej.",
+     "aktorzy_utrudniajacy": "Brak środków na paliwo, niechęć do zmian u części urzędników.",
+     "rozwiazanie_gotowosc": "Prototyp: przetestowany w dwóch świetlicach.",
+     "koszty_stale": "Samochód, ubezpieczenie, koordynator na część etatu.",
+     "odbiorcy_uzytkownik": "Samotni seniorzy bez dostępu do transportu."
+    },
+    "syntetyczna": true,
+    "created_at": "2026-10-04T01:46:33.191136+00:00",
+    "updated_at": "2026-10-04T01:46:33.191136+00:00"
+   }
+  ],
+  "wnioski": []
+ }
+}

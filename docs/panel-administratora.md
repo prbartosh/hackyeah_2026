@@ -6,7 +6,7 @@ Decyzje: [ADR 0006](adr/0006-panel-administratora.md).
 
 1. W `.env` ustaw `ADMIN_TOKEN` (długi sekret) i opcjonalnie `LLM_API_KEY`. Bez tokenu panel jest wyłączony (503), bez klucza działa tryb regułowy.
 2. `docker compose up --build`. Przy starcie backend importuje 115 kart z `assets/innowacje-spoleczne/` jako opublikowane.
-3. Dane demo (idempotentne): `docker compose exec backend python scripts/seed_demo.py` (zgłoszenia „Dane demo”, mentorzy, ogłoszenia, pytania). Oceny i testy: `scripts/seed_tester.py` ([ADR 0011](adr/0011-tester-innowacji.md)).
+3. Dane demo ładują się same przy starcie do pustej bazy (`DEMO_DATA=true`, plik `backend/scripts/demo-data.json`, wszystko wymyślone). Ręczne seedy (idempotentne): `docker compose exec backend python scripts/seed_demo.py` (zgłoszenia „Dane demo”, mentorzy, ogłoszenia, pytania). Oceny i testy: `scripts/seed_tester.py` ([ADR 0011](adr/0011-tester-innowacji.md)).
 4. Dokumenty do uploadu: `assets/demo/*.docx` (odtworzenie: `python backend/scripts/make_demo_documents.py`).
 5. Aplikacja: <http://localhost:8080>. Panel: `/admin` (logowanie tokenem). Formularz zgłoszenia: `/zglos`.
 
