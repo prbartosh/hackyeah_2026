@@ -23,7 +23,7 @@ function Indicator({ w }: { w: WskaznikGminy }) {
 function GminaBlock({ gmina }: { gmina: GminaStats }) {
   const sources = [...new Set(gmina.obszary.flatMap((o) => o.wskazniki.map((w) => w.zrodlo)))]
   return (
-    <section className="gmina-block" aria-labelledby="gmina-title">
+    <section className="gmina-block" data-tour="czat-gmina" aria-labelledby="gmina-title">
       <h3 id="gmina-title" className="gmina-title">Dane gminy</h3>
       {gmina.obszary.map((o) => (
         <div key={`${o.nazwa}-${o.powiat}`} className="gmina-area">
@@ -92,14 +92,14 @@ export default function ProblemPanel() {
 
   if (wide) {
     return (
-      <aside className="problem-panel" aria-labelledby="problem-title">
+      <aside className="problem-panel" data-tour="czat-panel" aria-labelledby="problem-title">
         <h2 id="problem-title" className="panel-title">Twój problem</h2>
         <PanelBody />
       </aside>
     )
   }
   return (
-    <details className="problem-panel">
+    <details className="problem-panel" data-tour="czat-panel">
       <summary>
         <h2 className="panel-title">Twój problem</h2>
         <span className="panel-count">
