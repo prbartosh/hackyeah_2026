@@ -26,8 +26,18 @@ def upgrade() -> None:
     sa.Column('ekstrakcja_zrodlo', sa.String(length=10), nullable=False),
     sa.Column('komunikat', sa.Text(), nullable=True),
     sa.Column('karta_slug', sa.String(length=200), nullable=True),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+    sa.Column(
+        'created_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
+    sa.Column(
+        'updated_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('innowacje',
@@ -56,8 +66,18 @@ def upgrade() -> None:
     sa.Column('wdrozenie', sa.JSON(), nullable=True),
     sa.Column('embedding', sa.JSON(), nullable=True),
     sa.Column('embedding_model', sa.String(length=80), nullable=True),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+    sa.Column(
+        'created_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
+    sa.Column(
+        'updated_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('nazwy_klastrow',
@@ -71,7 +91,12 @@ def upgrade() -> None:
     sa.Column('tresc', sa.Text(), nullable=False),
     sa.Column('zgloszenia_ids', sa.JSON(), nullable=False),
     sa.Column('wykonana', sa.Boolean(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+    sa.Column(
+        'created_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('ustawienia',
@@ -90,7 +115,12 @@ def upgrade() -> None:
     sa.Column('autor_rola', sa.String(length=10), nullable=False),
     sa.Column('tresc', sa.Text(), nullable=False),
     sa.Column('zrodla', sa.JSON(), nullable=True),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+    sa.Column(
+        'created_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('zgloszenia',
@@ -113,8 +143,18 @@ def upgrade() -> None:
     sa.Column('najlepsze_dopasowanie', sa.Float(), nullable=True),
     sa.Column('embedding', sa.JSON(), nullable=True),
     sa.Column('embedding_model', sa.String(length=80), nullable=True),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
-    sa.Column('updated_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+    sa.Column(
+        'created_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
+    sa.Column(
+        'updated_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('powiadomienia',
@@ -122,7 +162,12 @@ def upgrade() -> None:
     sa.Column('tekst', sa.String(length=500), nullable=False),
     sa.Column('zgloszenie_id', sa.Integer(), nullable=True),
     sa.Column('przeczytane', sa.Boolean(), nullable=False),
-    sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+    sa.Column(
+        'created_at',
+        sa.DateTime(timezone=True),
+        server_default=sa.func.now(),
+        nullable=False,
+    ),
     sa.ForeignKeyConstraint(['zgloszenie_id'], ['zgloszenia.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
@@ -131,7 +176,9 @@ def upgrade() -> None:
     op.create_index("ix_zgloszenia_token_watku", "zgloszenia", ["token_watku"], unique=True)
     op.create_index("ix_zgloszenia_status", "zgloszenia", ["status"], unique=False)
     op.create_index("ix_zgloszenia_kategoria", "zgloszenia", ["kategoria"], unique=False)
-    op.create_index("ix_wiadomosci_watku_token_watku", "wiadomosci_watku", ["token_watku"], unique=False)
+    op.create_index(
+        "ix_wiadomosci_watku_token_watku", "wiadomosci_watku", ["token_watku"], unique=False
+    )
     op.create_index("ix_powiadomienia_przeczytane", "powiadomienia", ["przeczytane"], unique=False)
     op.create_index("ix_importy_dokumentow_status", "importy_dokumentow", ["status"], unique=False)
 

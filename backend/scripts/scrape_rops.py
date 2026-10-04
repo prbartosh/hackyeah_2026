@@ -170,7 +170,14 @@ def parse_item_page(html: str, slug: str, categories: list[str], url: str) -> di
                 text = _section_text(heading)
                 record[field] = _organization_only(text) if field == "organizacja" else text
                 break
-    for field in ("opis", "problem", "grupa_docelowa", "kto_moze_skorzystac", "czy_dziala", "organizacja"):
+    for field in (
+        "opis",
+        "problem",
+        "grupa_docelowa",
+        "kto_moze_skorzystac",
+        "czy_dziala",
+        "organizacja",
+    ):
         record[field] = record[field] or None
     return record
 
@@ -182,7 +189,12 @@ def scrape(refresh: bool) -> tuple[list[dict], list[dict]]:
             {
                 m[1]
                 for a in BeautifulSoup(index_html, "html.parser").select("a[href]")
-                if (m := re.match(rf"^(?:https?://rops\.krakow\.pl)?{re.escape(LIBRARY)}/(dla-[a-z0-9-]+)$", a["href"]))
+                if (
+                    m := re.match(
+                        rf"^(?:https?://rops\.krakow\.pl)?{re.escape(LIBRARY)}/(dla-[a-z0-9-]+)$",
+                        a["href"],
+                    )
+                )
             }
         )
         categories: list[dict] = []
@@ -211,7 +223,9 @@ def scrape(refresh: bool) -> tuple[list[dict], list[dict]]:
         innovations = []
         for slug, path in sorted(item_paths.items()):
             url = f"{BASE}{path}"
-            innovations.append(parse_item_page(fetch(client, url, refresh), slug, item_cats[slug], url))
+            innovations.append(
+                parse_item_page(fetch(client, url, refresh), slug, item_cats[slug], url)
+            )
     return innovations, categories
 
 

@@ -18,8 +18,18 @@ depends_on: str | Sequence[str] | None = None
 
 def _timestamps() -> list[sa.Column]:
     return [
-        sa.Column("created_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
-        sa.Column("updated_at", sa.DateTime(timezone=True), server_default=sa.func.now(), nullable=False),
+        sa.Column(
+            "created_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
+        ),
+        sa.Column(
+            "updated_at",
+            sa.DateTime(timezone=True),
+            server_default=sa.func.now(),
+            nullable=False,
+        ),
     ]
 
 
@@ -73,8 +83,16 @@ def upgrade() -> None:
         "wnioski",
         sa.Column("id", sa.Integer(), primary_key=True),
         sa.Column("token", sa.String(64), nullable=False),
-        sa.Column("fiszka_id", sa.Integer(), sa.ForeignKey("fiszki.id", ondelete="CASCADE"), nullable=False),
-        sa.Column("nabor_id", sa.Integer(), sa.ForeignKey("nabory.id", ondelete="CASCADE"), nullable=False),
+        sa.Column(
+            "fiszka_id", sa.Integer(),
+            sa.ForeignKey("fiszki.id", ondelete="CASCADE"),
+            nullable=False,
+        ),
+        sa.Column(
+            "nabor_id", sa.Integer(),
+            sa.ForeignKey("nabory.id", ondelete="CASCADE"),
+            nullable=False,
+        ),
         sa.Column("pola", sa.JSON(), nullable=False),
         sa.Column("status", sa.String(10), nullable=False),
         sa.Column("token_watku", sa.String(64)),
@@ -95,7 +113,11 @@ def upgrade() -> None:
         "canvy",
         sa.Column("id", sa.Integer(), primary_key=True),
         sa.Column("token", sa.String(64), nullable=False),
-        sa.Column("szablon_slug", sa.String(100), sa.ForeignKey("szablony_canvy.slug"), nullable=False),
+        sa.Column(
+            "szablon_slug", sa.String(100),
+            sa.ForeignKey("szablony_canvy.slug"),
+            nullable=False,
+        ),
         sa.Column("tytul", sa.String(300), nullable=False),
         sa.Column("fiszka_id", sa.Integer(), sa.ForeignKey("fiszki.id", ondelete="SET NULL")),
         sa.Column("wartosci", sa.JSON(), nullable=False),

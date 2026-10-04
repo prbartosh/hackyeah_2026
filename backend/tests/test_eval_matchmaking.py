@@ -70,7 +70,9 @@ def test_summary():
         Outcome(case(), error="boom"),
         Outcome(case(expected=None), no_good_match=True),
     ]
-    assert summary(outcomes) == "top 1: 1/3, top 3: 2/3, top 5: 2/3, brak dopasowania: 1/1, błędy: 1"
+    assert summary(outcomes) == (
+        "top 1: 1/3, top 3: 2/3, top 5: 2/3, brak dopasowania: 1/1, błędy: 1"
+    )
 
 
 def test_append_result_creates_and_extends_section(tmp_path):
