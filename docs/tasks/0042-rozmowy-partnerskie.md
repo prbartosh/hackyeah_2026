@@ -1,8 +1,8 @@
 # 0042. Rozmowa partnerska przez ROPS (moduł V)
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR: 
+- PR: #64
 
 ## Cel
 
