@@ -102,10 +102,15 @@ async def test_kontakt_przez_rops(admin_client, caplog):
     # Autor dostaje wiadomość od ROPS, nadawca nie poznaje adresu autora.
     assert "do ops@example.test" in caplog.text
     assert "Chętnie pomożemy" in caplog.text
-    assert "fundacja@example.test" not in caplog.text
+    to_author = next(
+        r.getMessage() for r in caplog.records if "do ops@example.test" in r.getMessage()
+    )
+    assert "fundacja@example.test" not in to_author
+    assert "/rozmowa/" in to_author
+    assert response.json()["token_rozmowy"]
 
     notes = (await admin_client.get("/api/v1/admin/powiadomienia")).json()
-    assert any("Wiadomość do autora ogłoszenia" in n["tekst"] for n in notes["items"])
+    assert any("Nowa rozmowa partnerska" in n["tekst"] for n in notes["items"])
 
 
 async def test_kontakt_walidacja_i_brak_ogloszenia(admin_client):

@@ -1,14 +1,23 @@
-from sqlalchemy import func, select
+from __future__ import annotations
+
+from sqlalchemy import func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.models import PartnershipMessage, PartnershipOffer
+from app.models import (
+    PartnershipConversation,
+    PartnershipConversationMessage,
+    PartnershipOffer,
+)
 
 
 class PartnershipRepository:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
 
-    async def add(self, row: PartnershipOffer | PartnershipMessage) -> None:
+    async def add(
+        self,
+        row: PartnershipOffer | PartnershipConversation | PartnershipConversationMessage,
+    ) -> None:
         self.session.add(row)
         await self.session.flush()
 
@@ -44,3 +53,49 @@ class PartnershipRepository:
             .limit(limit)
         )
         return list(rows.all()), total or 0
+
+    async def conversation_by_token(self, token: str) -> PartnershipConversation | None:
+        return await self.session.scalar(
+            select(PartnershipConversation).where(
+                or_(
+                    PartnershipConversation.token_nadawcy == token,
+                    PartnershipConversation.token_autora == token,
+                )
+            )
+        )
+
+    async def conversation(self, conversation_id: int) -> PartnershipConversation | None:
+        return await self.session.get(PartnershipConversation, conversation_id)
+
+    async def conversation_messages(
+        self, conversation_id: int
+    ) -> list[PartnershipConversationMessage]:
+        rows = await self.session.scalars(
+            select(PartnershipConversationMessage)
+            .where(PartnershipConversationMessage.rozmowa_id == conversation_id)
+            .order_by(PartnershipConversationMessage.id)
+        )
+        return list(rows.all())
+
+    async def list_conversations(
+        self, offset: int, limit: int
+    ) -> tuple[list[tuple[PartnershipConversation, str, int]], int]:
+        """Rozmowy (ostatnio aktywne pierwsze) z tytułem ogłoszenia i liczbą wiadomości."""
+        count = (
+            select(
+                PartnershipConversationMessage.rozmowa_id.label("rid"),
+                func.count().label("n"),
+            )
+            .group_by(PartnershipConversationMessage.rozmowa_id)
+            .subquery()
+        )
+        rows = await self.session.execute(
+            select(PartnershipConversation, PartnershipOffer.tytul, func.coalesce(count.c.n, 0))
+            .join(PartnershipOffer, PartnershipOffer.id == PartnershipConversation.ogloszenie_id)
+            .outerjoin(count, count.c.rid == PartnershipConversation.id)
+            .order_by(PartnershipConversation.updated_at.desc(), PartnershipConversation.id.desc())
+            .offset(offset)
+            .limit(limit)
+        )
+        total = await self.session.scalar(select(func.count()).select_from(PartnershipConversation))
+        return [(c, t, n) for c, t, n in rows.all()], total or 0

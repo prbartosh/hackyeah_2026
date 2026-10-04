@@ -1,10 +1,13 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Query, status
+from fastapi import APIRouter, Path, Query, status
 
 from app.api.deps import PartnershipServiceDep
 from app.schemas.partnership import (
     ContactCreate,
+    ContactCreated,
+    ConversationView,
+    MessageCreate,
     OfferCreate,
     OfferCreated,
     OfferPublic,
@@ -42,11 +45,36 @@ async def create_offer(data: OfferCreate, service: PartnershipServiceDep) -> Off
 
 @router.post(
     "/{offer_id}/kontakt",
+    response_model=ContactCreated,
     status_code=status.HTTP_202_ACCEPTED,
-    summary="Wiadomość do autora ogłoszenia przez ROPS jako pośrednika",
+    summary="Otwiera rozmowę z autorem ogłoszenia przez ROPS jako pośrednika",
 )
 async def contact_author(
     offer_id: int, data: ContactCreate, service: PartnershipServiceDep
-) -> dict[str, str]:
-    await service.contact(offer_id, data)
-    return {"status": "przekazane"}
+) -> ContactCreated:
+    return await service.contact(offer_id, data)
+
+
+@router.get(
+    "/rozmowy/{token}",
+    response_model=ConversationView,
+    summary="Rozmowa widziana ze strony tokenu, bez adresów e-mail",
+)
+async def get_conversation(
+    token: Annotated[str, Path(min_length=8, max_length=64)], service: PartnershipServiceDep
+) -> ConversationView:
+    return await service.view(token)
+
+
+@router.post(
+    "/rozmowy/{token}/wiadomosci",
+    response_model=ConversationView,
+    status_code=status.HTTP_201_CREATED,
+    summary="Nowa wiadomość w rozmowie; druga strona dostaje e-mail z linkiem",
+)
+async def reply(
+    token: Annotated[str, Path(min_length=8, max_length=64)],
+    data: MessageCreate,
+    service: PartnershipServiceDep,
+) -> ConversationView:
+    return await service.reply(token, data)
