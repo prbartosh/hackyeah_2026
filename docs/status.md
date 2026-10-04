@@ -8,6 +8,7 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury (Nikodem, Wiktor): szkice w `docs/jury/`, reszta po działającym demo
 - [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu: zostaje sesja NVDA i raport
+- [0038](tasks/0038-otwarte-dane.md) Otwarte dane: eksport CSV/JSON innowacji i dokumentów, strona `/otwarte-dane` (Nikodem)
 
 ## Do zrobienia
 
