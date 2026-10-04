@@ -109,7 +109,7 @@ export default function DocumentPage() {
           </section>
         </article>
 
-        <aside className="detail-side" aria-label="Plik i źródło">
+        <aside className="detail-side" aria-label="Plik i źródło" data-tour="zasobnik-wskaznik-zrodlo">
           <section className="side-box">
             <h2>{isIndicator ? 'Źródło danych' : 'Dokument'}</h2>
             <dl className="contact-list">

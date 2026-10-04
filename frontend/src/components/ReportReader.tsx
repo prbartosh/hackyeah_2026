@@ -77,10 +77,10 @@ interface SearchProps {
 /** Pole szukania w dokumencie z licznikiem i przechodzeniem między trafieniami. */
 export function ReportSearch({ query, setQuery, onStep, current, total }: SearchProps) {
   return (
-    <div className="zs-r-search" role="search">
+    <div className="zs-r-search" role="search" data-tour="zasobnik-raport-szukaj">
       <label htmlFor="zs-r-q" className="visually-hidden">Szukaj w treści dokumentu</label>
       <Search size={18} aria-hidden="true" />
-      <input id="zs-r-q" type="search" className="zs-r-search-input" placeholder="Szukaj w treści…" value={query} onChange={(e) => setQuery(e.target.value)} autoComplete="off" />
+      <input id="zs-r-q" data-tour="zasobnik-raport-szukaj-pole" type="search" className="zs-r-search-input" placeholder="Szukaj w treści…" value={query} onChange={(e) => setQuery(e.target.value)} autoComplete="off" />
       {query.trim().length >= 2 && (
         <>
           <span role="status" className="zs-r-search-count">{total ? `${current + 1} z ${total}` : 'brak trafień'}</span>

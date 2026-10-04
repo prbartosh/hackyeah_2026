@@ -79,7 +79,7 @@ export default function ZasobnikPage() {
 
   const dzial = params.get('dzial')
   const nav = (
-    <nav aria-label="Działy zasobnika" className="zs-sections">
+    <nav aria-label="Działy zasobnika" className="zs-sections" data-tour="zasobnik-dzialy">
       <Link to="/zasobnik" aria-current={!dzial ? 'page' : undefined}>Innowacje</Link>
       <Link to="/zasobnik?dzial=wyzwania" aria-current={dzial === 'wyzwania' ? 'page' : undefined}>Wyzwania i raporty</Link>
       <Link to="/zasobnik?dzial=wskazniki" aria-current={dzial === 'wskazniki' ? 'page' : undefined}>Wskaźniki</Link>
@@ -124,6 +124,7 @@ export default function ZasobnikPage() {
         <form
           role="search"
           className="zs-composer"
+          data-tour="zasobnik-szukaj"
           onSubmit={(e) => {
             e.preventDefault()
             ustaw({ q: wpisane.trim() || null }, true)
@@ -134,6 +135,7 @@ export default function ZasobnikPage() {
             <Search size={22} aria-hidden="true" className="zs-composer-icon" />
             <input
               id="zs-q"
+              data-tour="zasobnik-szukaj-pole"
               type="search"
               className="zs-composer-input"
               placeholder="Opisz problem lub wpisz słowo kluczowe…"
@@ -148,6 +150,7 @@ export default function ZasobnikPage() {
             <button
               type="button"
               className="zs-chip zs-chip-toggle"
+              data-tour="zasobnik-wybrane"
               aria-pressed={wybrane}
               onClick={() => ustaw({ wybrane: wybrane ? null : '1' })}
             >
@@ -159,7 +162,7 @@ export default function ZasobnikPage() {
         <Kategorie kategorie={kategorie} razem={razem} wybrana={kategoria} onSelect={(slug) => ustaw({ kategoria: slug })} />
       </section>
 
-      <section aria-labelledby="zs-wyniki-h" className="zs-results container">
+      <section aria-labelledby="zs-wyniki-h" className="zs-results container" data-tour="zasobnik-wyniki">
         <div className="zs-results-head">
           <div>
             <h2 id="zs-wyniki-h" className="zs-h2">Innowacje</h2>
@@ -207,7 +210,7 @@ export default function ZasobnikPage() {
           </ul>
         )}
 
-        <p className="hint zs-source">
+        <p className="hint zs-source" data-tour="zasobnik-zrodlo">
           Źródło: <a href="https://rops.krakow.pl/innowacje-spoleczne/biblioteka-innowacji-spolecznych/kategorie">Biblioteka Innowacji Społecznych ROPS Kraków</a>,
           licencja CC BY 4.0.
         </p>

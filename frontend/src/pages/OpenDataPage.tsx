@@ -51,7 +51,7 @@ export default function OpenDataPage() {
         Nie ma logowania ani klucza API.
       </p>
 
-      <div className="od-grid">
+      <div className="od-grid" data-tour="zasobnik-otwarte-zbiory">
         {ZBIORY.map((z) => (
           <section key={z.id} className="od-card" aria-labelledby={`od-${z.id}`}>
             <h2 id={`od-${z.id}`}>{z.nazwa}</h2>
@@ -61,10 +61,10 @@ export default function OpenDataPage() {
               separator „;” (otwiera się w Excelu) · JSON: tablica obiektów
             </p>
             <div className="btn-row">
-              <a className="btn btn-primary" href={`${PREFIX}/${z.id}.csv`} download>
+              <a className="btn btn-primary" href={`${PREFIX}/${z.id}.csv`} download data-tour={`zasobnik-otwarte-csv-${z.id}`}>
                 Pobierz CSV
               </a>
-              <a className="btn btn-secondary" href={`${PREFIX}/${z.id}.json`} download>
+              <a className="btn btn-secondary" href={`${PREFIX}/${z.id}.json`} download data-tour={`zasobnik-otwarte-json-${z.id}`}>
                 Pobierz JSON
               </a>
             </div>
@@ -72,7 +72,7 @@ export default function OpenDataPage() {
         ))}
       </div>
 
-      <h2>Źródło i licencje</h2>
+      <h2 data-tour="zasobnik-otwarte-licencje">Źródło i licencje</h2>
       <p>
         Dane pochodzą z ROPS Kraków i każdy rekord ma pole <code>zrodlo</code> („ROPS Kraków”) oraz link do
         oryginału (<code>url_zrodlowy</code>). Pole <code>licencja</code> wypełniamy tylko tam, gdzie podaje ją
@@ -100,7 +100,7 @@ export default function OpenDataPage() {
 
       <h2>Dla programistów</h2>
       <p>Wszystkie adresy to zwykłe żądania GET, dostępne pod tym samym adresem co strona.</p>
-      <div className="od-table-wrap" role="region" aria-label="Adresy eksportów" tabIndex={0}>
+      <div data-tour="zasobnik-otwarte-api" className="od-table-wrap" role="region" aria-label="Adresy eksportów" tabIndex={0}>
         <table className="od-table">
           <caption className="visually-hidden">Adresy eksportów</caption>
           <thead>
