@@ -23,7 +23,9 @@ from app.services.knowledge import KnowledgeService
 from app.services.llm import LLMProvider, create_provider
 from app.services.nabory import NaborService
 from app.services.opinions import OpinionService
+from app.services.otwarte_dane import OpenDataService
 from app.services.partnership import PartnershipService
+from app.services.plain_language import PlainLanguageService
 from app.services.service_card import ServiceCardService
 from app.services.tickets import TicketService
 from app.services.wnioski import WniosekService
@@ -81,6 +83,13 @@ def get_service_card_service(
     return ServiceCardService(llm, innovations, enabled=settings.chat_enabled)
 
 
+def get_plain_language_service(
+    llm: Annotated[LLMProvider | None, Depends(get_llm_service)],
+    innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
+) -> PlainLanguageService:
+    return PlainLanguageService(llm, innovations, enabled=settings.chat_enabled)
+
+
 def get_innovation_service(
     repo: Annotated[InnovationRepository, Depends(get_innovation_repository)],
 ) -> InnovationService:
@@ -97,11 +106,20 @@ def get_knowledge_service(
     return KnowledgeService(repo)
 
 
+def get_open_data_service(
+    innovations: Annotated[InnovationRepository, Depends(get_innovation_repository)],
+    documents: Annotated[DocumentRepository, Depends(get_document_repository)],
+) -> OpenDataService:
+    return OpenDataService(innovations, documents, settings.public_base_url)
+
+
+OpenDataServiceDep = Annotated[OpenDataService, Depends(get_open_data_service)]
 InnovationRepositoryDep = Annotated[InnovationRepository, Depends(get_innovation_repository)]
 InnovationServiceDep = Annotated[InnovationService, Depends(get_innovation_service)]
 ChatServiceDep = Annotated[ChatService, Depends(get_chat_service)]
 KnowledgeServiceDep = Annotated[KnowledgeService, Depends(get_knowledge_service)]
 ServiceCardServiceDep = Annotated[ServiceCardService, Depends(get_service_card_service)]
+PlainLanguageServiceDep = Annotated[PlainLanguageService, Depends(get_plain_language_service)]
 
 
 def require_admin(authorization: Annotated[str | None, Header()] = None) -> None:

@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { Download, ExternalLink, FileText } from 'lucide-react'
 import { getInnovation } from '@/api/innovations'
+import CompareToggle from '@/components/CompareToggle'
+import PlainLanguageSection from '@/components/PlainLanguageSection'
+import ReadAloudButton from '@/components/ReadAloudButton'
 import TesterSection from '@/components/TesterSection'
 import VideoEmbed from '@/components/VideoEmbed'
 import { useChat } from '@/context/ChatContext'
@@ -93,6 +96,14 @@ export default function InnovationPage() {
           <h1>{rec.nazwa}</h1>
           {rec.wybrana_do_upowszechniania && <p className="badge">Polecana przez ROPS do upowszechniania</p>}
 
+          <div className="btn-row detail-tools">
+            <ReadAloudButton
+              text={[rec.nazwa, rec.opis, rec.problem && `Jakich problemów dotyczy. ${rec.problem}`, rec.grupa_docelowa && `Dla kogo. ${rec.grupa_docelowa}`].filter(Boolean).join('. ')}
+              label="Przeczytaj opis"
+            />
+          </div>
+          <PlainLanguageSection key={rec.slug} slug={rec.slug} />
+
           {rec.youtube_url && (
             <section className="detail-section">
               <h2>Film</h2>
@@ -157,6 +168,7 @@ export default function InnovationPage() {
             <a href={rec.url_zrodlowy} className="btn btn-secondary btn-block" target="_blank" rel="noreferrer">
               Strona źródłowa ROPS <ExternalLink size={18} aria-hidden="true" /><NewTab />
             </a>
+            <CompareToggle slug={rec.slug} nazwa={rec.nazwa} />
           </section>
 
           <section className="side-box">

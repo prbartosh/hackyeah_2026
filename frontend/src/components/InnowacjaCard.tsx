@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { ArrowUpRight, Building2, Star, Target } from 'lucide-react'
+import CompareToggle from '@/components/CompareToggle'
 import type { Innowacja } from '@/types/innowacja'
 
 interface Props {
@@ -35,6 +36,7 @@ export default function InnowacjaCard({ innowacja: r, kategoria }: Props) {
             )}
           </dl>
         )}
+        <CompareToggle slug={r.slug} nazwa={r.nazwa} />
       </div>
     </article>
   )
