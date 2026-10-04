@@ -48,7 +48,8 @@ export const pytania = {
     call<{ items: PytanieAdmin[]; total: number }>(
       `/admin/pytania?${new URLSearchParams({ ...(status ? { status } : {}), offset: String(offset) })}`,
     ),
-  answer: (id: number, odpowiedz: string) => call<PytanieAdmin>(`/admin/pytania/${id}/odpowiedz`, post({ odpowiedz })),
+  answer: (id: number, odpowiedz: string, tresc: string) =>
+    call<PytanieAdmin>(`/admin/pytania/${id}/odpowiedz`, post({ odpowiedz, tresc })),
   publish: (id: number) => call<PytanieAdmin>(`/admin/pytania/${id}/publikuj`, post()),
   hide: (id: number) => call<PytanieAdmin>(`/admin/pytania/${id}/ukryj`, post()),
 }

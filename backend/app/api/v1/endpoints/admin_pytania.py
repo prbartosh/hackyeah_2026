@@ -22,7 +22,7 @@ async def list_pytania(
 async def answer(
     pytanie_id: int, data: OdpowiedzUpdate, service: PytanieServiceDep
 ) -> PytanieAdmin:
-    return await service.answer(pytanie_id, data.odpowiedz)
+    return await service.answer(pytanie_id, data.odpowiedz, data.tresc)
 
 
 @router.post(

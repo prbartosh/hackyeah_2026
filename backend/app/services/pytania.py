@@ -77,9 +77,14 @@ class PytanieService:
         await self.session.refresh(pytanie)
         return PytanieAdmin.model_validate(pytanie, from_attributes=True)
 
-    async def answer(self, pytanie_id: int, text: str) -> PytanieAdmin:
-        """Zapisuje odpowiedź; e-mail do pytającego idzie tylko przy pierwszej odpowiedzi."""
+    async def answer(self, pytanie_id: int, text: str, tresc: str | None = None) -> PytanieAdmin:
+        """Zapisuje odpowiedź; e-mail do pytającego idzie tylko przy pierwszej odpowiedzi.
+
+        `tresc` pozwala poprawić pytanie przed publikacją (np. usunąć dane osobowe).
+        """
         pytanie = await self._get(pytanie_id)
+        if tresc is not None:
+            pytanie.tresc = tresc.strip()
         first = pytanie.odpowiedziano is None
         pytanie.odpowiedz = text.strip()
         pytanie.odpowiedziano = datetime.now(UTC)

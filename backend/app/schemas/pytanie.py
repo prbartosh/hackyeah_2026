@@ -53,3 +53,5 @@ class PytanieAdminList(BaseModel):
 
 class OdpowiedzUpdate(BaseModel):
     odpowiedz: str = Field(min_length=5, max_length=6000)
+    # Poprawiona treść pytania, np. bez danych osobowych przed publikacją
+    tresc: str | None = Field(default=None, min_length=10, max_length=2000)

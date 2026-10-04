@@ -13,6 +13,7 @@ const STATUS_LABELS: Record<StatusPytania, string> = {
 
 function QuestionItem({ item, onChange }: { item: PytanieAdmin; onChange: (message: string) => void }) {
   const [text, setText] = useState(item.odpowiedz ?? '')
+  const [question, setQuestion] = useState(item.tresc)
   const [failure, setFailure] = useState('')
   const [busy, setBusy] = useState(false)
 
@@ -45,14 +46,19 @@ function QuestionItem({ item, onChange }: { item: PytanieAdmin; onChange: (messa
         {item.autor_email ? ` · ${item.autor_email} (odpowiedź pójdzie na ten adres)` : ' · bez e-maila'}
       </p>
       <div className="field">
+        <label htmlFor={`pyt-${item.id}`}>Treść pytania (popraw przed publikacją, np. usuń dane osobowe)</label>
+        <textarea id={`pyt-${item.id}`} className="textarea" rows={3} maxLength={2000} value={question}
+          onChange={(e) => setQuestion(e.target.value)} />
+      </div>
+      <div className="field">
         <label htmlFor={`odp-${item.id}`}>Odpowiedź ROPS</label>
         <textarea id={`odp-${item.id}`} className="textarea" rows={4} maxLength={6000} value={text}
           onChange={(e) => setText(e.target.value)} />
       </div>
       {failure && <p className="field-error" role="alert">{failure}</p>}
       <div className="btn-row">
-        <button type="button" className="btn btn-primary" disabled={busy || text.trim().length < 5}
-          onClick={() => run(() => pytania.answer(item.id, text), 'Zapisano odpowiedź.')}>
+        <button type="button" className="btn btn-primary" disabled={busy || text.trim().length < 5 || question.trim().length < 10}
+          onClick={() => run(() => pytania.answer(item.id, text, question), 'Zapisano odpowiedź.')}>
           {item.odpowiedz ? 'Zapisz zmiany' : 'Odpowiedz'}
         </button>
         {canPublish && (

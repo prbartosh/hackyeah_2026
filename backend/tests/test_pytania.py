@@ -108,3 +108,13 @@ async def test_pytanie_bez_emaila_i_walidacja(admin_client):
     assert bad_mail.status_code == 422
     missing = await admin_client.post(f"{ADMIN}/999/odpowiedz", json={"odpowiedz": "Ok, tak."})
     assert missing.status_code == 404
+
+
+async def test_poprawa_tresci_pytania_przed_publikacja(admin_client):
+    question_id = await ask(admin_client, tresc="Jestem Jan Kowalski, jak zgłosić potrzebę?")
+    response = await admin_client.post(
+        f"{ADMIN}/{question_id}/odpowiedz",
+        json={"odpowiedz": "Przez formularz zgłoszenia.", "tresc": "Jak zgłosić potrzebę?"},
+    )
+    assert response.status_code == 200
+    assert response.json()["tresc"] == "Jak zgłosić potrzebę?"

@@ -1,5 +1,6 @@
 import { Link, useParams } from 'react-router-dom'
 import { api } from '@/admin/api'
+import MentorRequestButton from '@/components/MentorRequestButton'
 import { ErrorBox, Loading, formatDate, useLoad } from '@/admin/ui'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 import '@/styles/admin.css'
@@ -37,6 +38,7 @@ export default function ThreadPage() {
               </li>
             ))}
           </ol>
+          <MentorRequestButton token={token} />
         </>
       )}
     </div>
