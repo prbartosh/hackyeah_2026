@@ -18,6 +18,7 @@ const PartnershipsPage = lazy(() => import('@/pages/PartnershipsPage'))
 const ReportPage = lazy(() => import('@/pages/ReportPage'))
 const ServiceCardPage = lazy(() => import('@/pages/ServiceCardPage'))
 const ThreadPage = lazy(() => import('@/pages/ThreadPage'))
+const ConversationPage = lazy(() => import('@/pages/ConversationPage'))
 
 export default function App() {
   return (
@@ -33,6 +34,7 @@ export default function App() {
         <Route path="zglos" element={<ReportPage />} />
         <Route path="partnerstwa" element={<PartnershipsPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
+        <Route path="rozmowa/:token" element={<ConversationPage />} />
         <Route path="dostepnosc" element={<AccessibilityStatementPage />} />
         <Route path="kreator/*" element={<KreatorRoutes />} />
         <Route path="admin/*" element={<AdminRoutes />} />

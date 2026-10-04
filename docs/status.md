@@ -12,6 +12,7 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 - [0035](tasks/0035-szybkie-przewagi.md) Szybkie przewagi: prosty język, czytanie na głos i deklaracja dostępności gotowe; zostaje pomiar trafności na DeepSeek (Wiktor)
 
 - [0036](tasks/0036-gielda-partnerstw.md) Giełda partnerstw: tablica ogłoszeń z moderacją ROPS, kontakt przez ROPS (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
+- [0042](tasks/0042-rozmowy-partnerskie.md) Rozmowa partnerska przez ROPS: dwustronna korespondencja w Giełdzie partnerstw bez ujawniania e-maili (Nikodem, [ADR 0013](adr/0013-gielda-partnerstw.md))
 
 ## Do zrobienia
 
