@@ -1,8 +1,8 @@
 # 0036. Giełda partnerstw (moduł V)
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR: 
+- PR: #58
 
 ## Cel
 
