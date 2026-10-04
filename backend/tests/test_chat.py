@@ -645,3 +645,26 @@ async def test_no_similar_cases_without_problem_tags(client, fake_llm, sessions)
     fake_llm(results_turns(MAIN))
     events = await post(client, first_message() | {"action": "show_results_now"})
     assert "similar_cases" not in [n for n, _ in events]
+
+
+def _system_prompt() -> str:
+    from app.repositories.innovation import InnovationRepository
+    from app.services import prompts
+
+    return prompts.build_system_prompt(InnovationRepository(settings.innovations_path))
+
+
+def test_system_prompt_is_stable_for_cache():
+    """Prefiks (prompt + katalog) musi być identyczny - inaczej cache dostawcy nie działa."""
+    first = _system_prompt()
+    assert first == _system_prompt()
+    # Zmienne dane (stan, instrukcja tury) idą do wiadomości użytkownika, nie do promptu.
+    assert "<instrukcja_tury>" not in first.split("<katalog>")[1]
+
+
+def test_catalog_czy_dziala_respects_limit():
+    from app.services import prompts
+
+    catalog = _system_prompt().split("<katalog>\n")[1].split("\n</katalog>")[0]
+    for line in catalog.splitlines():
+        assert len(line.split(" | ")[6]) <= prompts.CATALOG_CZY_DZIALA_CHARS + 1
