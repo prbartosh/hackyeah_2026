@@ -135,6 +135,9 @@ export function SimilarInnovations({ token, refreshKey }: { token: string | null
           </ul>
         </>
       )}
+      <p className="hint">
+        Trafność może sprawdzać zewnętrzny model AI (TypeSafe), do którego trafia opis pomysłu. Nie wpisuj danych wrażliwych.
+      </p>
     </section>
   )
 }

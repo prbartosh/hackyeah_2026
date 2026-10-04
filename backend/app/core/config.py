@@ -27,6 +27,11 @@ class Settings(BaseSettings):
     llm_reasoning_effort: str | None = "low"
     # false = czat odpowiada 503 bez wołania modelu.
     chat_enabled: bool = True
+    # Jev (TypeSafe System One), oceny trafności (ADR 0016). Pusty klucz = bez Jeva, jak dotąd.
+    typesafe_api_key: str | None = None
+    typesafe_model: str = "jev-latest"
+    typesafe_base_url: str = "https://api.typesafe.ai"
+    jev_timeout_seconds: float = 4.0
     innovations_path: Path = DEFAULT_INNOVATIONS_PATH
     # Raporty, publikacje, Mapa Wyzwań i Obserwator (Zasobnik wiedzy, zadanie 0003).
     assets_path: Path = DEFAULT_ASSETS_PATH

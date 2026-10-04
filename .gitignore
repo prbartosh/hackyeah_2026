@@ -35,3 +35,6 @@ backend/uv.lock
 
 # Raport audytu axe (frontend: npm run a11y)
 frontend/a11y-report/
+
+# Oceny Jeva z ewaluacji (scripts/eval_kreator.py)
+backend/.cache/

@@ -35,6 +35,12 @@ def email_outbox_in_log(request, monkeypatch):
     monkeypatch.setattr(LogEmailSender, "send", send)
 
 
+@pytest.fixture(autouse=True)
+def no_jev(monkeypatch):
+    """Testy bez sieci: klucz Jeva z .env (np. w kontenerze) nie może włączyć prawdziwego API."""
+    monkeypatch.setattr(settings, "typesafe_api_key", None)
+
+
 @pytest.fixture
 async def client():
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:
