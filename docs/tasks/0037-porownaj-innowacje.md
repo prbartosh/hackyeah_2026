@@ -1,8 +1,8 @@
 # 0037. Porównaj innowacje
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR: 
+- PR: #56
 
 ## Cel
 
