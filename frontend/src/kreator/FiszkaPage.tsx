@@ -263,17 +263,17 @@ export default function FiszkaPage() {
             <p className="lead">Opisz swój pomysł własnymi słowami, tak jak opowiedziałbyś go znajomemu. Możesz też go podyktować. Potem AI wstępnie wypełni fiszkę, a Ty wszystko sprawdzisz i poprawisz. Ten krok możesz pominąć.</p>
             <LimitedTextarea
               id="f-opis" label="Twój pomysł własnymi słowami" value={form.opis_wlasny} limit={4000} rows={8}
-              onChange={(v) => change('opis_wlasny', v)} error={errors.opis_wlasny}
+              onChange={(v) => change('opis_wlasny', v)} error={errors.opis_wlasny} tour="kreator-opis"
               hint="Nie wpisuj danych osobowych ani numerów dokumentów."
             />
             <div className="btn-row">
               <VoiceButton onText={(t) => change('opis_wlasny', `${form.opis_wlasny} ${t}`.trim())} />
-              <button type="button" className="btn btn-secondary" onClick={fillWithAi} disabled={aiBusy}>
+              <button type="button" className="btn btn-secondary" onClick={fillWithAi} disabled={aiBusy} data-tour="kreator-ai">
                 <Sparkles size={18} aria-hidden="true" /> {aiBusy ? 'Wypełnianie…' : 'Wypełnij fiszkę za mnie'}
               </button>
             </div>
             {aiNote && (
-              <p role="status" className={aiNote.ok ? 'alert alert-note' : 'alert alert-warning'}>{aiNote.text}</p>
+              <p role="status" data-tour="kreator-ai-wynik" className={aiNote.ok ? 'alert alert-note' : 'alert alert-warning'}>{aiNote.text}</p>
             )}
           </div>
         )}
@@ -282,7 +282,7 @@ export default function FiszkaPage() {
           <div className="stack">
             <LimitedTextarea
               id="f-istota" label="Na czym polega Twój pomysł?" value={form.istota} limit={2000} rows={6}
-              onChange={(v) => change('istota', v)} error={errors.istota} badges={aiTag('istota')}
+              onChange={(v) => change('istota', v)} error={errors.istota} badges={aiTag('istota')} tour="kreator-istota"
               hint="Napisz 1–3 zdania prostym językiem: co zostanie zrobione i co się dzięki temu zmieni."
             />
             <SimilarInnovations token={token} refreshKey={form.istota} />
@@ -292,13 +292,13 @@ export default function FiszkaPage() {
         {step === S_ODBIORCA && (
           <LimitedTextarea
             id="f-odbiorca" label="Dla kogo jest ten pomysł?" value={form.odbiorca} limit={1000} rows={4}
-            onChange={(v) => change('odbiorca', v)} error={errors.odbiorca} badges={aiTag('odbiorca')}
+            onChange={(v) => change('odbiorca', v)} error={errors.odbiorca} badges={aiTag('odbiorca')} tour="kreator-odbiorca"
             hint="Kto będzie z niego korzystał? Np. seniorzy, uczniowie, rodziny, pracownicy MOPS."
           />
         )}
 
         {step === S_ETAP && (
-          <fieldset className="field" aria-describedby={errors.etap ? 'f-etap-error' : undefined}>
+          <fieldset className="field" aria-describedby={errors.etap ? 'f-etap-error' : undefined} data-tour="kreator-etap">
             <legend>Na jakim etapie jest realizacja?</legend>
             {aiTag('etap') && <div className="field-badges">{aiTag('etap')}</div>}
             <div className="radio-cards">
@@ -306,7 +306,7 @@ export default function FiszkaPage() {
                 <label key={e.value} className="radio-card">
                   <input
                     type="radio" name="etap" value={e.value} checked={form.etap === e.value}
-                    onChange={() => change('etap', e.value)} data-invalid={errors.etap && i === 0 ? 'true' : undefined}
+                    onChange={() => change('etap', e.value)} data-tour={`kreator-etap-${e.value}`} data-invalid={errors.etap && i === 0 ? 'true' : undefined}
                   />
                   <span><strong>{e.label}</strong><span className="hint block">{e.opis}</span></span>
                 </label>
@@ -317,12 +317,12 @@ export default function FiszkaPage() {
         )}
 
         {step === S_DODATKOWE && (
-          <div className="stack">
+          <div className="stack" data-tour="kreator-dodatkowe">
             <p className="lead">Te pola są nieobowiązkowe, ale pomagają zespołowi ROPS i generatorowi wniosków.</p>
             <div className="field">
               <label htmlFor="f-obszar">Obszar społeczny</label>
               {aiTag('obszar') && <div className="field-badges">{aiTag('obszar')}</div>}
-              <select id="f-obszar" className="select" value={form.obszar} onChange={(e) => change('obszar', e.target.value)}>
+              <select id="f-obszar" className="select" data-tour="kreator-obszar" value={form.obszar} onChange={(e) => change('obszar', e.target.value)}>
                 <option value="">Nie wybieram</option>
                 {Object.entries(KATEGORIE).map(([slug, name]) => <option key={slug} value={slug}>{name}</option>)}
               </select>
@@ -330,11 +330,11 @@ export default function FiszkaPage() {
             <div className="field">
               <label htmlFor="f-lok">Lokalizacja (gmina lub powiat)</label>
               {aiTag('lokalizacja') && <div className="field-badges">{aiTag('lokalizacja')}</div>}
-              <input id="f-lok" className="input" value={form.lokalizacja} maxLength={200} onChange={(e) => change('lokalizacja', e.target.value)} />
+              <input id="f-lok" className="input" data-tour="kreator-lokalizacja" value={form.lokalizacja} maxLength={200} onChange={(e) => change('lokalizacja', e.target.value)} />
             </div>
             <LimitedTextarea
               id="f-potrzeby" label="Czego potrzeba do dalszego rozwoju?" value={form.potrzeby} limit={2000} rows={4}
-              onChange={(v) => change('potrzeby', v)} badges={aiTag('potrzeby')}
+              onChange={(v) => change('potrzeby', v)} badges={aiTag('potrzeby')} tour="kreator-potrzeby"
               hint="Np. pieniędzy, partnera, miejsca, wiedzy, wolontariuszy."
             />
           </div>
@@ -343,7 +343,7 @@ export default function FiszkaPage() {
         {step === S_PODGLAD && (
           <div className="stack">
             <p className="lead">Sprawdź fiszkę. Nic nie zostanie wysłane, dopóki nie klikniesz przycisku na dole.</p>
-            <dl className="preview-list">
+            <dl className="preview-list" data-tour="kreator-podglad">
               {([
                 ['Na czym polega', form.istota, 'istota', S_ISTOTA],
                 ['Dla kogo', form.odbiorca, 'odbiorca', S_ODBIORCA],
@@ -382,12 +382,12 @@ export default function FiszkaPage() {
         <div className="btn-row step-nav">
           {step > S_OPIS && <button type="button" className="btn btn-secondary" onClick={() => goTo(step - 1)}>Wstecz</button>}
           {step < S_PODGLAD && (
-            <button type="button" className="btn btn-primary" onClick={next}>
+            <button type="button" className="btn btn-primary" onClick={next} data-tour="kreator-dalej">
               {step === S_OPIS && !form.opis_wlasny.trim() ? 'Pomiń ten krok' : 'Dalej'}
             </button>
           )}
           {step === S_PODGLAD && (
-            <button type="submit" className="btn btn-primary" disabled={sendBusy}>
+            <button type="submit" className="btn btn-primary" disabled={sendBusy} data-tour="kreator-wyslij">
               {sendBusy ? 'Wysyłanie…' : 'Wyślij pomysł do ROPS'}
             </button>
           )}
@@ -403,7 +403,7 @@ function SentView({ fiszka }: { fiszka: Fiszka }) {
   return (
     <div className="container page kreator">
       <h1>Pomysł wysłany do zespołu ROPS</h1>
-      <p role="status" className="alert alert-note">Dziękujemy. Pracownik ROPS przeczyta zgłoszenie i odpowie. Status: czeka na odpowiedź.</p>
+      <p role="status" className="alert alert-note" data-tour="kreator-wyslano">Dziękujemy. Pracownik ROPS przeczyta zgłoszenie i odpowie. Status: czeka na odpowiedź.</p>
       {thread && (
         <p>
           Odpowiedź pojawi się pod tym adresem. Zapisz go lub dodaj do zakładek:{' '}

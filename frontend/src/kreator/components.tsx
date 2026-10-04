@@ -12,7 +12,7 @@ import type { Asystent, PodobnaInnowacja } from '@/kreator/types'
 /** Stan autozapisu: tekstem i ikoną, dla czytnika ekranu w regionie `status`. */
 export function SaveStatus({ state, onRetry }: { state: SaveState; onRetry?: () => void }) {
   return (
-    <p className={`save-status save-${state}`} role="status">
+    <p className={`save-status save-${state}`} role="status" data-tour="kreator-zapis">
       {state === 'saved' && <Check size={16} aria-hidden="true" />}
       {state === 'error' && <TriangleAlert size={16} aria-hidden="true" />}
       <span>{SAVE_TEXT[state]}</span>
@@ -67,11 +67,13 @@ interface LimitedTextareaProps {
   rows?: number
   badges?: ReactNode
   autoFocus?: boolean
+  /** Wartość atrybutu data-tour textarea (przewodnik). */
+  tour?: string
 }
 
 /** Pole tekstowe z etykietą, podpowiedzią, licznikiem znaków i komunikatem błędu przy polu. */
 export function LimitedTextarea({
-  id, label, value, limit, onChange, hint, error, rows = 5, badges, autoFocus,
+  id, label, value, limit, onChange, hint, error, rows = 5, badges, autoFocus, tour,
 }: LimitedTextareaProps) {
   const describedBy = [hint && `${id}-hint`, `${id}-count`, error && `${id}-error`].filter(Boolean).join(' ')
   return (
@@ -80,7 +82,7 @@ export function LimitedTextarea({
       {badges && <div className="field-badges">{badges}</div>}
       {hint && <p id={`${id}-hint`} className="hint">{hint}</p>}
       <textarea
-        id={id} className="textarea" rows={rows} value={value} maxLength={limit} autoFocus={autoFocus}
+        id={id} className="textarea" rows={rows} value={value} maxLength={limit} autoFocus={autoFocus} data-tour={tour}
         onChange={(e) => onChange(e.target.value)}
         aria-invalid={error ? true : undefined} aria-describedby={describedBy}
       />
@@ -112,16 +114,16 @@ export function SimilarInnovations({ token, refreshKey }: { token: string | null
 
   if (!token) return null
   return (
-    <section className="similar" aria-labelledby="similar-title" aria-busy={state.loading}>
+    <section className="similar" aria-labelledby="similar-title" aria-busy={state.loading} data-tour="kreator-podobne">
       <h2 id="similar-title"><Lightbulb size={20} aria-hidden="true" /> Takie rozwiązania już działają</h2>
-      {state.error && <p className="hint">{state.error}</p>}
+      {state.error && <p className="hint" data-tour="kreator-podobne-wynik">{state.error}</p>}
       {state.items && state.items.length === 0 && (
-        <p className="hint">Nie znaleźliśmy w bazie ROPS rozwiązania podobnego do Twojego opisu. To może być coś nowego.</p>
+        <p className="hint" data-tour="kreator-podobne-wynik">Nie znaleźliśmy w bazie ROPS rozwiązania podobnego do Twojego opisu. To może być coś nowego.</p>
       )}
       {state.items && state.items.length > 0 && (
         <>
           <p className="hint">Zobacz, zanim zgłosisz pomysł: być może da się z nich skorzystać lub się nimi zainspirować.</p>
-          <ul className="plain-list">
+          <ul className="plain-list" data-tour="kreator-podobne-wynik">
             {state.items.map((i) => (
               <li key={i.slug} className="similar-item">
                 <Link to={`/innowacja/${i.slug}`} className="similar-name">{i.nazwa}</Link>
@@ -158,16 +160,16 @@ export function AssistantPanel({ token }: { token: string }) {
   }
 
   return (
-    <section className="assistant panel" aria-labelledby="assistant-title">
+    <section className="assistant panel" aria-labelledby="assistant-title" data-tour="kreator-asystent">
       <h3 id="assistant-title"><Lightbulb size={20} aria-hidden="true" /> Asystent: dopracuj pomysł</h3>
       <p className="hint">Zada kilka pytań i wskaże, czego jeszcze brakuje w fiszce. Nie dopisuje niczego za Ciebie.</p>
       <div className="btn-row">
-        <button type="button" className="btn btn-secondary" onClick={ask} disabled={busy}>
+        <button type="button" className="btn btn-secondary" onClick={ask} disabled={busy} data-tour="kreator-asystent-pytaj">
           {busy ? 'Myślę…' : data ? 'Zapytaj ponownie' : 'Zadaj mi pytania'}
         </button>
       </div>
       {error && <ErrorBox message={error} />}
-      <div aria-live="polite">
+      <div aria-live="polite" data-tour={data ? 'kreator-asystent-wynik' : undefined}>
         {data && (
           <>
             {data.komunikat && <p className="alert alert-note">{data.komunikat}</p>}

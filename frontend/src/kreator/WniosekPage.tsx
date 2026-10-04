@@ -119,7 +119,7 @@ export default function WniosekPage() {
       <SaveStatus state={autosave.state} onRetry={() => void autosave.flush().catch(() => undefined)} />
 
       <div className="edit-layout">
-        <form onSubmit={(e) => e.preventDefault()} className="stack" aria-label="Pola wniosku">
+        <form onSubmit={(e) => e.preventDefault()} className="stack" aria-label="Pola wniosku" data-tour="kreator-wniosek-pola">
           {data.pola.map((pole) => {
             const current: WniosekPole = { ...pole, zrodlo: sources[pole.klucz] ?? pole.zrodlo, do_uzupelnienia: !(texts[pole.klucz] ?? pole.tekst).trim() }
             return (
@@ -144,11 +144,11 @@ export default function WniosekPage() {
               <ul>{data.kryteria.map((k) => <li key={k.nazwa}><strong>{k.nazwa}</strong>{k.opis && <span className="block hint">{k.opis}</span>}</li>)}</ul>
             </section>
           )}
-          <section className="panel">
+          <section className="panel" data-tour="kreator-wniosek-eksport">
             <h2>Gotowe?</h2>
             <p>{missing > 0 ? `Pola do uzupełnienia: ${missing}. Możesz je dopisać teraz albo po pobraniu pliku.` : 'Wszystkie pola mają treść.'}</p>
             <div className="btn-row">
-              <button type="button" className="btn btn-primary" onClick={() => download('docx')}><Download size={18} aria-hidden="true" /> Pobierz DOCX</button>
+              <button type="button" className="btn btn-primary" onClick={() => download('docx')} data-tour="kreator-wniosek-docx"><Download size={18} aria-hidden="true" /> Pobierz DOCX</button>
               <button type="button" className="btn btn-secondary" onClick={() => download('txt')}>Pobierz tekst</button>
             </div>
             {fileError && <ErrorBox message={fileError} />}
