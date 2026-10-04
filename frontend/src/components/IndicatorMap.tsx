@@ -53,6 +53,17 @@ export default function IndicatorMap({ table, yearIdx, selected, active, onActiv
             />
           )
         })}
+        {/* Obrysy wybranych i aktywnego powiatu rysowane na wierzchu, bo SVG maluje w kolejności DOM i sąsiedzi zakrywaliby granice */}
+        {POWIATY_MAPA.filter((p) => selected.includes(p.powiat) || active === p.powiat)
+          .sort((a, b) => Number(active === a.powiat) - Number(active === b.powiat))
+          .map((p) => (
+            <path
+              key={p.powiat}
+              d={p.d}
+              aria-hidden="true"
+              className={`zs-map-outline${selected.includes(p.powiat) ? ' is-selected' : ''}${active === p.powiat ? ' is-active' : ''}`}
+            />
+          ))}
       </svg>
       <figcaption className="zs-map-legend">
         <span>najniższa: {formatValue(lo, table.unit)}</span>
