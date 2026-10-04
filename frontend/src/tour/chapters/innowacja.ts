@@ -1,4 +1,5 @@
 import type { TourChapter, TourContext } from '@/tour/types'
+import { clearCompare } from '@/hooks/useCompare'
 
 // Karta z bogatymi danymi demo: oceny zatwierdzone przez ROPS, poziom „Sprawdzone” (backend/scripts/seed_tester.py).
 const DOMYSLNA = 'kody-qr-na-pomoc-seniorom'
@@ -23,6 +24,7 @@ const chapter: TourChapter = {
   module: 'Moduł II',
   summary: 'Strona innowacji: prosty język, czytanie na głos, porównanie i otwarte dane.',
   minutes: 4,
+  onFinish: clearCompare,
   steps: [
     {
       id: 'innowacja.opis',
@@ -96,6 +98,7 @@ const chapter: TourChapter = {
     },
     {
       id: 'innowacja.porownaj-a',
+      prepare: async () => clearCompare(),
       target: 'innowacja-porownaj-dodaj',
       title: 'Dodaj do porównania',
       body: [

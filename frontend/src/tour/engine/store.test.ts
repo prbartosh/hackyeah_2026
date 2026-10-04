@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { beforeEach, describe, expect, it } from 'vitest'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { createTourStore } from '@/tour/engine/store'
 import { findStep, flatSteps, isValidPosition, nextChapter, samePlace } from '@/tour/engine/steps'
 import type { TourChapter } from '@/tour/types'
@@ -43,6 +43,15 @@ describe('store', () => {
     s.start('b')
     s.next()
     expect(s.getState().screen).toBe('summary')
+  })
+
+  it('po ostatnim kroku wywołuje sprzątanie rozdziału (onFinish), błąd sprzątania nie blokuje przejścia', () => {
+    const onFinish = vi.fn(() => { throw new Error('boom') })
+    const s = createTourStore([{ ...chapters[0], onFinish }, chapters[2]])
+    s.start('a', 1)
+    s.next()
+    expect(onFinish).toHaveBeenCalledOnce()
+    expect(s.getState().screen).toBe('chapterDone')
   })
 
   it('wznawia po odświeżeniu (sessionStorage) i pamięta ostatnią pozycję', () => {

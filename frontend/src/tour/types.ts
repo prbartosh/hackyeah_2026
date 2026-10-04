@@ -67,4 +67,6 @@ export interface TourChapter {
   /** Szacowany czas w minutach. */
   minutes: number
   steps: TourStep[]
+  /** Sprzątanie po rozdziale (np. wyczyszczenie porównania kart), wywoływane po „Zakończ rozdział”. */
+  onFinish?: () => void
 }

@@ -114,6 +114,7 @@ export function createTourStore(chapters: TourChapter[]): TourStore {
       }
       const completed = progress.completed.includes(c.id) ? progress.completed : [...progress.completed, c.id]
       saveProgress({ completed, last: null })
+      try { c.onFinish?.() } catch { /* sprzątanie nie może zablokować przewodnika */ }
       set({ screen: nextChapter(chapters, c.id) ? 'chapterDone' : 'summary', minimized: false })
     },
     prev() {

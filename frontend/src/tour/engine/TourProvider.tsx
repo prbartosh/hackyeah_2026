@@ -136,14 +136,23 @@ export default function TourProvider({ children, chapters: chaptersProp }: { chi
     if (!anchor || phase.kind !== 'ready' || state.minimized) return
     const ensure = () => {
       const r = anchor.getBoundingClientRect()
-      const limit = window.innerHeight * (isPhone() ? 0.5 : 1)
+      const limit = window.innerHeight * (isPhone() ? 0.47 : 1)
       if (r.bottom > limit || r.top < 0) scrollToTarget(anchor)
     }
     ensure()
-    if (typeof ResizeObserver === 'undefined') return
+    // Tuż po wejściu w krok strona jeszcze się układa (dane, obrazy, odpowiedź AI): przez kilka sekund poprawiamy
+    // przewinięcie, ale tylko dopóki użytkownik sam nie przewija.
+    const settleUntil = Date.now() + 15000
+    let userMoved = false
+    const mark = (e: Event) => { if (!(e.target instanceof Element && e.target.closest('.tour-root'))) userMoved = true }
+    const events = ['wheel', 'touchmove', 'keydown', 'mousedown'] as const
+    events.forEach((e) => window.addEventListener(e, mark, { passive: true }))
+    const timer = window.setInterval(() => { if (!userMoved && Date.now() < settleUntil) ensure() }, 300)
+    const stop = () => { window.clearInterval(timer); events.forEach((e) => window.removeEventListener(e, mark)) }
+    if (typeof ResizeObserver === 'undefined') return stop
     const ro = new ResizeObserver(ensure)
     ro.observe(anchor)
-    return () => ro.disconnect()
+    return () => { ro.disconnect(); stop() }
   }, [anchor, phase.kind, state.minimized])
 
   // Zapowiedź dla czytnika ekranu, gdy krok jest gotowy.

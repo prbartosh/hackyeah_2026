@@ -151,6 +151,7 @@ const chapter: TourChapter = {
       hint: 'Przeczytaj szkic. Możesz go dowolnie zmienić.',
       tag: 'AI pod kontrolą człowieka',
       placement: 'right',
+      waitFor: { target: 'panel-odpowiedz-tekst', timeoutMs: 90000, message: 'AI pisze szkic odpowiedzi…' },
     },
     {
       id: 'panel.odpowiedz',

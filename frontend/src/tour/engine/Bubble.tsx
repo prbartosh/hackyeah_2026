@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, Check, List, Minus, Sparkles, X } from 'lucide-r
 import type { Placement } from '@floating-ui/dom'
 import type { TourChapter, TourStep } from '@/tour/types'
 import type { Phase } from '@/tour/engine/runner'
-import { isTextField } from '@/tour/engine/dom'
+import { isPinnedLow, isTextField } from '@/tour/engine/dom'
 import { arrowStyle, usePosition } from '@/tour/engine/usePosition'
 
 export type BubbleMode = 'anchored' | 'center' | 'dock'
@@ -37,6 +37,39 @@ function Elapsed({ timeoutMs }: { timeoutMs: number }) {
   return <span className="tour-elapsed">{sec} s z {Math.round(timeoutMs / 1000)} s</span>
 }
 
+const COVER_LIMIT = 0.3
+
+function overlap(a: DOMRect, b: { left: number; top: number; right: number; bottom: number }): number {
+  return Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) * Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top))
+}
+
+/** Narożnik ekranu, w którym chmurka najmniej zasłania cel; null, gdy obecne miejsce jest dobre. */
+function cornerAway(anchor: HTMLElement, bubble: HTMLElement): { x: number; y: number } | null {
+  const vw = window.innerWidth
+  const vh = window.innerHeight
+  const r = anchor.getBoundingClientRect()
+  const target = { left: Math.max(r.left, 0), top: Math.max(r.top, 0), right: Math.min(r.right, vw), bottom: Math.min(r.bottom, vh) }
+  const area = Math.max(0, target.right - target.left) * Math.max(0, target.bottom - target.top)
+  if (area === 0) return null
+  const b = bubble.getBoundingClientRect()
+  const now = overlap(b, target) / area
+  if (now <= COVER_LIMIT) return null
+  const m = 16
+  const corners = [
+    { x: vw - b.width - m, y: vh - b.height - m },
+    { x: m, y: vh - b.height - m },
+    { x: vw - b.width - m, y: m },
+    { x: m, y: m },
+  ]
+  let best: { x: number; y: number } | null = null
+  let bestOverlap = now - 0.1
+  for (const c of corners) {
+    const o = overlap(new DOMRect(c.x, c.y, b.width, b.height), target) / area
+    if (o < bestOverlap) { best = c; bestOverlap = o }
+  }
+  return best
+}
+
 function toPlacement(p: TourStep['placement']): Placement {
   return !p || p === 'auto' ? 'bottom' : p
 }
@@ -47,9 +80,33 @@ export default function Bubble(props: BubbleProps) {
   const focusedFor = useRef<string>('')
   const [floatingEl, setFloatingEl] = useState<HTMLDivElement | null>(null)
   const [arrowEl, setArrowEl] = useState<HTMLDivElement | null>(null)
+  // Przewijana treść kroku musi dać się przewinąć klawiaturą (WCAG 2.1.1), ale bez zbędnego przystanku, gdy się mieści.
+  const [scrollEl, setScrollEl] = useState<HTMLDivElement | null>(null)
+  const [scrollable, setScrollable] = useState(false)
+  useEffect(() => {
+    if (!scrollEl) return
+    const check = () => setScrollable(scrollEl.scrollHeight > scrollEl.clientHeight + 1)
+    check()
+    if (typeof ResizeObserver === 'undefined') return
+    const ro = new ResizeObserver(check)
+    ro.observe(scrollEl)
+    if (scrollEl.firstElementChild) ro.observe(scrollEl.firstElementChild)
+    return () => ro.disconnect()
+  }, [scrollEl, step.id, phase.kind])
 
   const anchored = mode === 'anchored' && !phone
-  const pos = usePosition(anchored ? anchor : null, floatingEl, arrowEl, toPlacement(step.placement), anchored)
+  const [pinnedLow, setPinnedLow] = useState(false)
+  useEffect(() => { setPinnedLow(phone && mode === 'anchored' && !!anchor && isPinnedLow(anchor)) }, [phone, mode, anchor, step.id])
+  // Gdy chmurka przy celu zasłania go w dużej części, przenosimy ją w narożnik ekranu (po ustabilizowaniu układu).
+  const [moved, setMoved] = useState<{ x: number; y: number } | null>(null)
+  const follows = anchored && !moved
+  const pos = usePosition(follows ? anchor : null, floatingEl, arrowEl, toPlacement(step.placement), follows)
+  useEffect(() => setMoved(null), [step.id])
+  useEffect(() => {
+    if (!follows || !pos || !floatingEl || !anchor) return
+    const timer = window.setTimeout(() => setMoved(cornerAway(anchor, floatingEl)), 500)
+    return () => window.clearTimeout(timer)
+  }, [follows, pos, floatingEl, anchor])
 
   const isLogin = phase.kind === 'login'
   const settled = phase.kind !== 'loading' && phase.kind !== 'waiting'
@@ -70,8 +127,8 @@ export default function Bubble(props: BubbleProps) {
     ? ['Ten krok pokazuje panel pracownika ROPS. Wpisz token dostępu w formularzu poniżej i kliknij „Zaloguj”. Przewodnik poczeka i pójdzie dalej sam.']
     : step.body
   const pending = phase.kind === 'loading' || phase.kind === 'waiting'
-  const style = anchored ? (pos ? { left: pos.x, top: pos.y } : { left: 0, top: 0, visibility: 'hidden' as const }) : undefined
-  const classes = ['tour-bubble', `tour-bubble--${phone ? 'sheet' : mode}`, pending && phase.kind === 'loading' ? 'tour-bubble--delayed' : ''].filter(Boolean).join(' ')
+  const style = moved ? { left: moved.x, top: moved.y } : anchored ? (pos ? { left: pos.x, top: pos.y } : { left: 0, top: 0, visibility: 'hidden' as const }) : undefined
+  const classes = ['tour-bubble', `tour-bubble--${phone ? 'sheet' : mode}`, phone && pinnedLow ? 'tour-bubble--top' : '', pending && phase.kind === 'loading' ? 'tour-bubble--delayed' : ''].filter(Boolean).join(' ')
 
   return (
     <div
@@ -85,7 +142,7 @@ export default function Bubble(props: BubbleProps) {
       data-phase={phase.kind}
       data-step={step.id}
     >
-      {anchored && (
+      {follows && (
         <div
           ref={setArrowEl}
           className={`tour-arrow${pos ? ` tour-arrow--${pos.placement.split('-')[0]}` : ''}`}
@@ -106,7 +163,7 @@ export default function Bubble(props: BubbleProps) {
         </div>
       </div>
 
-      <div className="tour-scroll">
+      <div className="tour-scroll" ref={setScrollEl} {...(scrollable ? { tabIndex: 0, role: 'region', 'aria-label': 'Treść kroku, przewijana strzałkami' } : {})}>
         {step.tag && !isLogin && <p className="tour-tag">{step.tag}</p>}
         <h2 id="tour-title" className="tour-title" tabIndex={-1} ref={titleRef}>{title}</h2>
         <div id="tour-body" className="tour-body">
@@ -131,8 +188,8 @@ export default function Bubble(props: BubbleProps) {
       </div>
 
       <div className="tour-foot">
-        <button type="button" className="btn btn-ghost tour-btn" onClick={props.onBack} disabled={index === 0}>
-          <ArrowLeft size={18} aria-hidden="true" /> Wstecz
+        <button type="button" className="btn btn-ghost tour-btn tour-btn--back" onClick={props.onBack} disabled={index === 0}>
+          <ArrowLeft size={18} aria-hidden="true" /> <span className="tour-btn-label">Wstecz</span>
         </button>
         {step.actions && step.actions.length > 0 && phase.kind === 'ready' && (
           <button type="button" className="btn btn-secondary tour-btn" onClick={props.onAct} disabled={acting} aria-busy={acting}>

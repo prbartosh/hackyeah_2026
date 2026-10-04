@@ -95,18 +95,37 @@ export function isTextField(el: EventTarget | null): boolean {
   return false
 }
 
+/** Element (albo jego rodzic) przypięty do okna, np. pasek porównania przy dolnej krawędzi: przewijanie strony go nie przesuwa. */
+export function isPinned(el: HTMLElement): boolean {
+  for (let p: HTMLElement | null = el; p; p = p.parentElement) {
+    if (getComputedStyle(p).position === 'fixed') return true
+  }
+  return false
+}
+
+/** Cel przypięty do dolnej połowy ekranu zasłoniłby panel dolny na telefonie: panel idzie wtedy na górę. */
+export function isPinnedLow(el: HTMLElement): boolean {
+  return isPinned(el) && el.getBoundingClientRect().top > window.innerHeight * 0.5
+}
+
+/** Na telefonie panel dolny zajmuje do 52% wysokości: cel ma zostać w górnej części ekranu (do tej wysokości). */
+const PHONE_LIMIT = 0.46
+
 /** Przewija element w widok: na telefonie nad panelem dolnym, na desktopie mniej więcej do środka. */
 export function scrollToTarget(el: HTMLElement): void {
   const behavior: ScrollBehavior = prefersReducedMotion() ? 'auto' : 'smooth'
+  if (isPinned(el)) return
   const vh = window.innerHeight
   const rect = el.getBoundingClientRect()
-  const tall = rect.height > vh * (isPhone() ? 0.4 : 0.7)
-  const prevMargin = el.style.scrollMarginBottom
-  if (isPhone()) el.style.scrollMarginBottom = '56vh'
-  try {
-    el.scrollIntoView({ block: tall ? 'start' : isPhone() ? 'nearest' : 'center', inline: 'nearest', behavior })
-  } finally {
-    // margines potrzebny tylko w chwili wyliczenia przewinięcia
-    window.setTimeout(() => { el.style.scrollMarginBottom = prevMargin }, 50)
+  if (!isPhone()) {
+    el.scrollIntoView({ block: rect.height > vh * 0.7 ? 'start' : 'center', inline: 'nearest', behavior })
+    return
   }
+  // scrollIntoView ignoruje margines, gdy element jest już w oknie, więc liczymy przesunięcie sami
+  const limit = vh * PHONE_LIMIT
+  const top = 12
+  let delta = 0
+  if (rect.top < top) delta = rect.top - top
+  else if (rect.bottom > limit) delta = Math.min(rect.bottom - limit, rect.top - top)
+  if (Math.abs(delta) > 1) window.scrollBy({ top: delta, behavior })
 }
