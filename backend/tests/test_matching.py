@@ -6,6 +6,7 @@ from app.services.matching import (
     card_score,
     labels,
     load_vocabulary,
+    rank_key,
     similar_text,
     tag_text,
     valid_tags,
@@ -91,6 +92,26 @@ def test_tfidf_zapytanie_bez_wspolnych_slow_daje_zero():
     assert TfidfIndex(["klub seniora"]).scores("festiwal latawców") == [0.0]
 
 
-def test_wynik_tekstowy_to_lepsze_z_trigramu_i_tfidf():
-    match = card_score({}, None, LABELS, "abc", "xyz", vector=0.7)
-    assert match.score == 0.7 and match.vector == 0.7
+def test_bez_tagow_wynik_to_znormalizowany_tfidf():
+    match = card_score({}, None, LABELS, "abc", "xyz", vector=0.125)
+    assert match.score == 0.5 and match.vector == 0.125
+
+
+def test_ogolny_tag_bez_wspolnych_slow_przegrywa_z_tekstem():
+    tags = {"grupy_docelowe": ["dzieci"]}
+    overlay = {"grupy_docelowe": ["dzieci"]}
+    generic = card_score(tags, overlay, LABELS, "t", "k", vector=0.0)
+    textual = card_score(tags, overlay, LABELS, "t", "k", vector=0.25)
+    assert abs(generic.score - 0.3) < 1e-9 and abs(textual.score - 1.0) < 1e-9
+    assert rank_key(textual) > rank_key(generic)
+
+
+def test_potoczne_sformulowania_dostaja_tagi():
+    cases = {
+        "Babcia nie radzi sobie z telefonem": ("problemy", "wykluczenie-cyfrowe"),
+        "Mama ma początki demencji": ("grupy_docelowe", "osoby-z-demencja"),
+        "Mama dwa razy upadła w domu": ("problemy", "zagrozenie-bezpieczenstwa"),
+        "Jestem niewidomy": ("grupy_docelowe", "osoby-niewidome"),
+    }
+    for text, (section, slug) in cases.items():
+        assert slug in tag_text(text, VOCABULARY).get(section, []), text

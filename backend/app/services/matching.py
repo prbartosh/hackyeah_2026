@@ -20,6 +20,10 @@ Tags = dict[str, list[str]]
 
 # Sekcje słownika używane do dopasowania i ich wagi.
 WEIGHTS = {"problemy": 3, "grupy_docelowe": 2, "miejsca": 1, "typy_rozwiazan": 1}
+# Wynik tekstowy (TF-IDF) ma w wyniku końcowym wagę VECTOR_WEIGHT; kosinus krótkiego zgłoszenia
+# z długim opisem karty rzadko przekracza ~0,25, więc VECTOR_SCALE rozciąga go do 0-1.
+VECTOR_WEIGHT = 0.7
+VECTOR_SCALE = 0.25
 # Słowa od tylu liter skracamy do tylu liter (fleksja: demencji/demencja, seniorów/senior).
 STEM_LEN = 6
 _TOKEN = re.compile(r"[^\W_]+\+?", re.UNICODE)
@@ -89,15 +93,21 @@ def card_score(
     label_map: dict[str, dict[str, str]],
     ticket_text: str,
     card_text: str,
-    vector: float = 0.0,
+    vector: float | None = None,
 ) -> CardMatch:
-    """Ważone pokrycie tagów zgłoszenia przez nakładkę karty; remis rozstrzyga tekst.
+    """Ważone pokrycie tagów zgłoszenia przez nakładkę karty, z podobieństwem tekstu.
 
-    Karta bez nakładki albo zgłoszenie bez tagów: wynik to lepsze z dwóch podobieństw tekstu,
-    trigramów znaków i TF-IDF (`vector`, liczony na korpusie kart, patrz `TfidfIndex`).
+    Bez `vector`: samo pokrycie tagów, remis rozstrzyga trigram. Z `vector` (TF-IDF na korpusie
+    kart, patrz `TfidfIndex`): 30% pokrycia tagów i 70% tekstu, żeby karta pasująca tylko
+    ogólnym tagiem („Dzieci”) nie wygrywała z kartą o tych samych słowach. Karta bez nakładki
+    albo zgłoszenie bez tagów: sam tekst (bez `vector`: trigramy).
     """
     trigram = similar_text(ticket_text, card_text)
-    textual = max(trigram, vector)
+    vector_given = vector is not None
+    if vector is None:
+        textual, vector = trigram, 0.0
+    else:
+        textual = min(1.0, vector / VECTOR_SCALE)
     overlay = overlay or {}
     total = sum(WEIGHTS[s] * len(slugs) for s, slugs in ticket_tags.items())
     if not total or not any(overlay.get(s) for s in WEIGHTS):
@@ -109,11 +119,14 @@ def card_score(
             if slug in have:
                 covered += WEIGHTS[section]
                 reasons.append(label_map.get(section, {}).get(slug, slug))
-    return CardMatch(score=covered / total, powody=reasons, trigram=trigram, vector=vector)
+    coverage = covered / total
+    if vector_given:
+        coverage = (1 - VECTOR_WEIGHT) * coverage + VECTOR_WEIGHT * textual
+    return CardMatch(score=coverage, powody=reasons, trigram=trigram, vector=vector)
 
 
-def rank_key(match: CardMatch) -> tuple[float, float]:
-    return (match.score, max(match.trigram, match.vector))
+def rank_key(match: CardMatch) -> tuple[float, float, float]:
+    return (match.score, match.vector, match.trigram)
 
 
 def tag_labels(tags: Tags, label_map: dict[str, dict[str, str]], section: str) -> list[str]:
