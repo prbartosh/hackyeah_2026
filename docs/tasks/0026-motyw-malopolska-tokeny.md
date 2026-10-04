@@ -6,7 +6,7 @@
 
 ## Cel
 
-Cała aplikacja ma wygląd regionalny (Małopolska), a nie ogólny „niebieski SaaS”. Zmieniamy tylko tokeny i style, bez zmian logiki. Trzy motywy z paska dostępności (jasny, ciemny, wysoki kontrast) działają dalej i każdy spełnia WCAG 2.1 AA. Pozostałe zadania UI (0027–0034) korzystają z tych tokenów.
+Aplikacja ma wygląd regionalny (Małopolska), a nie ogólny „niebieski SaaS”. Tylko tokeny i style, bez zmian logiki. Trzy motywy (jasny, ciemny, wysoki kontrast) działają dalej i spełniają WCAG 2.1 AA. Zadania 0027–0034 korzystają z tych tokenów.
 
 ## Kroki
 
@@ -16,7 +16,7 @@ Cała aplikacja ma wygląd regionalny (Małopolska), a nie ogólny „niebieski 
 - [ ] Motyw ciemny: te same barwy, przyciemnione i mniej nasycone, nie odwrócone. Kontrast sprawdzony osobno.
 - [ ] Wysoki kontrast: bez zmian merytorycznych (żółty na czarnym), sprawdzić, że nowe tokeny (`--accent*`) też są nadpisane.
 - [ ] Typografia: zostać przy Open Sans albo przejść na krój o wysokiej czytelności (np. Atkinson Hyperlegible Next, Lexend) z pełnymi polskimi znakami (ą, ę, ł, ż, ź, ć, ń, ó, ś). Nagłówki mogą mieć krój z charakterem (np. szeryfowy), treść zostaje bezszeryfowa.
-- [ ] Fonty hostowane lokalnie (`@fontsource` albo pliki w `public/`) zamiast Google Fonts w `index.html`: mniej zapytań do zewnętrznych serwerów (RODO w sektorze publicznym), działa offline na pokazie. `font-display: swap`.
+- [x] Fonty hostowane lokalnie (`@fontsource`, zrobione w 0020; Google Fonts usunięte). Jeśli zmieniamy krój, zostaje lokalnie, `font-display: swap`.
 - [ ] Skala typografii i odstępów jako tokeny (`--fs-*`, `--space-*` w rytmie 4/8 px), promienie (`--radius-sm/md/lg`), cienie (`--shadow-1/2`), z-index (`--z-sticky`, `--z-overlay`, `--z-skip`).
 - [ ] `favicon` w `index.html` w nowych kolorach, `theme-color` w meta dla jasnego i ciemnego motywu.
 - [ ] axe na wszystkich trasach w 3 motywach × 2 szerokościach (skrypt z 0022): 0 naruszeń. Ręcznie: duży i bardzo duży tekst.
@@ -24,6 +24,7 @@ Cała aplikacja ma wygląd regionalny (Małopolska), a nie ogólny „niebieski 
 ## Notatki
 
 - Priorytet: najwyższy z zadań UI. Bez tego 0027–0034 nie mają na czym stanąć.
-- Kryteria: 10% za atrakcyjność UI, 20% za dostępność. Zmiana motywu nie może obniżyć wyniku axe.
-- Klucze `hubmi-theme` i `hubmi-font-size` w `localStorage` zostają (skrypt w `index.html` i `AccessibilityContext.tsx`).
+- Do weryfikacji: PR #60 dodał `styles/malopolska.css` (barwy marki `--mp-*`: pasek nad nagłówkiem i stopką, pasek pod pozycją menu, tło grani jasne/ciemne; wysoki kontrast bez ozdób) i nie zmienia `--primary`, więc kroki palety i tokenów zostają otwarte. Ustalić, skąd wartości `--mp-*` (SIW?), i czy kierunek „granat jako `--primary`” nadal obowiązuje.
+- Kryteria: 10% atrakcyjność UI, 20% dostępność. Motyw nie może obniżyć wyniku axe.
+- Klucze `hubmi-theme` i `hubmi-font-size` w `localStorage` zostają.
 - Sprawdzić z ROPS lub w regulaminie, czy wolno używać znaku „Małopolska”. Jeśli nie, motyw opiera się na barwach i ornamentach (0027), bez logo.

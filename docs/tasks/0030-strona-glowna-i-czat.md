@@ -13,7 +13,7 @@ Moduł obowiązkowy (matchmaking) jest najmocniejszym ekranem aplikacji. Nowa os
 ### Ekran startowy
 
 - [ ] Nad polem czatu krótki opis w prostym języku (1 zdanie) i trzy kroki „Opisz problem → Odpowiedz na kilka pytań → Zobacz sprawdzone rozwiązania”.
-- [ ] Pasek zaufania pod polem: „115 innowacji z Biblioteki ROPS”, „Bez logowania”, „Nie zapisujemy rozmów”. Liczby z API, nie wpisane na sztywno.
+- [ ] Pasek zaufania pod polem: „115 innowacji z Biblioteki ROPS”, „Bez logowania”, „Nie zapisujemy rozmów”. Liczba z API, nie na sztywno.
 - [ ] Podpowiedzi (`EXAMPLES` w `ChatPanel.tsx`) jako karty z ikoną i jednym zdaniem, nie same chipy. Treść bez zmian.
 - [ ] Pod czatem kafle innych modułów: Zasobnik wiedzy, Kreator pomysłów, Zgłoś potrzebę. Dziś pierwszy ekran prowadzi tylko do czatu.
 - [ ] Tło ekranu startowego z ornamentem z 0027.

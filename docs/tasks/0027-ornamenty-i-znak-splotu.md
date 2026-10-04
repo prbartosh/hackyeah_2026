@@ -21,5 +21,6 @@ Splot ma rozpoznawalny, regionalny charakter graficzny: własny znak i oszczędn
 ## Notatki
 
 - Zależy od 0026 (kolory).
+- Do weryfikacji: tło grani z #60 (`malopolska.css`) może zastąpić „sylwetkę Tatr lub Wawelu” w tle; ustalić zakres przed rysowaniem ornamentów.
 - Zasada: mniej znaczy lepiej. Jeden ornament na ekran, interfejs to narzędzie urzędowe, nie folder turystyczny.
 - Herb województwa (orzeł w koronie) i logo „Małopolska” tylko za zgodą, patrz 0026.
