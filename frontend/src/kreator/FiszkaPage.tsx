@@ -154,7 +154,7 @@ export default function FiszkaPage() {
       window.setTimeout(() => document.querySelector<HTMLElement>('[aria-invalid="true"], [data-invalid="true"]')?.focus(), 0)
       return
     }
-    void autosave.flush()
+    void autosave.flush().catch(() => undefined)
     goTo(Math.min(step + 1, S_PODGLAD))
   }
 
@@ -251,7 +251,7 @@ export default function FiszkaPage() {
         </ol>
       </nav>
       <StepProgress current={step} titles={STEPS} />
-      <SaveStatus state={autosave.state} onRetry={() => void autosave.flush()} />
+      <SaveStatus state={autosave.state} onRetry={() => void autosave.flush().catch(() => undefined)} />
 
       <form onSubmit={send} noValidate className="step-form">
         <h1 ref={heading} tabIndex={-1} className="step-title">{STEPS[step]}</h1>

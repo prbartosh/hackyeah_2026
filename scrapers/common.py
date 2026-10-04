@@ -3,7 +3,6 @@ import re
 import time
 from pathlib import Path
 
-import pymupdf
 import requests
 
 ASSETS = Path(__file__).resolve().parent.parent / "assets"
@@ -31,7 +30,7 @@ def get(url, **kw):
 
 def slugify(text, limit=80):
     text = text.lower()
-    for a, b in zip("ąćęłńóśźż", "acelnoszz"):
+    for a, b in zip("ąćęłńóśźż", "acelnoszz", strict=True):
         text = text.replace(a, b)
     return re.sub(r"[^a-z0-9]+", "-", text).strip("-")[:limit]
 
@@ -48,6 +47,8 @@ def download(url, dest: Path):
 
 
 def pdf_to_markdown(pdf: Path, out: Path):
+    import pymupdf
+
     out.parent.mkdir(parents=True, exist_ok=True)
     with pymupdf.open(pdf) as doc, open(out, "w", encoding="utf-8") as f:
         for i, page in enumerate(doc, 1):

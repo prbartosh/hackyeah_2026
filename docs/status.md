@@ -40,7 +40,7 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 - 2026-10-04: „Podobne przypadki” w matchmakingu: zdarzenie SSE `similar_cases`, próg k = 5, blok pod wynikami ([ADR 0012](adr/0012-podobne-przypadki.md))
 - 2026-10-04: Deterministyczne dopasowanie w panelu zamiast embeddingów (`services/matching.py`, tagi ze słownika, powody w UI, migracja 0007), usunięte `embed`, `reindex` i `/reindeksuj` ([ADR 0006](adr/0006-panel-administratora.md))
 - 2026-10-04: Port LLM i adapter z profilami dostawców (`LLM_PROVIDER`), `ChatService`, panel, karta usługi i skrypt tagowania bez formatu Responses API ([ADR 0010](adr/0010-port-llm.md)); profil `openai` sprawdzony tylko testami jednostkowymi
-- 2026-10-04: Limity nginx dla publicznych zapisów (`/zgloszenia`, `/kreator/`, `/opinie`, nowe: `/items`, `/admin/`), migracje sprawdzone na PostgreSQL 16 (up, down, up)
+- 2026-10-04: Limity nginx dla publicznych zapisów (`/zgloszenia`, `/kreator/`, `/opinie`, `/admin/`), migracje sprawdzone na PostgreSQL 16 (up, down, up); szablonowy publiczny endpoint `/items` został wyłączony
 - 2026-10-04: Testy na prawdziwym modelu (DeepSeek) przeszły poprawnie, PR-y zmergowane
 - 2026-10-03: Pierwsze uruchomienie stacku: stack, strony, axe, pytest, czat przez proxy na DeepSeek; pełna rozmowa to 6 wywołań modelu i ok. 297 tys. tokenów, więc limit 300 tys. to 1 rozmowa dziennie
 - 2026-10-03: Ewaluacja dopasowania: skrypt `backend/scripts/eval_matchmaking.py`, pełny pomiar niepotrzebny (decyzja Bartosza)
