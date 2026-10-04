@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react'
 import { Compass } from 'lucide-react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getToken } from '@/admin/api'
+import { getToken, setToken } from '@/admin/api'
 import { chapters as defaultChapters } from '@/tour/chapters'
 import type { TourChapter } from '@/tour/types'
 import { captureQuietly, runActions } from '@/tour/engine/actions'
@@ -117,6 +117,13 @@ export default function TourProvider({ children, chapters: chaptersProp }: { chi
       getPath: () => window.location.pathname + window.location.search,
       navigate: (to) => navigateRef.current(to),
       hasToken: () => getToken() !== null,
+      // Stack demo (DEMO_TOUR_ENABLED): wejście do panelu bez formularza. 404 = wyłączone, wtedy prośba o zalogowanie.
+      autoLogin: async () => {
+        const { token } = await ctx.api<{ token: string }>('/demo/admin-session', { method: 'POST' })
+        if (!token) return false
+        setToken(token)
+        return true
+      },
       setPhase: (p) => { if (!ac.signal.aborted) setPhase(p) },
       waitForTarget,
       scrollTo: scrollToTarget,

@@ -58,6 +58,22 @@ describe('runStep', () => {
     expect(phases.at(-1)?.kind).toBe('ready')
   })
 
+  it('krok panelu z autoLogin: bez formularza logowania', async () => {
+    let token = false
+    const { deps, log, phases } = setup({ hasToken: () => token, autoLogin: async () => { token = true; return true } })
+    await runStep({ ...base, admin: true, route: '/admin/karty', target: 'el' }, deps, new AbortController().signal)
+    expect(log[0]).toBe('nav:/admin/karty')
+    expect(phases.map((p) => p.kind)).not.toContain('login')
+    expect(phases.at(-1)?.kind).toBe('ready')
+  })
+
+  it('autoLogin wyłączony (błąd): zwykła prośba o zalogowanie', async () => {
+    const { deps, phases } = setup({ autoLogin: async () => { throw new Error('404') } })
+    await runStep({ ...base, admin: true, target: 'el' }, deps, new AbortController().signal)
+    expect(phases.map((p) => p.kind)).toContain('login')
+    expect(phases.at(-1)?.kind).toBe('ready')
+  })
+
   it('waitFor pokazuje oczekiwanie, a błąd prepare daje stan error', async () => {
     const a = setup()
     await runStep({ ...base, waitFor: { target: 'odp', message: 'Model myśli' } }, a.deps, new AbortController().signal)

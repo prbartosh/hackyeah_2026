@@ -20,6 +20,8 @@ export interface RunnerDeps {
   getPath(): string
   navigate(to: string): void
   hasToken(): boolean
+  /** Logowanie do panelu bez formularza (stack demo). true = token ustawiony, false = poproś o zalogowanie. */
+  autoLogin?(): Promise<boolean>
   setPhase(phase: Phase): void
   waitForTarget(target: string, timeoutMs: number, signal: AbortSignal): Promise<HTMLElement | null>
   scrollTo(el: HTMLElement): void
@@ -43,6 +45,10 @@ export async function runStep(step: TourStep, deps: RunnerDeps, signal: AbortSig
   if (signal.aborted) return
   deps.setPhase({ kind: 'loading' })
   try {
+    if (step.admin && !deps.hasToken() && deps.autoLogin) {
+      await deps.autoLogin().catch(() => false)
+      if (signal.aborted) return
+    }
     if (step.admin && !deps.hasToken()) {
       if (!samePlace(deps.getPath(), '/admin')) deps.navigate('/admin')
       deps.setPhase({ kind: 'login' })

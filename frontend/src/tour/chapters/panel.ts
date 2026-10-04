@@ -83,7 +83,7 @@ const chapter: TourChapter = {
         'To zaplecze Splotu: tu pracownik ROPS odpowiada ludziom, sprawdza podpowiedzi AI i decyduje, co trafia do publicznej bazy.',
         'Wszystko, co robisz w panelu, ma skutek na żywo.',
       ],
-      hint: 'Zaloguj się tokenem dostępu, jeśli o niego prosimy.',
+      hint: 'Na stacku demo przewodnik loguje się sam. Jeśli poprosi o token, wpisz go w formularzu.',
       tag: 'Moduł VI',
       placement: 'bottom',
     },

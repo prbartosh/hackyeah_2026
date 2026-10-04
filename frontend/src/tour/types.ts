@@ -45,7 +45,8 @@ export interface TourStep {
   /** Kryterium oceny lub wartość dla ROPS, pokazywane jako mała etykieta (np. „Dostępność”, „Moduł V”). */
   tag?: string
   placement?: 'top' | 'bottom' | 'left' | 'right' | 'auto'
-  /** Krok wymaga zalogowania w panelu ROPS. Bez tokenu silnik pokazuje chmurkę przy formularzu logowania i czeka. */
+  /** Krok wymaga panelu ROPS. Bez tokenu silnik loguje się sam (POST /demo/admin-session, gdy DEMO_TOUR_ENABLED),
+   * a gdy to wyłączone, pokazuje chmurkę przy formularzu logowania i czeka. */
   admin?: boolean
   /** Przygotowanie danych przed krokiem (np. utworzenie rekordu przez API, zapis do ctx). */
   prepare?: (ctx: TourContext) => Promise<void>
