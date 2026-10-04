@@ -2,10 +2,11 @@
 
 Splot pomaga znaleźć sprawdzone rozwiązanie problemu społecznego w Bibliotece Innowacji Społecznych ROPS Kraków. Mieszkaniec, pracownik OPS albo urzędnik gminy opisuje sprawę swoimi słowami, AI dopytuje o szczegóły i pokazuje do pięciu innowacji, które już działają w Małopolsce, z wyjaśnieniem, dlaczego pasują. Wokół tego jest wszystko, czego potrzeba dalej: biblioteka wiedzy, kreator pomysłów, karta wdrożenia dla instytucji, kontakt z ROPS bez zakładania konta i panel dla pracowników ROPS.
 
-**Demo:** https://splot.drogos.dev/ · **Masz kilka minut?** [SEDZIA.md](SEDZIA.md)
+**Demo:** https://splot.drogos.dev/ · **Film:** https://youtu.be/W2gabERpP3E · **Masz kilka minut?** [SEDZIA.md](SEDZIA.md)
 
 ## Jak obejrzeć
 
+- **Film:** [prezentacja Splotu na YouTube](https://youtu.be/W2gabERpP3E).
 - **2 minuty:** przycisk **„Dla sędziego (2 min)”** w nagłówku. Przewodnik na żywo: opis problemu, pytanie AI, wyniki z uzasadnieniem i karta innowacji.
 - **Całość:** przycisk **„Przewodnik”**. 10 rozdziałów, ok. 45 minut, wszystko na żywo (prawdziwy model AI, prawdziwe formularze, panel ROPS). Rozdziały można wybierać w spisie albo otworzyć adresem, np. `/?przewodnik=panel`.
 
