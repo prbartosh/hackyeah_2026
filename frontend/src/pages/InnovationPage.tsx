@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom'
 import { Download, ExternalLink, FileText } from 'lucide-react'
 import { getInnovation } from '@/api/innovations'
+import CompareToggle from '@/components/CompareToggle'
 import PlainLanguageSection from '@/components/PlainLanguageSection'
 import ReadAloudButton from '@/components/ReadAloudButton'
 import TesterSection from '@/components/TesterSection'
@@ -166,6 +167,7 @@ export default function InnovationPage() {
             <a href={rec.url_zrodlowy} className="btn btn-secondary btn-block" target="_blank" rel="noreferrer">
               Strona źródłowa ROPS <ExternalLink size={18} aria-hidden="true" /><NewTab />
             </a>
+            <CompareToggle slug={rec.slug} nazwa={rec.nazwa} />
           </section>
 
           <section className="side-box">

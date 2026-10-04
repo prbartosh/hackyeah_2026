@@ -11,9 +11,10 @@ import ZasobnikPage from '@/pages/ZasobnikPage'
 const AccessibilityStatementPage = lazy(() => import('@/pages/AccessibilityStatementPage'))
 const AdminRoutes = lazy(() => import('@/admin/AdminRoutes'))
 const KreatorRoutes = lazy(() => import('@/kreator/KreatorRoutes'))
+const ComparePage = lazy(() => import('@/pages/ComparePage'))
 const DocumentPage = lazy(() => import('@/pages/DocumentPage'))
 const OpenDataPage = lazy(() => import('@/pages/OpenDataPage'))
-const ReportPage =lazy(() => import('@/pages/ReportPage'))
+const ReportPage = lazy(() => import('@/pages/ReportPage'))
 const ServiceCardPage = lazy(() => import('@/pages/ServiceCardPage'))
 const ThreadPage = lazy(() => import('@/pages/ThreadPage'))
 
@@ -25,9 +26,10 @@ export default function App() {
         <Route path="zasobnik" element={<ZasobnikPage />} />
         <Route path="innowacja/:slug" element={<InnovationPage />} />
         <Route path="innowacja/:slug/wdrozenie" element={<ServiceCardPage />} />
+        <Route path="porownaj" element={<ComparePage />} />
         <Route path="dokument/:id" element={<DocumentPage />} />
         <Route path="otwarte-dane" element={<OpenDataPage />} />
-        <Route path="zglos"element={<ReportPage />} />
+        <Route path="zglos" element={<ReportPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
         <Route path="dostepnosc" element={<AccessibilityStatementPage />} />
         <Route path="kreator/*" element={<KreatorRoutes />} />
