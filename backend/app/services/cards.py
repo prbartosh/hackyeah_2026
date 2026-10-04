@@ -88,6 +88,22 @@ def overlay_of(card: InnovationCard) -> dict[str, Any] | None:
     return overlay or None
 
 
+def rank_cards(
+    cards: list[InnovationCard],
+    text: str,
+    tags: Tags,
+    label_map: dict[str, dict[str, str]],
+    limit: int,
+) -> list[tuple[InnovationCard, CardMatch]]:
+    """Karty od najlepiej dopasowanych: tagi i TF-IDF na tym korpusie (matching.py)."""
+    vectors = TfidfIndex([index_text(c) for c in cards]).scores(text)
+    scored = [
+        (c, card_score(tags, c.nakladka, label_map, text, match_text(c), v))
+        for c, v in zip(cards, vectors, strict=True)
+    ]
+    return sorted(scored, key=lambda x: rank_key(x[1]), reverse=True)[:limit]
+
+
 class CardService:
     def __init__(self, session: AsyncSession) -> None:
         self.session = session
@@ -135,13 +151,7 @@ class CardService:
         limit: int = 5,
     ) -> list[tuple[InnovationCard, CardMatch]]:
         """Opublikowane karty od najlepiej dopasowanych (matching.py), z powodami."""
-        cards = await self.repo.published()
-        vectors = TfidfIndex([index_text(c) for c in cards]).scores(text)
-        scored = [
-            (c, card_score(tags, c.nakladka, label_map, text, match_text(c), v))
-            for c, v in zip(cards, vectors, strict=True)
-        ]
-        return sorted(scored, key=lambda x: rank_key(x[1]), reverse=True)[:limit]
+        return rank_cards(await self.repo.published(), text, tags, label_map, limit)
 
     async def create(self, data: CardCreate, *, zrodlo: str = "panel") -> InnovationCard:
         slug = await self._unique_slug(data.nazwa)

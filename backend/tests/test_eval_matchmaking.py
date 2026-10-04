@@ -24,12 +24,14 @@ def case(expected: str | None = "a", ambiguous: bool = False) -> Case:
 @pytest.mark.skipif(not TEST_SET.exists(), reason="docs/ nie jest montowane w kontenerze")
 def test_parse_real_test_set():
     cases = parse_cases(TEST_SET.read_text(encoding="utf-8"))
-    assert [c.number for c in cases] == list(range(1, 37))
+    assert [c.number for c in cases] == list(range(1, 44))
     assert cases[0].role == "mieszkaniec"
     assert cases[0].expected == "kody-qr-na-pomoc-seniorom"
     assert cases[9].ambiguous and cases[9].expected == "dialog-ponad-kulturami-1"
     assert not cases[0].ambiguous
     assert cases[27].expected is None
+    # 37-43: spoza bazy (zadanie 0048)
+    assert all(c.expected is None for c in cases[36:])
 
 
 def test_parse_sse():

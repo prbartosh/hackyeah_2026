@@ -19,6 +19,7 @@ from app.services.chat import ChatService
 from app.services.email import get_email_sender
 from app.services.fiszki import FiszkaService
 from app.services.innovation import InnovationService
+from app.services.jev import Judge, create_judge
 from app.services.knowledge import KnowledgeService
 from app.services.llm import LLMProvider, create_provider
 from app.services.mentors import MentorService
@@ -61,6 +62,19 @@ def _llm_service() -> LLMProvider:
 def get_llm_service() -> LLMProvider | None:
     """None bez klucza - SDK rzuca wtedy OpenAIError już przy tworzeniu klienta."""
     return _llm_service() if settings.llm_api_key else None
+
+
+@lru_cache
+def _judge() -> Judge | None:
+    return create_judge(settings)
+
+
+def get_judge() -> Judge | None:
+    """Jev (ADR 0016); None bez klucza - serwisy działają wtedy bez niego."""
+    return _judge() if settings.typesafe_api_key else None
+
+
+JudgeDep = Annotated[Judge | None, Depends(get_judge)]
 
 
 def get_chat_service(
@@ -196,9 +210,9 @@ TodayDep = Annotated[date, Depends(get_today)]
 
 
 def get_fiszka_service(
-    session: SessionDep, ai: AIGatewayDep, tickets: TicketServiceDep
+    session: SessionDep, ai: AIGatewayDep, tickets: TicketServiceDep, judge: JudgeDep
 ) -> FiszkaService:
-    return FiszkaService(session, ai, settings, tickets)
+    return FiszkaService(session, ai, settings, tickets, judge)
 
 
 FiszkaServiceDep = Annotated[FiszkaService, Depends(get_fiszka_service)]

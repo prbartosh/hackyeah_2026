@@ -42,6 +42,13 @@ Role: `mieszkaniec`, `cus-ops`, `partner` ([ADR 0004](adr/0004-obiekt-innowacji.
 | 34 | mieszkaniec | babcia sie przewraca w domu juz 2 razy | `obu-obuwie-po-domu` | potoczne, krótko; wariant #17 |
 | 35 | mieszkaniec | jestem niewidomy chce sam chodzic po miescie z apką co mówi gdzie iść | `ngoz-nawigacja-glosowa-osob-zaleznych` | potoczne; wariant #12 |
 | 36 | mieszkaniec | babcia nie ogarnia smartfona i internetu, wszystko za nią załatwiam | `merkury` | potoczne; wariant #14 |
+| 37 | mieszkaniec | Kończy mi się ważność dowodu osobistego. Jak go wymienić i czy muszę iść do urzędu? | brak (`brak_dopasowania`) | spoza bazy: sprawa urzędowa |
+| 38 | partner | Parafia szuka dotacji na remont zabytkowego dachu kościoła. | brak (`brak_dopasowania`) | spoza bazy: remont, finansowanie |
+| 39 | mieszkaniec | Sąsiad co noc głośno puszcza muzykę. Jak zgłosić zakłócanie ciszy nocnej? | brak (`brak_dopasowania`) | spoza bazy: spór sąsiedzki |
+| 40 | partner | Nasza firma chce wdrożyć system księgowy w chmurze dla działu finansów. | brak (`brak_dopasowania`) | spoza bazy: IT w firmie |
+| 41 | mieszkaniec | Mój pies szczeka i niszczy meble, kiedy zostaje sam w domu. Jak go tego oduczyć? | brak (`brak_dopasowania`) | spoza bazy, słowa „sam w domu” jak w kartach o seniorach |
+| 42 | partner | Szkoła chce zorganizować dla dzieci festyn z dmuchańcami i grillem na koniec roku. | brak (`brak_dopasowania`) | spoza bazy, blisko tematu (dzieci, szkoła) |
+| 43 | cus-ops | W naszym OPS-ie psuje się serwer i potrzebujemy nowego sprzętu komputerowego dla pracowników. | brak (`brak_dopasowania`) | spoza bazy, blisko tematu (OPS) |
 
 ## Kandydaci na pokaz
 
@@ -53,6 +60,8 @@ Po pomiarze zostają tylko te, które trafiają na 1. miejscu.
 - **Brak dopasowania:** #28.
 
 Zgłoszenia 29–36 to te same potrzeby napisane potocznie, z literówkami lub bez polskich znaków.
+
+Zgłoszenia 37–43 (dodane 2026-10-04 do zadania 0048) to potrzeby spoza bazy: wynik ma być pusty. Część celowo brzmi blisko tematyki bazy (dzieci, OPS, „sam w domu”), żeby sprawdzić, czy dopasowanie nie łapie samych wspólnych słów.
 
 Najpewniejsze do testu (jedna oczywista innowacja): #1, #2, #3, #6, #7, #8, #17, #21. Z konkurencją: #4, #5, #9, #10, #23, #26.
 

@@ -19,8 +19,10 @@ from app.services.ai import AIGateway
 from app.services.app_settings import load_settings
 from app.services.cards import CardService, category_names
 from app.services.errors import KreatorError
+from app.services.jev import Judge
 from app.services.kreator_ai import values_of
 from app.services.matching import labels, load_vocabulary, tag_text
+from app.services.relevance import CANDIDATES, pick_similar
 from app.services.tickets import TicketService
 
 EDITABLE = ("opis_wlasny", "istota", "odbiorca", "etap", "obszar", "lokalizacja", "potrzeby")
@@ -34,12 +36,18 @@ TICKET_LIMIT = 4000
 
 class FiszkaService:
     def __init__(
-        self, session: AsyncSession, ai: AIGateway, settings: Settings, tickets: TicketService
+        self,
+        session: AsyncSession,
+        ai: AIGateway,
+        settings: Settings,
+        tickets: TicketService,
+        judge: Judge | None = None,
     ) -> None:
         self.session = session
         self.ai = ai
         self.settings = settings
         self.tickets = tickets
+        self.judge = judge
         self.repo = FiszkaRepository(session)
         self.cards = CardService(session)
 
@@ -137,22 +145,29 @@ class FiszkaService:
         panel = await load_settings(self.session, self.settings)
         vocabulary = load_vocabulary(self.settings.innovations_path.parent / "slownik.json")
         found = await self.cards.rank(
-            text, tag_text(text, vocabulary), labels(vocabulary), MAX_SIMILAR + 1
+            text, tag_text(text, vocabulary), labels(vocabulary), CANDIDATES + 1
+        )
+        picked = await pick_similar(
+            text,
+            [(c, m) for c, m in found if c.slug != exclude],
+            self.judge,
+            threshold=panel.prog_dopasowania,
+            limit=MAX_SIMILAR,
+            timeout=self.settings.jev_timeout_seconds,
         )
         return [
             PodobnaInnowacja(
-                slug=c.slug,
-                nazwa=c.nazwa,
-                url=c.url_zrodlowy or f"/innowacja/{c.slug}",
+                slug=s.card.slug,
+                nazwa=s.card.nazwa,
+                url=s.card.url_zrodlowy or f"/innowacja/{s.card.slug}",
                 zrodlo=SOURCE_NAME,
-                problem=(c.problem or "")[:300] or None,
-                grupa_docelowa=(c.grupa_docelowa or "")[:200] or None,
-                score=round(match.score, 3),
-                powody=match.powody,
+                problem=(s.card.problem or "")[:300] or None,
+                grupa_docelowa=(s.card.grupa_docelowa or "")[:200] or None,
+                score=s.score,
+                powody=s.powody,
             )
-            for c, match in found
-            if match.score >= panel.prog_dopasowania and c.slug != exclude
-        ][:MAX_SIMILAR]
+            for s in picked
+        ]
 
     def ticket_text(self, fiszka: Fiszka) -> str:
         values = values_of(fiszka, self.categories())
@@ -202,4 +217,3 @@ class FiszkaService:
             "syntetyczna": fiszka.syntetyczna,
             "updated_at": fiszka.updated_at,
         }
-
