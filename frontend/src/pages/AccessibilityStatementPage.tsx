@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useDocumentTitle } from '@/hooks/useDocumentTitle'
 
-// Wynik pomiaru z zadania 0022 (docs/tasks/0022-dostepnosc-nvda-klawiatura.md). Po nowym pomiarze popraw tu daty i liczby.
+// Wynik pomiaru axe (npm run a11y). Po nowym pomiarze popraw tu daty i liczby.
 const AXE_DATE = '2026-10-04'
 const AXE_RESULTS = [
   { scope: 'Trasy', value: '21 (strony publiczne, Kreator pomysłów, panel pracownika, strona 404)' },

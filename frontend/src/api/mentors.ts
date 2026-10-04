@@ -1,4 +1,4 @@
-// Kontrakt = backend/app/schemas/mentor.py (ADR 0014). Przy zmianach schematu poprawiaj ten plik.
+// Kontrakt = backend/app/schemas/mentor.py. Przy zmianach schematu poprawiaj ten plik.
 import { call } from '@/admin/api'
 import type { Sektor } from '@/api/partnerships'
 

@@ -22,7 +22,7 @@ import {
   type ServerEvent,
 } from '@/types/chat'
 
-// Cała rozmowa i stan problemu żyją tylko w przeglądarce (backend jest bezstanowy, ADR 0005).
+// Cała rozmowa i stan problemu żyją tylko w przeglądarce (backend jest bezstanowy).
 // `history` i `state` to dokładnie to, co wysyłamy do POST /chat. Historia rośnie o wiadomość
 // asystenta dopiero po zdarzeniu `done` (jej treść to `assistant_message`, odsyłany dosłownie),
 // a `state` jest podmieniany na `done.state`.

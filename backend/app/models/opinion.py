@@ -8,7 +8,7 @@ STATUSY_OPINII = ("nowa", "opublikowana", "ukryta")
 
 
 class Opinia(TimestampMixin, Base):
-    """Tester innowacji (ADR 0011): zgłoszenie do testów albo ocena z feedbackiem.
+    """Tester innowacji: zgłoszenie do testów albo ocena z feedbackiem.
 
     Publicznie widać tylko opinie zatwierdzone przez ROPS (`opublikowana`).
     """

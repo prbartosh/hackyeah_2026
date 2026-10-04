@@ -5,7 +5,7 @@ from fastapi import APIRouter, Query, status
 from app.api.deps import PytanieServiceDep
 from app.schemas.pytanie import PytanieCreate, PytanieCreated, PytaniePublic
 
-# Publiczne: pytania do ROPS bez konta; lista tylko opublikowanych, bez e-maila (ADR 0015).
+# Publiczne: pytania do ROPS bez konta; lista tylko opublikowanych, bez e-maila.
 router = APIRouter()
 
 

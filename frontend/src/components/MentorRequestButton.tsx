@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { errorText } from '@/admin/ui'
 import { mentors } from '@/api/mentors'
 
-/** „Poproś mentora” na stronie wątku: ROPS dostaje powiadomienie i sam dobiera mentora (ADR 0014). */
+/** „Poproś mentora” na stronie wątku: ROPS dostaje powiadomienie i sam dobiera mentora. */
 export default function MentorRequestButton({ token }: { token: string }) {
   const [busy, setBusy] = useState(false)
   const [done, setDone] = useState(false)

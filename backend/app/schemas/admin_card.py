@@ -10,7 +10,7 @@ CzasStartu = Literal["dni", "tygodnie", "miesiace"]
 
 
 class Wdrozenie(BaseModel):
-    """Koszt i czas wdrożenia dla instytucji (ADR 0004 §3). Puste = brak danych."""
+    """Koszt i czas wdrożenia dla instytucji. Puste = brak danych."""
 
     poziom_kosztu: PoziomKosztu | None = None
     czas_startu: CzasStartu | None = None

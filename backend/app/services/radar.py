@@ -1,7 +1,7 @@
-"""Radar trendów: grupy zgłoszeń bez dobrego dopasowania w bazie (ADR 0006).
+"""Radar trendów: grupy zgłoszeń bez dobrego dopasowania w bazie.
 
 Grupujemy po wspólnym tagu `problemy` ze słownika, a zgłoszenia bez tagu po podobieństwie
-znaczenia (embeddingi, ADR 0016); bez modelu trigramami tekstu.
+znaczenia (embeddingi); bez modelu trigramami tekstu.
 """
 
 import asyncio

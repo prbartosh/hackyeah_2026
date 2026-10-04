@@ -91,7 +91,7 @@ function MentorForm({ initial, onSaved, onCancel }: {
   )
 }
 
-/** Panel mentorów: lista, dodawanie, edycja i wyłączanie (ADR 0014). */
+/** Panel mentorów: lista, dodawanie, edycja i wyłączanie. */
 export default function MentorsAdminPage() {
   useTitle('Mentorzy')
   const { data, error, loading, reload } = useLoad(() => mentors.adminList(), [])

@@ -10,7 +10,7 @@ Baza to pliki JSON w `assets/innowacje-spoleczne/` (115 innowacji z Biblioteki I
 |---|---|
 | `assets/innowacje-spoleczne/innowacje.json` | Lista 115 rekordów, po jednym na innowację. |
 | `assets/innowacje-spoleczne/kategorie.json` | 9 kategorii z liczbą innowacji i listą ich slugów. |
-| `assets/innowacje-spoleczne/slownik.json`, `wzbogacenia.json` | Słownik i nakładka ([ADR 0004](adr/0004-obiekt-innowacji.md)). |
+| `assets/innowacje-spoleczne/slownik.json`, `wzbogacenia.json` | Słownik i nakładka. |
 
 Pliki są w UTF-8, otwieraj je z jawnym kodowaniem.
 
@@ -88,7 +88,7 @@ Pola mogą być `null`, typuj je jako `string | null`.
 
 ## Dopasowanie problemu do innowacji
 
-Decyzje (nakładka `wzbogacenia.json`, słownik, zapis potrzeb): [ADR 0004](adr/0004-obiekt-innowacji.md). Czat dostaje katalog w prompcie ([ADR 0005](adr/0005-matchmaking-chat-llm.md)). Panel dopasowuje zgłoszenia do kart deterministycznie ([ADR 0006](adr/0006-panel-administratora.md)).
+Czat dostaje katalog innowacji w prompcie i wybiera z niego wyniki. Panel ROPS dopasowuje zgłoszenia do kart po tagach, słowach i znaczeniu.
 
 - Pole `problem` ma największą wagę. Pomiń `null`.
 - Kategoria to filtr pomocniczy, nie warunek konieczny.

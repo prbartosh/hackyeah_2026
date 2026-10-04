@@ -1,4 +1,4 @@
-// Rekord z assets/innowacje-spoleczne/innowacje.json (opis pól: docs/baza-innowacji.md); pola treści mogą być null (ADR 0004 §2)
+// Rekord z assets/innowacje-spoleczne/innowacje.json (opis pól: docs/baza-innowacji.md); pola treści mogą być null
 export interface Innowacja {
   slug: string
   url_zrodlowy: string

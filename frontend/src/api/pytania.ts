@@ -1,4 +1,4 @@
-// Kontrakt = backend/app/schemas/pytanie.py (ADR 0015). Przy zmianach schematu poprawiaj ten plik.
+// Kontrakt = backend/app/schemas/pytanie.py. Przy zmianach schematu poprawiaj ten plik.
 import { call } from '@/admin/api'
 
 export type StatusPytania = 'nowe' | 'odpowiedziane' | 'opublikowane' | 'ukryte'

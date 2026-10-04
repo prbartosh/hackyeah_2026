@@ -1,7 +1,7 @@
-// Kontrakt czatu = backend/app/schemas/chat.py (main, ADR 0004 §3 i §7, ADR 0005).
+// Kontrakt czatu = backend/app/schemas/chat.py.
 // Przy zmianach schematu po stronie backendu poprawiaj ten plik.
 
-/** Role z ADR 0004 §3. `partner` to JST, NGO albo ekspert. */
+/** Role użytkownika. `partner` to JST, NGO albo ekspert. */
 export type Role = 'mieszkaniec' | 'cus-ops' | 'partner'
 
 export const ROLE_LABELS: Record<Role, string> = {
@@ -21,7 +21,7 @@ export interface PoleZasoby extends PoleProblemu {
   poziom_kosztu: PoziomKosztu | null
 }
 
-/** Panel „Twój problem” (ADR 0004 §7). W panelu pokazujemy tylko `tekst`. */
+/** Panel „Twój problem”. W panelu pokazujemy tylko `tekst`. */
 export interface ProblemState {
   grupy_docelowe: PoleProblemu
   problemy: PoleProblemu
@@ -33,7 +33,7 @@ export interface ProblemState {
 
 export type ProblemKey = keyof ProblemState
 
-/** Kolejność i nazwy pól panelu (DEMO.md, ADR 0004 §3). */
+/** Kolejność i nazwy pól panelu (DEMO.md). */
 export const PROBLEM_FIELDS: { key: ProblemKey; label: string }[] = [
   { key: 'grupy_docelowe', label: 'Kogo dotyczy' },
   { key: 'miejsca', label: 'Gdzie' },
@@ -121,7 +121,7 @@ export interface Results {
   items: ResultItem[]
 }
 
-/** Dane gminy z Obserwatora Statystyk Społecznych (zadanie 0013, ADR 0005). */
+/** Dane gminy z Obserwatora Statystyk Społecznych (zadanie 0013). */
 export interface WskaznikGminy {
   id: string
   nazwa: string

@@ -1,4 +1,4 @@
-"""Szukanie po znaczeniu w Zasobniku (ADR 0016): wektory fragmentów dokumentów i kart innowacji.
+"""Szukanie po znaczeniu w Zasobniku: wektory fragmentów dokumentów i kart innowacji.
 
 Dokument dzielimy na fragmenty ok. CHUNK_CHARS znaków w obrębie strony (bez linii spisu treści),
 każdy z tytułem dokumentu na początku. Wektory liczymy raz w tle przy starcie i zapisujemy

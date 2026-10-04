@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { mentors } from '@/api/mentors'
 import { ErrorBox, Loading, errorText, useLoad } from '@/admin/ui'
 
-/** Przydział mentora do zgłoszenia; mentorzy z obszarem zgłoszenia są na górze listy (ADR 0014). */
+/** Przydział mentora do zgłoszenia; mentorzy z obszarem zgłoszenia są na górze listy. */
 export default function MentorAssign({ ticketId, kategoria, onChange }: {
   ticketId: number; kategoria: string | null; onChange: () => void
 }) {

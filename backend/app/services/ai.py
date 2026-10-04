@@ -1,4 +1,4 @@
-"""Brama do AI dla panelu administratora: timeouty, łagodne awarie (ADR 0006)."""
+"""Brama do AI dla panelu administratora: timeouty, łagodne awarie."""
 
 import logging
 from typing import Any

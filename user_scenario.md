@@ -44,7 +44,7 @@ Strona ROPS jest w przebudowie, część linków może nie działać (kontakt: i
 ## Wnioski dla produktu
 
 - Wejście: pole „opisz problem własnymi słowami”. Nazwy innowacji nie przychodzą użytkownikom do głowy.
-- Wyszukiwanie po sekcjach „Na czym polega” i „Jakich problemów dotyczy” ([ADR 0004](docs/adr/0004-obiekt-innowacji.md)).
+- Wyszukiwanie po sekcjach „Na czym polega” i „Jakich problemów dotyczy”.
 - Część innowacji jest dla placówek, część dla osób prywatnych.
 - Historia 2: prosty polski.
 - Każdy wynik pokazuje licencję: CC BY 4.0 albo zasady MIIS.

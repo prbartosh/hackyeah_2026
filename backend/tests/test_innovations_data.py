@@ -131,7 +131,7 @@ def test_real_database_loads():
 
 
 def test_real_overlay_is_clean():
-    """Każda innowacja ma zatwierdzoną nakładkę bez błędów (ADR 0004 §6 pkt 7)."""
+    """Każda innowacja ma zatwierdzoną nakładkę bez błędów."""
     folder = settings.innovations_path.parent
     vocabulary_raw = json.loads((folder / "slownik.json").read_text(encoding="utf-8"))
     overlay = json.loads((folder / "wzbogacenia.json").read_text(encoding="utf-8"))

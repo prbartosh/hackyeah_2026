@@ -19,7 +19,7 @@ from app.schemas.ticket import TicketCreate
 from app.services.errors import KreatorError
 from app.services.tickets import TicketService
 
-# Próg „sprawdzone przez użytkowników” (ADR 0011): co najmniej 3 zatwierdzone oceny, średnia od 4.
+# Próg „sprawdzone przez użytkowników”: co najmniej 3 zatwierdzone oceny, średnia od 4.
 SPRAWDZONE_MIN_OCEN = 3
 SPRAWDZONE_MIN_SREDNIA = 4.0
 TICKET_LIMIT = 4000

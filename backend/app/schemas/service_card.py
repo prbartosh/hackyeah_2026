@@ -6,7 +6,7 @@ from app.schemas.chat import ProblemState
 
 TODO = "do uzupełnienia"
 
-# Mieszkaniec nie wdraża innowacji u siebie, więc karta jest tylko dla instytucji (ADR 0009).
+# Mieszkaniec nie wdraża innowacji u siebie, więc karta jest tylko dla instytucji.
 ServiceCardRole = Literal["cus-ops", "partner"]
 
 

@@ -1,4 +1,4 @@
-// Kontrakt = backend/app/schemas/partnership.py (ADR 0013). Przy zmianach schematu poprawiaj ten plik.
+// Kontrakt = backend/app/schemas/partnership.py. Przy zmianach schematu poprawiaj ten plik.
 import { call } from '@/admin/api'
 
 export type TypOgloszenia = 'szukam_partnera' | 'oferuje_wsparcie'

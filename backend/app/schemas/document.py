@@ -8,7 +8,7 @@ DocumentType = Literal["raport", "publikacja", "mapa-wyzwan", "wskaznik"]
 
 
 class Document(BaseModel):
-    """Dokument ROPS w Zasobniku (ADR 0004 §9). Pola zależne od typu mogą być null."""
+    """Dokument ROPS w Zasobniku. Pola zależne od typu mogą być null."""
 
     id: str
     typ: DocumentType
@@ -41,7 +41,7 @@ class DocumentSearchHit(BaseModel):
     trafienia: list[tuple[int, int]]
     # Strona PDF, na której jest fragment; null bez znaczników stron.
     strona: int | None
-    # Znaleziony po znaczeniu (ADR 0016), nie po wpisanych słowach.
+    # Znaleziony po znaczeniu, nie po wpisanych słowach.
     po_znaczeniu: bool = False
 
 

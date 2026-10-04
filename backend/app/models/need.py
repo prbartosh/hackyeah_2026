@@ -11,7 +11,7 @@ SlugList = ARRAY(Text).with_variant(JSON(), "sqlite")
 
 
 class Potrzeba(Base):
-    """Potrzeba z czatu przy każdym `show_results` (ADR 0004 §8): same slugi, bez tekstu rozmowy."""
+    """Potrzeba z czatu przy każdym `show_results`: same slugi, bez tekstu rozmowy."""
 
     __tablename__ = "potrzeby"
 

@@ -7,7 +7,7 @@ import ErrorBoundary from '@/components/ErrorBoundary'
 import ReadAloudButton from '@/components/ReadAloudButton'
 import VoiceButton from '@/components/VoiceButton'
 
-// Krótkie podpowiedzi; kliknięcie wysyła pełny opis (scenariusze z user_scenario.md i docs/DEMO.md)
+// Krótkie podpowiedzi; kliknięcie wysyła pełny opis (scenariusze z user_scenario.md)
 const EXAMPLES = [
   {
     label: 'Samotni seniorzy',

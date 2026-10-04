@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 OVERLAY_FILE = "wzbogacenia.json"
 CATEGORIES_FILE = "kategorie.json"
 VOCABULARY_FILE = "slownik.json"
-# Typowane listy nakładki i ich limity (ADR 0004 §3) - tylko te pola trafiają do katalogu.
+# Typowane listy nakładki i ich limity - tylko te pola trafiają do katalogu.
 OVERLAY_LIMITS = {
     "grupy_docelowe": (1, 3),
     "problemy": (1, 3),
@@ -68,7 +68,7 @@ def _load_vocabulary(path: Path) -> dict[str, list[dict[str, Any]]]:
 
 
 def overlay_problems(record: dict[str, Any], vocabulary: Vocabulary) -> list[str]:
-    """Błędy rekordu nakładki względem słownika i limitów (ADR 0004 §6 pkt 7)."""
+    """Błędy rekordu nakładki względem słownika i limitów."""
     problems: list[str] = []
     for name, (low, high) in OVERLAY_LIMITS.items():
         values = record.get(name) or []
@@ -137,7 +137,7 @@ def _load_haystacks(path: Path) -> dict[str, str]:
     return {slug: haystack(r) for slug, r in _load(path).items()}
 
 
-# Migawka kart z bazy (panel administratora, ADR 0006): slug -> (opublikowana, karta, nakładka).
+# Migawka kart z bazy (panel administratora): slug -> (opublikowana, karta, nakładka).
 # Karty z bazy przesłaniają te z plików; nieopublikowane znikają z katalogu.
 _db_snapshot: dict[str, tuple[bool, Innovation, dict[str, Any] | None]] = {}
 

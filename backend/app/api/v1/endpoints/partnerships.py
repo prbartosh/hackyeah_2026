@@ -16,7 +16,7 @@ from app.schemas.partnership import (
     TypOgloszenia,
 )
 
-# Publiczne: ogłoszenia bez konta, widoczne po moderacji; kontakt tylko przez ROPS (ADR 0013).
+# Publiczne: ogłoszenia bez konta, widoczne po moderacji; kontakt tylko przez ROPS.
 router = APIRouter()
 
 

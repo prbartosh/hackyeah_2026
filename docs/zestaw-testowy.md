@@ -2,7 +2,7 @@
 
 Zgłoszenia napisane jak przez użytkownika, z rolą i oczekiwanym `slug` wyniku głównego. Służą do pomiaru dopasowania w czacie. Osoby i sytuacje są wymyślone. Zgłoszenia 1–3 pochodzą z [user_scenario.md](../user_scenario.md), 4 to scenariusz „wójt”.
 
-Role: `mieszkaniec`, `cus-ops`, `partner` ([ADR 0004](adr/0004-obiekt-innowacji.md) §3). Zatwierdzony przez Nikodema i Wiktora.
+Role: `mieszkaniec`, `cus-ops`, `partner`. Zatwierdzony przez Nikodema i Wiktora.
 
 | # | Rola | Zgłoszenie | Oczekiwany `slug` | Uwagi |
 |---|---|---|---|---|

@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 
 
 class PartnershipService:
-    """Giełda partnerstw (ADR 0013): moderacja przed publikacją, kontakt przez ROPS."""
+    """Giełda partnerstw: moderacja przed publikacją, kontakt przez ROPS."""
 
     def __init__(
         self,

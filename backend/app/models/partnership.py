@@ -9,7 +9,7 @@ STATUSY_OGLOSZEN = ("oczekuje", "opublikowane", "odrzucone")
 
 
 class PartnershipOffer(TimestampMixin, Base):
-    """Ogłoszenie z Giełdy partnerstw (ADR 0013). Publicznie tylko po moderacji ROPS.
+    """Ogłoszenie z Giełdy partnerstw. Publicznie tylko po moderacji ROPS.
 
     `kontakt_email` nigdy nie trafia do publicznego API: kontakt idzie przez ROPS.
     """
