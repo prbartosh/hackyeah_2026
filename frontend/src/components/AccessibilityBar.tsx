@@ -3,16 +3,16 @@ import { Check, Contrast, Moon, Settings, Sun } from 'lucide-react'
 import { useAccessibility, type FontSize, type ThemeMode } from '@/context/AccessibilityContext'
 import { useMediaQuery } from '@/hooks/useMediaQuery'
 
-const fontOptions: { key: FontSize; label: string; ariaLabel: string; size: string }[] = [
-  { key: 'normal', label: 'A', ariaLabel: 'Tekst normalny', size: '0.95rem' },
-  { key: 'large', label: 'A+', ariaLabel: 'Tekst duży', size: '1.1rem' },
-  { key: 'xlarge', label: 'A++', ariaLabel: 'Tekst bardzo duży', size: '1.25rem' },
+const fontOptions: { key: FontSize; label: string; ariaLabel: string; size: string; tour?: string }[] = [
+  { key: 'normal', label: 'A', ariaLabel: 'Tekst normalny', size: '0.95rem', tour: 'dostepnosc-tekst-normalny' },
+  { key: 'large', label: 'A+', ariaLabel: 'Tekst duży', size: '1.1rem', tour: 'dostepnosc-tekst-duzy' },
+  { key: 'xlarge', label: 'A++', ariaLabel: 'Tekst bardzo duży', size: '1.25rem', tour: 'dostepnosc-tekst-bardzo-duzy' },
 ]
 
-const themeOptions: { key: ThemeMode; label: string; icon: typeof Sun }[] = [
-  { key: 'standard', label: 'Jasny', icon: Sun },
-  { key: 'dark', label: 'Ciemny', icon: Moon },
-  { key: 'high-contrast', label: 'Wysoki kontrast', icon: Contrast },
+const themeOptions: { key: ThemeMode; label: string; icon: typeof Sun; tour: string }[] = [
+  { key: 'standard', label: 'Jasny', icon: Sun, tour: 'dostepnosc-motyw-jasny' },
+  { key: 'dark', label: 'Ciemny', icon: Moon, tour: 'dostepnosc-motyw-ciemny' },
+  { key: 'high-contrast', label: 'Wysoki kontrast', icon: Contrast, tour: 'dostepnosc-motyw-wysoki-kontrast' },
 ]
 
 function Controls() {
@@ -20,12 +20,13 @@ function Controls() {
 
   return (
     <div className="a11y-controls" role="toolbar" aria-label="Wielkość tekstu i wygląd strony">
-      <div className="a11y-group" role="group" aria-labelledby="a11y-font-label">
+      <div className="a11y-group" role="group" aria-labelledby="a11y-font-label" data-tour="dostepnosc-tekst">
         <span id="a11y-font-label" className="a11y-label">Wielkość tekstu:</span>
         <div className="a11y-options">
-          {fontOptions.map(({ key, label, ariaLabel, size }) => (
+          {fontOptions.map(({ key, label, ariaLabel, size, tour }) => (
             <button
               key={key}
+              data-tour={tour}
               type="button"
               className="a11y-btn"
               onClick={() => setFontSize(key)}
@@ -39,12 +40,13 @@ function Controls() {
         </div>
       </div>
 
-      <div className="a11y-group" role="group" aria-labelledby="a11y-theme-label">
+      <div className="a11y-group" role="group" aria-labelledby="a11y-theme-label" data-tour="dostepnosc-motyw">
         <span id="a11y-theme-label" className="a11y-label">Wygląd:</span>
         <div className="a11y-options">
-          {themeOptions.map(({ key, label, icon: Icon }) => (
+          {themeOptions.map(({ key, label, icon: Icon, tour }) => (
             <button
               key={key}
+              data-tour={tour}
               type="button"
               className="a11y-btn"
               onClick={() => setThemeMode(key)}
@@ -91,6 +93,7 @@ export default function AccessibilityBar() {
         className="a11y-btn a11y-toggle"
         aria-expanded={open}
         aria-controls="a11y-panel"
+        data-tour="dostepnosc-rozwin"
         onClick={() => (open ? close() : setOpen(true))}
       >
         <Settings size={18} aria-hidden="true" />
