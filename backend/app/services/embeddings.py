@@ -51,6 +51,14 @@ def cosine(a: list[float], b: list[float]) -> float:
     return dot / (na * nb) if na and nb else 0.0
 
 
+INDEX_STEM_LEN = 4  # krótszy rdzeń niż w radarze: lepsza odporność na polską fleksję
+
+
+def index_terms(text: str) -> list[str]:
+    words = (w.lower() for w in _WORD.findall(text))
+    return [w[:INDEX_STEM_LEN] for w in words if w not in STOPWORDS]
+
+
 class TfidfIndex:
     """Przestrzeń wektorowa TF-IDF po rdzeniach słów (lokalnie, bez API).
 
@@ -59,7 +67,7 @@ class TfidfIndex:
     """
 
     def __init__(self, documents: list[str]) -> None:
-        counts = [Counter(tokenize(d)) for d in documents]
+        counts = [Counter(index_terms(d)) for d in documents]
         df = Counter(t for c in counts for t in c)
         n = len(documents)
         self._idf = {t: math.log((n + 1) / (f + 1)) + 1 for t, f in df.items()}
@@ -72,5 +80,5 @@ class TfidfIndex:
 
     def scores(self, query: str) -> list[float]:
         """Kosinus zapytania z każdym dokumentem, w kolejności dokumentów."""
-        q = self._vector(Counter(tokenize(query)))
+        q = self._vector(Counter(index_terms(query)))
         return [sum(w * d.get(t, 0.0) for t, w in q.items()) for d in self._docs]

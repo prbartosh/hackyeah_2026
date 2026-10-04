@@ -9,7 +9,14 @@
         "emeryci",
         "60+",
         "65+",
-        "podeszły wiek"
+        "podeszły wiek",
+        "starszych",
+        "starsza osoba",
+        "starszy człowiek",
+        "babcia",
+        "dziadek",
+        "dziadkowie",
+        "emerytka"
       ]
     },
     {
@@ -19,7 +26,11 @@
         "otępienie",
         "alzheimer",
         "choroby otępienne",
-        "zaburzenia pamięci"
+        "zaburzenia pamięci",
+        "demencja",
+        "demencji",
+        "demencją",
+        "początki demencji"
       ]
     },
     {
@@ -107,7 +118,11 @@
         "niedowidzący",
         "słabowidzący",
         "dysfunkcja wzroku",
-        "niepełnosprawność wzroku"
+        "niepełnosprawność wzroku",
+        "niewidomy",
+        "niewidoma",
+        "nie widzi",
+        "słabo widzi"
       ]
     },
     {
@@ -256,7 +271,10 @@
         "zapominanie",
         "problemy z pamięcią",
         "funkcje poznawcze",
-        "dezorientacja"
+        "dezorientacja",
+        "nie pamięta",
+        "zapomina",
+        "pamięć"
       ]
     },
     {
@@ -267,7 +285,11 @@
         "zgubienie się",
         "wypadek",
         "alarm",
-        "niebezpieczeństwo"
+        "niebezpieczeństwo",
+        "upadła",
+        "upadł",
+        "upadek",
+        "ryzyko upadku"
       ]
     },
     {
@@ -289,7 +311,10 @@
         "nawigacja",
         "dojazd",
         "komunikacja miejska",
-        "przemieszczanie się"
+        "przemieszczanie się",
+        "poruszać się",
+        "chodzić",
+        "chodzenie"
       ]
     },
     {
@@ -309,7 +334,11 @@
         "porozumiewanie się",
         "mowa",
         "brak tłumacza",
-        "bariera językowa"
+        "bariera językowa",
+        "nie mówi",
+        "bez słów",
+        "komunikować się",
+        "komunikacja"
       ]
     },
     {
@@ -454,7 +483,9 @@
         "bić",
         "awantury",
         "agresja",
-        "krzywdzi mnie"
+        "krzywdzi mnie",
+        "awanturuje",
+        "awantura"
       ]
     },
     {
@@ -483,7 +514,11 @@
         "obsługa smartfona",
         "nowe technologie",
         "bankomat",
-        "paczkomat"
+        "paczkomat",
+        "smartfon",
+        "nie radzi sobie z telefonem",
+        "nie radzi sobie z internetem",
+        "nie umie obsługiwać telefonu"
       ]
     },
     {

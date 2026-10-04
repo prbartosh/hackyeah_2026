@@ -51,6 +51,13 @@ def match_text(card: InnovationCard) -> str:
     return "\n".join(p for p in parts if p)
 
 
+def index_text(card: InnovationCard) -> str:
+    """Tekst do TF-IDF: nazwa i problem liczone podwójnie (najlepiej opisują sens karty)."""
+    parts = [card.nazwa, card.nazwa, card.problem, card.problem, card.grupa_docelowa]
+    parts += [card.kto_moze_skorzystac, card.czy_dziala, (card.opis or "")[:1500]]
+    return "\n".join(p for p in parts if p)
+
+
 def to_innovation(card: InnovationCard) -> Innovation:
     return Innovation(
         slug=card.slug,
@@ -129,11 +136,10 @@ class CardService:
     ) -> list[tuple[InnovationCard, CardMatch]]:
         """Opublikowane karty od najlepiej dopasowanych (matching.py), z powodami."""
         cards = await self.repo.published()
-        texts = [match_text(c) for c in cards]
-        vectors = TfidfIndex(texts).scores(text)
+        vectors = TfidfIndex([index_text(c) for c in cards]).scores(text)
         scored = [
-            (c, card_score(tags, c.nakladka, label_map, text, t, v))
-            for c, t, v in zip(cards, texts, vectors, strict=True)
+            (c, card_score(tags, c.nakladka, label_map, text, match_text(c), v))
+            for c, v in zip(cards, vectors, strict=True)
         ]
         return sorted(scored, key=lambda x: rank_key(x[1]), reverse=True)[:limit]
 
