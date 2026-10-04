@@ -1,8 +1,8 @@
 # 0038. Otwarte dane
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR: 
+- PR: #57
 
 ## Cel
 
