@@ -21,6 +21,7 @@ from app.services.fiszki import FiszkaService
 from app.services.innovation import InnovationService
 from app.services.knowledge import KnowledgeService
 from app.services.llm import LLMProvider, create_provider
+from app.services.mentors import MentorService
 from app.services.nabory import NaborService
 from app.services.opinions import OpinionService
 from app.services.otwarte_dane import OpenDataService
@@ -169,6 +170,13 @@ def get_partnership_service(
 
 
 PartnershipServiceDep = Annotated[PartnershipService, Depends(get_partnership_service)]
+
+
+def get_mentor_service(session: SessionDep, innovations: InnovationRepositoryDep) -> MentorService:
+    return MentorService(session, innovations, settings, get_email_sender(settings))
+
+
+MentorServiceDep = Annotated[MentorService, Depends(get_mentor_service)]
 
 
 def get_today() -> date:
