@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ExternalLink, Send } from 'lucide-react'
+import CompareToggle from '@/components/CompareToggle'
 import { useChat } from '@/context/ChatContext'
 import { problemAsText } from '@/lib/problem'
 import type { ResultItem } from '@/types/chat'
@@ -57,6 +58,7 @@ function ResultCard({ item }: { item: ResultItem }) {
           <ExternalLink size={16} aria-hidden="true" />
           <span className="visually-hidden">(otwiera się w nowej karcie)</span>
         </a>
+        <CompareToggle slug={item.slug} nazwa={item.nazwa} />
       </div>
     </li>
   )

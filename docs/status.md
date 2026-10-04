@@ -22,6 +22,7 @@ Zamknięte zadania usunięto z `tasks/` 2026-10-04: moduły I–IV, VI i VII są
 - [0032](tasks/0032-formularze-kreator-middleman-tester.md) Kreator, Middleman, Tester, zgłoszenia i wątek
 - [0033](tasks/0033-panel-administratora-ui.md) Panel administratora: układ i czytelność
 - [0034](tasks/0034-stany-ladowania-bledow-404.md) Stany ładowania, pustych wyników, błędów i 404
+- [0037](tasks/0037-porownaj-innowacje.md) Porównaj innowacje obok siebie: przełącznik, pasek, strona `/porownaj` (Nikodem)
 
 ## Zrobione
 

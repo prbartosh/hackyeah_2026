@@ -10,6 +10,7 @@ import ZasobnikPage from '@/pages/ZasobnikPage'
 // Obszary i rzadziej odwiedzane strony ładują się dopiero po wejściu na trasę (Suspense w Layout)
 const AdminRoutes = lazy(() => import('@/admin/AdminRoutes'))
 const KreatorRoutes = lazy(() => import('@/kreator/KreatorRoutes'))
+const ComparePage = lazy(() => import('@/pages/ComparePage'))
 const DocumentPage = lazy(() => import('@/pages/DocumentPage'))
 const ReportPage = lazy(() => import('@/pages/ReportPage'))
 const ServiceCardPage = lazy(() => import('@/pages/ServiceCardPage'))
@@ -23,7 +24,8 @@ export default function App() {
         <Route path="zasobnik" element={<ZasobnikPage />} />
         <Route path="innowacja/:slug" element={<InnovationPage />} />
         <Route path="innowacja/:slug/wdrozenie" element={<ServiceCardPage />} />
-        <Route path="dokument/:id" element={<DocumentPage />} />
+        <Route path="porownaj" element={<ComparePage />} />
+        <Route path="dokument/:id"element={<DocumentPage />} />
         <Route path="zglos" element={<ReportPage />} />
         <Route path="watek/:token" element={<ThreadPage />} />
         <Route path="kreator/*" element={<KreatorRoutes />} />
