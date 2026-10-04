@@ -1,8 +1,8 @@
 # 0048. Jev w kreatorze: „Takie rozwiązania już działają”
 
-- Status: w toku
+- Status: review
 - Osoba: Wiktor
-- PR: 
+- PR: #90
 
 ## Cel
 

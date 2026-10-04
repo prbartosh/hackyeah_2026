@@ -10,7 +10,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0022](tasks/0022-dostepnosc-nvda-klawiatura.md) Dostępność: skrypt `npm run a11y` (axe, 228 stron, 0 naruszeń) i `npm run a11y:keys`, zostają testy NVDA i wejście głosowe (Daniel, Kacper)
 - [0047](tasks/0047-szukanie-zasobnika.md) Szukanie w Zasobniku: BM25, synonimy ze słownika, karty innowacji i wskaźniki w wynikach, `GET /search` (Wiktor)
 - [0046](tasks/0046-przewodnik.md) Przewodnik po platformie: przycisk w nagłówku, rozdziały według modułów, na żywo (Nikodem)
-- [0048](tasks/0048-jev-kreator.md) Jev w kreatorze „Takie rozwiązania już działają”: top 1 28 → 29/35, top 3 32 → 34/35, spoza bazy nic nie pokazuje 5/8 → 8/8 ([ADR 0016](adr/0016-jev-oceny-trafnosci.md)); zostaje sprawdzenie na Docker Compose (Wiktor)
+- [0048](tasks/0048-jev-kreator.md) Jev w kreatorze „Takie rozwiązania już działają”: top 1 28 → 29/35, top 3 32 → 34/35, spoza bazy nic nie pokazuje 5/8 → 8/8 ([ADR 0016](adr/0016-jev-oceny-trafnosci.md), #90); zostaje sprawdzenie na Docker Compose (Wiktor)
 - [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: zmergowany (#62), zostaje znacznik „nowa odpowiedź autora” w skrzynce (Nikodem)
 
 ## Do zrobienia
