@@ -1,8 +1,8 @@
 # 0041. Pytania do ROPS i publiczne FAQ (moduł V)
 
-- Status: w toku
+- Status: review
 - Osoba: Nikodem
-- PR: 
+- PR: #63
 
 ## Cel
 
