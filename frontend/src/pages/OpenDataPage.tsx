@@ -100,7 +100,7 @@ export default function OpenDataPage() {
 
       <h2>Dla programistów</h2>
       <p>Wszystkie adresy to zwykłe żądania GET, dostępne pod tym samym adresem co strona.</p>
-      <div className="od-table-wrap">
+      <div className="od-table-wrap" role="region" aria-label="Adresy eksportów" tabIndex={0}>
         <table className="od-table">
           <caption className="visually-hidden">Adresy eksportów</caption>
           <thead>

@@ -7,10 +7,8 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0003](tasks/0003-zasobnik-wiedzy.md) Zasobnik wiedzy: zostaje ręczny test klawiaturą i NVDA (Bartłomiej, Daniel, Kacper)
 - [0011](tasks/0011-materialy-dla-jury.md) Materiały dla jury: szkice w `docs/jury/`, reszta po działającym demo (Nikodem, Wiktor)
 - [0020](tasks/0020-odpornosc-frontendu.md) Odporność frontendu: zostaje sesja NVDA i raport (Daniel)
-- [0022](tasks/0022-dostepnosc-nvda-klawiatura.md) Dostępność: axe i klawiatura gotowe (0 naruszeń), zostają testy NVDA i wejście głosowe (Daniel, Kacper)
-- [0035](tasks/0035-szybkie-przewagi.md) Szybkie przewagi: funkcje zmergowane (#54), zostaje pełna ewaluacja na DeepSeek (liczba na slajd) (Wiktor)
-- [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: zmergowany (#62), zostaje znacznik „nowa odpowiedź autora” w skrzynce i sprawdzenie w przeglądarce (Nikodem)
-- [0043](tasks/0043-wspolpraca-z-rops.md) Strona „Współpraca z ROPS” `/wspolpraca`: zmergowana (#61), zostaje axe, klawiatura i widok 320 px (Nikodem)
+- [0022](tasks/0022-dostepnosc-nvda-klawiatura.md) Dostępność: skrypt `npm run a11y` (axe, 228 stron, 0 naruszeń) i `npm run a11y:keys`, zostają testy NVDA i wejście głosowe (Daniel, Kacper)
+- [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: zmergowany (#62), zostaje znacznik „nowa odpowiedź autora” w skrzynce (Nikodem)
 
 ## Do zrobienia
 
@@ -28,6 +26,10 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 ## Zrobione
 
 - 2026-10-04: Dane demo w repo: `backend/scripts/demo-data.json` ładuje się przy starcie do pustej bazy (`DEMO_DATA=true`), pełny panel po `git clone` bez seedowania; `scripts/demo_data.py` (load/export), `scripts/seed_demo_extra.py` (powiadomienia, importy, radar, rozmowy partnerskie)
+- 2026-10-04: Strona `/wspolpraca`, hub modułu V: axe, klawiatura i 320 px bez uwag (0043, #61)
+- 2026-10-04: Audyt dostępności w repo: `npm run a11y` (axe, wszystkie trasy i panel, 3 motywy, 2 szerokości) i `npm run a11y:keys`; poprawki w otwartych danych, kreatorze i panelu (0022)
+- 2026-10-04: Ewaluacja trafności na DeepSeek: top 3 35/35, top 1 31/35, cache promptu 96%; prosty język, czytanie na głos, deklaracja dostępności (0035, #54); w logu 22× `show_results` bez `items` do sprawdzenia
+- 2026-10-04: Wyszukiwanie po treści dokumentów w Zasobniku, `GET /api/v1/documents/search` (0003, #77)
 - 2026-10-04: Test całości na main: `docker compose up --build` (w chmurze Claude potrzebne obrazy bazowe z CA proxy), migracje 0001–0013 na PostgreSQL 16 (up, down, up), seedy, pytest 238/238, lint, build i testy frontendu, smoke API modułu V, Playwright na wszystkich trasach i zakładkach panelu bez błędów konsoli i 4xx/5xx, limit nginx 20/min (429) sprawdzony, czat przez nginx na DeepSeek odpowiada. Niesprawdzone: e-mail.
 
 Moduł V (komunikacja z ROPS):

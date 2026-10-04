@@ -46,6 +46,40 @@ export async function listDocuments(filter: DocumentFilter = {}, signal?: AbortS
   return (await res.json()) as Dokument[]
 }
 
+export interface TrafienieDokumentu {
+  dokument: Dokument
+  /** Zwykły tekst z treści; null, gdy słowa są tylko w tytule lub opisie. */
+  fragment: string | null
+  /** [początek, koniec) w `fragment`. */
+  trafienia: [number, number][]
+  strona: number | null
+}
+
+/** Minimalna długość zapytania przyjmowana przez backend. */
+export const MIN_SZUKANIE = 2
+
+/** Szuka w tytule, opisie i treści dokumentów (backend: `GET /documents/search`). */
+export async function searchDocuments(q: string, signal?: AbortSignal): Promise<TrafienieDokumentu[]> {
+  const params = new URLSearchParams({ q: q.trim().slice(0, 200), limit: '50' })
+  const res = await fetch(`${BASE_URL}/documents/search?${params}`, { signal })
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return (await res.json()) as TrafienieDokumentu[]
+}
+
+/** Dzieli fragment na części; `trafienie` = true dla podświetlanych. */
+export function podswietl(fragment: string, trafienia: [number, number][]): { tekst: string; trafienie: boolean }[] {
+  const czesci: { tekst: string; trafienie: boolean }[] = []
+  let poz = 0
+  for (const [s, e] of trafienia) {
+    if (s < poz || e > fragment.length) continue
+    if (s > poz) czesci.push({ tekst: fragment.slice(poz, s), trafienie: false })
+    czesci.push({ tekst: fragment.slice(s, e), trafienie: true })
+    poz = e
+  }
+  if (poz < fragment.length) czesci.push({ tekst: fragment.slice(poz), trafienie: false })
+  return czesci
+}
+
 /** Zwraca null, gdy dokumentu nie ma (404). */
 export async function getDocument(id: string, signal?: AbortSignal): Promise<DokumentSzczegoly | null> {
   const res = await fetch(`${BASE_URL}/documents/${encodeURIComponent(id)}`, { signal })

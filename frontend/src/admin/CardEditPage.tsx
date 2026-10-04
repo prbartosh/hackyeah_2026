@@ -147,7 +147,7 @@ export default function CardEditPage() {
   }
 
   if (loading && data === undefined) return <Loading text="Wczytywanie karty…" />
-  if (error) return <ErrorBox message={error} onRetry={reload} />
+  if (error) return <><h1>Karta innowacji</h1><ErrorBox message={error} onRetry={reload} /></>
 
   const field = (id: string, label: string, key: keyof FormState, rows = 3, hint?: string) => (
     <div className="field">

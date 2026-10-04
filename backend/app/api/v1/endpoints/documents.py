@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi import APIRouter, HTTPException, Query, status
 
 from app.api.deps import KnowledgeServiceDep
-from app.schemas.document import Document, DocumentDetail, DocumentType
+from app.schemas.document import Document, DocumentDetail, DocumentSearchHit, DocumentType
 
 router = APIRouter()
 
@@ -19,6 +19,22 @@ async def list_documents(
     ] = None,
 ):
     return service.list(typ=typ, rok=rok, q=q)
+
+
+@router.get(
+    "/search",
+    response_model=list[DocumentSearchHit],
+    summary="Wyszukiwanie w treści dokumentów, z fragmentem i podświetleniem",
+)
+async def search_documents(
+    service: KnowledgeServiceDep,
+    q: Annotated[
+        str,
+        Query(min_length=2, max_length=200, description="Słowa; wszystkie muszą wystąpić"),
+    ],
+    limit: Annotated[int, Query(ge=1, le=50)] = 20,
+):
+    return service.search(q=q, limit=limit)
 
 
 @router.get("/{doc_id}", response_model=DocumentDetail, summary="Dokument z treścią tekstową")

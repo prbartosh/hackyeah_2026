@@ -7,6 +7,7 @@ from app.api.deps import get_document_repository
 from app.core.config import DEFAULT_ASSETS_PATH
 from app.main import app
 from app.repositories.document import DocumentRepository
+from app.repositories.document_search import fold
 
 RAPORT = {
     "id": "100",
@@ -171,3 +172,48 @@ async def test_real_assets_load():
         "raport-1105",
     }
     assert repo.get("raport-1479").tresc
+
+
+async def test_search_in_content_without_diacritics(docs_client, tmp_path):
+    write(
+        tmp_path / "raporty" / "text" / "100-piecza.md",
+        "<!-- page 1 -->\nWstęp\n<!-- page 2 -->\n"
+        + "Tło. " * 40
+        + "Pomoc społeczna dla rodzin jest kluczowa w gminach.",
+    )
+    repo = DocumentRepository(tmp_path)
+    app.dependency_overrides[get_document_repository] = lambda: repo
+    response = await docs_client.get("/api/v1/documents/search", params={"q": "POMOC spoleczna"})
+    assert response.status_code == 200
+    (hit,) = response.json()
+    assert hit["dokument"]["id"] == "raport-100"
+    assert hit["strona"] == 2
+    fragment = hit["fragment"]
+    assert "<!--" not in fragment
+    assert [fragment[s:e] for s, e in hit["trafienia"]] == ["Pomoc", "społeczna"]
+
+
+async def test_search_title_only_and_ranking(docs_client):
+    hits = (await docs_client.get("/api/v1/documents/search?q=piecza")).json()
+    assert [h["dokument"]["id"] for h in hits] == ["raport-100"]
+    assert hits[0]["fragment"] is None  # treść raportu nie zawiera słowa
+    hits = (await docs_client.get("/api/v1/documents/search?q=tresc")).json()
+    assert {h["dokument"]["id"] for h in hits} == {"raport-100", "publikacja-kropki"}
+    assert (await docs_client.get("/api/v1/documents/search?q=nic+takiego")).json() == []
+
+
+async def test_search_limits(docs_client):
+    assert (await docs_client.get("/api/v1/documents/search")).status_code == 422
+    assert (await docs_client.get("/api/v1/documents/search?q=a")).status_code == 422
+    assert (await docs_client.get("/api/v1/documents/search?q=" + "x" * 201)).status_code == 422
+    assert (await docs_client.get("/api/v1/documents/search?q=tresc&limit=0")).status_code == 422
+    assert len((await docs_client.get("/api/v1/documents/search?q=tresc&limit=1")).json()) == 1
+
+
+async def test_search_real_assets():
+    repo = DocumentRepository(DEFAULT_ASSETS_PATH)
+    hits = repo.search("pomoc spoleczna", 10)
+    assert hits and all(h.fragment for h in hits[:3])
+    for h in hits:
+        assert all(e <= len(h.fragment) for _, e in h.highlights)
+    assert fold("ŁÓDŹ Żółć") == "lodz zolc"

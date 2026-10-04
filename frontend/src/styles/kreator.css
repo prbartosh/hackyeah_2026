@@ -59,7 +59,7 @@
 
 /* Podobne innowacje i asystent */
 .similar { margin-top: 1.5rem; padding: 1rem 1.25rem; border-left: 6px solid var(--primary); background: var(--surface-float); border-radius: 0 16px 16px 0; }
-.similar h3 { margin-top: 0; }
+.similar h2 { margin-top: 0; font-size: 1.17rem; }
 .similar-item { padding-block: 0.4rem; border-top: 1px solid var(--line); }
 .similar-name { font-weight: 700; }
 .assistant { max-width: 48rem; }

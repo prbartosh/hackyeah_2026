@@ -71,7 +71,7 @@ export function NaborEditPage() {
     kreator.adminNabor(slug).then(setForm).catch((e) => setLoadError(errorText(e)))
   }, [slug, isNew])
 
-  if (loadError) return <ErrorBox message={loadError} />
+  if (loadError) return <><h1>Nabór</h1><ErrorBox message={loadError} /></>
   if (!form) return <Loading />
 
   const set = <K extends keyof NaborInput>(key: K, value: NaborInput[K]) => {

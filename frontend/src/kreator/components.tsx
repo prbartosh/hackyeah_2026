@@ -113,7 +113,7 @@ export function SimilarInnovations({ token, refreshKey }: { token: string | null
   if (!token) return null
   return (
     <section className="similar" aria-labelledby="similar-title" aria-busy={state.loading}>
-      <h3 id="similar-title"><Lightbulb size={20} aria-hidden="true" /> Takie rozwiązania już działają</h3>
+      <h2 id="similar-title"><Lightbulb size={20} aria-hidden="true" /> Takie rozwiązania już działają</h2>
       {state.error && <p className="hint">{state.error}</p>}
       {state.items && state.items.length === 0 && (
         <p className="hint">Nie znaleźliśmy w bazie ROPS rozwiązania podobnego do Twojego opisu. To może być coś nowego.</p>
