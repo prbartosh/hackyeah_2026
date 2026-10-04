@@ -54,10 +54,10 @@ function AskForm({ onDone }: { onDone: () => void }) {
   }
 
   return (
-    <form className="panel" onSubmit={submit} noValidate aria-labelledby="ask-title">
+    <form className="panel" data-tour="siec-pytania-form" onSubmit={submit} noValidate aria-labelledby="ask-title">
       <h2 id="ask-title">Zadaj pytanie</h2>
       <Field id="py-tresc" label="Twoje pytanie" hint="Do 2000 znaków." error={errors.tresc}>
-        {(a) => <textarea {...a} className="textarea" rows={4} maxLength={2000} value={v.tresc} onChange={set('tresc')} />}
+        {(a) => <textarea {...a} data-tour="siec-pytania-tresc" className="textarea" rows={4} maxLength={2000} value={v.tresc} onChange={set('tresc')} />}
       </Field>
       <Field id="py-kategoria" label="Obszar (opcjonalnie)">
         {(a) => <select {...a} className="select" value={v.kategoria} onChange={set('kategoria')}>
@@ -75,7 +75,7 @@ function AskForm({ onDone }: { onDone: () => void }) {
       </Field>
       <div className="field">
         <label>
-          <input type="checkbox" checked={consent} aria-describedby="py-consent-hint"
+          <input type="checkbox" data-tour="siec-pytania-zgoda" checked={consent} aria-describedby="py-consent-hint"
             onChange={(e) => setConsent(e.target.checked)} />{' '}
           Zgadzam się, żeby ROPS mógł opublikować moje pytanie wraz z odpowiedzią
         </label>
@@ -86,7 +86,7 @@ function AskForm({ onDone }: { onDone: () => void }) {
       </div>
       {errors.form && <p className="field-error" role="alert">{errors.form}</p>}
       <div className="btn-row">
-        <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij pytanie'}</button>
+        <button type="submit" data-tour="siec-pytania-wyslij" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij pytanie'}</button>
       </div>
     </form>
   )
@@ -115,11 +115,11 @@ export default function PytaniaPage() {
         potrzebujesz pomocy w konkretnej, prywatnej sprawie, użyj raczej zgłoszenia potrzeby.
       </p>
       <div className="btn-row">
-        <button type="button" className="btn btn-primary" aria-expanded={showForm} onClick={() => setShowForm(!showForm)}>
+        <button type="button" data-tour="siec-pytania-zadaj" className="btn btn-primary" aria-expanded={showForm} onClick={() => setShowForm(!showForm)}>
           {showForm ? 'Zamknij formularz' : 'Zadaj pytanie'}
         </button>
       </div>
-      <p role="status" className={notice ? 'alert alert-note' : undefined}>{notice}</p>
+      <p role="status" data-tour={notice ? 'siec-pytania-status' : undefined} className={notice ? 'alert alert-note' : undefined}>{notice}</p>
       {showForm && <AskForm onDone={() => {
         setShowForm(false)
         setNotice('Dziękujemy, pytanie dotarło do ROPS. Jeśli podałeś e-mail, wyślemy tam odpowiedź.')
@@ -146,8 +146,8 @@ export default function PytaniaPage() {
       {data && data.length === 0 && <p>Brak opublikowanych pytań dla tego wyszukiwania. Zadaj własne.</p>}
       {data && data.length > 0 && (
         <ul className="plain-list" aria-label="Pytania i odpowiedzi">
-          {data.map((p) => (
-            <li key={p.id} className="panel">
+          {data.map((p, i) => (
+            <li key={p.id} className="panel" data-tour={i === 0 ? 'siec-pytania-lista' : undefined}>
               <details>
                 <summary><strong>{p.tresc}</strong></summary>
                 <p className="meta-line">

@@ -29,7 +29,7 @@ export default function CompareBar() {
         {items.length > 0 ? `Wybrano do porównania: ${items.length} z ${MAX_COMPARE}.` : ''}
       </p>
       {visible && (
-        <nav ref={ref} className="compare-bar no-print" aria-label="Porównanie innowacji">
+        <nav ref={ref} className="compare-bar no-print" aria-label="Porównanie innowacji" data-tour="innowacja-pasek-porownania">
           <ul className="compare-chips">
             {items.map((i) => (
               <li key={i.slug} className="compare-chip">
@@ -40,7 +40,7 @@ export default function CompareBar() {
               </li>
             ))}
           </ul>
-          <Link to={compareUrl(items.map((i) => i.slug))} className="btn btn-primary">Porównaj ({items.length})</Link>
+          <Link to={compareUrl(items.map((i) => i.slug))} className="btn btn-primary" data-tour="innowacja-porownaj-przycisk">Porównaj ({items.length})</Link>
         </nav>
       )}
     </>

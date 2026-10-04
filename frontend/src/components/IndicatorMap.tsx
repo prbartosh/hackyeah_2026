@@ -23,7 +23,7 @@ export default function IndicatorMap({ table, yearIdx, selected, active, onActiv
   const t = (v: number) => (sorted.length < 2 ? 0.5 : sorted.indexOf(v) / (sorted.length - 1))
 
   return (
-    <figure className="zs-map">
+    <figure className="zs-map" data-tour="zasobnik-wskaznik-mapa-powiaty">
       <svg viewBox={MAP_VIEWBOX} role="group" aria-label={`Mapa powiatów Małopolski: ${name}, rok ${table.years[yearIdx]}. Każdy powiat jest przyciskiem, który dodaje go do porównania.`} className="zs-map-svg">
         {POWIATY_MAPA.map((p) => {
           const v = byPowiat.get(p.powiat) ?? null

@@ -74,7 +74,7 @@ export default function OpinionsPage() {
               {o.usprawnienie && <p><strong>Propozycja usprawnienia:</strong> {o.usprawnienie}</p>}
               <div className="btn-row">
                 {o.status !== 'opublikowana' && (
-                  <button type="button" className="btn btn-primary" onClick={() => change(o.id, 'opublikowana')}>Opublikuj</button>
+                  <button type="button" data-tour="panel-opinie-publikuj" className="btn btn-primary" onClick={() => change(o.id, 'opublikowana')}>Opublikuj</button>
                 )}
                 {o.status !== 'ukryta' && (
                   <button type="button" className="btn btn-secondary" onClick={() => change(o.id, 'ukryta')}>Ukryj</button>

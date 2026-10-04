@@ -77,7 +77,7 @@ export default function PartnershipsPage() {
               </p>
               <div className="btn-row">
                 {o.status !== 'opublikowane' && (
-                  <button type="button" className="btn btn-primary" onClick={() => change(o.id, o.tytul, 'opublikowane')}>Opublikuj</button>
+                  <button type="button" data-tour="panel-partnerstwa-publikuj" className="btn btn-primary" onClick={() => change(o.id, o.tytul, 'opublikowane')}>Opublikuj</button>
                 )}
                 {o.status !== 'odrzucone' && (
                   <button type="button" className="btn btn-secondary" onClick={() => change(o.id, o.tytul, 'odrzucone')}>Odrzuć</button>

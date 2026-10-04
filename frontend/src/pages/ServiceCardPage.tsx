@@ -66,7 +66,7 @@ function ImplementForm({ card }: { card: ServiceCardResponse }) {
   if (token) {
     const link = `/watek/${token}`
     return (
-      <section className="side-box no-print" aria-labelledby="impl-title">
+      <section className="side-box no-print" aria-labelledby="impl-title" data-tour="middleman-wyslano">
         <h2 id="impl-title">Wysłane do ROPS</h2>
         <p role="status">Zespół ROPS dostał Twoją kartę i odpowie pod tym adresem. Zapisz go:</p>
         <p><Link to={link}>{window.location.origin}{link}</Link></p>
@@ -75,19 +75,19 @@ function ImplementForm({ card }: { card: ServiceCardResponse }) {
   }
 
   return (
-    <section className="side-box no-print" aria-labelledby="impl-title">
+    <section className="side-box no-print" aria-labelledby="impl-title" data-tour="middleman-wdroz">
       <h2 id="impl-title">Chcę to wdrożyć</h2>
       <p>Wyślij kartę do ROPS. Pracownik pomoże z materiałami i kontaktem do autorów rozwiązania.</p>
       <form onSubmit={submit} className="sc-form" noValidate>
         <label htmlFor="impl-note">Wiadomość (nieobowiązkowo)</label>
         <textarea id="impl-note" className="textarea" rows={3} maxLength={500} value={note}
-          onChange={(e) => setNote(e.target.value)} aria-describedby="impl-note-hint" />
+          onChange={(e) => setNote(e.target.value)} aria-describedby="impl-note-hint" data-tour="middleman-wiadomosc" />
         <p id="impl-note-hint" className="hint">Np. nazwa instytucji i kiedy chcesz zacząć. Bez danych wrażliwych.</p>
         <label htmlFor="impl-email">E-mail do odpowiedzi (nieobowiązkowo)</label>
         <input id="impl-email" className="input" type="email" autoComplete="email" value={email}
-          onChange={(e) => setEmail(e.target.value)} />
+          onChange={(e) => setEmail(e.target.value)} data-tour="middleman-email" />
         {error && <p className="field-error" role="alert">{error}</p>}
-        <button type="submit" className="btn btn-primary btn-block" disabled={busy}>
+        <button type="submit" className="btn btn-primary btn-block" disabled={busy} data-tour="middleman-wyslij">
           <Send size={18} aria-hidden="true" /> {busy ? 'Wysyłanie…' : 'Wyślij do ROPS'}
         </button>
       </form>
@@ -173,18 +173,18 @@ export default function ServiceCardPage() {
         i jak sprawdzić, że działa. Korzysta tylko z opisu w Bibliotece Innowacji ROPS.
       </p>
 
-      <form onSubmit={generate} className="sc-setup no-print" noValidate>
+      <form onSubmit={generate} className="sc-setup no-print" noValidate data-tour="middleman-ustawienia">
         {!picking && role && (
-          <p>Przygotujemy kartę dla roli: <strong>{ROLE_LABELS[role]}</strong>.{' '}
+          <p data-tour="middleman-rola">Przygotujemy kartę dla roli: <strong>{ROLE_LABELS[role]}</strong>.{' '}
             <button type="button" className="btn-link" onClick={() => setPicking(true)}>Zmień</button>
           </p>
         )}
         {picking && (
-          <fieldset className="sc-roles" aria-describedby={roleError ? 'role-error' : undefined}>
+          <fieldset className="sc-roles" aria-describedby={roleError ? 'role-error' : undefined} data-tour="middleman-rola">
             <legend>Kim jesteś?</legend>
             {ROLES.map((r) => (
               <label key={r} className="sc-role">
-                <input type="radio" name="rola" value={r} checked={role === r} onChange={() => setRole(r)} />
+                <input type="radio" name="rola" value={r} checked={role === r} onChange={() => setRole(r)} data-tour={`middleman-rola-${r}`} />
                 {ROLE_LABELS[r]}
               </label>
             ))}
@@ -195,7 +195,7 @@ export default function ServiceCardPage() {
           <p className="hint">Uwzględnimy też opis problemu z rozmowy na stronie głównej.</p>
         )}
         <div className="btn-row">
-          <button type="submit" className="btn btn-primary" disabled={busy}>
+          <button type="submit" className="btn btn-primary" disabled={busy} data-tour="middleman-przygotuj">
             <Sparkles size={18} aria-hidden="true" />
             {busy ? 'Przygotowuję kartę…' : card ? 'Przygotuj ponownie' : 'Przygotuj kartę wdrożenia'}
           </button>
@@ -206,7 +206,7 @@ export default function ServiceCardPage() {
 
       {card && (
         <div className="detail-layout sc-result">
-          <article className="sc-card print-area" aria-labelledby="card-title">
+          <article className="sc-card print-area" aria-labelledby="card-title" data-tour="middleman-karta">
             <h2 id="card-title" ref={cardHeading} tabIndex={-1} className="sc-card-title">
               Karta wdrożenia dla roli: {ROLE_LABELS[card.rola]}
             </h2>
@@ -237,7 +237,7 @@ export default function ServiceCardPage() {
           <aside className="detail-side no-print" aria-label="Co dalej">
             <section className="side-box">
               <h2>Zachowaj kartę</h2>
-              <button type="button" className="btn btn-secondary btn-block" onClick={() => window.print()}>
+              <button type="button" className="btn btn-secondary btn-block" onClick={() => window.print()} data-tour="middleman-druk">
                 <Printer size={18} aria-hidden="true" /> Drukuj lub zapisz PDF
               </button>
               <Link to={`/kreator/finansowanie?karta=${slug}`} className="btn btn-secondary btn-block">

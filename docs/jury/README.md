@@ -13,6 +13,29 @@ Splot to „cyfrowe serce” Małopolskiego Hubu Innowacji Społecznych. Użytko
 
 Stan: [status.md](../status.md). [Mapowanie na kryteria](mapowanie-na-kryteria.md). [Scenariusz pokazu](scenariusz-pokazu.md).
 
+## Przewodnik po platformie
+
+Najszybszy sposób, żeby zobaczyć wszystko na żywo: przycisk **Przewodnik** w nagłówku albo adres `/?przewodnik=1` (np. http://localhost:8080/?przewodnik=1). Chmurki wskazują elementy strony, a „Zrób to za mnie” wykonuje krok (wpisuje tekst, klika, wysyła formularz). To prawdziwe zgłoszenia i prawdziwe odpowiedzi modelu AI, nie nagranie.
+
+- Całość to 10 rozdziałów i ok. 120 kroków, ok. 40–50 minut z czytaniem (sama automatyczna ścieżka bez czytania: kilka minut, najdłużej czeka się na odpowiedź modelu, do ok. 20 s).
+- Rozdziały można wybierać w spisie (ikona listy w chmurce) albo otworzyć jeden adresem: `/?przewodnik=start`, `czat`, `zasobnik`, `innowacja`, `tester`, `middleman`, `kreator`, `wspolpraca`, `siec`, `panel`.
+- Postęp zapamiętuje przeglądarka, można zminimalizować chmurkę, wrócić i kontynuować. Telefon: chmurka jako panel u dołu ekranu.
+- Do panelu pracownika przewodnik wchodzi sam, gdy w `.env` jest `DEMO_TOUR_ENABLED=true` (domyślnie w `.env.example`). Wtedy każdy, kto otworzy aplikację, ma dostęp do panelu, więc to ustawienie tylko na stack demo. Przy `false` przewodnik prosi o zalogowanie tokenem `ADMIN_TOKEN` z `.env` i czeka.
+- Przewodnik tworzy w bazie rekordy oznaczone [demo] (zgłoszenia, fiszkę, canvę, pytania, ogłoszenia, opinie). Po kilku przejściach warto uruchomić stack od nowa na czystej bazie (`docker compose down -v`).
+
+### Przed pokazem
+
+Na działającym stacku załaduj dane, na których opiera się przewodnik (panel, rozmowy, oceny, ogłoszenia):
+
+```bash
+docker compose exec backend python scripts/seed_demo.py
+docker compose exec backend python scripts/seed_kreator.py
+docker compose exec backend python scripts/seed_tester.py
+docker compose exec backend python scripts/seed_demo_extra.py
+```
+
+Sprawdzenie kroków skryptem (Playwright, wymaga uruchomionego stacku): `cd frontend && ADMIN_TOKEN=… TOUR_ACTIONS=1 npm run tour:check`. Opis zmiennych jest na początku `frontend/scripts/tour-check.mjs`.
+
 ## Jak uruchomić
 
 ```bash

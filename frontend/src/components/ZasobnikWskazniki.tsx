@@ -39,17 +39,17 @@ export default function ZasobnikWskazniki() {
   return (
     <section className="zs-results container" aria-labelledby="zs-wsk-h">
       <h2 id="zs-wsk-h" className="zs-h2">Wskaźniki Obserwatora</h2>
-      <p className="zs-lead">
+      <p className="zs-lead" data-tour="zasobnik-wskazniki-opis">
         Dane o gminach i powiatach Małopolski z{' '}
         <a href="https://obserwator.rops.krakow.pl/">Obserwatora Statystyk Społecznych ROPS</a>. Każdy wskaźnik ma opis,
         źródło danych i tabelę wartości.
       </p>
       <div className="zs-filters">
-        <div className="zs-filter zs-filter-q">
+        <div className="zs-filter zs-filter-q" data-tour="zasobnik-wskazniki-szukaj">
           <label htmlFor="zs-wsk-q">Szukaj wskaźnika</label>
           <div className="zs-input-icon">
             <Search size={18} aria-hidden="true" />
-            <input id="zs-wsk-q" type="search" className="input" value={q} onChange={(e) => setQ(e.target.value)} autoComplete="off" />
+            <input id="zs-wsk-q" data-tour="zasobnik-wskazniki-szukaj-pole" type="search" className="input" value={q} onChange={(e) => setQ(e.target.value)} autoComplete="off" />
           </div>
         </div>
       </div>
@@ -62,7 +62,7 @@ export default function ZasobnikWskazniki() {
           <button type="button" className="btn btn-secondary" onClick={() => setAttempt((n) => n + 1)}>Spróbuj ponownie</button>
         </div>
       )}
-      <div className="zs-groups">
+      <div className="zs-groups" data-tour="zasobnik-wskazniki-lista">
         {groups.map(([kategoria, items]) => (
           <details key={kategoria} className="zs-group" open={Boolean(q)}>
             <summary>

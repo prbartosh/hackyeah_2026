@@ -189,8 +189,8 @@ export default function IndicatorExplorer({ table, name }: Props) {
   const Trend = delta === null || Math.abs(delta) < 1e-9 ? Minus : delta > 0 ? TrendingUp : TrendingDown
 
   return (
-    <div className="zs-explorer">
-      <div className="zs-explorer-bar">
+    <div className="zs-explorer" data-tour="zasobnik-wskaznik">
+      <div className="zs-explorer-bar" data-tour="zasobnik-wskaznik-pasek">
         <div className="zs-filter">
           <label htmlFor="zs-year">Rok</label>
           <select id="zs-year" className="select" value={yearIdx} onChange={(e) => { setPlaying(false); setYearIdx(Number(e.target.value)) }}>
@@ -201,13 +201,13 @@ export default function IndicatorExplorer({ table, name }: Props) {
           {playing ? <Pause size={18} aria-hidden="true" /> : <Play size={18} aria-hidden="true" />}
           {playing ? 'Zatrzymaj' : 'Odtwórz lata'}
         </button>
-        <button type="button" className="btn btn-ghost" onClick={downloadCsv}>
+        <button type="button" className="btn btn-ghost" onClick={downloadCsv} data-tour="zasobnik-wskaznik-csv">
           <Download size={18} aria-hidden="true" /> Pobierz dane (CSV)
         </button>
       </div>
 
       {sum ? (
-        <dl className="zs-kpis" aria-label={`Podsumowanie za rok ${year}`}>
+        <dl className="zs-kpis" data-tour="zasobnik-wskaznik-kpi" aria-label={`Podsumowanie za rok ${year}`}>
           <div className="zs-kpi">
             <dt>Średnia powiatów</dt>
             <dd>{formatValue(sum.mean, table.unit)}</dd>
@@ -223,7 +223,7 @@ export default function IndicatorExplorer({ table, name }: Props) {
       ) : <p className="empty">Brak danych za ten rok.</p>}
 
       <div className="zs-explorer-grid">
-        <section aria-labelledby="zs-map-h" className="zs-panel">
+        <section aria-labelledby="zs-map-h" className="zs-panel" data-tour="zasobnik-wskaznik-mapa">
           <h3 id="zs-map-h" className="zs-panel-h">Mapa powiatów, {year}</h3>
           <p className="hint">Ciemniejszy kolor oznacza wyższe miejsce w rankingu. Kliknij powiat, żeby dodać go do wykresu.</p>
           <div className="zs-map-layout">
@@ -240,7 +240,7 @@ export default function IndicatorExplorer({ table, name }: Props) {
           )}
           <p className="hint">Linia przerywana to zwykła średnia z powiatów (bez wag ludnościowych), nie wartość dla całego województwa.</p>
         </section>
-        <section aria-labelledby="zs-rank-h" className="zs-panel">
+        <section aria-labelledby="zs-rank-h" className="zs-panel" data-tour="zasobnik-wskaznik-ranking">
           <h3 id="zs-rank-h" className="zs-panel-h">Ranking powiatów, {year}</h3>
           <p className="hint">Wybierz do 5 powiatów, żeby porównać je na wykresie powyżej.</p>
           <ul className="zs-bars">

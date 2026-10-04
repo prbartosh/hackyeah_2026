@@ -20,6 +20,7 @@ export type TourAction =
   | { kind: 'select'; target: string; value: Value } // wybiera opcję w <select>
   | { kind: 'check'; target: string; checked?: boolean } // checkbox / radio
   | { kind: 'click'; target: string }
+  | { kind: 'upload'; target: string; url: string; filename: string } // wstawia plik pobrany z url do input[type=file] (target: input albo jego kontener)
   | { kind: 'capture'; target: string; key: string; from: 'href' | 'text' | 'value'; pattern?: string }
 // capture: zapisuje do ctx wartość z elementu, np. token wątku z linku po wysłaniu zgłoszenia.
 // pattern: opcjonalne wyrażenie regularne, pierwsza grupa to wartość (np. '/watek/([^/?#]+)').
@@ -44,7 +45,8 @@ export interface TourStep {
   /** Kryterium oceny lub wartość dla ROPS, pokazywane jako mała etykieta (np. „Dostępność”, „Moduł V”). */
   tag?: string
   placement?: 'top' | 'bottom' | 'left' | 'right' | 'auto'
-  /** Krok wymaga zalogowania w panelu ROPS. Bez tokenu silnik pokazuje chmurkę przy formularzu logowania i czeka. */
+  /** Krok wymaga panelu ROPS. Bez tokenu silnik loguje się sam (POST /demo/admin-session, gdy DEMO_TOUR_ENABLED),
+   * a gdy to wyłączone, pokazuje chmurkę przy formularzu logowania i czeka. */
   admin?: boolean
   /** Przygotowanie danych przed krokiem (np. utworzenie rekordu przez API, zapis do ctx). */
   prepare?: (ctx: TourContext) => Promise<void>
@@ -66,4 +68,6 @@ export interface TourChapter {
   /** Szacowany czas w minutach. */
   minutes: number
   steps: TourStep[]
+  /** Sprzątanie po rozdziale (np. wyczyszczenie porównania kart), wywoływane po „Zakończ rozdział”. */
+  onFinish?: () => void
 }

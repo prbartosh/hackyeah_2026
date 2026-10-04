@@ -52,14 +52,14 @@ function Reply({ token, onSent }: { token: string; onSent: () => void }) {
     <form onSubmit={submit} className="stack thread-reply" noValidate>
       <div className="field">
         <label htmlFor="t-reply">Twoja wiadomość</label>
-        <textarea id="t-reply" ref={area} className="textarea" rows={4} value={text} maxLength={MAX_LENGTH}
+        <textarea id="t-reply" ref={area} data-tour="wspolpraca-wiadomosc" className="textarea" rows={4} value={text} maxLength={MAX_LENGTH}
           onChange={(e) => setText(e.target.value)} aria-invalid={error ? true : undefined}
           aria-describedby="t-reply-count t-reply-error" />
         <p id="t-reply-count" className="hint">{text.length} / {MAX_LENGTH} znaków</p>
       </div>
       <p id="t-reply-error" className="field-error" role="alert">{error}</p>
       <div className="btn-row">
-        <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij wiadomość'}</button>
+        <button type="submit" data-tour="wspolpraca-wyslij-wiadomosc" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij wiadomość'}</button>
       </div>
       <p role="status" className="status-ok">{sent}</p>
     </form>
@@ -99,19 +99,19 @@ export default function ThreadPage() {
       {data && (
         <>
           {firstVisit && <p className="alert alert-note">Zapisz ten link, to Twój dostęp do sprawy.</p>}
-          <p>
+          <p data-tour="wspolpraca-status">
             {data.status === 'odpowiedziane'
               ? 'Zespół ROPS odpowiedział na zgłoszenie. Możesz dopisać kolejną wiadomość.'
               : 'Zgłoszenie czeka na odpowiedź zespołu ROPS. Wróć na tę stronę później.'}
           </p>
           <div className="btn-row">
-            <button type="button" className="btn btn-secondary" onClick={copyLink}>Skopiuj link do wątku</button>
+            <button type="button" data-tour="wspolpraca-kopiuj-link" className="btn btn-secondary" onClick={copyLink}>Skopiuj link do wątku</button>
           </div>
           <p role="status" className="hint">{copied}</p>
           {data.obserwuje && (
             <p className="hint">Obserwujesz tę potrzebę: gdy ROPS doda do bazy pasujące rozwiązanie, powiadomienie pojawi się w tej rozmowie.</p>
           )}
-          <ol className="thread chat-thread" aria-label="Rozmowa">
+          <ol className="thread chat-thread" aria-label="Rozmowa" data-tour="wspolpraca-rozmowa">
             {data.wiadomosci.map((m, i) => (
               <li key={i} className={`msg-${m.autor_rola === 'uzytkownik' ? 'author' : m.autor_rola}`}>
                 <p className="hint">

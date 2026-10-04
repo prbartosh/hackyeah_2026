@@ -32,6 +32,9 @@ function subscribe(listener: () => void) {
   return () => { listeners.delete(listener) }
 }
 
+/** Opróżnia porównanie poza komponentem (np. po rozdziale przewodnika). */
+export function clearCompare() { set([]) }
+
 export function useCompare() {
   const items = useSyncExternalStore(subscribe, () => current, () => SERVER)
   const toggle = useCallback((item: CompareItem) => set(toggleItem(current, item)), [])

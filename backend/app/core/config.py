@@ -39,6 +39,9 @@ class Settings(BaseSettings):
 
     # Panel administratora (ADR 0006). Pusty token = panel wyłączony.
     admin_token: str | None = None
+    # true = przewodnik loguje się do panelu sam (POST /demo/admin-session zwraca ADMIN_TOKEN).
+    # Każdy, kto otworzy aplikację, ma wtedy dostęp do panelu: tylko na stacku demo.
+    demo_tour_enabled: bool = False
     sla_hours: int = 48
     ai_timeout_seconds: float = 45.0
     max_upload_mb: int = 10

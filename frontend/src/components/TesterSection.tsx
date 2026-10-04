@@ -71,7 +71,7 @@ function OpinionForm({ slug, rodzaj, onDone }: { slug: string; rodzaj: RodzajOpi
   }
 
   return (
-    <form className="opinion-form" onSubmit={submit} noValidate aria-labelledby={`${id}-title`}>
+    <form className="opinion-form" onSubmit={submit} noValidate aria-labelledby={`${id}-title`} data-tour={`tester-formularz-${rodzaj}`}>
       <h3 id={`${id}-title`}>{t.title}</h3>
       {rodzaj === 'ocena' && (
         <fieldset className="rating-field" aria-describedby={errors.ocena ? `${id}-ocena-error` : undefined}>
@@ -89,32 +89,32 @@ function OpinionForm({ slug, rodzaj, onDone }: { slug: string; rodzaj: RodzajOpi
         </fieldset>
       )}
       <label htmlFor={`${id}-inst`}>Jaka to instytucja? (nieobowiązkowo)</label>
-      <input id={`${id}-inst`} className="input" value={instytucja} maxLength={200}
+      <input id={`${id}-inst`} className="input" value={instytucja} maxLength={200} data-tour={`tester-${rodzaj}-instytucja`}
         onChange={(e) => setInstytucja(e.target.value)} aria-describedby={`${id}-inst-hint`} />
       <p id={`${id}-inst-hint`} className="hint">Np. „OPS w gminie wiejskiej”. Bez nazwisk.</p>
 
       <label htmlFor={`${id}-tresc`}>{t.tresc}</label>
-      <textarea id={`${id}-tresc`} className="textarea" rows={4} maxLength={2000} value={tresc}
+      <textarea id={`${id}-tresc`} className="textarea" rows={4} maxLength={2000} value={tresc} data-tour={`tester-${rodzaj}-tresc`}
         onChange={(e) => setTresc(e.target.value)} aria-invalid={errors.tresc ? true : undefined}
         aria-describedby={`${id}-tresc-hint${errors.tresc ? ` ${id}-tresc-error` : ''}`} />
       <p id={`${id}-tresc-hint`} className="hint">{t.trescHint}</p>
       {errors.tresc && <p id={`${id}-tresc-error`} className="field-error" role="alert">{errors.tresc}</p>}
 
       <label htmlFor={`${id}-usp`}>{t.usprawnienie}</label>
-      <textarea id={`${id}-usp`} className="textarea" rows={3} maxLength={2000} value={usprawnienie}
+      <textarea id={`${id}-usp`} className="textarea" rows={3} maxLength={2000} value={usprawnienie} data-tour={`tester-${rodzaj}-usprawnienie`}
         onChange={(e) => setUsprawnienie(e.target.value)} />
 
       {rodzaj === 'test' && (
         <>
           <label htmlFor={`${id}-email`}>E-mail do kontaktu (nieobowiązkowo)</label>
-          <input id={`${id}-email`} className="input" type="email" autoComplete="email" value={email}
+          <input id={`${id}-email`} className="input" type="email" autoComplete="email" value={email} data-tour="tester-test-email"
             onChange={(e) => setEmail(e.target.value)} />
         </>
       )}
       {errors.form && <p className="field-error" role="alert">{errors.form}</p>}
       <p className="hint">Opinię zobaczą inni po sprawdzeniu przez pracownika ROPS.</p>
       <div className="btn-row">
-        <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : t.submit}</button>
+        <button type="submit" className="btn btn-primary" disabled={busy} data-tour={`tester-${rodzaj}-wyslij`}>{busy ? 'Wysyłanie…' : t.submit}</button>
       </div>
     </form>
   )
@@ -157,7 +157,7 @@ function AskTesters({ slug }: { slug: string }) {
 
   if (token) {
     return (
-      <div className="alert alert-note tester-sent" role="status" tabIndex={-1} ref={sentRef}>
+      <div className="alert alert-note tester-sent" role="status" tabIndex={-1} ref={sentRef} data-tour="tester-pytanie-wyslano">
         <p><strong>Pytanie dotarło do ROPS.</strong> Pracownik przekaże je instytucji, która testuje to rozwiązanie, a odpowiedź pojawi się tutaj:</p>
         <p><Link to={`/watek/${token}`}>{window.location.origin}/watek/{token}</Link></p>
       </div>
@@ -165,29 +165,29 @@ function AskTesters({ slug }: { slug: string }) {
   }
 
   return (
-    <div className="tester-ask">
+    <div className="tester-ask" data-tour="tester-zapytaj">
       <button type="button" className={`btn ${open ? 'btn-primary' : 'btn-secondary'}`}
-        aria-expanded={open} aria-controls="ask-form-slot" onClick={() => setOpen(!open)}>
+        aria-expanded={open} aria-controls="ask-form-slot" onClick={() => setOpen(!open)} data-tour="tester-zapytaj-przycisk">
         <MessagesSquare size={18} aria-hidden="true" />
         Zapytaj instytucję, która to testuje
       </button>
       <div id="ask-form-slot">
         {open && (
-          <form className="opinion-form" onSubmit={submit} noValidate aria-labelledby="ask-title">
+          <form className="opinion-form" onSubmit={submit} noValidate aria-labelledby="ask-title" data-tour="tester-pytanie-formularz">
             <h3 id="ask-title">Zapytaj instytucję, która to testuje</h3>
             <p className="hint">Pytanie trafi do pracownika ROPS. On przekaże je dalej. Nie zobaczysz danych kontaktowych instytucji, a ona nie zobaczy Twoich.</p>
             <label htmlFor="ask-tresc">Twoje pytanie</label>
-            <textarea id="ask-tresc" className="textarea" rows={4} maxLength={2000} value={tresc}
+            <textarea id="ask-tresc" className="textarea" rows={4} maxLength={2000} value={tresc} data-tour="tester-pytanie-tresc"
               onChange={(e) => setTresc(e.target.value)} aria-invalid={error ? true : undefined}
               aria-describedby="ask-tresc-hint ask-error" />
             <p id="ask-tresc-hint" className="hint">Np. ile trwało wdrożenie, co było najtrudniejsze, ile kosztowało.</p>
             <label htmlFor="ask-inst">Jaka to instytucja? (nieobowiązkowo)</label>
-            <input id="ask-inst" className="input" value={instytucja} maxLength={200} onChange={(e) => setInstytucja(e.target.value)} />
+            <input id="ask-inst" className="input" value={instytucja} maxLength={200} data-tour="tester-pytanie-instytucja" onChange={(e) => setInstytucja(e.target.value)} />
             <label htmlFor="ask-email">E-mail do powiadomienia o odpowiedzi (nieobowiązkowo)</label>
             <input id="ask-email" className="input" type="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} />
             <p id="ask-error" className="field-error" role="alert">{error}</p>
             <div className="btn-row">
-              <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij pytanie'}</button>
+              <button type="submit" className="btn btn-primary" disabled={busy} data-tour="tester-pytanie-wyslij">{busy ? 'Wysyłanie…' : 'Wyślij pytanie'}</button>
             </div>
           </form>
         )}
@@ -215,14 +215,14 @@ export default function TesterSection({ slug }: { slug: string }) {
   const current = data ? POZIOMY.findIndex((p) => p.kod === data.poziom.kod) : -1
 
   return (
-    <section className="detail-section tester" aria-labelledby="tester-title">
+    <section className="detail-section tester" aria-labelledby="tester-title" data-tour="tester-sekcja">
       <h2 id="tester-title">Oceny i testy</h2>
       {loadError && (
         <p className="hint">{loadError} <button type="button" className="btn-link" onClick={load}>Spróbuj ponownie</button></p>
       )}
       {data && (
         <>
-          <ol className="evidence-steps" aria-label="Poziom dowodu">
+          <ol className="evidence-steps" aria-label="Poziom dowodu" data-tour="tester-poziom">
             {POZIOMY.map((p, i) => (
               <li key={p.kod} className={i <= current ? 'is-reached' : ''} aria-current={i === current ? 'step' : undefined}>
                 <span className="step-dot" aria-hidden="true">{i + 1}</span>
@@ -240,7 +240,7 @@ export default function TesterSection({ slug }: { slug: string }) {
           </p>
 
           {data.opinie.length > 0 && (
-            <ul className="opinion-list">
+            <ul className="opinion-list" data-tour="tester-opinie">
               {data.opinie.map((o, i) => (
                 <li key={i} className="opinion">
                   <p className="opinion-head">
@@ -266,7 +266,7 @@ export default function TesterSection({ slug }: { slug: string }) {
       )}
 
       {sent ? (
-        <div className="alert alert-note tester-sent" role="status" tabIndex={-1} ref={sentRef}>
+        <div className="alert alert-note tester-sent" role="status" tabIndex={-1} ref={sentRef} data-tour="tester-potwierdzenie">
           {sent.rodzaj === 'test' ? (
             <>
               <p><strong>Dziękujemy, zgłoszenie do testów dotarło do ROPS.</strong> Pracownik odpowie pod tym adresem:</p>
@@ -278,11 +278,11 @@ export default function TesterSection({ slug }: { slug: string }) {
         </div>
       ) : (
         <>
-          <div className="btn-row tester-actions">
+          <div className="btn-row tester-actions" data-tour="tester-akcje">
             {(['test', 'ocena'] as RodzajOpinii[]).map((r) => (
               <button key={r} type="button" className={`btn ${open === r ? 'btn-primary' : 'btn-secondary'}`}
                 aria-expanded={open === r} aria-controls="opinion-form-slot"
-                onClick={() => setOpen(open === r ? null : r)}>
+                onClick={() => setOpen(open === r ? null : r)} data-tour={`tester-przycisk-${r}`}>
                 {r === 'test' ? <FlaskConical size={18} aria-hidden="true" /> : <Star size={18} aria-hidden="true" />}
                 {TEXTS[r].title}
               </button>

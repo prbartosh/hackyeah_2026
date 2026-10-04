@@ -10,7 +10,6 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 - [0022](tasks/0022-dostepnosc-nvda-klawiatura.md) Dostępność: skrypt `npm run a11y` (axe, 228 stron, 0 naruszeń) i `npm run a11y:keys`, zostają testy NVDA i wejście głosowe (Daniel, Kacper)
 - [0047](tasks/0047-szukanie-zasobnika.md) Szukanie w Zasobniku: BM25, synonimy ze słownika, karty innowacji i wskaźniki w wynikach, `GET /search`; poprawki rankingu po teście na prawdziwych zapytaniach (Wiktor)
 - [0049](tasks/0049-szukanie-po-znaczeniu.md) Szukanie po znaczeniu: lokalny model embeddingów w Zasobniku (hybryda z BM25), dopasowaniu zgłoszeń do kart, duplikatach i radarze; wektory dokumentów w repo; ADR 0016 (Wiktor)
-- [0046](tasks/0046-przewodnik.md) Przewodnik po platformie: przycisk w nagłówku, rozdziały według modułów, na żywo (Nikodem)
 - [0039](tasks/0039-dwustronny-watek.md) Dwustronny wątek zgłoszenia: zmergowany (#62), zostaje znacznik „nowa odpowiedź autora” w skrzynce (Nikodem)
 
 ## Do zrobienia
@@ -27,6 +26,7 @@ Krótki przegląd. Szczegóły zadań w [tasks/](tasks/), decyzje w [adr/](adr/)
 
 ## Zrobione
 
+- 2026-10-04: Przewodnik po platformie (0046): przycisk „Przewodnik” w nagłówku i `/?przewodnik=1`, 10 rozdziałów i 119 kroków na żywo (czat z AI, formularze, panel ROPS), wybór rozdziału, wznowienie, panel dolny na telefonie. `npm run tour:check` (Playwright, 1280 i 360 px, akcje, axe przy otwartej chmurce): 0 problemów. Przy okazji: szukanie w treści raportu bez wielkości liter i polskich znaków, pole szukania mieści się na 375 px, długie linki się łamią, `scrollable-region-focusable` w chmurce
 - 2026-10-04: Koszt rozmowy zmierzony na DeepSeek (0021): ok. 48 tys. tokenów wejścia na wywołanie, z czego 97% z cache promptu (prefiks stały, pilnuje test). Skrót katalogu (`czy_dziala` 120/200 znaków) dawał 7–10% mniej tokenów, ale top 3 spadało do 34/35, więc zostaje 300. Niższy `reasoning_effort` niepotrzebny (już `low`)
 - 2026-10-04: „Takie rozwiązania już działają” w kreatorze: potoczne aliasy przemocy w słowniku („bije”, „bicie”) i dopasowanie TF-IDF po rdzeniach słów (`TfidfIndex`, 60% wyniku obok tagów), potoczne aliasy w słowniku; zestaw testowy bez modelu: top 1 28/35, top 3 32/35, spoza bazy nic nie pokazuje; słabszy dowód (sam tekst, sam tag miejsca, jedno wspólne słowo) nie wystarcza (było 19 i 25), lokalnie bez API
 - 2026-10-04: Formularz „Zgłoś potrzebę”: walidacja pól jak w backendzie (opis 10–4000 znaków, e-mail), komunikat przy polu zamiast ogólnego „Sprawdź poprawność wpisanych danych”, licznik znaków i ostrzeżenie przed PESEL-em, testy `reportValidation.test.ts`

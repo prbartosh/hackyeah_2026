@@ -20,7 +20,7 @@ export default function VideoEmbed({ url, nazwa }: Props) {
   }, [aktywny])
 
   return (
-    <div className="zs-video">
+    <div className="zs-video" data-tour="innowacja-film">
       {id && aktywny ? (
         <iframe
           ref={ramka}

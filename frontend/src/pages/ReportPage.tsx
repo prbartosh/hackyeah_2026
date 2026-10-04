@@ -57,7 +57,7 @@ export default function ReportPage() {
       <div className="container page">
         <h1>Dziękujemy, zgłoszenie dotarło do zespołu ROPS</h1>
         <p role="status">Odpowiedź pojawi się pod tym adresem. Zapisz go lub dodaj do zakładek:</p>
-        <p><Link to={link}>{window.location.origin}{link}</Link></p>
+        <p><Link to={link} data-tour="wspolpraca-link-watku">{window.location.origin}{link}</Link></p>
         <p className="hint">Jeśli podałeś e-mail, dostaniesz też wiadomość z odpowiedzią.</p>
         {watch && <p className="hint">Gdy ROPS doda do bazy pasujące rozwiązanie, powiadomimy Cię pod tym adresem{email.trim() ? ' i e-mailem' : ''}.</p>}
         <p><Link to="/wspolpraca">Co dalej? Współpraca z ROPS</Link></p>
@@ -73,7 +73,7 @@ export default function ReportPage() {
       <form onSubmit={submit} className="stack" noValidate>
         <div className="field">
           <label htmlFor="r-text">Opis sprawy</label>
-          <textarea id="r-text" ref={textRef} className="textarea" rows={7} value={text}
+          <textarea id="r-text" ref={textRef} data-tour="wspolpraca-opis" className="textarea" rows={7} value={text}
             onChange={(e) => { setText(e.target.value); if (errors.text) setErrors({ ...errors, text: undefined }) }}
             maxLength={MAX_TEXT} required aria-invalid={errors.text ? true : undefined} aria-describedby="r-hint r-text-error" />
           <p id="r-hint" className="hint">Nie wpisuj numerów dokumentów ani danych wrażliwych. Znaków: {text.length} z {MAX_TEXT}.</p>
@@ -88,20 +88,20 @@ export default function ReportPage() {
         </div>
         <div className="field">
           <label htmlFor="r-email">E-mail (nieobowiązkowo)</label>
-          <input id="r-email" ref={emailRef} className="input" type="email" value={email}
+          <input id="r-email" ref={emailRef} data-tour="wspolpraca-email" className="input" type="email" value={email}
             onChange={(e) => { setEmail(e.target.value); if (errors.email) setErrors({ ...errors, email: undefined }) }}
             autoComplete="email" aria-invalid={errors.email ? true : undefined} aria-describedby="r-email-hint r-email-error" />
           <p id="r-email-hint" className="hint">Podaj, jeśli chcesz dostać odpowiedź e-mailem. Bez e-maila odpowiedź zobaczysz pod linkiem po wysłaniu.</p>
           <p id="r-email-error" className="field-error" role="alert">{errors.email}</p>
         </div>
         <label className="check">
-          <input type="checkbox" checked={watch} onChange={(e) => setWatch(e.target.checked)} aria-describedby="r-watch-hint" />
+          <input type="checkbox" data-tour="wspolpraca-obserwuj" checked={watch} onChange={(e) => setWatch(e.target.checked)} aria-describedby="r-watch-hint" />
           Powiadom mnie, gdy w bazie pojawi się pasujące rozwiązanie
         </label>
         <p id="r-watch-hint" className="hint">Powiadomienie pojawi się pod linkiem do rozmowy, a jeśli podasz e-mail, także w skrzynce.</p>
         <p id="r-error" className="field-error" role="alert">{error}</p>
         <div className="btn-row">
-          <button type="submit" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij zgłoszenie'}</button>
+          <button type="submit" data-tour="wspolpraca-wyslij" className="btn btn-primary" disabled={busy}>{busy ? 'Wysyłanie…' : 'Wyślij zgłoszenie'}</button>
         </div>
       </form>
     </div>

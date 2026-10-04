@@ -134,7 +134,7 @@ export default function MapaWyzwanDocument({ doc, areas }: { doc: DokumentSzczeg
         </ol>
       </nav>
 
-      <header className="zs-read-hero zs-mw-hero">
+      <header className="zs-read-hero zs-mw-hero" data-tour="zasobnik-mapa-naglowek">
         <p className="zs-read-kicker"><BookOpen size={16} aria-hidden="true" /> Mapa Wyzwań Społecznych</p>
         <h1>Osiem obszarów, z którymi mierzy się pomoc społeczna</h1>
         <p className="zs-read-lead">
@@ -155,7 +155,7 @@ export default function MapaWyzwanDocument({ doc, areas }: { doc: DokumentSzczeg
         </div>
       </header>
 
-      <nav aria-label="Obszary wyzwań" className="zs-mw-areas">
+      <nav aria-label="Obszary wyzwań" className="zs-mw-areas" data-tour="zasobnik-mapa-obszary">
         <ul>
           {areas.map((o) => {
             const I = IKONY[o.nr] ?? Lightbulb
@@ -230,7 +230,7 @@ export default function MapaWyzwanDocument({ doc, areas }: { doc: DokumentSzczeg
         )}
 
         {area.persony.length > 0 && (
-          <section aria-labelledby="mw-persona" className="zs-mw-personas">
+          <section aria-labelledby="mw-persona" className="zs-mw-personas" data-tour="zasobnik-mapa-persona">
             <h3 id="mw-persona" className="zs-mw-section-h"><Users size={22} aria-hidden="true" /> Kogo to dotyczy: {area.persony.length > 1 ? 'persony' : 'persona'}</h3>
             <p className="hint">Postacie opisane przez ROPS pokazują wyzwania obszaru z perspektywy konkretnej osoby.</p>
             <div className="zs-mw-persona-list">

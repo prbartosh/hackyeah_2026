@@ -70,10 +70,10 @@ function CanvaStart() {
           <p>Plansza ma {t.sekcje.length} pól w {groupsOf(t.sekcje).length} krokach. Każde pole ma krótką podpowiedź. {fiszka && 'Zostanie powiązana z Twoją fiszką.'}</p>
           <div className="field">
             <label htmlFor="c-title">Nazwa canvy (nieobowiązkowo)</label>
-            <input id="c-title" className="input" value={title} maxLength={300} onChange={(e) => setTitle(e.target.value)} />
+            <input id="c-title" className="input" value={title} maxLength={300} onChange={(e) => setTitle(e.target.value)} data-tour="kreator-canva-nazwa" />
           </div>
           <div className="btn-row">
-            <button type="button" className="btn btn-primary" onClick={() => start(t.slug)} disabled={busy}>{busy ? 'Tworzenie…' : 'Rozpocznij wypełnianie'}</button>
+            <button type="button" className="btn btn-primary" onClick={() => start(t.slug)} disabled={busy} data-tour="kreator-canva-start">{busy ? 'Tworzenie…' : 'Rozpocznij wypełnianie'}</button>
           </div>
         </section>
       ))}
@@ -184,7 +184,7 @@ function CanvaEditor({ token }: { token: string }) {
             <div key={s.klucz} className="canva-field">
               <LimitedTextarea
                 id={`c-${s.klucz}`} label={s.tytul} value={values[s.klucz] ?? ''} limit={LIMIT} rows={4}
-                hint={s.podpowiedz}
+                hint={s.podpowiedz} tour="kreator-canva-pole"
                 onChange={(v) => { setValues((x) => ({ ...x, [s.klucz]: v })); dirty.current.add(s.klucz); autosave.schedule() }}
               />
               {s.pytania.length > 0 && (
